@@ -9,7 +9,7 @@ class GameTest : AnnotationSpec() {
     fun `test game initiation with id`() {
         val id: Int = 1337
         val game: Game = Game(id)
-        val gameId: Int = game.id
+        val gameId = game.id
         assertThat(gameId).isEqualTo(id)
     }
 }
