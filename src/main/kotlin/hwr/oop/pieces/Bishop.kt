@@ -1,4 +1,6 @@
 package hwr.oop.pieces
 
-class Bishop: Piece() {
+import hwr.oop.board.Location
+
+class Bishop: Piece(Location('E', 4), 3) {
 }

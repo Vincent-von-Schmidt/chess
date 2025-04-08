@@ -1,4 +1,6 @@
 package hwr.oop.pieces
 
-class Queen: Piece() {
+import hwr.oop.board.Location
+
+class Queen: Piece(Location('E', 4), 9) {
 }

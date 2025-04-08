@@ -1,4 +1,6 @@
 package hwr.oop.pieces
 
-class Pawn: Piece() {
+import hwr.oop.board.Location
+
+class Pawn: Piece(Location('E', 4), 1) {
 }
