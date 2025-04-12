@@ -1,7 +1,6 @@
 package hwr.oop
 
 import hwr.oop.board.Board
-import kotlinx.serialization.json.Json
 
 fun main(args: Array<String>) {
 
