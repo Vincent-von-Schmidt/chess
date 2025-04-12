@@ -1,4 +1,6 @@
 package hwr.oop.pieces
 
-class BishopTest {
+import io.kotest.core.spec.style.AnnotationSpec
+
+class BishopTest : AnnotationSpec() {
 }

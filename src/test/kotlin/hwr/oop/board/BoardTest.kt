@@ -1,4 +1,6 @@
 package hwr.oop.board
 
-class BoardTest {
+import io.kotest.core.spec.style.AnnotationSpec
+
+class BoardTest : AnnotationSpec() {
 }

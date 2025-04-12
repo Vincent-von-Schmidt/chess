@@ -1,4 +1,6 @@
 package hwr.oop
 
-class MoveTest {
+import io.kotest.core.spec.style.AnnotationSpec
+
+class MoveTest : AnnotationSpec() {
 }

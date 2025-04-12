@@ -1,4 +1,6 @@
 package hwr.oop.pieces
 
-class QueenTest {
+import io.kotest.core.spec.style.AnnotationSpec
+
+class QueenTest : AnnotationSpec() {
 }

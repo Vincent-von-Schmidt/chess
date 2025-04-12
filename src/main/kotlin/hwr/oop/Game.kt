@@ -7,9 +7,9 @@ class Game (
     val id: Int
 ) {
     val board = Board()
-    val array = listOf(
+    val players = listOf(
         Player(1),
         Player(2)
     )
-    var last_turn = Move()
+    var lastTurn = Move()
 }
