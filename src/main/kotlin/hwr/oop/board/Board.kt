@@ -13,4 +13,5 @@ class Board () {
         }
         allFields.toMap()
     }
+    fun getAllFields(): Map<Location, Field> = fields
 }

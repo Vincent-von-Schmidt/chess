@@ -1,6 +1,8 @@
 package hwr.oop.pieces
 
-import hwr.oop.board.Location
+enum class Color {
+    WHITE, BLACK
+}
 
-open class Piece(val value: Int) {
+open class Piece(val value: Int, val color: Color) {
 }
