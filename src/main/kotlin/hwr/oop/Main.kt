@@ -25,10 +25,11 @@ fun main(args: Array<String>) {
         return
       }
       val id = args[1].toInt();
-      val game = Game(id);
+      Game(id);
       println("New game $id created.");
     }
 
+    /*
     "game" -> {
       if (args.size < 3 || args[1] != "show") {
         println("Usage: chess game show <id>");
@@ -60,5 +61,6 @@ fun main(args: Array<String>) {
     else -> {
       println("Unknown command: ${args.first()}");
     }
+    */
   }
 }

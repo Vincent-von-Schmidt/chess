@@ -57,9 +57,9 @@ just build
 
 [TODO]: # (For each additional dependency your project requires- Add an additional row to the table!)
 
-| Number | Dependency Name | Dependency Description | Why is it necessary? |
-|--------|-----------------|------------------------|----------------------|
-| 1      | /               | /                      | /                    |
+| Number | Dependency Name       | Dependency Description                         | Why is it necessary?              |
+|--------|-----------------------|------------------------------------------------|-----------------------------------|
+| 1      | kotlinx-serialization | converting data to a format that can be stored | automatic json formatting of data |
 
 
 ### Multiple remote repositories
