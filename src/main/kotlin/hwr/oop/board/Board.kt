@@ -1,5 +1,9 @@
 package hwr.oop.board
 
+import hwr.oop.pieces.Piece
+
+
 class Board () {
-    var fen: String = ""
+    // private val fen: String = ""
+
 }
