@@ -1,9 +1,16 @@
 package hwr.oop.board
 
-import hwr.oop.pieces.Piece
-
-
 class Board () {
-    // private val fen: String = ""
+    // piece kann null sein, da bei der Initierung des Bords, keine uebergeben werden
 
+    private val fields: Map<Location, Field> = run { // mapt locations zu field
+        val allFields = mutableMapOf<Location, Field>()
+        for (x in 'a'..'h') {
+            for (y in 1..8) {
+                val loc = Location(x, y)
+                allFields[loc] = Field(loc)
+            }
+        }
+        allFields.toMap()
+    }
 }
