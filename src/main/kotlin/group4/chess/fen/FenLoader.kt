@@ -1,10 +1,8 @@
-package group4.chess
+package group4.chess.fen
 
 import group4.chess.board.Location
 import group4.chess.board.Board
 import group4.chess.pieces.*
-
-// so sieht ein string aus: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w 0 1" groß weiß, klein schawarz, zahl:freie felder, w für wessen zug es ist, 50züge remis regel zähler, zugzähler
 
 class FenLoader {
     private fun parsePiece(char: Char): Piece {
@@ -20,12 +18,10 @@ class FenLoader {
         }
     }
 
-    fun placePieces(fen : String, board: Board) {
-        // for columns in rows set piece
-        val rows = fen.split("/") // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"]
+    fun placePieces(fen: FenReader, board: Board) {
         var y = 8
 
-        for (row in rows) {
+        for (row in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
             var x = 'a'
             for (char in row) {
                 if (char.isDigit()) {
@@ -39,5 +35,6 @@ class FenLoader {
             }
             y--
         }
+        // hier kann en passent rein und sowas
     }
 }

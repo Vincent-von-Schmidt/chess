@@ -1,6 +1,8 @@
-package hwr.oop.fen
+package group4.chess.fen
 
-data class Fen (val notation: String) {
+import group4.chess.pieces.Color
+
+data class FenReader (val notation: String) {
     val piecePlacement: List<String> = notation.split(" ").elementAt(0).split("/")
     val activeColor: Color = when (notation.split(" ").elementAt(1)) {
         "w" -> Color.WHITE
@@ -12,3 +14,12 @@ data class Fen (val notation: String) {
     val halfmoves: Int = notation.split(" ").elementAt(4).toInt()
     val fullmoves: Int = notation.split(" ").elementAt(5).toInt()
 }
+
+/* "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+groß weiß, klein schawarz,
+zahl:freie felder,
+w oder b für wessen zug es ist,
+castlezüge KQkq
+c6 ein en passant ziel feld
+50züge remis regel zähler, (halbzüge)
+zugzähler */

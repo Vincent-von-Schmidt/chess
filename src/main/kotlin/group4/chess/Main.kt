@@ -1,9 +1,9 @@
-package hwr.oop
+package group4.chess
 
-import hwr.oop.fen.Fen
+import group4.chess.fen.FenReader
 
 fun main() {
-  val fen: Fen = Fen("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
+  val fen: FenReader = FenReader("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
 
   println(fen.piecePlacement)
   println(fen.activeColor)

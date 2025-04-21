@@ -1,6 +1,7 @@
-package group4.chess.board
+package group4.chess.fen
 
-import group4.chess.FenLoader
+import group4.chess.board.Board
+import group4.chess.board.Location
 import group4.chess.pieces.*
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
@@ -11,8 +12,11 @@ class FenLoaderTest : AnnotationSpec() {
     @Test
     fun `fen read correctly`() {
         val board = Board()
+        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+
         val fenLoader = FenLoader()
-        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+        val fenReader = FenReader(fen)
+
 
         val fieldA1 = board.getField(Location('a', 1))
         val fieldH1 = board.getField(Location('h', 1))
@@ -21,7 +25,7 @@ class FenLoaderTest : AnnotationSpec() {
         val fieldB2 = board.getField(Location('b', 2))
         val fieldG4 = board.getField(Location('g', 4))
 
-        fenLoader.placePieces(fen, board)
+        fenLoader.placePieces(fenReader, board)
 
         assertThat(fieldA1.piece).isInstanceOf(Rook::class.java)
         assertThat(fieldA1.piece?.color).isEqualTo(Color.WHITE)
@@ -44,11 +48,13 @@ class FenLoaderTest : AnnotationSpec() {
     @Test
     fun `fen read-error on wrong fen`() {
         val board = Board()
+        val badFen = "rnbqkbnr/zppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+
+        val fenReader = FenReader(badFen)
         val fenLoader = FenLoader()
-        val badFen = "rnbqkbnr/zppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
 
         assertThatThrownBy {
-            fenLoader.placePieces(badFen, board)
+            fenLoader.placePieces(fenReader, board)
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("Unbekanntes Zeichen: z")
     }
