@@ -14,7 +14,7 @@ class FenLoader {
             'n' -> Knight(color)
             'r' -> Rook(color)
             'p' -> Pawn(color)
-            else -> throw IllegalArgumentException("Unbekanntes Zeichen: $char")
+            else -> throw IllegalArgumentException("Unknown char: $char")
         }
     }
 

@@ -20,6 +20,10 @@ class Board {
         return fields[location] ?: throw IllegalArgumentException("Ungültige Location: $location")
     }
 
+    fun removePieceFromField(location: Location) {
+        fields[location]?.piece = null
+    }
+
     fun setPieceToField(location: Location, piece: Piece) {
         fields[location]?.piece = piece
     }

@@ -10,7 +10,7 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 class FenLoaderTest : AnnotationSpec() {
 
     @Test
-    fun `fen read correctly`() {
+    fun `pieces placed correctly`() {
         val board = Board()
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
@@ -46,7 +46,7 @@ class FenLoaderTest : AnnotationSpec() {
     }
 
     @Test
-    fun `fen read-error on wrong fen`() {
+    fun `piece placement throws an error on wrong fen`() {
         val board = Board()
         val badFen = "rnbqkbnr/zppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
@@ -56,6 +56,6 @@ class FenLoaderTest : AnnotationSpec() {
         assertThatThrownBy {
             fenLoader.placePieces(fenReader, board)
         }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("Unbekanntes Zeichen: z")
+            .hasMessageContaining("Unknown char: z")
     }
 }
