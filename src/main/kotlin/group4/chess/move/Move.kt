@@ -1,4 +1,4 @@
-package group4.chess
+package group4.chess.move
 
 import group4.chess.board.Location
 import group4.chess.board.Board
@@ -14,8 +14,12 @@ class Move (
     private val isCorrectPiece: Boolean
         get() = board.getField(startLocation).piece == toMovePiece
 
+    private val isLegalMove: Boolean
+        get() = endLocation in toMovePiece.allowedMoves(startLocation)
+
     fun movePiece() {
         if (!isCorrectPiece) throw IllegalArgumentException("$startLocation does not contain a $toMovePiece")
+        if (!isLegalMove) throw IllegalArgumentException("$toMovePiece can not be moved to $endLocation")
         board.setPieceToField(endLocation, toMovePiece)
         board.removePieceFromField(startLocation)
     }
