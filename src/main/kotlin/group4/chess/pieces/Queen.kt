@@ -6,9 +6,6 @@ class Queen(color: Color): Piece(9, color) {
     override val name = "Queen"
 
     override fun allowedMoves(from: Location): List<Location> {
-        val possibleMoves = mutableListOf<Location>()
-        var possibleMovex :Char
-        var possibleMovey :Int
 
         val directions = listOf(
             Pair(1, 0),   // rechts
@@ -20,17 +17,6 @@ class Queen(color: Color): Piece(9, color) {
             Pair(-1, 1),  // oben links
             Pair(-1, -1)  // unten links
         )
-        for ((x, y) in directions) {
-            for (i in 1..8){
-                possibleMovex = (from.x.code + x * i).toChar() // nur weils ein char ist, sonst possibleMovex = from.x + x * i
-                possibleMovey = from.y + y * i
-
-                if (possibleMovey in 1..8 && possibleMovex in 'a'..'h') {
-                    possibleMoves.add(Location(possibleMovex, possibleMovey))
-                }
-            }
-        }
-
-        return possibleMoves
+        return generateAllowedMoves(from, directions, 8)
     }
 }
