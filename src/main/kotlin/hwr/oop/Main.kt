@@ -1,6 +1,7 @@
 package hwr.oop
 
 import hwr.oop.fen.Fen
+import hwr.oop.fen.Position
 
 fun main() {
   val fen: Fen = Fen("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
@@ -24,4 +25,6 @@ fun main() {
     }
     println(lineText)
   }
+
+  println(fen.get_piece_on_field(Position("c4")))
 }
