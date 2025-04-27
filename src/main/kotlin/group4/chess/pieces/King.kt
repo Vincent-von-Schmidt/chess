@@ -1,0 +1,22 @@
+package group4.chess.pieces
+
+import group4.chess.board.Location
+
+class King(color: Color): Piece(10, color) {
+    override val name = "King"
+
+    override fun allowedMoves(from: Location): List<Location> {
+
+        val directions = listOf(
+            Pair(1, 0),   // rechts
+            Pair(-1, 0),  // links
+            Pair(0, 1),   // oben
+            Pair(0, -1),  // unten
+            Pair(1, 1),   // oben rechts
+            Pair(1, -1),  // unten rechts
+            Pair(-1, 1),  // oben links
+            Pair(-1, -1)  // unten links
+        )
+        return generateAllowedMoves(from, directions, 1)
+    }
+}
