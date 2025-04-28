@@ -1,4 +1,4 @@
-package hwr.oop
+package group4.chess
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut

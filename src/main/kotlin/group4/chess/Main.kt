@@ -1,6 +1,4 @@
-package hwr.oop
-
-import hwr.oop.board.Board
+package group4.chess
 
 fun main(args: Array<String>) {
 
@@ -63,8 +61,7 @@ fun main(args: Array<String>) {
       if (args.size < 6 || args[2] != "move" || args[4] != "to") {
         println("Usage: chess on <id> move <from> to <to>");
         return
-      }
-      val id = args[1].toInt();
+      } val id = args[1].toInt();
       val from = args[3].toInt();
       val to = args[5].toInt();
       // calculate moves
