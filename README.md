@@ -62,6 +62,17 @@ just build
 | 1      | kotlinx-serialization | converting data to a format that can be stored | automatic json formatting of data |
 
 
+### Formatting
+
+The repository contains an IntelliJ IDEA formatter configuration file.
+It is located in the `.intellij` folder (not in `.idea`, which is the folder created by IntelliJ IDEA).
+To use the formatter, you need to import the configuration into your IntelliJ IDEA settings.
+
+Under **Settings**, go to **Editor**, then **Code Style**, click the **Gear Symbol** next to the Dropdown, click **Import Scheme**, then **IntelliJ IDEA code style XML**. Finally, select the `.intellij/formatter.xml` file.
+
+Make sure to always use the imported `HWR OOP` code style when formatting your code.
+Be aware that it might differ from the code style configured in your *Project*, or IntelliJ's *Default* code style.
+
 ### Multiple remote repositories
 
 Your local repository should have a reference to both the fork (your own remote repository)
