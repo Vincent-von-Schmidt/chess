@@ -60,9 +60,9 @@ fun main(args: Array<String>) {
         return
       }
 
-      if (GameStorage.loadGame(id) == "game doesn't exist") {
-        val newGame = Game(id)
-      }
+      // if (GameStorage.loadGame(id) == "game doesn't exist") {
+      //   val newGame = Game(id)
+      // }
 
     }
 
