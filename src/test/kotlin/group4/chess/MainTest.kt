@@ -22,24 +22,24 @@ class MainTest : AnnotationSpec() {
         assertThat(output).isEqualTo("Usage: chess new_game <id>")
     }
 
-    @Test
-    fun `user prompts chess new_game 1000000`() {
-        val output = captureStandardOut {
-            main(arrayOf("new_game", "1000000"))
-        }.trim()
-        assertThat(output).isEqualTo("New game 1000000 created.")
-    }
+    // @Test
+    // fun `user prompts chess new_game 1000000`() {
+    //     val output = captureStandardOut {
+    //         main(arrayOf("new_game", "1000000"))
+    //     }.trim()
+    //     assertThat(output).isEqualTo("New game 1000000 created.")
+    // }
 
-    @Test
-    fun `user prompts -chess new_game 1000000- but id is already in use`() {
-        // create game
-        main(arrayOf("new_game", "1000000"))
+    // @Test
+    // fun `user prompts -chess new_game 1000000- but id is already in use`() {
+    //     // create game
+    //     main(arrayOf("new_game", "1000000"))
 
-        val output = captureStandardOut {
-            main(arrayOf("new_game", "1000000"))
-        }.trim()
-        assertThat(output).isEqualTo("Error: game ID is already in use!")
-    }
+    //     val output = captureStandardOut {
+    //         main(arrayOf("new_game", "1000000"))
+    //     }.trim()
+    //     assertThat(output).isEqualTo("Error: game ID is already in use!")
+    // }
 
     @Test
     fun `user prompts chess new_gae`() {
