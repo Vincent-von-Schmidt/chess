@@ -1,12 +1,13 @@
+set shell := ["powershell"]
 
 default:
   just --list
 
 build:
-  ./mvnw clean package
+  .\mvnw.cmd clean package
 
 mutation-testing:
-  ./mvnw package pitest:mutationCoverage
+  ./mvnw.cmd package pitest:mutationCoverage
 
 setup-maven-wrapper:
   chmod +x ./mvnw

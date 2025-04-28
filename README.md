@@ -57,22 +57,10 @@ just build
 
 [TODO]: # (For each additional dependency your project requires- Add an additional row to the table!)
 
-| Number | Dependency Name | Dependency Description | Why is it necessary? |
-|--------|-----------------|------------------------|----------------------|
-| 1      | /               | /                      | /                    |
+| Number | Dependency Name       | Dependency Description                         | Why is it necessary?              |
+|--------|-----------------------|------------------------------------------------|-----------------------------------|
+| 1      | kotlinx-serialization | converting data to a format that can be stored | automatic json formatting of data |
 
-## Instructions
-
-[TODO]: # (Remove these instructions once you finished your fork's setup.)
-
-Use a fork of this repository to do implement your project.
-
-Remember to add this repository as a second remote repository (upstream) and pull from the correct
-remotes.
-This is necessary, because we might apply changes to this template during the next month.
-
-The following section describes how to add multiple remote repositories to your local repository,
-which is cloned from the fork.
 
 ### Multiple remote repositories
 
