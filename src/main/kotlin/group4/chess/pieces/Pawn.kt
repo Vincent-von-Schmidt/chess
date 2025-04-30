@@ -2,8 +2,10 @@ package group4.chess.pieces
 
 import group4.chess.board.Location
 
-class Pawn(color: Color): Piece(1, color) {
+class Pawn(color: Color): Piece {
     override val name = "Pawn"
+    override val value = 1
+    override val color = color
 
     override fun allowedMoves(from: Location): List<Location> {
         val direction = if (color == Color.WHITE) 1 else -1

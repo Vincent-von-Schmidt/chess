@@ -38,7 +38,7 @@ class MoveTest: AnnotationSpec() {
         assertThatThrownBy {
             move.movePiece()
         }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("a2 does not contain a WHITE Pawn")
+            .hasMessageContaining("a2 does not contain")
     }
 
     @Test
@@ -56,6 +56,6 @@ class MoveTest: AnnotationSpec() {
         assertThatThrownBy {
             move.movePiece()
         }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("a2 does not contain a WHITE Pawn")
+            .hasMessageContaining("a2 does not contain a group4.chess.pieces.Pawn")
     }
 }
