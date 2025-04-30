@@ -2,8 +2,10 @@ package group4.chess.pieces
 
 import group4.chess.board.Location
 
-class Bishop(color: Color): Piece(3, color) {
+class Bishop(color: Color): Piece {
     override val name = "Bishop"
+    override val value = 3
+    override val color = color
 
     override fun allowedMoves(from: Location): List<Location> {
 
