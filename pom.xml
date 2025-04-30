@@ -155,10 +155,10 @@
         <version>${pitest.version}</version>
         <configuration>
           <targetClasses>
-            <param>hwr.oop.*</param>
+            <param>group4.chess.*</param>
           </targetClasses>
           <targetTests>
-            <param>hwr.oop.*</param>
+            <param>group4.chess.*</param>
           </targetTests>
         </configuration>
         <executions>
