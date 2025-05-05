@@ -14,8 +14,8 @@ class FenLoaderTest : AnnotationSpec() {
         val board = Board()
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
-        val fenLoader = FenLoader()
-        val fenReader = FenReader(fen)
+        val loaderFEN = LoaderFEN()
+        val readerFEN = ReaderFEN(fen)
 
 
         val fieldA1 = board.getField(Location('a', 1))
@@ -25,7 +25,7 @@ class FenLoaderTest : AnnotationSpec() {
         val fieldB2 = board.getField(Location('b', 2))
         val fieldG4 = board.getField(Location('g', 4))
 
-        fenLoader.placePieces(fenReader, board)
+        loaderFEN.placePieces(readerFEN, board)
 
         assertThat(fieldA1.piece).isInstanceOf(Rook::class.java)
         assertThat(fieldA1.piece?.color).isEqualTo(Color.WHITE)
@@ -50,11 +50,11 @@ class FenLoaderTest : AnnotationSpec() {
         val board = Board()
         val badFen = "rnbqkbnr/zppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
-        val fenReader = FenReader(badFen)
-        val fenLoader = FenLoader()
+        val readerFEN = ReaderFEN(badFen)
+        val loaderFEN = LoaderFEN()
 
         assertThatThrownBy {
-            fenLoader.placePieces(fenReader, board)
+            loaderFEN.placePieces(readerFEN, board)
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("Unknown char: z")
     }

@@ -18,8 +18,8 @@ class MoveTest: AnnotationSpec() {
 
         board.setPieceToField(startLocation, pawn)
 
-        val move = Move(board, startLocation, endLocation, pawn)
-        move.movePiece()
+        val move = Move(startLocation, endLocation, pawn)
+        board.movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isEqualTo(null)
         assertThat(board.getField(endLocation).piece).isEqualTo(pawn)
@@ -33,10 +33,10 @@ class MoveTest: AnnotationSpec() {
         val endLocation = Location('h', 7)
         val pawn = Pawn(Color.WHITE)
 
-        val move = Move(board, startLocation, endLocation, pawn)
+        val move = Move(startLocation, endLocation, pawn)
 
         assertThatThrownBy {
-            move.movePiece()
+            board.movePiece(move)
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("a2 does not contain")
     }
@@ -51,10 +51,10 @@ class MoveTest: AnnotationSpec() {
 
         board.setPieceToField(startLocation, queen)
 
-        val move = Move(board, startLocation, endLocation, pawn)
+        val move = Move(startLocation, endLocation, pawn)
 
         assertThatThrownBy {
-            move.movePiece()
+            board.movePiece(move)
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("a2 does not contain a group4.chess.pieces.Pawn")
     }

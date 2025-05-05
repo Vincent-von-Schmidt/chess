@@ -1,4 +1,5 @@
 package group4.chess.board
+import group4.chess.move.Move
 import group4.chess.pieces.Piece
 
 class Board {
@@ -35,4 +36,30 @@ class Board {
     fun setPieceToField(location: Location, piece: Piece) {
         fields[location]?.piece = piece
     }
+
+    fun movePiece(move: Move) {
+        val startField = move.startLocation
+        val endField = move.endLocation
+        val toMovePiece = move.toMovePiece
+
+        if (getField(startField).piece != toMovePiece) {
+            throw IllegalArgumentException("$startField does not contain a $toMovePiece")
+        }
+
+        if (endField !in toMovePiece.allowedMoves(startField)) {
+            throw IllegalArgumentException("$toMovePiece can not be moved to $endField")
+        }
+
+        setPieceToField(endField, toMovePiece)
+        removePieceFromField(startField)
+    }
+    /*
+  val last_turn: Move = Move()
+
+  fun validate(): Boolean {
+
+       // hier ob das schach oder mat ändert
+      return true
+  }
+*/
 }
