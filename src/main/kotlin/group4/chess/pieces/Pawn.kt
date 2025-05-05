@@ -6,13 +6,12 @@ class Pawn(color: Color): Piece(1, color) {
     override val name = "Pawn"
 
     override fun allowedMoves(from: Location): List<Location> {
-
         val direction = if (color == Color.WHITE) 1 else -1
 
         val possibleMoves = mutableListOf<Location>()
-        var possibleMovey :Int = from.y + direction
-        if (possibleMovey in 1..8){
-            possibleMoves.add(Location(from.x, possibleMovey))
+        val newY :Int = from.y + direction
+        if (newY in 1..8){
+            possibleMoves.add(Location(from.x, newY))
         }
 
         return possibleMoves
