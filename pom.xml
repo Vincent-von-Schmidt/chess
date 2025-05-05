@@ -6,14 +6,15 @@
 
   <groupId>hwr.oop.projects</groupId>
 
-  <!-- TODO Change name and description according to your project -->
   <artifactId>chess</artifactId>
   <packaging>jar</packaging>
   <version>0.1.0-SNAPSHOT</version>
 
-  <!-- TODO Change name and description according to your project -->
   <name>chess</name>
-  <description>project-description</description>
+  <description>
+    This is a command-line interface chess game.
+    It can be played be taking turns with separate commands.
+  </description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
