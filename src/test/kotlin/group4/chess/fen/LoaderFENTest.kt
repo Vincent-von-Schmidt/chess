@@ -7,7 +7,7 @@ import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
-class FenLoaderTest : AnnotationSpec() {
+class LoaderFENTest : AnnotationSpec() {
 
     @Test
     fun `pieces placed correctly`() {

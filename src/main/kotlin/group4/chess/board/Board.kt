@@ -47,7 +47,8 @@ class Board {
         }
 
         if (endField !in toMovePiece.allowedMoves(startField)) {
-            throw IllegalArgumentException("$toMovePiece can not be moved to $endField")
+            val pieceDescription = "${toMovePiece.color} ${toMovePiece::class.simpleName}"
+            throw IllegalArgumentException("$pieceDescription can not be moved to $endField")
         }
 
         setPieceToField(endField, toMovePiece)

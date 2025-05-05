@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import group4.chess.pieces.Color
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
-class FenReaderTest: AnnotationSpec() {
+class ReaderFENTest: AnnotationSpec() {
 
     @Test
     fun `piece placement list is created correctly`() {
