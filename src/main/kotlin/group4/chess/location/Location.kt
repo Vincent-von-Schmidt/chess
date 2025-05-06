@@ -1,4 +1,4 @@
 package group4.chess.location
 
-data class Location (val rank: Rank, val file: File) {
+data class Location (val rank: Int, val file: File) {
 }
