@@ -1,11 +1,15 @@
 package group4.chess
 
 import group4.chess.fen.FenReader
+import group4.chess.Constants.TESTNUMBERS
 
 object GameStorage {
-    const val filepath = "games.txt"
+    var filepath = "games.txt"
 
     fun createGame(id: Int, fen: String) {
+        if (id >= TESTNUMBERS) {
+            filepath = "gamesTest.txt"
+        }
         if (loadGameFromFile(id, filepath) != null) {
             throw IllegalArgumentException("Game already exists.")
         } else {
@@ -14,6 +18,10 @@ object GameStorage {
     }
 
     fun loadGame(id: Int) {
+        if (id >= TESTNUMBERS) {
+            filepath = "gamesTest.txt"
+        }
+
         val fen: String? = loadGameFromFile(id, filepath)
 
         if (fen == null) {
@@ -52,11 +60,14 @@ object GameStorage {
                 return parts[1]
             }
         }
-
         return null
     }
 
     fun deleteGame(id: Int) {
+        if (id >= TESTNUMBERS) {
+            filepath = "gamesTest.txt"
+        }
+
         val file = java.io.File(filepath)
         if (!file.exists()) return
 

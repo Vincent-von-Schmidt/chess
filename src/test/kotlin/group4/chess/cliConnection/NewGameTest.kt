@@ -25,24 +25,24 @@ class NewGameTest : AnnotationSpec() {
     }
 
     @Test
-    fun `user prompts -chess new_game 1-`() {
-        deleteGame(1)
+    fun `user prompts -chess new_game 1000000-`() {
+        deleteGame(1000000)
         val output = captureStandardOut {
-            main(arrayOf("new_game", "1"))
+            main(arrayOf("new_game", "1000000"))
         }.trim()
-        assertThat(output).isEqualTo("New game 1 created.")
-        deleteGame(1)
+        assertThat(output).isEqualTo("New game 1000000 created.")
+        deleteGame(1000000)
     }
 
     @Test
-    fun `user prompts -chess new_game 1- but the ID is already in use`() {
-        deleteGame(1)
-        main(arrayOf("new_game", "1"))
+    fun `user prompts -chess new_game 1000000- but the ID is already in use`() {
+        deleteGame(1000000)
+        main(arrayOf("new_game", "1000000"))
         val output = captureStandardOut {
-            main(arrayOf("new_game", "1"))
+            main(arrayOf("new_game", "1000000"))
         }.trim()
         assertThat(output).isEqualTo("Error: game ID is already in use")
-        deleteGame(1)
+        deleteGame(1000000)
     }
 
     @Test

@@ -8,7 +8,7 @@ build:
   .\mvnw.cmd clean package
 
 mutation-testing:
-  ./mvnw.cmd package pitest:mutationCoverage
+  .\mvnw.cmd package pitest:mutationCoverage
 
 setup-maven-wrapper:
   chmod +x ./mvnw

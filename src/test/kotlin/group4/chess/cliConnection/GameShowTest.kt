@@ -41,13 +41,12 @@ class GameShowTest : AnnotationSpec() {
     }
 
     @Test
-    fun `user prompts -chess game show 1-`() {
-        deleteGame(1)
-        main(arrayOf("new_game", "1"))
+    fun `user prompts -chess game show 1000000-`() {
+        deleteGame(1000000)
+        main(arrayOf("new_game", "1000000"))
         val output = captureStandardOut {
-            main(arrayOf("game", "show", "1"))
+            main(arrayOf("game", "show", "1000000"))
         }.trim()
-        assertThat(output.lines().size).isEqualTo(8)
         assertThat(output).isEqualTo(
         """
         r n b q k b n r
@@ -59,14 +58,14 @@ class GameShowTest : AnnotationSpec() {
         P P P P P P P P
         R N B Q K B N R
         """.trimIndent())
-        deleteGame(1)
+        deleteGame(1000000)
     }
 
     @Test
-    fun `user prompts -chess game show 1- but ID is not created yet`() {
+    fun `user prompts -chess game show 1000000- but ID is not created yet`() {
         val output = captureStandardOut {
-            deleteGame(1)
-            main(arrayOf("game", "show", "1"))
+            deleteGame(1000000)
+            main(arrayOf("game", "show", "1000000"))
         }.trim()
         assertThat(output).isEqualTo("Error: game ID is not in use!")
     }
