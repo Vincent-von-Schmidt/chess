@@ -1,0 +1,66 @@
+package group4.chess
+
+import group4.chess.fen.FenReader
+
+object GameStorage {
+    const val filepath = "games.txt"
+
+    fun createGame(id: Int, fen: String) {
+        if (loadGameFromFile(id, filepath) != null) {
+            throw IllegalArgumentException("Game already exists.")
+        } else {
+            saveGameToFile(id, fen, filepath)
+        }
+    }
+
+    fun loadGame(id: Int) {
+        val fen: String? = loadGameFromFile(id, filepath)
+
+        if (fen == null) {
+            throw IllegalArgumentException("Game not found.")
+        } else {
+            val fenProcessed = FenReader(fen.toString())
+            val sb = StringBuilder()
+            for (line in fenProcessed.piecePlacement) {
+                val lineFields = mutableListOf<String>()
+                for (field in line) {
+                    if (field in '0'..'9') {
+                        repeat(field.digitToInt()) { lineFields.add("  ") }
+                    } else {
+                        lineFields.add("$field ")
+                    }
+                }
+                val lineText = lineFields.joinToString("").removeSuffix(" ")
+                sb.appendLine(lineText)
+            }
+            println(sb.toString().trimEnd())
+        }
+    }
+
+    private fun saveGameToFile(id: Int, fen: String, filepath: String) {
+        val file = java.io.File(filepath)
+        file.appendText("\n$id;$fen\n")
+    }
+
+    private fun loadGameFromFile(id: Int, filepath: String): String? {
+        val file = java.io.File(filepath)
+        if (!file.exists()) return null
+
+        for (line in file.readLines()) {
+            val parts = line.split(';')
+            if (parts[0] == id.toString()) {
+                return parts[1]
+            }
+        }
+
+        return null
+    }
+
+    fun deleteGame(id: Int) {
+        val file = java.io.File(filepath)
+        if (!file.exists()) return
+
+        val lines = file.readLines().filter { !it.startsWith(id.toString()) }
+        file.writeText(lines.joinToString("\n"))
+    }
+}

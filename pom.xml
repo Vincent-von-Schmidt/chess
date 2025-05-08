@@ -125,7 +125,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>group4.chess.MainKt</mainClass>
+              <mainClass>group4.chess.cli.MainKt</mainClass>
             </manifest>
           </archive>
         </configuration>
