@@ -1,7 +1,7 @@
 package group4.chess
 
 import group4.chess.Constants.TESTNUMBERS
-import group4.chess.fen.FenReader
+import group4.chess.fen.ReaderFEN
 import group4.chess.gamePersistencePorts.DeleteGamePort
 import group4.chess.gamePersistencePorts.LoadGamePort
 import group4.chess.gamePersistencePorts.SaveGamePort
@@ -30,7 +30,7 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
         if (fen == null) {
             throw IllegalArgumentException("Game not found.")
         } else {
-            val fenProcessed = FenReader(fen.toString())
+            val fenProcessed = ReaderFEN(fen.toString())
             val sb = StringBuilder()
             for (line in fenProcessed.piecePlacement) {
                 val lineFields = mutableListOf<String>()
