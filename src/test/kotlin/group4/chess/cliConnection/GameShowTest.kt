@@ -1,12 +1,14 @@
 package group4.chess.cliConnection
 
+import group4.chess.GameStorage
 import group4.chess.cli.main
-import group4.chess.GameStorage.deleteGame
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
 
 class GameShowTest : AnnotationSpec() {
+
+    private val storage = GameStorage()
 
     @Test
     fun `user prompts -chess game show-`() {
@@ -42,7 +44,7 @@ class GameShowTest : AnnotationSpec() {
 
     @Test
     fun `user prompts -chess game show 1000000-`() {
-        deleteGame(1000000)
+        storage.deleteGame(1000000)
         main(arrayOf("new_game", "1000000"))
         val output = captureStandardOut {
             main(arrayOf("game", "show", "1000000"))
@@ -58,13 +60,13 @@ class GameShowTest : AnnotationSpec() {
         P P P P P P P P
         R N B Q K B N R
         """.trimIndent())
-        deleteGame(1000000)
+        storage.deleteGame(1000000)
     }
 
     @Test
     fun `user prompts -chess game show 1000000- but ID is not created yet`() {
         val output = captureStandardOut {
-            deleteGame(1000000)
+            storage.deleteGame(1000000)
             main(arrayOf("game", "show", "1000000"))
         }.trim()
         assertThat(output).isEqualTo("Error: game ID is not in use!")

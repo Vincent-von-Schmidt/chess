@@ -37,7 +37,7 @@ fun main(args: Array<String>) {
       }
 
       try {
-          GameStorage.createGame(id, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2")
+          GameStorage().saveGame(id, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2")
       } catch (e: IllegalArgumentException) {
         println("Error: game ID is already in use")
         return
@@ -49,6 +49,7 @@ fun main(args: Array<String>) {
 
     "game" -> {
       val id: Int
+      val output: String
       if (args.size < 3 || args[1] != "show") {
         println("Usage: chess game show <id>")
         return
@@ -65,11 +66,13 @@ fun main(args: Array<String>) {
       }
 
       try {
-        GameStorage.loadGame(id)
+        output = GameStorage().loadGame(id)
       } catch (e: IllegalArgumentException) {
         println("Error: game ID is not in use!")
         return
       }
+
+      print(output)
 
     }
 
@@ -78,10 +81,9 @@ fun main(args: Array<String>) {
         println("Usage: chess on <id> move <from> to <to>");
         return
       }
-      val id = args[1].toInt();
-      val from = args[3].toInt();
-      val to = args[5].toInt();
-      // calculate moves
+      val id = args[1].toInt()
+      val from = args[3].toInt()
+      val to = args[5].toInt()
 
       // if (move = successful) {
       //   Game.saveGame();

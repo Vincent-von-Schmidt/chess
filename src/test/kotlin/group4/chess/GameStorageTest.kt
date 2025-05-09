@@ -1,28 +1,26 @@
 package group4.chess
 
-import group4.chess.GameStorage.createGame
-import group4.chess.GameStorage.deleteGame
-import group4.chess.GameStorage.loadGame
-import group4.chess.cli.main
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.*
 
 class GameStorageTest : AnnotationSpec() {
-    // TODO: add all tests for game storage
+    // TODO: add mutation tests for game storage
+
+    private val storage = GameStorage()
 
     @Test
     fun `creating a game`() {
-        //when
+        //given
         val id = 1000000
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        deleteGame(id)
+        storage.deleteGame(id)
         val file = java.io.File("gamesTest.txt")
+        //when
+        storage.saveGame(id, fen)
         //then
-        createGame(id, fen)
-        //assert
         assertThat(file.readLines()).contains("$id;$fen")
-        deleteGame(1000000)
+        storage.deleteGame(1000000)
     }
 
     @Test
@@ -30,41 +28,38 @@ class GameStorageTest : AnnotationSpec() {
         //given
         val id = 1000000
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        deleteGame(id)
+        storage.deleteGame(id)
         //when
-        createGame(id, fen)
+        storage.saveGame(id, fen)
         //then
-        assertThatThrownBy { createGame(id, fen) }
+        assertThatThrownBy { storage.saveGame(id, fen) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("Game already exists.")
-        deleteGame(id)
+        storage.deleteGame(id)
     }
 
     @Test
     fun `loading game that doesn't exist`() {
         //given
         val id = 1000000
-        deleteGame(id)
+        storage.deleteGame(id)
         //when
         //then
-        assertThatThrownBy { loadGame(id) }
+        assertThatThrownBy { storage.loadGame(id) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("Game not found.")
-        deleteGame(id)
+        storage.deleteGame(id)
     }
 
-    @Ignore
     @Test
     fun `loading game that exists`() {
         //given
         val id = 1000000
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        deleteGame(id)
-        createGame(id, fen)
+        storage.deleteGame(id)
+        storage.saveGame(id, fen)
         //when
-        val output = captureStandardOut {
-            loadGame(id)
-        }
+        val output = storage.loadGame(id)
         //then
         assertThat(output).isEqualTo(
         """
@@ -77,7 +72,7 @@ class GameStorageTest : AnnotationSpec() {
         P P P P P P P P
         R N B Q K B N R
         """.trimIndent())
-        deleteGame(id)
+        storage.deleteGame(id)
     }
 
     @Test
@@ -85,12 +80,12 @@ class GameStorageTest : AnnotationSpec() {
         //given
         val id = 1000000
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        deleteGame(id)
-        createGame(id, fen)
+        storage.deleteGame(id)
+        storage.saveGame(id, fen)
         //when
-        deleteGame(id)
+        storage.deleteGame(id)
         //then
-        assertThatThrownBy { loadGame(id) }
+        assertThatThrownBy { storage.loadGame(id) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("Game not found.")
     }

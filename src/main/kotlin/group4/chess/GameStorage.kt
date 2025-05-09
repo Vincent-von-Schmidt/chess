@@ -1,12 +1,15 @@
 package group4.chess
 
-import group4.chess.fen.FenReader
 import group4.chess.Constants.TESTNUMBERS
+import group4.chess.fen.FenReader
+import group4.chess.gamePersistencePorts.DeleteGamePort
+import group4.chess.gamePersistencePorts.LoadGamePort
+import group4.chess.gamePersistencePorts.SaveGamePort
 
-object GameStorage {
-    var filepath = "games.txt"
+class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
+    private var filepath = "games.txt"
 
-    fun createGame(id: Int, fen: String) {
+    override fun saveGame(id: Int, fen: String) {
         if (id >= TESTNUMBERS) {
             filepath = "gamesTest.txt"
         }
@@ -17,7 +20,7 @@ object GameStorage {
         }
     }
 
-    fun loadGame(id: Int) {
+    override fun loadGame(id: Int): String {
         if (id >= TESTNUMBERS) {
             filepath = "gamesTest.txt"
         }
@@ -41,8 +44,20 @@ object GameStorage {
                 val lineText = lineFields.joinToString("").removeSuffix(" ")
                 sb.appendLine(lineText)
             }
-            println(sb.toString().trimEnd())
+            return(sb.toString().trimEnd())
         }
+    }
+
+    override fun deleteGame(id: Int) {
+        if (id >= TESTNUMBERS) {
+            filepath = "gamesTest.txt"
+        }
+
+        val file = java.io.File(filepath)
+        if (!file.exists()) return
+
+        val lines = file.readLines().filter { !it.startsWith(id.toString()) }
+        file.writeText(lines.joinToString("\n"))
     }
 
     private fun saveGameToFile(id: Int, fen: String, filepath: String) {
@@ -61,17 +76,5 @@ object GameStorage {
             }
         }
         return null
-    }
-
-    fun deleteGame(id: Int) {
-        if (id >= TESTNUMBERS) {
-            filepath = "gamesTest.txt"
-        }
-
-        val file = java.io.File(filepath)
-        if (!file.exists()) return
-
-        val lines = file.readLines().filter { !it.startsWith(id.toString()) }
-        file.writeText(lines.joinToString("\n"))
     }
 }
