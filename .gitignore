@@ -36,4 +36,7 @@ build/
 
 justfile
 
+### GameStorageFiles ###
+*.txt
+
 .gitignore
