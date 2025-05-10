@@ -1,13 +1,14 @@
 package group4.chess
 
+import group4.chess.Constants.GAMESTESTFILE
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.*
 
 class GameStorageTest : AnnotationSpec() {
     // TODO: add mutation tests for game storage
 
     private val storage = GameStorage()
+    val file = java.io.File(GAMESTESTFILE)
 
     @Test
     fun `creating a game`() {
@@ -15,12 +16,11 @@ class GameStorageTest : AnnotationSpec() {
         val id = 1000000
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
         storage.deleteGame(id)
-        val file = java.io.File("gamesTest.txt")
         //when
         storage.saveGame(id, fen)
         //then
         assertThat(file.readLines()).contains("$id;$fen")
-        storage.deleteGame(1000000)
+        storage.deleteGame(id)
     }
 
     @Test

@@ -1,17 +1,19 @@
 package group4.chess
 
 import group4.chess.Constants.TESTNUMBERS
+import group4.chess.Constants.GAMESTESTFILE
+import group4.chess.Constants.GAMESFILE
 import group4.chess.fen.ReaderFEN
 import group4.chess.gamePersistencePorts.DeleteGamePort
 import group4.chess.gamePersistencePorts.LoadGamePort
 import group4.chess.gamePersistencePorts.SaveGamePort
 
 class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
-    private var filepath = "games.txt"
+    private var filepath = GAMESFILE
 
     override fun saveGame(id: Int, fen: String) {
         if (id >= TESTNUMBERS) {
-            filepath = "gamesTest.txt"
+            filepath = GAMESTESTFILE
         }
         if (loadGameFromFile(id, filepath) != null) {
             throw IllegalArgumentException("Game already exists.")
@@ -22,7 +24,7 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
 
     override fun loadGame(id: Int): String {
         if (id >= TESTNUMBERS) {
-            filepath = "gamesTest.txt"
+            filepath = GAMESTESTFILE
         }
 
         val fen: String? = loadGameFromFile(id, filepath)
@@ -50,7 +52,7 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
 
     override fun deleteGame(id: Int) {
         if (id >= TESTNUMBERS) {
-            filepath = "gamesTest.txt"
+            filepath = GAMESTESTFILE
         }
 
         val file = java.io.File(filepath)
