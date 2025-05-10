@@ -2,7 +2,7 @@ package group4.chess.fen
 
 import group4.chess.pieces.Color
 
-data class FenReader (val notation: String) {
+data class ReaderFEN (val notation: String) {
     val piecePlacement: List<String> = notation.split(" ").elementAt(0).split("/")
     val activeColor: Color = when (notation.split(" ").elementAt(1)) {
         "w" -> Color.WHITE

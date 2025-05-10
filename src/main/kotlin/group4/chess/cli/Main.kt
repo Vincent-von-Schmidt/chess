@@ -1,32 +1,8 @@
-package group4.chess
+package group4.chess.cli
 
-import group4.chess.fen.FenReader
+import group4.chess.GameStorage
 
 fun main(args: Array<String>) {
-
-  // val fen: FenReader = FenReader("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")
-
-  // println(fen.piecePlacement)
-  // println(fen.activeColor)
-  // println(fen.castle)
-  // println(fen.enpassant)
-  // println(fen.halfmoves)
-  // println(fen.fullmoves)
-
-  // for (line in fen.piecePlacement) {
-  //   var lineText: String = ""
-
-  //   for (field in line) {
-  //     if (field in '0'..'9') {
-  //       lineText += "".padStart(field.digitToInt() * 2)
-  //     } else {
-  //       lineText += "$field "
-  //     }
-  //   }
-  //   println(lineText)
-  // }
-
-
   """
     
     Possible commands: 
@@ -37,7 +13,7 @@ fun main(args: Array<String>) {
   """.trimIndent()
 
   if (args.isEmpty()) {
-    println("No command provided. Try: chess new_game <id>");
+    println("No command provided. Try: chess new_game <id>")
     return
   }
 
@@ -46,7 +22,7 @@ fun main(args: Array<String>) {
       val id: Int
 
       if (args.size < 2) {
-        println("Usage: chess new_game <id>");
+        println("Usage: chess new_game <id>")
         return
       } else if (args.size > 2) {
         println("Error: new_game only takes 1 parameter!")
@@ -60,26 +36,44 @@ fun main(args: Array<String>) {
         return
       }
 
-      // if (GameStorage.loadGame(id) == "game doesn't exist") {
-      //   val newGame = Game(id)
-      // }
+      try {
+          GameStorage().saveGame(id, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2")
+      } catch (e: IllegalArgumentException) {
+        println("Error: game ID is already in use")
+        return
+      }
+
+      println("New game $id created.")
 
     }
 
     "game" -> {
+      val id: Int
+      val output: String
       if (args.size < 3 || args[1] != "show") {
-        println("Usage: chess game show <id>");
+        println("Usage: chess game show <id>")
         return
       } else if (args.size > 3) {
-        println("Error: game only takes 2 parameters!")
+        println("Error: game show only takes 1 parameter!")
+        return
       }
 
       try {
-        val id = args[2].toInt()
-        // get game from id -> print board;
+        id = args[2].toInt()
       } catch (e: NumberFormatException) {
         println("Error: game ID must be a valid integer!")
+        return
       }
+
+      try {
+        output = GameStorage().loadGame(id)
+      } catch (e: IllegalArgumentException) {
+        println("Error: game ID is not in use!")
+        return
+      }
+
+      print(output)
+
     }
 
     "on" -> {
@@ -87,10 +81,9 @@ fun main(args: Array<String>) {
         println("Usage: chess on <id> move <from> to <to>");
         return
       }
-      val id = args[1].toInt();
-      val from = args[3].toInt();
-      val to = args[5].toInt();
-      // calculate moves
+      val id = args[1].toInt()
+      val from = args[3].toInt()
+      val to = args[5].toInt()
 
       // if (move = successful) {
       //   Game.saveGame();

@@ -4,7 +4,7 @@ import group4.chess.board.Location
 import group4.chess.board.Board
 import group4.chess.pieces.*
 
-class FenLoader {
+class LoaderFEN {
     private fun parsePiece(char: Char): Piece {
         val color = if (char.isUpperCase()) Color.WHITE else Color.BLACK
         return when (char.lowercaseChar()) {
@@ -18,7 +18,7 @@ class FenLoader {
         }
     }
 
-    fun placePieces(fen: FenReader, board: Board) {
+    fun placePieces(fen: ReaderFEN, board: Board) {
         var y = 8
 
         for (row in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"

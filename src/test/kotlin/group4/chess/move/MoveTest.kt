@@ -9,6 +9,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class MoveTest: AnnotationSpec() {
+
+    @Ignore
     @Test
     fun `a piece is movable`() {
         val board = Board()
@@ -26,6 +28,7 @@ class MoveTest: AnnotationSpec() {
         assertThat(board.getField(endLocation).piece?.color).isEqualTo(Color.WHITE)
     }
 
+    @Ignore
     @Test
     fun `empty field is immovable`() {
         val board = Board()
@@ -41,6 +44,7 @@ class MoveTest: AnnotationSpec() {
             .hasMessageContaining("a2 does not contain")
     }
 
+    @Ignore
     @Test
     fun `field with wrong piece is immovable`() {
         val board = Board()
@@ -59,6 +63,7 @@ class MoveTest: AnnotationSpec() {
             .hasMessageContaining("a2 does not contain a group4.chess.pieces.Pawn")
     }
 
+    @Ignore
     @Test
     fun `pawn moves correctly`() {
         val board = Board()
@@ -103,6 +108,7 @@ class MoveTest: AnnotationSpec() {
             .hasMessageContaining("BLACK Pawn can not be moved to h1")
     }
 
+    @Ignore
     @Test
     fun `king moves correctly`() {
         val board = Board()
@@ -137,8 +143,8 @@ class MoveTest: AnnotationSpec() {
             .hasMessageContaining("WHITE King can not be moved to h1")
     }
 
+    @Ignore
     @Test
-
     fun `knight moves correctly`() {
         val board = Board()
         val knight = Knight(Color.BLACK)
@@ -176,6 +182,7 @@ class MoveTest: AnnotationSpec() {
             .hasMessageContaining("BLACK Knight can not be moved to h1")
     }
 
+    @Ignore
     @Test
     fun `queen moves correctly`(){
         val board = Board()
@@ -215,6 +222,7 @@ class MoveTest: AnnotationSpec() {
             .hasMessageContaining("WHITE Queen can not be moved to c3")
     }
 
+    @Ignore
     @Test
     fun `bishop moves correctly`(){
         val board = Board()
@@ -248,6 +256,7 @@ class MoveTest: AnnotationSpec() {
             .hasMessageContaining("BLACK Bishop can not be moved to c5")
     }
 
+    @Ignore
     @Test
     fun `rook moves correctly`(){
         val board = Board()

@@ -7,15 +7,15 @@ import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
-class FenLoaderTest : AnnotationSpec() {
+class LoaderFENTest : AnnotationSpec() {
 
     @Test
     fun `pieces placed correctly`() {
         val board = Board()
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
-        val fenLoader = FenLoader()
-        val fenReader = FenReader(fen)
+        val fenLoader = LoaderFEN()
+        val fenReader = ReaderFEN(fen)
 
 
         val fieldA1 = board.getField(Location('a', 1))
@@ -50,8 +50,8 @@ class FenLoaderTest : AnnotationSpec() {
         val board = Board()
         val badFen = "rnbqkbnr/zppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
-        val fenReader = FenReader(badFen)
-        val fenLoader = FenLoader()
+        val fenReader = ReaderFEN(badFen)
+        val fenLoader = LoaderFEN()
 
         assertThatThrownBy {
             fenLoader.placePieces(fenReader, board)
