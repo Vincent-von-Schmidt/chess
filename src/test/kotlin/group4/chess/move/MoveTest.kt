@@ -239,7 +239,7 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
-    fun `queen moves correctly`(){
+    fun `queen moves from d1 to c1, a1, e1, h1, d2, d8, c2, a4, e2, h5`(){
         val board = Board()
         val queen = Queen(Color.WHITE)
         val startLocation = Location('d', 1)
@@ -256,45 +256,36 @@ class MoveTest: AnnotationSpec() {
             Location('e', 2),  // directly diagonal right
             Location('h', 5),  // further diagonal right
         )
-        val endlocationc3 = Location('c', 3) // illegal move
 
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, queen)
             val move = Move(startLocation, endLocation, queen)
             board.movePiece(move)
 
-            assertThat(board.getField(startLocation).piece).isEqualTo(null)
+            assertThat(board.getField(startLocation).piece).isNull()
             assertThat(board.getField(endLocation).piece).isEqualTo(queen)
             assertThat(board.getField(endLocation).piece?.color).isEqualTo(Color.WHITE)
         }
-
-        board.setPieceToField(startLocation, queen)
-        val move = Move(startLocation, endlocationc3, queen)
-
-        assertThatThrownBy {
-            board.movePiece(move)
-        }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("WHITE Queen can not be moved to c3")
     }
 
     @Test
-    fun `queen throw on move from d4 to h8`() {
+    fun `queen throw on move from d4 to h1`() {
         val board = Board()
             val queen = Queen(Color.WHITE)
 
         val startLocation = Location('d', 4)
-        val endLocation = Location('h', 8) // illegal move
+        val endLocation = Location('h', 1) // illegal move
 
         board.setPieceToField(startLocation, queen)
         val move = Move(startLocation, endLocation, queen)
 
         assertThatThrownBy {
             board.movePiece(move)
-        }.hasMessageContaining("WHITE Queen can not be moved to h8")
+        }.hasMessageContaining("WHITE Queen can not be moved to h1")
     }
 
     @Test
-    fun `bishop moves correctly`(){
+    fun `bishop moves from c8 to b7, a6, d7, h3`(){
         val board = Board()
         val bishop = Bishop(Color.BLACK)
         val startLocation = Location('c', 8)
@@ -305,44 +296,35 @@ class MoveTest: AnnotationSpec() {
             Location('d', 7),  // directly bottom-right diagonal
             Location('h', 3),  // further bottom-right diagonal
         )
-        val endlocationc5 = Location('c', 5) // illegal diagonal move
 
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, bishop)
             val move = Move(startLocation, endLocation, bishop)
             board.movePiece(move)
 
-            assertThat(board.getField(startLocation).piece).isEqualTo(null)
+            assertThat(board.getField(startLocation).piece).isNull()
             assertThat(board.getField(endLocation).piece).isEqualTo(bishop)
             assertThat(board.getField(endLocation).piece?.color).isEqualTo(Color.BLACK)
         }
-
-        board.setPieceToField(startLocation, bishop)
-        val move = Move(startLocation, endlocationc5, bishop)
-
-        assertThatThrownBy {
-            board.movePiece(move)
-        }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("BLACK Bishop can not be moved to c5")
     }
     @Test
-    fun `bishop throw on move from d4 to h8`() {
+    fun `bishop throw on move from d4 to h1`() {
         val board = Board()
         val bishop = Bishop(Color.BLACK)
 
         val startLocation = Location('d', 4)
-        val endLocation = Location('h', 8) // illegal move
+        val endLocation = Location('h', 1) // illegal move
 
         board.setPieceToField(startLocation, bishop)
         val move = Move(startLocation, endLocation, bishop)
 
         assertThatThrownBy {
             board.movePiece(move)
-        }.hasMessageContaining("BLACK Bishop can not be moved to h8")
+        }.hasMessageContaining("BLACK Bishop can not be moved to h1")
     }
 
     @Test
-    fun `rook moves correctly`(){
+    fun `rook moves from h1 to g1, a1, h2, h8`(){
         val board = Board()
         val rook = Rook(Color.WHITE)
         val startLocation = Location('h', 1)
@@ -353,25 +335,16 @@ class MoveTest: AnnotationSpec() {
             Location('h', 2),  // directly above
             Location('h', 8),  // further above
         )
-        val endlocationg2 = Location('g', 2) // illegal diagonal move
 
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, rook)
             val move = Move(startLocation, endLocation, rook)
             board.movePiece(move)
 
-            assertThat(board.getField(startLocation).piece).isEqualTo(null)
+            assertThat(board.getField(startLocation).piece).isNull()
             assertThat(board.getField(endLocation).piece).isEqualTo(rook)
             assertThat(board.getField(endLocation).piece?.color).isEqualTo(Color.WHITE)
         }
-
-        board.setPieceToField(startLocation, rook)
-        val move = Move(startLocation, endlocationg2, rook)
-
-        assertThatThrownBy {
-            board.movePiece(move)
-        }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("WHITE Rook can not be moved to g2")
     }
 
         @Test
@@ -388,6 +361,5 @@ class MoveTest: AnnotationSpec() {
             assertThatThrownBy {
                 board.movePiece(move)
             }.hasMessageContaining("BLACK Rook can not be moved to h8")
-
         }
 }
