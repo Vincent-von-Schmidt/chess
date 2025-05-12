@@ -1,5 +1,6 @@
 package hwr.oop.group4.chess.cli
 
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.persistence.LoadGamePort
 import hwr.oop.group4.chess.persistence.SaveGamePort
 
@@ -34,7 +35,7 @@ class Cli(
         }
 
         try {
-          saveGamePort.saveGame(id, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2")
+          saveGamePort.saveGame(id, STARTING_POSITION)
         } catch (e: IllegalArgumentException) {
           println("Error: game ID is already in use")
           return
