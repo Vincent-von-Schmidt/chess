@@ -7,8 +7,4 @@ class Field(val location: Location) {
     var bottom: Field? = null
     var left: Field? = null
     var right: Field? = null
-    var topLeft: Field? = null
-    var topRight: Field? = null
-    var bottomLeft: Field? = null
-    var bottomRight: Field? = null
 }
