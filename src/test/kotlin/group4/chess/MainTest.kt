@@ -3,6 +3,7 @@ package group4.chess
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
+import group4.chess.cli.*
 
 class MainTest : AnnotationSpec() {
 

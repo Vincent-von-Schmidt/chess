@@ -1,10 +1,6 @@
 package group4.chess.board
 import group4.chess.location.*
 
-fun main() {
-    val board = Board()
-}
-
 class Board {
     val root: Field = generateFields()
 
