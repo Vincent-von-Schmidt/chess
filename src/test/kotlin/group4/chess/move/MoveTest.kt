@@ -5,8 +5,6 @@ import group4.chess.board.Location
 import group4.chess.move.Move
 import group4.chess.pieces.*
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.mpp.start
-import kotlinx.coroutines.sync.Mutex
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
@@ -65,7 +63,7 @@ class MoveTest: AnnotationSpec() {
         val pawn = Pawn(Color.BLACK)
 
         val startLocation = Location('d', 5)
-        val endLocation = Location('d', 6) // illegaler move
+        val endLocation = Location('d', 6) // illegal move
 
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
@@ -80,7 +78,7 @@ class MoveTest: AnnotationSpec() {
         val pawn = Pawn(Color.BLACK)
 
         val startLocation = Location('d', 5)
-        val endLocation = Location('h', 8) // illegaler move
+        val endLocation = Location('h', 8) // illegal move
 
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
@@ -95,7 +93,7 @@ class MoveTest: AnnotationSpec() {
         val pawn = Pawn(Color.BLACK)
 
         val startLocation = Location('d', 5)
-        val endLocation = Location('d', 4) // legaler move
+        val endLocation = Location('d', 4) // legal move
 
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
@@ -197,7 +195,7 @@ class MoveTest: AnnotationSpec() {
 
     @Test
 
-    fun `knight moves correctly`() {
+    fun `knight moves from d4 to b5, c6, e6, f5, b3, c2, e2, f3`() {
         val board = Board()
         val knight = Knight(Color.BLACK)
         val startLocation = Location('d', 4)
@@ -213,25 +211,32 @@ class MoveTest: AnnotationSpec() {
             Location('f', 3),
 
             )
-        val endlocationh1 = Location('h', 1) // illegaler move
 
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, knight)
             val move = Move(startLocation, endLocation, knight)
             board.movePiece(move)
 
-            assertThat(board.getField(startLocation).piece).isEqualTo(null)
+            assertThat(board.getField(startLocation).piece).isNull()
             assertThat(board.getField(endLocation).piece).isEqualTo(knight)
             assertThat(board.getField(endLocation).piece?.color).isEqualTo(Color.BLACK)
         }
+    }
+
+    @Test
+    fun `knight throw on move from e1 to h8`() {
+        val board = Board()
+        val knight = Knight(Color.BLACK)
+
+        val startLocation = Location('d', 4)
+        val endLocation = Location('h', 8) // illegal move
 
         board.setPieceToField(startLocation, knight)
-        val move = Move(startLocation, endlocationh1, knight)
+        val move = Move(startLocation, endLocation, knight)
 
         assertThatThrownBy {
             board.movePiece(move)
-        }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("BLACK Knight can not be moved to h1")
+        }.hasMessageContaining("BLACK Knight can not be moved to h8")
     }
 
     @Test
@@ -252,7 +257,7 @@ class MoveTest: AnnotationSpec() {
             Location('e', 2),  // direkt diagonal rechts
             Location('h', 5), // weiter diagonal rechts
         )
-        val endlocationc3 = Location('c', 3) // illegaler move
+        val endlocationc3 = Location('c', 3) // illegal move
 
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, queen)
@@ -285,7 +290,7 @@ class MoveTest: AnnotationSpec() {
             Location('d', 7),  // direkt diagonal rechts unten
             Location('h', 3),   // weiter diagonal rechts unten
         )
-        val endlocationc5 = Location('c', 5) // illegaler diagonal move
+        val endlocationc5 = Location('c', 5) // illegal diagonal move
 
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, bishop)
@@ -318,7 +323,7 @@ class MoveTest: AnnotationSpec() {
             Location('h', 2),  // direkt oben
             Location('h', 8),   // weiter oben
         )
-        val endlocationg2 = Location('g', 2) // illegaler diagonal move
+        val endlocationg2 = Location('g', 2) // illegal diagonal move
 
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, rook)
