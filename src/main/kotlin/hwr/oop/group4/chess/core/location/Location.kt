@@ -1,4 +1,4 @@
 package hwr.oop.group4.chess.core.location
 
-data class Location (val rank: Int, val file: File) {
+data class Location ( val file: File, val rank: Int) {
 }
