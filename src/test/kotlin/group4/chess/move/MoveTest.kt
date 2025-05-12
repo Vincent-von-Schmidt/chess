@@ -201,14 +201,14 @@ class MoveTest: AnnotationSpec() {
         val startLocation = Location('d', 4)
 
         val endLocations = listOf(
-            Location('b', 5),
-            Location('c', 6),
-            Location('e', 6),
-            Location('f', 5),
-            Location('b', 3),
-            Location('c', 2),
-            Location('e', 2),
-            Location('f', 3),
+            Location('b', 5),  // up 1, left 2
+            Location('c', 6),  // up 2, left 1
+            Location('e', 6),  // up 2, right 1
+            Location('f', 5),  // up 1, right 2
+            Location('b', 3),  // down 1, left 2
+            Location('c', 2),  // down 2, left 1
+            Location('e', 2),  // down 2, right 1
+            Location('f', 3),  // down 1, right 2
             )
 
         for (endLocation in endLocations) {
@@ -223,7 +223,7 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
-    fun `knight throw on move from e1 to h8`() {
+    fun `knight throw on move from d4 to h8`() {
         val board = Board()
         val knight = Knight(Color.BLACK)
 
@@ -275,6 +275,22 @@ class MoveTest: AnnotationSpec() {
             board.movePiece(move)
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("WHITE Queen can not be moved to c3")
+    }
+
+    @Test
+    fun `queen throw on move from d4 to h8`() {
+        val board = Board()
+        val knight = Knight(Color.BLACK)
+
+        val startLocation = Location('d', 4)
+        val endLocation = Location('h', 8) // illegal move
+
+        board.setPieceToField(startLocation, knight)
+        val move = Move(startLocation, endLocation, knight)
+
+        assertThatThrownBy {
+            board.movePiece(move)
+        }.hasMessageContaining("BLACK Queen can not be moved to h8")
     }
 
     @Test
