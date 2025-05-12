@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess.board
+package hwr.oop.group4.chess.core.board
 
 import hwr.oop.group4.chess.core.location.*
 import hwr.oop.group4.chess.core.pieces.Piece

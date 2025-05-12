@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.board
 
 import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.board.Location
+import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Color
 import hwr.oop.group4.chess.core.pieces.King
 import io.kotest.core.spec.style.AnnotationSpec
