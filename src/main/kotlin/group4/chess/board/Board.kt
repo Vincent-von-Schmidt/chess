@@ -41,13 +41,13 @@ class Board {
         val startField = move.startLocation
         val endField = move.endLocation
         val toMovePiece = move.toMovePiece
+        val pieceDescription = "${toMovePiece.color} ${toMovePiece.name}"
 
         if (getField(startField).piece != toMovePiece) {
-            throw IllegalArgumentException("$startField does not contain a $toMovePiece")
+            throw IllegalArgumentException("$startField does not contain a $pieceDescription")
         }
 
         if (endField !in toMovePiece.allowedMoves(startField)) {
-            val pieceDescription = "${toMovePiece.color} ${toMovePiece::class.simpleName}"
             throw IllegalArgumentException("$pieceDescription can not be moved to $endField")
         }
 

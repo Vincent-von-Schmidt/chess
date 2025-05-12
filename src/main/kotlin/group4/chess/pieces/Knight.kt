@@ -2,10 +2,9 @@ package group4.chess.pieces
 
 import group4.chess.board.Location
 
-class Knight(color: Color): Piece {
+class Knight(override val color: Color): Piece {
     override val name = "Knight"
     override val value = 3
-    override val color = color
 
     override fun allowedMoves(from: Location): List<Location> {
         val possibleMoves = mutableListOf<Location>()
