@@ -280,17 +280,17 @@ class MoveTest: AnnotationSpec() {
     @Test
     fun `queen throw on move from d4 to h8`() {
         val board = Board()
-        val knight = Knight(Color.BLACK)
+            val queen = Queen(Color.WHITE)
 
         val startLocation = Location('d', 4)
         val endLocation = Location('h', 8) // illegal move
 
-        board.setPieceToField(startLocation, knight)
-        val move = Move(startLocation, endLocation, knight)
+        board.setPieceToField(startLocation, queen)
+        val move = Move(startLocation, endLocation, queen)
 
         assertThatThrownBy {
             board.movePiece(move)
-        }.hasMessageContaining("BLACK Queen can not be moved to h8")
+        }.hasMessageContaining("WHITE Queen can not be moved to h8")
     }
 
     @Test
@@ -325,6 +325,21 @@ class MoveTest: AnnotationSpec() {
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("BLACK Bishop can not be moved to c5")
     }
+    @Test
+    fun `bishop throw on move from d4 to h8`() {
+        val board = Board()
+        val bishop = Bishop(Color.BLACK)
+
+        val startLocation = Location('d', 4)
+        val endLocation = Location('h', 8) // illegal move
+
+        board.setPieceToField(startLocation, bishop)
+        val move = Move(startLocation, endLocation, bishop)
+
+        assertThatThrownBy {
+            board.movePiece(move)
+        }.hasMessageContaining("BLACK Bishop can not be moved to h8")
+    }
 
     @Test
     fun `rook moves correctly`(){
@@ -358,4 +373,21 @@ class MoveTest: AnnotationSpec() {
         }.isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("WHITE Rook can not be moved to g2")
     }
+
+        @Test
+        fun `rook throw on move from d4 to h8`() {
+            val board = Board()
+            val rook = Rook(Color.BLACK)
+
+            val startLocation = Location('d', 4)
+            val endLocation = Location('h', 8) // illegal move
+
+            board.setPieceToField(startLocation, rook)
+            val move = Move(startLocation, endLocation, rook)
+
+            assertThatThrownBy {
+                board.movePiece(move)
+            }.hasMessageContaining("BLACK Rook can not be moved to h8")
+
+        }
 }
