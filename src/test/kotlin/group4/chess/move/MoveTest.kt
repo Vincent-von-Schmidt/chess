@@ -59,35 +59,6 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
-    fun `pawn moves correctly`() {
-        val board = Board()
-        val blackPawn = Pawn(Color.BLACK)
-        val whitePawn = Pawn(Color.WHITE)
-        val startLocation = Location('d', 5)
-
-        val endLocationd4 = Location('d', 4)  // unten
-        val endLocationd6 = Location('d', 6) // oben
-        val endlocationh1 = Location('h', 1) // illegaler move
-
-        board.setPieceToField(startLocation, blackPawn)
-        var move = Move(startLocation, endLocationd4, blackPawn)
-
-
-        board.setPieceToField(startLocation, whitePawn)
-        move = Move(startLocation, endLocationd6, whitePawn)
-        board.movePiece(move)
-
-        assertThat(board.getField(startLocation).piece).isEqualTo(null)
-        assertThat(board.getField(endLocationd6).piece).isEqualTo(whitePawn)
-
-        move = Move(endLocationd6, startLocation, whitePawn)
-        assertThatThrownBy {
-            board.movePiece(move)
-        }.isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("WHITE Pawn can not be moved to d5")
-    }
-
-    @Test
     fun `throw on black pawn from d5 to d6`() {
         val board = Board()
         val pawn = Pawn(Color.BLACK)
@@ -139,24 +110,47 @@ class MoveTest: AnnotationSpec() {
         val pawn = Pawn(Color.WHITE)
 
         val startLocation = Location('d', 5)
-        val endLocation = Location('d', 4) // illegaler move
+        val endLocation = Location('d', 4) // illegal move
 
         board.setPieceToField(startLocation, pawn)
         val move = Move(endLocation, startLocation, pawn)
 
         assertThatThrownBy {
             board.movePiece(move)
-        }.hasMessageContaining("WHITE Pawn can not be moved to h4")
+        }.hasMessageContaining("WHITE Pawn can not be moved to d4")
     }
 
     @Test
     fun `throw on white pawn from d5 to h8`() {
+        val board = Board()
+        val pawn = Pawn(Color.WHITE)
 
+        val startLocation = Location('d', 5)
+        val endLocation = Location('h', 8) // illegal move
+
+        board.setPieceToField(startLocation, pawn)
+        val move = Move(endLocation, startLocation, pawn)
+
+        assertThatThrownBy {
+            board.movePiece(move)
+        }.hasMessageContaining("WHITE Pawn can not be moved to h8")
     }
 
     @Test
     fun `white pawn moves from d5 to d6`() {
+        val board = Board()
+        val pawn = Pawn(Color.WHITE)
 
+        val startLocation = Location('d', 5)
+        val endLocation = Location('d', 6) // legal move
+
+        board.setPieceToField(startLocation, pawn)
+        val move = Move(endLocation, startLocation, pawn)
+
+        board.movePiece(move)
+
+        assertThat(board.getField(startLocation).piece).isNull()
+        assertThat(board.getField(endLocation).piece).isEqualTo(pawn)
     }
 
     @Test
