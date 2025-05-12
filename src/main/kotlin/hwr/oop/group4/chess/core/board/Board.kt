@@ -1,30 +1,53 @@
 package hwr.oop.group4.chess.core.board
+
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.location.*
 
 class Board {
-    // piece kann null sein, da bei der Initierung des Bords, keine uebergeben werden
+    val root: Field = generateFields()
 
-    private val fields: Map<Location, Field> = run { // mapt locations zu field
-        val allFields = mutableMapOf<Location, Field>()
-        for (x in 'a'..'h') {
-            for (y in 1..8) {
-                val loc = Location(x, y)
-                allFields[loc] = Field(loc)
+    private fun generateRank(rankId: Int, lastRank: Field?): Field {
+        var currentField = Field(Location(rankId, File.values()[0])) // first Field of Rank + moving pointer to the current Field
+        val root: Field = currentField // stationary pointer to first Field of Rank
+        var topField: Field? = lastRank // moving pointer to the Field above the current Field
+
+        for (file in 2..9) {
+
+            val isTopField: Boolean = topField != null
+            val isNotLastFile: Boolean = file <= 8
+
+            if (isTopField) {
+                currentField.top = topField
+                topField!!.bottom = currentField
+            }
+
+            // new field on the right of current
+            if (isNotLastFile) {
+                val neoField = Field(Location(rankId, File.values()[file-1]))
+                currentField.right = neoField
+                neoField.left = currentField
+                currentField = neoField
+            }
+
+            if (isTopField && isNotLastFile) {
+                topField = topField!!.right!!
             }
         }
-        allFields.toMap()
-    }
-    fun getAllFields(): Map<Location, Field> = fields
-
-    fun getField(location: Location): Field {
-        return fields[location] ?: throw IllegalArgumentException("Ungültige Location: $location")
+        return root
     }
 
-    fun removePieceFromField(location: Location) {
-        fields[location]?.piece = null
-    }
+    private fun generateFields(): Field {
+        var firstRank: Field? = null
+        var lastRank: Field? = null
 
-    fun setPieceToField(location: Location, piece: Piece) {
-        fields[location]?.piece = piece
+        for (rank in 1..8) {
+            lastRank = generateRank(rank, lastRank)
+
+            if (rank == 1) {
+                firstRank = lastRank
+            }
+        }
+
+        return firstRank!!
     }
 }

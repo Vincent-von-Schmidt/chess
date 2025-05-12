@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.core.fen
 
-import hwr.oop.group4.chess.core.board.Location
+import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.pieces.*
 
@@ -18,23 +18,24 @@ class LoaderFEN {
         }
     }
 
-    fun placePieces(fen: ReaderFEN, board: Board) {
-        var y = 8
+    // TODO
+    // fun placePieces(fen: ReaderFEN, board: Board) {
+    //     var y = 8
 
-        for (row in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
-            var x = 'a'
-            for (char in row) {
-                if (char.isDigit()) {
-                    x += char.toString().toInt() // direkt zu int geht nicht?? // versetze nach rechts Anzahl an lehren kästchen
-                } else {
-                    val piece = parsePiece(char)
-                    val location = Location(x, y)
-                    board.setPieceToField(location, piece)
-                    x++
-                }
-            }
-            y--
-        }
-        // hier kann en passent rein und sowas
-    }
+    //     for (row in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
+    //         var x = 'a'
+    //         for (char in row) {
+    //             if (char.isDigit()) {
+    //                 x += char.toString().toInt() // direkt zu int geht nicht?? // versetze nach rechts Anzahl an lehren kästchen
+    //             } else {
+    //                 val piece = parsePiece(char)
+    //                 val location = Location(x, y)
+    //                 board.setPieceToField(location, piece)
+    //                 x++
+    //             }
+    //         }
+    //         y--
+    //     }
+    //     // hier kann en passent rein und sowas
+    // }
 }
