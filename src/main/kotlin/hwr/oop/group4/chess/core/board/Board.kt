@@ -1,6 +1,7 @@
 package hwr.oop.group4.chess.core.board
 
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.location.*
 
 class Board {
@@ -47,7 +48,6 @@ class Board {
                 firstRank = lastRank
             }
         }
-
         return firstRank!!
     }
 
@@ -60,7 +60,16 @@ class Board {
         while (current?.location?.file!!.ordinal < location.file.ordinal) {
             current = current.right ?: throw IllegalArgumentException("Invalid file")
         }
-
         return current
     }
+
+    fun removePieceFromField(location: Location) {
+        getField(location).piece = null
+    }
+
+    fun setPieceToField(location: Location, piece: Piece) {
+        getField(location).piece = piece
+    }
+
+
 }

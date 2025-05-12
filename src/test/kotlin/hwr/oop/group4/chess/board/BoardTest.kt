@@ -20,6 +20,24 @@ class BoardTest : AnnotationSpec() {
          assertThat (board.getField(location).location.rank).isEqualTo(4)
      }
 
+    @Test
+    fun `field h1 is accessible via pointers`() {
+        val board = Board()
+        val location = Location(File.H, 1)
+
+        assertThat (board.getField(location).location.file).isEqualTo(File.H)
+        assertThat (board.getField(location).location.rank).isEqualTo(1)
+    }
+
+    @Test
+    fun `field a8 is accessible via pointers`() {
+        val board = Board()
+        val location = Location(File.A, 8)
+
+        assertThat (board.getField(location).location.file).isEqualTo(File.A)
+        assertThat (board.getField(location).location.rank).isEqualTo(8)
+    }
+
 //
 //     @Test
 //     fun `pieces placeable on fields`() {
