@@ -159,11 +159,11 @@ class MoveTest: AnnotationSpec() {
         val startLocation = Location('e', 1)
 
         val endLocations = listOf(
-            Location('d', 1),  // links
-            Location('d', 2), // oben links
-            Location('e', 2),  // oben
-            Location('f', 2),   // oben rechts
-            Location('f', 1),  //  rechts
+            Location('d', 1),  // left
+            Location('d', 2),  // top left
+            Location('e', 2),  // top
+            Location('f', 2),  // top right
+            Location('f', 1),  // right
         )
 
         for (endLocation in endLocations) {
@@ -209,7 +209,6 @@ class MoveTest: AnnotationSpec() {
             Location('c', 2),
             Location('e', 2),
             Location('f', 3),
-
             )
 
         for (endLocation in endLocations) {
@@ -246,16 +245,16 @@ class MoveTest: AnnotationSpec() {
         val startLocation = Location('d', 1)
 
         val endLocations = listOf(
-            Location('c', 1),  // direkt links
-            Location('a', 1), // weiter links
-            Location('e', 1),  // direkt rechts
-            Location('h', 1),   // weiter rechts
-            Location('d', 2),  // direkt oben
-            Location('d', 8), // weiter oben
-            Location('c', 2),  // direkt diagonal links
-            Location('a', 4), // weiter diagonal links
-            Location('e', 2),  // direkt diagonal rechts
-            Location('h', 5), // weiter diagonal rechts
+            Location('c', 1),  // directly left
+            Location('a', 1),  // further left
+            Location('e', 1),  // directly right
+            Location('h', 1),  // further right
+            Location('d', 2),  // directly above
+            Location('d', 8),  // further above
+            Location('c', 2),  // directly diagonal left
+            Location('a', 4),  // further diagonal left
+            Location('e', 2),  // directly diagonal right
+            Location('h', 5),  // further diagonal right
         )
         val endlocationc3 = Location('c', 3) // illegal move
 
@@ -285,10 +284,10 @@ class MoveTest: AnnotationSpec() {
         val startLocation = Location('c', 8)
 
         val endLocations = listOf(
-            Location('b', 7),  // direkt diagonal links unten
-            Location('a', 6), // weiter diagonal links unten
-            Location('d', 7),  // direkt diagonal rechts unten
-            Location('h', 3),   // weiter diagonal rechts unten
+            Location('b', 7),  // directly bottom-left diagonal
+            Location('a', 6),  // further bottom-left diagonal
+            Location('d', 7),  // directly bottom-right diagonal
+            Location('h', 3),  // further bottom-right diagonal
         )
         val endlocationc5 = Location('c', 5) // illegal diagonal move
 
@@ -318,10 +317,10 @@ class MoveTest: AnnotationSpec() {
         val startLocation = Location('h', 1)
 
         val endLocations = listOf(
-            Location('g', 1),  // direkt links
-            Location('a', 1), // weiter links
-            Location('h', 2),  // direkt oben
-            Location('h', 8),   // weiter oben
+            Location('g', 1),  // directly left
+            Location('a', 1),  // further left
+            Location('h', 2),  // directly above
+            Location('h', 8),  // further above
         )
         val endlocationg2 = Location('g', 2) // illegal diagonal move
 
