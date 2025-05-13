@@ -1,6 +1,6 @@
-package hwr.oop.group4.chess.core.pieces
+package core.pieces
 
-import hwr.oop.group4.chess.core.location.Location
+import core.pieces.Color
 
 interface Piece {
     val name: String

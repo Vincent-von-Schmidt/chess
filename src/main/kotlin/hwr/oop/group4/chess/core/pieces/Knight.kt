@@ -1,6 +1,4 @@
-package hwr.oop.group4.chess.core.pieces
-
-import hwr.oop.group4.chess.core.location.Location
+package core.pieces
 
 class Knight(color: Color): Piece {
     override val name = "Knight"

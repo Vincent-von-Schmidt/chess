@@ -1,6 +1,7 @@
-package hwr.oop.group4.chess.core.pieces
+package core.pieces
 
-import hwr.oop.group4.chess.core.location.Location
+import core.pieces.Color
+import core.pieces.Piece
 
 class Rook(color: Color): Piece {
     override val name = "Rook"

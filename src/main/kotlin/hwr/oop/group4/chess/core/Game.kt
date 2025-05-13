@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess.core
+package core
 
 class Game (val id: Int) {
 //    val board: Board = Board()

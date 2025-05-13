@@ -1,50 +1,77 @@
 package hwr.oop.group4.chess.cliConnection
 
-import hwr.oop.group4.chess.persistence.GameStorage
-import hwr.oop.group4.chess.cli.main
+import cli.NoCommandException
+import cli.WrongIdFormatException
+import persistence.GameStorage.GameDoesNotExistException
+import core.utils.Constants.GAMES_FILE_TEST
+import cli.main
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
+import java.io.File
 
 class GameShowTest : AnnotationSpec() {
 
-    private val storage = GameStorage()
+    private val file = File(GAMES_FILE_TEST)
+
+    @BeforeEach
+    fun setup() {
+        file.deleteRecursively()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        file.deleteRecursively()
+    }
 
     @Test
     fun `user prompts -chess game show-`() {
-        val output = captureStandardOut {
-            main(arrayOf("game", "show"))
-        }.trim()
-        assertThat(output).isEqualTo("Usage: chess game show <id>")
+        assertThatThrownBy { main(arrayOf("game", "show")) }
+            .isInstanceOf(NoCommandException::class.java)
+            .hasMessage("""
+        No valid command provided. Try one of the following:
+        chess new_game <id>
+        chess game show <id>
+        chess on <id> move <from> to <to>
+        """.trimIndent())
     }
 
     @Test
     fun `user prompts -chess game show 1 1-`() {
-        val output = captureStandardOut {
-            main(arrayOf("game", "show", "1", "1"))
-        }.trim()
-        assertThat(output).isEqualTo("Error: game show only takes 1 parameter!")
+        assertThatThrownBy { main(arrayOf("game", "show", "1", "1")) }
+            .isInstanceOf(NoCommandException::class.java)
+            .hasMessage("""
+        No valid command provided. Try one of the following:
+        chess new_game <id>
+        chess game show <id>
+        chess on <id> move <from> to <to>
+        """.trimIndent())
     }
 
     @Test
     fun `user prompts -chess game sow 1-`() {
-        val output = captureStandardOut {
-            main(arrayOf("game", "sow", "1"))
-        }.trim()
-        assertThat(output).isEqualTo("Usage: chess game show <id>")
+        assertThatThrownBy { main(arrayOf("game", "sow", "1")) }
+            .isInstanceOf(NoCommandException::class.java)
+            .hasMessage("""
+        No valid command provided. Try one of the following:
+        chess new_game <id>
+        chess game show <id>
+        chess on <id> move <from> to <to>
+        """.trimIndent())
     }
 
     @Test
     fun `user prompts -chess game show char-`() {
-        val output = captureStandardOut {
-            main(arrayOf("game", "show", "char"))
-        }.trim()
-        assertThat(output).isEqualTo("Error: game ID must be a valid integer!")
+        assertThatThrownBy { main(arrayOf("game", "show", "char")) }
+            .isInstanceOf(WrongIdFormatException::class.java)
+            .hasMessage("""
+        Error: <id> must be a valid integer!
+        """.trimIndent())
     }
 
     @Test
     fun `user prompts -chess game show 1000000-`() {
-        storage.deleteGame(1000000)
         main(arrayOf("new_game", "1000000"))
         val output = captureStandardOut {
             main(arrayOf("game", "show", "1000000"))
@@ -60,15 +87,12 @@ class GameShowTest : AnnotationSpec() {
         P P P P P P P P
         R N B Q K B N R
         """.trimIndent())
-        storage.deleteGame(1000000)
     }
 
     @Test
     fun `user prompts -chess game show 1000000- but ID is not created yet`() {
-        val output = captureStandardOut {
-            storage.deleteGame(1000000)
-            main(arrayOf("game", "show", "1000000"))
-        }.trim()
-        assertThat(output).isEqualTo("Error: game ID is not in use!")
+        assertThatThrownBy { main(arrayOf("game", "show", "1000000")) }
+            .isInstanceOf(GameDoesNotExistException::class.java)
+            .hasMessage("Game with ID 1000000 does not exist.")
     }
 }
