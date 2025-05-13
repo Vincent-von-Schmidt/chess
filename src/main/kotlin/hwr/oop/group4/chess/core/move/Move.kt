@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess.core.move
+package core.move
 
 // TODO -> Interface
 // import group4.chess.board.Location

@@ -1,8 +1,6 @@
-package hwr.oop.group4.chess.core.fen
+package core.fen
 
-import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.pieces.*
+import core.pieces.*
 
 class LoaderFEN {
     private fun parsePiece(char: Char): Piece {

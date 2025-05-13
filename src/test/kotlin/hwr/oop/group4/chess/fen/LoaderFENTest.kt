@@ -1,13 +1,6 @@
 package hwr.oop.group4.chess.fen
 
-import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.fen.LoaderFEN
-import hwr.oop.group4.chess.core.fen.ReaderFEN
-import hwr.oop.group4.chess.core.pieces.*
 import io.kotest.core.spec.style.AnnotationSpec
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class LoaderFENTest : AnnotationSpec() {
 

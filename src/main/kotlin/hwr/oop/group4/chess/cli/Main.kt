@@ -1,6 +1,6 @@
-package hwr.oop.group4.chess.cli
+package cli
 
-import hwr.oop.group4.chess.persistence.GameStorage
+import persistence.GameStorage
 
 fun main(args: Array<String>) {
   """

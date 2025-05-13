@@ -1,73 +1,100 @@
 package hwr.oop.group4.chess.cliConnection
 
-import hwr.oop.group4.chess.persistence.GameStorage
-import hwr.oop.group4.chess.cli.main
+import cli.NoCommandException
+import cli.WrongIdFormatException
+import persistence.GameStorage.GameAlreadyExistsException
+import core.utils.Constants.GAMES_FILE_TEST
+import cli.main
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
+import java.io.File
 
 class NewGameTest : AnnotationSpec() {
 
-    private val storage = GameStorage()
+    private val file = File(GAMES_FILE_TEST)
+
+    @BeforeEach
+    fun setup() {
+        file.deleteRecursively()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        file.deleteRecursively()
+    }
 
     @Test
     fun `user prompts nothing`() {
-        val output = captureStandardOut {
-            main(arrayOf())
-        }.trim()
-        assertThat(output).isEqualTo("No command provided. Try: chess new_game <id>")
+        assertThatThrownBy { main(arrayOf()) }
+            .isInstanceOf(NoCommandException::class.java)
+            .hasMessage("""
+        No valid command provided. Try one of the following:
+        chess new_game <id>
+        chess game show <id>
+        chess on <id> move <from> to <to>
+        """.trimIndent())
     }
 
     @Test
     fun `user prompts -chess new_game-`() {
-        val output = captureStandardOut {
-            main(arrayOf("new_game"))
-        }.trim()
-        assertThat(output).isEqualTo("Usage: chess new_game <id>")
+        assertThatThrownBy { main(arrayOf("new_game")) }
+            .isInstanceOf(NoCommandException::class.java)
+            .hasMessage("""
+        No valid command provided. Try one of the following:
+        chess new_game <id>
+        chess game show <id>
+        chess on <id> move <from> to <to>
+        """.trimIndent())
     }
 
     @Test
     fun `user prompts -chess new_game 1000000-`() {
-        storage.deleteGame(1000000)
         val output = captureStandardOut {
             main(arrayOf("new_game", "1000000"))
         }.trim()
         assertThat(output).isEqualTo("New game 1000000 created.")
-        storage.deleteGame(1000000)
     }
 
     @Test
     fun `user prompts -chess new_game 1000000- but the ID is already in use`() {
-        storage.deleteGame(1000000)
         main(arrayOf("new_game", "1000000"))
-        val output = captureStandardOut {
-            main(arrayOf("new_game", "1000000"))
-        }.trim()
-        assertThat(output).isEqualTo("Error: game ID is already in use")
-        storage.deleteGame(1000000)
+        assertThatThrownBy { main(arrayOf("new_game", "1000000")) }
+            .isInstanceOf(GameAlreadyExistsException::class.java)
+            .hasMessage("Game with ID 1000000 already exists.")
     }
 
     @Test
     fun `user prompts -chess new_gae-`() {
-        val output = captureStandardOut {
-            main(arrayOf("new_gae"))
-        }.trim()
-        assertThat(output).isEqualTo("Error: unknown command \"new_gae\"")
+        assertThatThrownBy { main(arrayOf("new_gae")) }
+            .isInstanceOf(NoCommandException::class.java)
+            .hasMessage("""
+        No valid command provided. Try one of the following:
+        chess new_game <id>
+        chess game show <id>
+        chess on <id> move <from> to <to>
+        """.trimIndent())
     }
 
     @Test
     fun `user prompts -chess new_game char-`() {
-        val output = captureStandardOut {
-            main(arrayOf("new_game", "char"))
-        }.trim()
-        assertThat(output).isEqualTo("Error: new_game ID must be a valid integer!")
+        assertThatThrownBy { main(arrayOf("new_game", "char")) }
+            .isInstanceOf(WrongIdFormatException::class.java)
+            .hasMessage("""
+        Error: <id> must be a valid integer!
+        """.trimIndent())
     }
 
     @Test
-    fun `user prompts -new_game 1 1-`() {
-        val output = captureStandardOut {
-            main(arrayOf("new_game", "1", "1"))
-        }.trim()
-        assertThat(output).isEqualTo("Error: new_game only takes 1 parameter!")
+    fun `user prompts -chess new_game 1 1-`() {
+        assertThatThrownBy { main(arrayOf("new_game", "1", "1")) }
+            .isInstanceOf(NoCommandException::class.java)
+            .hasMessage("""
+        No valid command provided. Try one of the following:
+        chess new_game <id>
+        chess game show <id>
+        chess on <id> move <from> to <to>
+        """.trimIndent())
     }
 }

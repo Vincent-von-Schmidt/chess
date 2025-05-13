@@ -1,10 +1,6 @@
 package hwr.oop.group4.chess.fen
 
-import hwr.oop.group4.chess.core.fen.ReaderFEN
 import io.kotest.core.spec.style.AnnotationSpec
-import org.assertj.core.api.Assertions.assertThat
-import hwr.oop.group4.chess.core.pieces.Color
-import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class ReaderFENTest : AnnotationSpec() {
 

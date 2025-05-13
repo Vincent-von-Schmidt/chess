@@ -1,7 +1,7 @@
-package hwr.oop.group4.chess.core.board
+package core.board
 
-import hwr.oop.group4.chess.core.location.*
-import hwr.oop.group4.chess.core.pieces.Piece
+import core.location.Location
+import core.pieces.Piece
 
 class Field(val location: Location) {
     var top: Field? = null
