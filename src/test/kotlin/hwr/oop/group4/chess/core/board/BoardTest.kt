@@ -1,13 +1,10 @@
-package hwr.oop.group4.chess.board
+package core.board
 
-import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.location.File
-import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.pieces.Color
-import hwr.oop.group4.chess.core.pieces.King
+import core.location.File
+import core.location.Location
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.engine.teamcity.Locations.location
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class BoardTest : AnnotationSpec() {
 
@@ -38,16 +35,31 @@ class BoardTest : AnnotationSpec() {
         assertThat (board.getField(location).location.rank).isEqualTo(8)
     }
 
-//
-//     @Test
-//     fun `pieces placeable on fields`() {
-//         val board = Board()
-//         val king = King(Color.WHITE)
-//         val loc = Location(x = 'e', y = 4)
-//
-//         board.setPieceToField(loc, king)
-//
-//         val field = board.getAllFields()[loc]
-//         assertThat(field?.piece).isEqualTo(king)
-//     }
+    @Test
+    fun `next field of b4 is c4`() {
+        val board = Board()
+        val location = Location(File.B, 4)
+
+        assertThat (board.nextField(location).location.file).isEqualTo(File.C)
+        assertThat (board.nextField(location).location.rank).isEqualTo(4)
+    }
+
+    @Test
+    fun `next field of h2 is a1`() {
+        val board = Board()
+        val location = Location(File.H, 2)
+
+        assertThat (board.nextField(location).location.file).isEqualTo(File.A)
+        assertThat (board.nextField(location).location.rank).isEqualTo(1)
+    }
+
+    @Test
+    fun `next field of h1 is h1`() {
+        val board = Board()
+        val location = Location(File.H, 1)
+
+        assertThat (board.nextField(location).location.file).isEqualTo(File.H)
+        assertThat (board.nextField(location).location.rank).isEqualTo(1)
+    }
+
 }

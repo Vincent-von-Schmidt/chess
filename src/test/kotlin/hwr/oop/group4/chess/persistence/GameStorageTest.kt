@@ -1,7 +1,7 @@
-package hwr.oop.group4.chess
+package persistence
 
-import hwr.oop.group4.chess.core.utils.Constants.GAMESTESTFILE
-import hwr.oop.group4.chess.persistence.GameStorage
+import core.utils.Constants.GAMESTESTFILE
+
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.*
 

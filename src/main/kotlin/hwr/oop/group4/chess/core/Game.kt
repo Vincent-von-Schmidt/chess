@@ -1,16 +1,17 @@
-package hwr.oop.group4.chess.core
+package core
 
-class Game (val id: Int) {
-//    val board: Board = Board()
-//
-//    fun newGame(fen: String){
-//
-//    }
-//
-//    val array: Array<Player> = arrayOf(Player(1), Player(2))
-//    // var last_turn: Move = Move()
-//
-//    fun drawBoard() {
-//        // check every Field, return Pieces, draw board
-//    }
+import core.board.Board
+import core.move.Move
+import core.player.Player
+
+class Game (
+    //val id: Int,
+    val board: Board,
+    //val players: List<Player>
+) {
+
+    fun movePiece(move: Move){
+        move.validateMoveOn(board)
+        board.movePiece(move)
+    }
 }

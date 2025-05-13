@@ -1,7 +1,7 @@
-package hwr.oop.group4.chess.cliConnection
+package cli
 
-import hwr.oop.group4.chess.persistence.GameStorage
-import hwr.oop.group4.chess.cli.main
+import persistence.GameStorage
+
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat

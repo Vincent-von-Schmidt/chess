@@ -1,9 +1,9 @@
-package hwr.oop.group4.chess.persistence
+package persistence
 
-import hwr.oop.group4.chess.core.utils.Constants.TESTNUMBERS
-import hwr.oop.group4.chess.core.utils.Constants.GAMESTESTFILE
-import hwr.oop.group4.chess.core.utils.Constants.GAMESFILE
-import hwr.oop.group4.chess.core.fen.ReaderFEN
+import core.utils.Constants.TESTNUMBERS
+import core.utils.Constants.GAMESTESTFILE
+import core.utils.Constants.GAMESFILE
+import core.fen.ReaderFEN
 
 class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
     private var filepath = GAMESFILE
