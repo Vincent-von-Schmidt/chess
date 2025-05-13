@@ -12,9 +12,14 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class MoveTest: AnnotationSpec() {
 
+    lateinit var board: Board
+    @BeforeEach
+    fun setUp() {
+        board = Board()
+    }
+
     @Test
     fun `empty field is immovable`() {
-        val board = Board()
         val startLocation = Location(File.A, 2)
         val endLocation = Location(File.H, 7)
         val pawn = Pawn(Color.WHITE)
@@ -28,7 +33,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `field with wrong piece is immovable`() {
-        val board = Board()
         val pawn = Pawn(Color.WHITE)
         val queen = Queen(Color.WHITE)
         val startLocation = Location(File.A, 2)
@@ -45,7 +49,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `pawn black throw on move from d5 to d6`() {
-        val board = Board()
         val pawn = Pawn(Color.BLACK)
 
         val startLocation = Location(File.D, 5)
@@ -60,7 +63,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `pawn black throw on move from d5 to h8`() {
-        val board = Board()
         val pawn = Pawn(Color.BLACK)
 
         val startLocation = Location(File.D, 5)
@@ -75,7 +77,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `pawn black moves from d5 to d4`() {
-        val board = Board()
         val pawn = Pawn(Color.BLACK)
 
         val startLocation = Location(File.D, 5)
@@ -91,7 +92,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `pawn white throw on move from d5 to d4`() {
-        val board = Board()
         val pawn = Pawn(Color.WHITE)
 
         val startLocation = Location(File.D, 5)
@@ -107,7 +107,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `pawn white throw on move from d5 to h8`() {
-        val board = Board()
         val pawn = Pawn(Color.WHITE)
 
         val startLocation = Location(File.D, 5)
@@ -123,7 +122,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `pawn white moves from d5 to d6`() {
-        val board = Board()
         val pawn = Pawn(Color.WHITE)
 
         val startLocation = Location(File.D, 5)
@@ -140,7 +138,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `king moves from e1 to d1, d2, e2, f2, f1`() {
-        val board = Board()
         val king = King(Color.WHITE)
         val startLocation = Location(File.E, 1)
 
@@ -165,7 +162,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `king throw on move from e1 to h8`() {
-        val board = Board()
         val king = King(Color.WHITE)
 
         val startLocation = Location(File.E, 1)
@@ -182,7 +178,6 @@ class MoveTest: AnnotationSpec() {
     @Test
 
     fun `knight moves from d4 to b5, c6, e6, f5, b3, c2, e2, f3`() {
-        val board = Board()
         val knight = Knight(Color.BLACK)
         val startLocation = Location(File.D, 4)
 
@@ -210,7 +205,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `knight throw on move from d4 to h8`() {
-        val board = Board()
         val knight = Knight(Color.BLACK)
 
         val startLocation = Location(File.D, 4)
@@ -226,7 +220,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `queen moves from d1 to c1, a1, e1, h1, d2, d8, c2, a4, e2, h5`(){
-        val board = Board()
         val queen = Queen(Color.WHITE)
         val startLocation = Location(File.D, 1)
 
@@ -255,8 +248,7 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `queen throw on move from d4 to h1`() {
-        val board = Board()
-            val queen = Queen(Color.WHITE)
+        val queen = Queen(Color.WHITE)
 
         val startLocation = Location(File.D, 4)
         val endLocation = Location(File.H, 1) // illegal move
@@ -271,7 +263,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `bishop moves from c8 to b7, a6, d7, h3`(){
-        val board = Board()
         val bishop = Bishop(Color.BLACK)
         val startLocation = Location(File.C, 8)
 
@@ -294,7 +285,6 @@ class MoveTest: AnnotationSpec() {
     }
     @Test
     fun `bishop throw on move from d4 to h1`() {
-        val board = Board()
         val bishop = Bishop(Color.BLACK)
 
         val startLocation = Location(File.D, 4)
@@ -310,7 +300,6 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `rook moves from h1 to g1, a1, h2, h8`(){
-        val board = Board()
         val rook = Rook(Color.WHITE)
         val startLocation = Location(File.H, 1)
 
@@ -332,19 +321,18 @@ class MoveTest: AnnotationSpec() {
         }
     }
 
-        @Test
-        fun `rook throw on move from d4 to h8`() {
-            val board = Board()
-            val rook = Rook(Color.BLACK)
+    @Test
+    fun `rook throw on move from d4 to h8`() {
+        val rook = Rook(Color.BLACK)
 
-            val startLocation = Location(File.D, 4)
-            val endLocation = Location(File.H, 8) // illegal move
+        val startLocation = Location(File.D, 4)
+        val endLocation = Location(File.H, 8) // illegal move
 
-            board.setPieceToField(startLocation, rook)
-            val move = Move(startLocation, endLocation, rook)
+        board.setPieceToField(startLocation, rook)
+        val move = Move(startLocation, endLocation, rook)
 
-            assertThatThrownBy {
-                Game(board).movePiece(move)
-            }.hasMessageContaining("BLACK Rook can not be moved to H8")
-        }
+        assertThatThrownBy {
+            Game(board).movePiece(move)
+        }.hasMessageContaining("BLACK Rook can not be moved to H8")
+    }
 }
