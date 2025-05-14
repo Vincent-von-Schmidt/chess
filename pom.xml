@@ -129,7 +129,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>hwr.oop.group4.chess.cli.MainKt</mainClass>
+              <mainClass>cli.MainKt</mainClass>
             </manifest>
           </archive>
         </configuration>
