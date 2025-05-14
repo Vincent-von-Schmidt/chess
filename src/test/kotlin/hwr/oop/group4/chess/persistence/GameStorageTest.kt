@@ -1,63 +1,83 @@
 package persistence
 
-import core.utils.Constants.GAMESTESTFILE
-
+import persistence.GameStorage.GameDoesNotExistException
+import persistence.GameStorage.GameAlreadyExistsException
+import core.utils.Constants.GAMES_FILE_TEST
+import core.utils.Constants.TEST_NUMBER
+import persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.*
 
 class GameStorageTest : AnnotationSpec() {
-    // TODO: add mutation tests for game storage
 
     private val storage = GameStorage()
-    val file = java.io.File(GAMESTESTFILE)
+    private val file = java.io.File(GAMES_FILE_TEST)
+
+    @BeforeEach
+    fun setup() {
+        file.deleteRecursively()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        file.deleteRecursively()
+    }
+
+    @Test
+    fun `games folder does not exist`() {
+        // Given
+        val id = TEST_NUMBER
+        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+
+        // When
+        storage.saveGame(id, fen)
+
+        // Then
+        assertThat(file.exists()).isTrue
+    }
 
     @Test
     fun `creating a game`() {
         //given
-        val id = 1000000
+        val id = TEST_NUMBER
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        storage.deleteGame(id)
         //when
         storage.saveGame(id, fen)
         //then
         assertThat(file.readLines()).contains("$id;$fen")
-        storage.deleteGame(id)
     }
 
     @Test
     fun `creating a game with existing ID`() {
         //given
-        val id = 1000000
+        val id = TEST_NUMBER
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        storage.deleteGame(id)
         //when
         storage.saveGame(id, fen)
         //then
         assertThatThrownBy { storage.saveGame(id, fen) }
-            .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("Game already exists.")
-        storage.deleteGame(id)
+            .isInstanceOf(GameAlreadyExistsException::class.java)
+            .hasMessage("Game with ID $id already exists.")
     }
 
     @Test
     fun `loading game that doesn't exist`() {
         //given
-        val id = 1000000
-        storage.deleteGame(id)
+        val id = TEST_NUMBER
+
         //when
+
         //then
         assertThatThrownBy { storage.loadGame(id) }
-            .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("Game not found.")
-        storage.deleteGame(id)
+            .isInstanceOf(GameDoesNotExistException::class.java)
+            .hasMessage("Game with ID $id does not exist.")
     }
 
     @Test
     fun `loading game that exists`() {
         //given
-        val id = 1000000
+        val id = TEST_NUMBER
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        storage.deleteGame(id)
         storage.saveGame(id, fen)
         //when
         val output = storage.loadGame(id)
@@ -73,22 +93,47 @@ class GameStorageTest : AnnotationSpec() {
         P P P P P P P P
         R N B Q K B N R
         """.trimIndent())
-        storage.deleteGame(id)
     }
 
     @Test
     fun `deleting a game`() {
         //given
-        val id = 1000000
+        val id = TEST_NUMBER
         val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        storage.deleteGame(id)
         storage.saveGame(id, fen)
         //when
         storage.deleteGame(id)
         //then
         assertThatThrownBy { storage.loadGame(id) }
-            .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("Game not found.")
+            .isInstanceOf(GameDoesNotExistException::class.java)
+            .hasMessage("Game with ID $id does not exist.")
+    }
+
+    @Test
+    fun `create two games and load the first`() {
+        // Given
+        val id1 = TEST_NUMBER
+        val fen1 = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+        val id2 = TEST_NUMBER + 1
+        val fen2 = "Rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+
+        // When
+        storage.saveGame(id1, fen1)
+        storage.saveGame(id2, fen2)
+        val output = storage.loadGame(id1)
+
+        // Then
+        assertThat(output).isEqualTo(
+        """
+        r n b q k b n r
+        p p p p p p p p
+                       
+                       
+                       
+                       
+        P P P P P P P P
+        R N B Q K B N R
+        """.trimIndent())
     }
 
 }

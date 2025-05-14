@@ -1,6 +1,5 @@
 package cli
 
-import cli.Cli
 import persistence.GameStorage
 
 fun main(args: Array<String>) {

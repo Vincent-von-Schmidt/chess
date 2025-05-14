@@ -10,90 +10,63 @@ class Cli(
   ){
 
   fun handle(args: List<String>, loadGamePort: LoadGamePort, saveGamePort: SaveGamePort) {
-    if (args.isEmpty()) {
-      println("No command provided. Try: chess new_game <id>")
-      return
-    }
+    if (args.isEmpty()) throw NoCommandException()
 
     when (args.first()) {
       "new_game" -> {
         val id: Int
-
-        if (args.size < 2) {
-          println("Usage: chess new_game <id>")
-          return
-        } else if (args.size > 2) {
-          println("Error: new_game only takes 1 parameter!")
-          return
-        }
-
+        if (args.size < 2 || args.size > 2) throw NoCommandException()
         try {
           id = args[1].toInt()
         } catch (e: NumberFormatException) {
-          println("Error: new_game ID must be a valid integer!")
-          return
+          throw WrongIdFormatException()
         }
-
-        try {
-          saveGamePort.saveGame(id, STARTING_POSITION)
-        } catch (e: IllegalArgumentException) {
-          println("Error: game ID is already in use")
-          return
-        }
-
+        saveGamePort.saveGame(id, STARTING_POSITION)
         println("New game $id created.")
 
       }
 
       "game" -> {
         val id: Int
-        val output: String
-        if (args.size < 3 || args[1] != "show") {
-          println("Usage: chess game show <id>")
-          return
-        } else if (args.size > 3) {
-          println("Error: game show only takes 1 parameter!")
-          return
-        }
-
+        if (args.size < 3 || args[1] != "show" || args.size > 3) throw NoCommandException()
         try {
           id = args[2].toInt()
         } catch (e: NumberFormatException) {
-          println("Error: game ID must be a valid integer!")
-          return
+          throw WrongIdFormatException()
         }
-
-        try {
-          output = loadGamePort.loadGame(id).toString()
-        } catch (e: IllegalArgumentException) {
-          println("Error: game ID is not in use!")
-          return
-        }
-
-        print(output)
-
+        val gameFen: String = loadGamePort.loadGame(id).toString()
+        print(gameFen)
       }
 
       "on" -> {
-        if (args.size < 6 || args[2] != "move" || args[4] != "to") {
-          println("Usage: chess on <id> move <from> to <to>");
-          return
+        val id: Int
+        if (args.size < 6 || args[2] != "move" || args[4] != "to" || args.size > 6) throw NoCommandException()
+        try {
+          id = args[1].toInt()
+        } catch (e: NumberFormatException) {
+          throw WrongIdFormatException()
         }
-        val id = args[1].toInt()
-        val from = args[3].toInt()
-        val to = args[5].toInt()
-
-        // if (move = successful) {
-        //   Game.saveGame();
-        //   println("Move $from -> $to successful.");
-        // } else {
-        //   println("Move failed");
-        // }
+        val from = args[3]
+        val to = args[5]
+        TODO("Implement move logic")
       }
 
-      else -> {
-        println("Error: unknown command \"${args.first()}\"");
-      }
+      else -> throw NoCommandException()
     }
   }
 }
+
+class WrongIdFormatException : Exception(
+      """
+        Error: <id> must be a valid integer!
+        """.trimIndent()
+)
+
+class NoCommandException : Exception(
+      """
+        No valid command provided. Try one of the following:
+        chess new_game <id>
+        chess game show <id>
+        chess on <id> move <from> to <to>
+        """.trimIndent()
+)

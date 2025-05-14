@@ -1,8 +1,7 @@
 package core.fen
 
 import core.board.Board
-import core.location.File
-import core.location.Location
+import core.location.*
 import core.pieces.*
 
 class LoaderFEN {
