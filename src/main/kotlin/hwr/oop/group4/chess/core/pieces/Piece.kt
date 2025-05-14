@@ -1,29 +1,30 @@
 package core.pieces
 
-import core.pieces.Color
+import core.board.Board
+import core.location.Location
+import core.move.Direction
 
 interface Piece {
     val name: String
-    val value: Int
     val color: Color
+    val description: String get() = "$color $name"
+    val value: Int
+    val directions: List<Direction>
 
-    // fun allowedMoves(from: Location): List<Location>
+    fun allowedLocations(from: Location, board: Board): List<Location>
 
-    // fun generateAllowedMoves(from: Location, directions: List<Pair<Int, Int>>, maxSteps:Int = 8): List<Location> {
-    //     val possibleMoves = mutableListOf<Location>()
+    fun searchAllowedLocations(from: Location, board: Board, directions: List<Direction>, maxSteps:Int = 8): List<Location> {
+        val possibleLocations = mutableListOf<Location>()
 
-    //     for ((dx, dy) in directions) {
-    //         for (step in 1..maxSteps) {
-    //             val newX = (from.x.code + dx * step).toChar() //doppelte umformung wegen mathematik mit char
-    //             val newY = from.y + dy * step
-
-    //             if (newX in 'a'..'h' && newY in 1..8) {
-    //                 possibleMoves.add(Location(newX, newY))
-    //             } else { // wird nie erreicht wegen location- bedingungen. nicht Testbar!
-    //                 break
-    //             }
-    //         }
-    //     }
-    //     return possibleMoves
-    // }
+        for (direction in directions) {
+            var current = from
+            for (step in 1..maxSteps) {
+                val field = board.getField(current)
+                val nextField = direction.move(field) ?: break
+                current = nextField.location
+                possibleLocations.add(current)
+            }
+        }
+        return possibleLocations
+    }
 }

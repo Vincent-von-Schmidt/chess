@@ -1,5 +1,7 @@
 package core.fen
 
+import core.board.Board
+import core.location.*
 import core.pieces.*
 
 class LoaderFEN {
@@ -15,25 +17,24 @@ class LoaderFEN {
             else -> throw IllegalArgumentException("Unknown char: $char")
         }
     }
+    
+     fun placePieces(fen: ReaderFEN, board: Board) {
+         var location = Location(File.A, 8) // root of board
 
-    // TODO
-    // fun placePieces(fen: ReaderFEN, board: Board) {
-    //     var y = 8
-
-    //     for (row in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
-    //         var x = 'a'
-    //         for (char in row) {
-    //             if (char.isDigit()) {
-    //                 x += char.toString().toInt() // direkt zu int geht nicht?? // versetze nach rechts Anzahl an lehren kästchen
-    //             } else {
-    //                 val piece = parsePiece(char)
-    //                 val location = Location(x, y)
-    //                 board.setPieceToField(location, piece)
-    //                 x++
-    //             }
-    //         }
-    //         y--
-    //     }
-    //     // hier kann en passent rein und sowas
-    // }
+         for (rank in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
+             for (char in rank) {
+                 if (char.isDigit()) {
+                     repeat(char.digitToInt()) {
+                         val next = board.nextField(location)
+                         location = next.location
+                     }
+                 } else {
+                     board.setPieceToField(location, parsePiece(char))
+                     val next = board.nextField(location)
+                     location = next.location
+                 }
+             }
+         }
+          //hier kann en passent rein und sowas
+     }
 }

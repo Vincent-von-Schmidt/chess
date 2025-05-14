@@ -1,6 +1,6 @@
 package core.board
 
-import core.location.Location
+import core.location.*
 import core.pieces.Piece
 
 class Field(val location: Location) {

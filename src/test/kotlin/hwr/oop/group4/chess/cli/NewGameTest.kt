@@ -1,5 +1,6 @@
-package hwr.oop.group4.chess.cliConnection
+package cli
 
+import persistence.GameStorage
 import cli.NoCommandException
 import cli.WrongIdFormatException
 import persistence.GameStorage.GameAlreadyExistsException

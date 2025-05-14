@@ -1,23 +1,24 @@
 package core.pieces
 
+import core.board.Board
+import core.location.Location
+import core.move.Direction
+
 class King(color: Color): Piece {
     override val name = "King"
     override val value = 10
     override val color = color
+    override val directions = listOf(
+        Direction.TOP_LEFT,
+        Direction.TOP,
+        Direction.TOP_RIGHT,
+        Direction.RIGHT,
+        Direction.BOTTOM_RIGHT,
+        Direction.BOTTOM,
+        Direction.BOTTOM_LEFT,
+        Direction.LEFT)
 
-    // TODO
-    // override fun allowedMoves(from: Location): List<Location> {
-
-    //     val directions = listOf(
-    //         Pair(1, 0),   // rechts
-    //         Pair(-1, 0),  // links
-    //         Pair(0, 1),   // oben
-    //         Pair(0, -1),  // unten
-    //         Pair(1, 1),   // oben rechts
-    //         Pair(1, -1),  // unten rechts
-    //         Pair(-1, 1),  // oben links
-    //         Pair(-1, -1)  // unten links
-    //     )
-    //     return generateAllowedMoves(from, directions, 1)
-    // }
+    override fun allowedLocations(from: Location, board: Board): List<Location> {
+        return searchAllowedLocations(from, board, directions, 1)
+    }
 }

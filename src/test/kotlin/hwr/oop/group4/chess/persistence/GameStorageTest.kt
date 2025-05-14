@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess
+package persistence
 
 import persistence.GameStorage.GameDoesNotExistException
 import persistence.GameStorage.GameAlreadyExistsException
