@@ -1,9 +1,9 @@
-package core.fen
+package hwr.oop.group4.chess.core.fen
 
-import core.board.Board
-import core.location.File
-import core.location.Location
-import core.pieces.Color
+import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.location.File
+import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.pieces.Color
 
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat

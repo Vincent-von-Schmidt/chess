@@ -1,10 +1,11 @@
-package persistence
+package hwr.oop.group4.chess.persistence
 
-import persistence.GameStorage.GameDoesNotExistException
-import persistence.GameStorage.GameAlreadyExistsException
-import core.utils.Constants.GAMES_FILE_TEST
-import core.utils.Constants.TEST_NUMBER
-import persistence.GameStorage
+import hwr.oop.group4.chess.persistence.GameStorage.GameDoesNotExistException
+import hwr.oop.group4.chess.persistence.GameStorage.GameAlreadyExistsException
+import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.persistence.GameStorage
+
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.*
 
