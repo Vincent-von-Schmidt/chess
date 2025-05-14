@@ -1,8 +1,8 @@
-package core
+package hwr.oop.group4.chess.core
 
-import core.board.Board
-import core.move.Move
-import core.player.Player
+import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.player.Player
 
 class Game (
     //val id: Int,

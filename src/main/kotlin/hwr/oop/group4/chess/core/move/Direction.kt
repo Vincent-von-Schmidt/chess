@@ -1,6 +1,6 @@
-package core.move
+package hwr.oop.group4.chess.core.move
 
-import core.board.Field
+import hwr.oop.group4.chess.core.board.Field
 
 enum class Direction(val move: (Field) -> Field?) {
     TOP({ it.top }),

@@ -1,7 +1,8 @@
-package core.board
+package hwr.oop.group4.chess.core.board
 
-import core.location.File
-import core.location.Location
+import hwr.oop.group4.chess.core.location.File
+import hwr.oop.group4.chess.core.location.Location
+
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy

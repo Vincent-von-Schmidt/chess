@@ -1,4 +1,4 @@
-package persistence
+package hwr.oop.group4.chess.persistence
 
 interface LoadGamePort {
     fun loadGame(id: Int): String?

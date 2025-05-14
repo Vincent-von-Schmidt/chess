@@ -1,6 +1,6 @@
-package core.location
+package hwr.oop.group4.chess.core.location
 
-import core.location.File
+import hwr.oop.group4.chess.core.location.File
 
 data class Location ( val file: File, val rank: Int) {
     val description = "${file}${rank}"

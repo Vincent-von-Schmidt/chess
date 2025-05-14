@@ -1,11 +1,12 @@
-package cli
+package hwr.oop.group4.chess.cli
 
-import persistence.GameStorage
-import cli.NoCommandException
-import cli.WrongIdFormatException
-import persistence.GameStorage.GameAlreadyExistsException
-import core.utils.Constants.GAMES_FILE_TEST
-import cli.main
+import hwr.oop.group4.chess.persistence.GameStorage
+import hwr.oop.group4.chess.cli.NoCommandException
+import hwr.oop.group4.chess.cli.WrongIdFormatException
+import hwr.oop.group4.chess.persistence.GameStorage.GameAlreadyExistsException
+import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
+import hwr.oop.group4.chess.cli.main
+
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
