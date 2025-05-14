@@ -129,7 +129,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>hwr.oop.group4.chess.cli.MainKt</mainClass>
+              <mainClass>cli.MainKt</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -160,10 +160,10 @@
         <version>${pitest.version}</version>
         <configuration>
           <targetClasses>
-            <param>hwr.oop.group4.chess.*</param>
+            <param>chess.*</param>
           </targetClasses>
           <targetTests>
-            <param>hwr.oop.group4.chess.*</param>
+            <param>chess.*Test</param>
           </targetTests>
         </configuration>
         <executions>

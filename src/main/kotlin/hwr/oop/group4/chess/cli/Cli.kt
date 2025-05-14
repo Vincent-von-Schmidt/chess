@@ -1,8 +1,8 @@
-package hwr.oop.group4.chess.cli
+package cli
 
-import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
-import hwr.oop.group4.chess.persistence.LoadGamePort
-import hwr.oop.group4.chess.persistence.SaveGamePort
+import core.utils.Constants.STARTING_POSITION
+import persistence.LoadGamePort
+import persistence.SaveGamePort
 
 class Cli(
   loadGamePort: LoadGamePort,
@@ -34,7 +34,7 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val gameFen: String = loadGamePort.loadGame(id).toString()
+        val gameFen: String = loadGamePort.loadGame(id)
         print(gameFen)
       }
 
