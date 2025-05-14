@@ -1,6 +1,6 @@
-package hwr.oop.group4.chess.move
+package move
 
-// import hwr.oop.group4.chess.core.move.Move
+// import core.move.Move
 import io.kotest.core.spec.style.AnnotationSpec
 
 class MoveTest: AnnotationSpec() {

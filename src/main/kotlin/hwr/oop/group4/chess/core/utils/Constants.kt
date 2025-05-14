@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess.core.utils
+package core.utils
 
 object Constants {
     const val TEST_NUMBER = 1000000

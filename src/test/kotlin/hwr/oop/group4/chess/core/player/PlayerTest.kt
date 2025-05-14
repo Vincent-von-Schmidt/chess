@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess.core.player
+package core.player
 
 class PlayerTest {
 }

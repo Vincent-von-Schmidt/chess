@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess.board
+package board
 
 import io.kotest.core.spec.style.AnnotationSpec
 

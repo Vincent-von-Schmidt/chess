@@ -1,6 +1,6 @@
-package hwr.oop.group4.chess.core.fen
+package core.fen
 
-import hwr.oop.group4.chess.core.pieces.Color
+import core.pieces.Color
 
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat

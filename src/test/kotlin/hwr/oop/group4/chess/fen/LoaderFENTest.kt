@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess.fen
+package fen
 
 import io.kotest.core.spec.style.AnnotationSpec
 

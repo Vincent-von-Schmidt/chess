@@ -1,8 +1,8 @@
-package hwr.oop.group4.chess.core.move
+package core.move
 
-import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.pieces.Piece
+import core.board.Board
+import core.location.Location
+import core.pieces.Piece
 
 class Move (
     val startLocation: Location,
