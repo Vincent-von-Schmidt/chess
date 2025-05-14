@@ -29,7 +29,7 @@ class Board {
         for (file in 1..8) {
 
             val isTopField: Boolean = topField != null
-            val isNotLastFile: Boolean = file <= 7
+            val isNotLastFile: Boolean = file < 8
 
             if (isTopField) {
                 currentField.top = topField
