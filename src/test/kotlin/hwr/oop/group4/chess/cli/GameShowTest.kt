@@ -1,7 +1,7 @@
-package cli
+package hwr.oop.group4.chess.cli
 
-import persistence.GameStorage.GameDoesNotExistException
-import core.utils.Constants.GAMES_FILE_TEST
+import hwr.oop.group4.chess.persistence.GameStorage.GameDoesNotExistException
+import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut

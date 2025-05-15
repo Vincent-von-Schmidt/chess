@@ -1,9 +1,9 @@
-package core.board
+package hwr.oop.group4.chess.core.board
 
-import core.location.File
-import core.location.Location
-import core.pieces.Piece
-import core.move.Move
+import hwr.oop.group4.chess.core.location.File
+import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.move.Move
 
 class Board {
     private val root: Field = generateFields()
