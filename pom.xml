@@ -81,8 +81,8 @@
   </dependencies>
 
   <build>
-    <sourceDirectory>src/main/kotlin/hwr/oop/group4/chess</sourceDirectory>
-    <testSourceDirectory>src/test/kotlin/hwr/oop/group4/chess</testSourceDirectory>
+    <sourceDirectory>src/main/kotlin</sourceDirectory>
+    <testSourceDirectory>src/test/kotlin</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -129,7 +129,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>cli.MainKt</mainClass>
+              <mainClass>hwr.oop.group4.chess.cli.MainKt</mainClass>
             </manifest>
           </archive>
         </configuration>
