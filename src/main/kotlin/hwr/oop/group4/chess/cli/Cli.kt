@@ -1,8 +1,8 @@
-package cli
+package hwr.oop.group4.chess.cli
 
-import core.utils.Constants.STARTING_POSITION
-import persistence.LoadGamePort
-import persistence.SaveGamePort
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
+import hwr.oop.group4.chess.persistence.LoadGamePort
+import hwr.oop.group4.chess.persistence.SaveGamePort
 
 class Cli(
   loadGamePort: LoadGamePort,

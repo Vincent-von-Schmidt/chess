@@ -1,9 +1,9 @@
-package persistence
+package hwr.oop.group4.chess.persistence
 
-import core.utils.Constants.GAMES_FILE_TEST
-import core.utils.Constants.TEST_NUMBER
-import core.utils.Constants.GAMES_FILE
-import core.fen.ReaderFEN
+import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE
+import hwr.oop.group4.chess.core.fen.ReaderFEN
 import java.io.File
 
 class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {

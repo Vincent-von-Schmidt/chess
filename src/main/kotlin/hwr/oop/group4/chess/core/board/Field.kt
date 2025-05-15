@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.core.board
 
-import hwr.oop.group4.chess.core.location.*
+import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Piece
 
 class Field(val location: Location) {

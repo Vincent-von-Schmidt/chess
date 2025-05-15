@@ -5,9 +5,9 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Piece
 
 class Move (
-    val startLocation: Location,
-    val endLocation: Location,
-    val movingPiece: Piece
+  val startLocation: Location,
+  val endLocation: Location,
+  val movingPiece: Piece
 ) {
     private val piece = movingPiece.description
     private val startLoc = startLocation.description

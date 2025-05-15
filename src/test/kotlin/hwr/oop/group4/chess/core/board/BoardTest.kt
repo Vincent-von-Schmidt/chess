@@ -5,7 +5,6 @@ import hwr.oop.group4.chess.core.location.Location
 
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class BoardTest : AnnotationSpec() {
 
