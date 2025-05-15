@@ -3,7 +3,6 @@ package hwr.oop.group4.chess.core.pieces
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
-import hwr.oop.group4.chess.core.pieces.Color
 
 interface Piece {
     val name: String
