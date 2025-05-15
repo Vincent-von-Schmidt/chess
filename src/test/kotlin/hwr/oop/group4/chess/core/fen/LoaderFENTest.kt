@@ -42,7 +42,6 @@ class LoaderFENTest : AnnotationSpec() {
 
          assertThat(fieldB2.piece?.name).isEqualTo("Pawn")
          assertThat(fieldB2.piece?.color).isEqualTo(Color.WHITE)
-
          assertThat(fieldG4.piece).isNull()
      }
 

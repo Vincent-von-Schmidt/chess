@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.persistence
 
-import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE
 import hwr.oop.group4.chess.core.fen.ReaderFEN
 import java.io.File
@@ -21,20 +21,19 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
         val fen: String = loadGameFromFile(id, filepath)
             ?: throw GameDoesNotExistException(id)
         val fenProcessed = ReaderFEN(fen)
-        val sb = StringBuilder()
+        var boardString = ""
         for (line in fenProcessed.piecePlacement) {
-            val lineFields = mutableListOf<String>()
+            var lineString = ""
             for (field in line) {
-                if (field in '0'..'9') {
-                    repeat(field.digitToInt()) { lineFields.add("  ") }
+                if (field in '1'..'8') {
+                    repeat(field.digitToInt()) { lineString += "  " }
                 } else {
-                    lineFields.add("$field ")
+                    lineString += "$field "
                 }
             }
-            val lineText = lineFields.joinToString("").removeSuffix(" ")
-            sb.appendLine(lineText)
+            boardString += "$lineString\n"
         }
-        return(sb.toString().trimEnd())
+        return boardString
     }
 
     override fun deleteGame(id: Int) {
@@ -53,7 +52,7 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
     }
 
     private fun loadGameFromFile(id: Int, filepath: String): String? {
-        if (!gamesFolder.exists()) gamesFolder.mkdirs()
+        gamesFolder.mkdirs()
         val file = File(filepath)
         if (!file.exists()) file.createNewFile()
         for (line in file.readLines()) {

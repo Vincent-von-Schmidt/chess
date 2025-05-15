@@ -1,11 +1,7 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.persistence.GameStorage
-import hwr.oop.group4.chess.cli.NoCommandException
-import hwr.oop.group4.chess.cli.WrongIdFormatException
 import hwr.oop.group4.chess.persistence.GameStorage.GameDoesNotExistException
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
-import hwr.oop.group4.chess.cli.main
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
@@ -78,17 +74,7 @@ class GameShowTest : AnnotationSpec() {
         val output = captureStandardOut {
             main(arrayOf("game", "show", "1000000"))
         }.trim()
-        assertThat(output).isEqualTo(
-        """
-        r n b q k b n r
-        p p p p p p p p
-                       
-                       
-                       
-                       
-        P P P P P P P P
-        R N B Q K B N R
-        """.trimIndent())
+        assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R")
     }
 
     @Test

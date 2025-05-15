@@ -1,7 +1,8 @@
 package hwr.oop.group4.chess.core.fen
 
 import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.location.*
+import hwr.oop.group4.chess.core.location.File
+import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.*
 
 class LoaderFEN {

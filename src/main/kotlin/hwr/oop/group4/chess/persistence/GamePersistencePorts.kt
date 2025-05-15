@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.persistence
 
 interface LoadGamePort {
-    fun loadGame(id: Int): String?
+    fun loadGame(id: Int): String
 }
 
 interface SaveGamePort {

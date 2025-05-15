@@ -1,7 +1,8 @@
 package hwr.oop.group4.chess.core.board
 
+import hwr.oop.group4.chess.core.location.File
+import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Piece
-import hwr.oop.group4.chess.core.location.*
 import hwr.oop.group4.chess.core.move.Move
 
 class Board {
@@ -66,7 +67,10 @@ class Board {
     fun nextField(location: Location = root.location): Field {
         val fileIndex = location.file.ordinal
         val rank = location.rank
-        if (location.file == File.H && location.rank == 1) return getField(Location(File.H, 1))
+        if (location.file == File.H && location.rank == 1) return getField(
+            Location(
+            File.H, 1)
+        )
 
         return if (fileIndex < File.values().lastIndex) {
             getField(Location(File.values()[fileIndex + 1], rank))   // next file, same rank

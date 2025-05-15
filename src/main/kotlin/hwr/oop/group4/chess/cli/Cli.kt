@@ -34,7 +34,7 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val gameFen: String = loadGamePort.loadGame(id).toString()
+        val gameFen: String = loadGamePort.loadGame(id)
         print(gameFen)
       }
 
