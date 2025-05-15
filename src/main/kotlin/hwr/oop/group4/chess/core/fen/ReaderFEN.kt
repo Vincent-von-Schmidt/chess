@@ -1,6 +1,6 @@
-package core.fen
+package hwr.oop.group4.chess.core.fen
 
-import core.pieces.Color
+import hwr.oop.group4.chess.core.pieces.Color
 
 data class ReaderFEN (val notation: String) {
     val piecePlacement: List<String> = notation.split(" ").elementAt(0).split("/")

@@ -1,10 +1,10 @@
-package core.pieces
+package hwr.oop.group4.chess.core.pieces
 
-import core.board.Board
-import core.location.Location
-import core.move.Direction
-import core.pieces.Color
-import core.pieces.Piece
+import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.move.Direction
+import hwr.oop.group4.chess.core.pieces.Color
+import hwr.oop.group4.chess.core.pieces.Piece
 
 class Queen(color: Color): Piece {
     override val name = "Queen"
