@@ -11,8 +11,7 @@ class Turn(players: List<Player>) {
 
     var currentPlayer: Player = white
 
-    fun switchTurn(){
-        currentPlayer = if (currentPlayer == white) { black
-        } else white
+    fun switchTurn() {
+        currentPlayer = if (currentPlayer == white) black else white
     }
 }

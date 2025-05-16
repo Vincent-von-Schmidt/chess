@@ -15,8 +15,8 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class MoveTest: AnnotationSpec() {
 
-    lateinit var board: Board
-    lateinit var players: List<Player>
+    private lateinit var board: Board
+    private lateinit var players: List<Player>
     @BeforeEach
     fun setUp() {
         board = Board()
@@ -50,6 +50,72 @@ class MoveTest: AnnotationSpec() {
         assertThatThrownBy {
             Game(board, players).movePiece(move)
         }.hasMessageContaining("A2 does not contain a WHITE Pawn")
+    }
+
+    @Test
+    fun `white player cant move black pawn`() {
+        val pawn = Pawn(Color.BLACK)
+        val startLocation = Location(File.A, 2)
+        val endLocation = Location(File.A, 1)
+
+        board.setPieceToField(startLocation, pawn)
+
+        val move = Move(startLocation, endLocation, pawn)
+
+        assertThatThrownBy {
+            Game(board, players).movePiece(move)
+        }.hasMessageContaining("You can not move a BLACK piece")
+    }
+
+    @Test
+    fun `throw on white pawn move to white queen`() {
+        val pawn = Pawn(Color.WHITE)
+        val queen = Queen(Color.WHITE)
+        val startLocation = Location(File.D, 3)
+        val endLocation = Location(File.D, 4)
+
+        board.setPieceToField(startLocation, pawn)
+        board.setPieceToField(endLocation, queen)
+
+        val move = Move(startLocation, endLocation, pawn)
+
+        assertThatThrownBy {
+            Game(board, players).movePiece(move)
+        }.hasMessageContaining("D4 is already occupied with WHITE Queen")
+    }
+
+    @Test
+    fun `throw on white pawn move to black queen`() {
+        val pawn = Pawn(Color.WHITE)
+        val queen = Queen(Color.BLACK)
+        val startLocation = Location(File.D, 3)
+        val endLocation = Location(File.D, 4)
+
+        board.setPieceToField(startLocation, pawn)
+        board.setPieceToField(endLocation, queen)
+
+        val move = Move(startLocation, endLocation, pawn)
+
+        assertThatThrownBy {
+            Game(board, players).movePiece(move)
+        }.hasMessageContaining("D4 is already occupied with BLACK Queen, do you want to capture?")
+    }
+
+    @Test
+    fun `white pawn captures black queen`() {
+        val pawn = Pawn(Color.WHITE)
+        val queen = Queen(Color.BLACK) //TODO correct capture path of pawn
+        val startLocation = Location(File.D, 3)
+        val endLocation = Location(File.D, 4)
+
+        board.setPieceToField(startLocation, pawn)
+        board.setPieceToField(endLocation, queen)
+
+        val move = Move(startLocation, endLocation, pawn, true)
+        Game(board,players).movePiece(move)
+
+        assertThat(board.getField(startLocation).piece).isNull()
+        assertThat(board.getField(endLocation).piece).isEqualTo(pawn)
     }
 
     @Test
