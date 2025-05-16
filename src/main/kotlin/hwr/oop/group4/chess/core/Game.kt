@@ -8,14 +8,14 @@ import hwr.oop.group4.chess.core.player.Turn
 class Game ( //hier cli schnittstelle?
     //val id: Int,
     val board: Board,
-    val players: List<Player>
+    players: List<Player>
 ) {
     val turn = Turn(players)
 
     fun movePiece(move: Move){
         val playerAtTurn = turn.currentPlayer
 
-        move.validateMoveOn(board)
+        move.validateMoveOn(board, playerAtTurn)
         board.movePiece(move)
 
         turn.switchTurn()
