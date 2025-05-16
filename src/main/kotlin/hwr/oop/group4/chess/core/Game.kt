@@ -15,7 +15,7 @@ class Game ( //hier cli schnittstelle?
     fun movePiece(move: Move){
         val playerAtTurn = turn.currentPlayer
 
-        move.validateMoveOn(board, playerAtTurn)
+        move.validateMove(board, playerAtTurn)
         board.movePiece(move)
 
         turn.switchTurn()

@@ -6,7 +6,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.move.Move
 
 class Board {
-    private val root: Field = generateFields()
+    val root: Field = generateFields() // root ist A1
 
     private fun generateFields(): Field {
         var firstRank: Field? = null
@@ -58,18 +58,17 @@ class Board {
         while(current!!.location.rank < location.rank) {
             current = current.bottom ?: throw IllegalArgumentException("Invalid rank ${location.rank}")
         }
-        while (current?.location?.file!!.ordinal < location.file.ordinal) {
+        while (current!!.location.file.ordinal < location.file.ordinal) {
             current = current.right ?: throw IllegalArgumentException("Invalid file ${location.file}")
         }
         return current
     }
 
-    fun nextField(location: Location = root.location): Field {
+    fun nextField(location: Location): Field { // next means go one right if possible, else switch rank 1 down
         val fileIndex = location.file.ordinal
         val rank = location.rank
-        if (location.file == File.H && location.rank == 1) return getField(
-            Location(
-            File.H, 1)
+        if (location.file == File.H && location.rank == 1) return getField( //last field
+            Location(File.H, 1)
         )
 
         return if (fileIndex < File.values().lastIndex) {
@@ -81,7 +80,7 @@ class Board {
         }
     }
 
-    fun removePieceFromField(location: Location) {
+    private fun removePieceFromField(location: Location) {
         getField(location).piece = null
     }
 
