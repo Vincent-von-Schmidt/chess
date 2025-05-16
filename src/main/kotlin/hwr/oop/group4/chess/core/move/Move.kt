@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.move
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.player.Player
 
 class Move (
   val startLocation: Location,
@@ -13,13 +14,17 @@ class Move (
     private val startLoc = startLocation.description
     private val endLoc = endLocation.description
 
-    fun validateMoveOn(board: Board) {
+    fun validateMoveOn(board: Board, playerAtTurn: Player) {
         if (board.getField(startLocation).piece != movingPiece) {
             throw IllegalArgumentException("$startLoc does not contain a $piece")
         }
 
         if (endLocation !in movingPiece.allowedLocations(startLocation, board)) {
             throw IllegalArgumentException("$piece can not be moved to $endLoc")
+        }
+
+        if (movingPiece.color != playerAtTurn.color) {
+            throw IllegalStateException("It's not ${movingPiece.color}'s turn.")
         }
     }
 }

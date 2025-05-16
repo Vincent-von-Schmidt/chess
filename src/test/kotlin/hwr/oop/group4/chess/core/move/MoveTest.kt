@@ -6,6 +6,8 @@ import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.player.Player
+import hwr.oop.group4.chess.core.player.Turn
 
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
@@ -14,9 +16,11 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 class MoveTest: AnnotationSpec() {
 
     lateinit var board: Board
+    lateinit var players: List<Player>
     @BeforeEach
     fun setUp() {
         board = Board()
+        players = listOf(Player(1, Color.WHITE), Player(2, Color.BLACK))
     }
 
     @Test
@@ -28,7 +32,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, pawn)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("A2 does not contain a WHITE Pawn")
     }
 
@@ -44,7 +48,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, pawn)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("A2 does not contain a WHITE Pawn")
     }
 
@@ -58,7 +62,7 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("BLACK Pawn can not be moved to D6")
     }
 
@@ -72,7 +76,7 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("BLACK Pawn can not be moved to H8")
     }
 
@@ -85,7 +89,9 @@ class MoveTest: AnnotationSpec() {
 
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
-        Game(board).movePiece(move)
+        val game = Game(board, players)
+        game.turn.switchTurn()
+        game.movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(pawn)
@@ -102,7 +108,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, pawn)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("WHITE Pawn can not be moved to D4")
     }
 
@@ -117,7 +123,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, pawn)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("WHITE Pawn can not be moved to H8")
     }
 
@@ -131,7 +137,7 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
 
-        Game(board).movePiece(move)
+        Game(board, players).movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(pawn)
@@ -153,7 +159,7 @@ class MoveTest: AnnotationSpec() {
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, king)
             val move = Move(startLocation, endLocation, king)
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
 
             assertThat(board.getField(startLocation).piece).isNull()
             assertThat(board.getField(endLocation).piece).isEqualTo(king)
@@ -172,7 +178,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, king)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("WHITE King can not be moved to H8")
     }
 
@@ -196,7 +202,9 @@ class MoveTest: AnnotationSpec() {
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, knight)
             val move = Move(startLocation, endLocation, knight)
-            Game(board).movePiece(move)
+            val game = Game(board, players)
+            game.turn.switchTurn()
+            game.movePiece(move)
 
             assertThat(board.getField(startLocation).piece).isNull()
             assertThat(board.getField(endLocation).piece).isEqualTo(knight)
@@ -215,7 +223,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, knight)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("BLACK Knight can not be moved to H8")
     }
 
@@ -258,7 +266,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, queen)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("WHITE Queen can not be moved to H1")
     }
 
@@ -277,7 +285,9 @@ class MoveTest: AnnotationSpec() {
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, bishop)
             val move = Move(startLocation, endLocation, bishop)
-            Game(board).movePiece(move)
+            val game = Game(board, players)
+            game.turn.switchTurn()
+            game.movePiece(move)
 
             assertThat(board.getField(startLocation).piece).isNull()
             assertThat(board.getField(endLocation).piece).isEqualTo(bishop)
@@ -295,7 +305,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, bishop)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("BLACK Bishop can not be moved to H1")
     }
 
@@ -314,7 +324,7 @@ class MoveTest: AnnotationSpec() {
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, rook)
             val move = Move(startLocation, endLocation, rook)
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
 
             assertThat(board.getField(startLocation).piece).isNull()
             assertThat(board.getField(endLocation).piece).isEqualTo(rook)
@@ -333,7 +343,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, rook)
 
         assertThatThrownBy {
-            Game(board).movePiece(move)
+            Game(board, players).movePiece(move)
         }.hasMessageContaining("BLACK Rook can not be moved to H8")
     }
 }
