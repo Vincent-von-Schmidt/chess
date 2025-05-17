@@ -22,7 +22,7 @@ class LoaderFEN {
      fun placePieces(fen: ReaderFEN, board: Board) {
          var location = Location(File.A, 8) // root of board
 
-         for (rank in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
+         for (rank in fen.getPiecePlacement()) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
              for (char in rank) {
                  if (char.isDigit()) {
                      repeat(char.digitToInt()) {
