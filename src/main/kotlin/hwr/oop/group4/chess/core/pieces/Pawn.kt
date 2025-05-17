@@ -9,8 +9,8 @@ class Pawn(color: Color): Piece {
     override val value = 1
     override val color = color
     override val directions = mutableListOf(
-        Direction.BOTTOM,
-        Direction.TOP)
+        Direction.TOP,
+        Direction.BOTTOM)
 
     override fun allowedLocations(from: Location, board: Board): List<Location> {
 
