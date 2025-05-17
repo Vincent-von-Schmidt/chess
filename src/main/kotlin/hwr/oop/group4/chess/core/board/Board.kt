@@ -65,16 +65,13 @@ class Board {
     fun nextField(location: Location): Field { // next means go one right if possible, else switch rank 1 down
         val fileIndex = location.file.ordinal
         val rank = location.rank
-        if (location.file == File.H && location.rank == 1) return getField( //last field
-            Location(File.H, 1)
-        )
 
         return if (fileIndex < File.values().lastIndex) {
             getField(Location(File.values()[fileIndex + 1], rank))   // next file, same rank
         } else if (rank > 1) {
             getField(Location(File.A, rank - 1))  // beginning of the next rank, down
         } else {
-            throw IllegalArgumentException("No next field available from ${location.description}")
+            getField(location) // last Field with no successor (H1) returns H1
         }
     }
 

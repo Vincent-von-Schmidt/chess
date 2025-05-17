@@ -4,10 +4,9 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 
-class Queen(color: Color): Piece {
+class Queen(override val color: Color): Piece {
     override val name = "Queen"
     override val value = 9
-    override val color = color
     override val directions = listOf(
         Direction.TOP_LEFT,
         Direction.TOP,
@@ -20,5 +19,8 @@ class Queen(color: Color): Piece {
 
     override fun allowedLocations(from: Location, board: Board): List<Location> {
         return searchAllowedLocations(from, board, directions)
+    }
+    override fun allowedCaptureLocations(from: Location, board: Board): List<Location> {
+        return allowedLocations(from, board)
     }
 }
