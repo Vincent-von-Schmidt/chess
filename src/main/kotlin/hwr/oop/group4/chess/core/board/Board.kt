@@ -14,10 +14,7 @@ class Board {
 
         for (rank in 1..8) {
             lastRank = generateRank(rank, lastRank)
-
-            if (rank == 1) {
-                firstRank = lastRank
-            }
+            if (rank == 1) firstRank = lastRank
         }
         return firstRank!!
     }
@@ -28,7 +25,6 @@ class Board {
         var topField: Field? = lastRank // moving pointer to the Field above the current Field
 
         for (file in 1..8) {
-
             val isTopField: Boolean = topField != null
             val isNotLastFile: Boolean = file < 8
 
@@ -45,9 +41,7 @@ class Board {
                 currentField = neoField
             }
 
-            if (isTopField && isNotLastFile) {
-                topField = topField!!.right!!
-            }
+            if (isTopField && isNotLastFile) topField = topField!!.right!!
         }
         return root
     }
@@ -56,10 +50,10 @@ class Board {
         var current: Field? = root
 
         while(current!!.location.rank < location.rank) {
-            current = current.bottom ?: throw IllegalArgumentException("Invalid rank ${location.rank}")
+            current = current.bottom ?: throw InvalidRankException(location.rank)
         }
         while (current!!.location.file.ordinal < location.file.ordinal) {
-            current = current.right ?: throw IllegalArgumentException("Invalid file ${location.file}")
+            current = current.right ?: throw InvalidFileException(location.file)
         }
         return current
     }
@@ -75,9 +69,7 @@ class Board {
             getField(Location(File.values()[fileIndex + 1], rank))   // next file, same rank
         } else if (rank > 1) {
             getField(Location(File.A, rank - 1))  // beginning of the next rank, down
-        } else {
-            throw IllegalArgumentException("No next field available from ${location.description}")
-        }
+        } else throw NoNextFieldException(location)
     }
 
     private fun removePieceFromField(location: Location) {
@@ -93,3 +85,21 @@ class Board {
         removePieceFromField(move.startLocation)
     }
 }
+
+class InvalidRankException(rank: Int) : Exception(
+    """
+        Invalid rank $rank. Rank must be between 1 and 8.
+        """.trimIndent()
+)
+
+class InvalidFileException(file: File) : Exception(
+    """
+        Invalid file $file. File must be between A and H.
+        """.trimIndent()
+)
+
+class NoNextFieldException(location: Location) : Exception(
+    """
+        No next field available from ${location.description}
+        """.trimIndent()
+)
