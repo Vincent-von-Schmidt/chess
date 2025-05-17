@@ -4,10 +4,8 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.player.Player
-import hwr.oop.group4.chess.core.player.Turn
 
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
@@ -17,6 +15,7 @@ class MoveTest: AnnotationSpec() {
 
     private lateinit var board: Board
     private lateinit var players: List<Player>
+
     @BeforeEach
     fun setUp() {
         board = Board()
@@ -25,140 +24,142 @@ class MoveTest: AnnotationSpec() {
 
     @Test
     fun `empty field is immovable`() {
+        // Given
         val startLocation = Location(File.A, 2)
         val endLocation = Location(File.H, 7)
         val pawn = Pawn(Color.WHITE)
 
+        // When
         val move = Move(startLocation, endLocation, pawn)
 
-        assertThatThrownBy {
-            Game(board, players).movePiece(move)
-        }.hasMessageContaining("A2 does not contain a WHITE Pawn")
+        // Then
+        assertThatThrownBy { Game(board, players).movePiece(move) }
+            .isInstanceOf(WrongPieceException::class.java)
+            .hasMessage("You can not move a WHITE Pawn from A2, because there is no WHITE Pawn at this location.")
     }
 
     @Test
     fun `field with wrong piece is immovable`() {
+        // Given
         val pawn = Pawn(Color.WHITE)
         val queen = Queen(Color.WHITE)
         val startLocation = Location(File.A, 2)
         val endLocation = Location(File.H, 7)
 
+        // When
         board.setPieceToField(startLocation, queen)
-
         val move = Move(startLocation, endLocation, pawn)
 
-        assertThatThrownBy {
-            Game(board, players).movePiece(move)
-        }.hasMessageContaining("A2 does not contain a WHITE Pawn")
+        // Then
+        assertThatThrownBy { Game(board, players).movePiece(move) }
+            .isInstanceOf(WrongPieceException::class.java)
+            .hasMessage("You can not move a WHITE Pawn from A2, because there is no WHITE Pawn at this location.")
     }
 
     @Test
-    fun `white player cant move black pawn`() {
+    fun `white player can't move black pawn`() {
+        // Given
         val pawn = Pawn(Color.BLACK)
         val startLocation = Location(File.A, 2)
         val endLocation = Location(File.A, 1)
 
+        // When
         board.setPieceToField(startLocation, pawn)
-
         val move = Move(startLocation, endLocation, pawn)
 
-        assertThatThrownBy {
-            Game(board, players).movePiece(move)
-        }.hasMessageContaining("You can not move a BLACK piece")
+        // Then
+        assertThatThrownBy { Game(board, players).movePiece(move) }
+            .isInstanceOf(WrongTurnException::class.java)
+            .hasMessage("It is the turn of WHITE.")
     }
 
     @Test
     fun `throw on white pawn move to white queen`() {
+        // Given
         val pawn = Pawn(Color.WHITE)
         val queen = Queen(Color.WHITE)
         val startLocation = Location(File.D, 3)
         val endLocation = Location(File.D, 4)
 
+        // When
         board.setPieceToField(startLocation, pawn)
         board.setPieceToField(endLocation, queen)
-
         val move = Move(startLocation, endLocation, pawn)
 
-        assertThatThrownBy {
-            Game(board, players).movePiece(move)
-        }.hasMessageContaining("D4 is already occupied with WHITE Queen")
+        // Then
+        assertThatThrownBy { Game(board, players).movePiece(move) }
+            .isInstanceOf(SameColorCaptureException::class.java)
+            .hasMessage("D4 is already occupied with WHITE Queen.")
     }
 
     @Test
-    fun `throw on white pawn move to black queen`() {
+    fun `white pawn captures black queen`() {
+        // Given
         val pawn = Pawn(Color.WHITE)
         val queen = Queen(Color.BLACK)
         val startLocation = Location(File.D, 3)
         val endLocation = Location(File.D, 4)
 
+        // When
         board.setPieceToField(startLocation, pawn)
         board.setPieceToField(endLocation, queen)
-
         val move = Move(startLocation, endLocation, pawn)
-
-        assertThatThrownBy {
-            Game(board, players).movePiece(move)
-        }.hasMessageContaining("D4 is already occupied with BLACK Queen, do you want to capture?")
-    }
-
-    @Test
-    fun `white pawn captures black queen`() {
-        val pawn = Pawn(Color.WHITE)
-        val queen = Queen(Color.BLACK) //TODO correct capture path of pawn
-        val startLocation = Location(File.D, 3)
-        val endLocation = Location(File.D, 4)
-
-        board.setPieceToField(startLocation, pawn)
-        board.setPieceToField(endLocation, queen)
-
-        val move = Move(startLocation, endLocation, pawn, true)
         Game(board,players).movePiece(move)
 
+        // Then
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(pawn)
     }
 
     @Test
-    fun `pawn black throw on move from d5 to d6`() {
+    fun `black pawn attempts to move backwards`() {
+        // Given
         val pawn = Pawn(Color.BLACK)
-
         val startLocation = Location(File.D, 5)
-        val endLocation = Location(File.D, 6) // illegal move
+        val endLocation = Location(File.D, 6)
 
+        // When
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
-        assertThatThrownBy {
-            Game(board, players).movePiece(move)
-        }.hasMessageContaining("BLACK Pawn can not be moved to D6")
+
+        // Then
+        assertThatThrownBy { Game(board, players).movePiece(move) }
+            .isInstanceOf(InvalidMoveException::class.java)
+            .hasMessage("BLACK Pawn can not be moved to D6.")
     }
 
     @Test
-    fun `pawn black throw on move from d5 to h8`() {
+    fun `black pawn attempts illegal move`() {
+        // Given
         val pawn = Pawn(Color.BLACK)
-
         val startLocation = Location(File.D, 5)
-        val endLocation = Location(File.H, 8) // illegal move
+        val endLocation = Location(File.H, 8)
 
+        // When
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
-        assertThatThrownBy {
-            Game(board, players).movePiece(move)
-        }.hasMessageContaining("BLACK Pawn can not be moved to H8")
+
+        // Then
+        assertThatThrownBy { Game(board, players).movePiece(move) }
+            .isInstanceOf(InvalidMoveException::class.java)
+            .hasMessage("BLACK Pawn can not be moved to H8.")
     }
 
     @Test
-    fun `pawn black moves from d5 to d4`() {
+    fun `black pawn makes legal move`() {
+        // Given
         val pawn = Pawn(Color.BLACK)
-
         val startLocation = Location(File.D, 5)
-        val endLocation = Location(File.D, 4) // legal move
-
+        val endLocation = Location(File.D, 4)
         board.setPieceToField(startLocation, pawn)
+
+        // When
         val move = Move(startLocation, endLocation, pawn)
         val game = Game(board, players)
         game.turn.switchTurn()
         game.movePiece(move)
 
+        // Then
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(pawn)
     }
@@ -175,7 +176,7 @@ class MoveTest: AnnotationSpec() {
 
         assertThatThrownBy {
             Game(board, players).movePiece(move)
-        }.hasMessageContaining("WHITE Pawn can not be moved to D4")
+        }.hasMessage("WHITE Pawn can not be moved to D4.")
     }
 
     @Test
@@ -190,7 +191,7 @@ class MoveTest: AnnotationSpec() {
 
         assertThatThrownBy {
             Game(board, players).movePiece(move)
-        }.hasMessageContaining("WHITE Pawn can not be moved to H8")
+        }.hasMessage("WHITE Pawn can not be moved to H8.")
     }
 
     @Test
@@ -245,7 +246,7 @@ class MoveTest: AnnotationSpec() {
 
         assertThatThrownBy {
             Game(board, players).movePiece(move)
-        }.hasMessageContaining("WHITE King can not be moved to H8")
+        }.hasMessage("WHITE King can not be moved to H8.")
     }
 
     @Test
@@ -290,7 +291,7 @@ class MoveTest: AnnotationSpec() {
 
         assertThatThrownBy {
             Game(board, players).movePiece(move)
-        }.hasMessageContaining("BLACK Knight can not be moved to H8")
+        }.hasMessage("BLACK Knight can not be moved to H8.")
     }
 
     @Test
@@ -333,7 +334,7 @@ class MoveTest: AnnotationSpec() {
 
         assertThatThrownBy {
             Game(board, players).movePiece(move)
-        }.hasMessageContaining("WHITE Queen can not be moved to H1")
+        }.hasMessage("WHITE Queen can not be moved to H1.")
     }
 
     @Test
@@ -372,7 +373,7 @@ class MoveTest: AnnotationSpec() {
 
         assertThatThrownBy {
             Game(board, players).movePiece(move)
-        }.hasMessageContaining("BLACK Bishop can not be moved to H1")
+        }.hasMessage("BLACK Bishop can not be moved to H1.")
     }
 
     @Test
@@ -410,6 +411,6 @@ class MoveTest: AnnotationSpec() {
 
         assertThatThrownBy {
             Game(board, players).movePiece(move)
-        }.hasMessageContaining("BLACK Rook can not be moved to H8")
+        }.hasMessage("BLACK Rook can not be moved to H8.")
     }
 }
