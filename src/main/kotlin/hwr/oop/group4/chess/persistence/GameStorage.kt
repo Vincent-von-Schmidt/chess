@@ -22,7 +22,7 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
             ?: throw GameDoesNotExistException(id)
         val fenProcessed = ReaderFEN(fen)
         var boardString = ""
-        for (line in fenProcessed.piecePlacement) {
+        for (line in fenProcessed.getPiecePlacement()) {
             var lineString = ""
             for (field in line) {
                 if (field in '1'..'8') {
