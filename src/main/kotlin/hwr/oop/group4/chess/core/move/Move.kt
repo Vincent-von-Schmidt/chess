@@ -20,10 +20,6 @@ class Move (
             throw IllegalArgumentException("$startLoc does not contain a $piece")
         }
 
-        if (endLocation !in movingPiece.allowedLocations(startLocation, board)) {
-            throw IllegalArgumentException("$piece can not be moved to $endLoc")
-        }
-
         if (movingPiece.color != playerAtTurn.color) {
             throw IllegalStateException("You can not move a ${movingPiece.color} piece")
         }
@@ -35,6 +31,17 @@ class Move (
                 throw IllegalStateException("$endLoc is already occupied with ${occupyingPiece.description}")
             } else if (occupyingPiece.color != playerAtTurn.color && !capture){
                 throw IllegalStateException("$endLoc is already occupied with ${occupyingPiece.description}, do you want to capture?")
+            }
+        }
+
+        if (capture){
+            if (occupyingPiece == null) {throw IllegalArgumentException("at $endLoc is no piece to capture")}
+            if (endLocation !in movingPiece.allowedCaptureLocations(startLocation, board)) {
+                throw IllegalArgumentException("$piece can not capture ${occupyingPiece.description} at $endLoc")
+            }
+        } else {
+            if (endLocation !in movingPiece.allowedLocations(startLocation, board)) {
+                throw IllegalArgumentException("$piece can not be moved to $endLoc")
             }
         }
     }

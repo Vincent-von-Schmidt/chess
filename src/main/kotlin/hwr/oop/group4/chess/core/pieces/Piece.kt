@@ -13,14 +13,21 @@ interface Piece {
 
     fun allowedLocations(from: Location, board: Board): List<Location>
 
+    fun allowedCaptureLocations(from: Location, board: Board): List<Location>
+
     fun searchAllowedLocations(from: Location, board: Board, directions: List<Direction>, maxSteps:Int = 8): List<Location> {
         val possibleLocations = mutableListOf<Location>()
 
-        for (direction in directions) { //TODO interrupt path, if there is a piece in the way
+        for (direction in directions) {
             var current = from
             for (step in 1..maxSteps) {
                 val field = board.getField(current)
                 val nextField = direction.move(field) ?: break
+                if (nextField.piece != null) { //interrupt path if piece in the way
+                    current = nextField.location
+                    possibleLocations.add(current)
+                    break
+                }
                 current = nextField.location
                 possibleLocations.add(current)
             }
