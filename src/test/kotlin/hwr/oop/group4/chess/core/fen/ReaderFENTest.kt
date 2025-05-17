@@ -12,12 +12,15 @@ class ReaderFENTest : AnnotationSpec() {
   fun `piece placement list is created correctly`() {
     // Given
     val notationExample = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
-
-    // When
     val fenOb = ReaderFEN(notationExample)
 
+    // When
+    val piecePlacement = fenOb.getPiecePlacement()
+    val fenString = fenOb.notation
+
     // Then
-    assertThat(fenOb.getPiecePlacement()).isEqualTo(listOf("rnbqkbnr", "pp1ppppp", "8", "2p5", "4P3", "8", "PPPP1PPP", "RNBQKBNR"))
+    assertThat(fenString).isEqualTo(notationExample)
+    assertThat(piecePlacement).isEqualTo(listOf("rnbqkbnr", "pp1ppppp", "8", "2p5", "4P3", "8", "PPPP1PPP", "RNBQKBNR"))
   }
 
   @Test
@@ -25,14 +28,16 @@ class ReaderFENTest : AnnotationSpec() {
     // Given
     val notationExample1 = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
     val notationExample2 = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR b KQkq c6 0 2"
-
-    // When
     val fenOb = ReaderFEN(notationExample1)
     val fenOb2 = ReaderFEN(notationExample2)
 
+    // When
+    val activeColor1 =fenOb.getActiveColor()
+    val activeColor2 = fenOb2.getActiveColor()
+
     // Then
-    assertThat(fenOb.getActiveColor()).isEqualTo(Color.WHITE)
-    assertThat(fenOb2.getActiveColor()).isEqualTo(Color.BLACK)
+    assertThat(activeColor1).isEqualTo(Color.WHITE)
+    assertThat(activeColor2).isEqualTo(Color.BLACK)
   }
 
   @Test
@@ -40,8 +45,6 @@ class ReaderFENTest : AnnotationSpec() {
     // Given
     val notationExample = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR t KQkq c6 0 2"
     val fenOb = ReaderFEN(notationExample)
-
-
 
     // Then
     assertThatThrownBy { fenOb.getActiveColor() }
