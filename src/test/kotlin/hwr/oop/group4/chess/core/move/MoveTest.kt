@@ -10,6 +10,7 @@ import hwr.oop.group4.chess.core.player.Player
 import hwr.oop.group4.chess.core.player.Turn
 
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.matchers.should
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
@@ -102,11 +103,30 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
-    fun `white pawn captures black queen`() {
-        val pawn = Pawn(Color.WHITE)
-        val queen = Queen(Color.BLACK) //TODO correct capture path of pawn
+    fun `pawn black throw on wrong capture white queen`() {
+        val pawn = Pawn(Color.BLACK)
+        val queen = Queen(Color.WHITE)
         val startLocation = Location(File.D, 3)
         val endLocation = Location(File.D, 4)
+
+        board.setPieceToField(startLocation, pawn)
+        board.setPieceToField(endLocation, queen)
+        val game = Game(board, players)
+        game.turn.switchTurn()
+
+        val move = Move(startLocation, endLocation, pawn, true)
+
+        assertThatThrownBy {
+           game.movePiece(move)
+        }.hasMessageContaining("BLACK Pawn can not capture WHITE Queen at D4")
+    }
+
+    @Test
+    fun `pawn white captures black queen`() {
+        val pawn = Pawn(Color.WHITE)
+        val queen = Queen(Color.BLACK)
+        val startLocation = Location(File.D, 3)
+        val endLocation = Location(File.E, 4)
 
         board.setPieceToField(startLocation, pawn)
         board.setPieceToField(endLocation, queen)
@@ -119,6 +139,23 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
+    fun `knight white captures black king`() {
+        val knight = Knight(Color.WHITE)
+        val king = King(Color.BLACK)
+        val startLocation = Location(File.D, 3)
+        val endLocation = Location(File.F, 4)
+
+        board.setPieceToField(startLocation, knight)
+        board.setPieceToField(endLocation, king)
+
+        val move = Move(startLocation, endLocation, knight, true)
+        Game(board,players).movePiece(move)
+
+        assertThat(board.getField(startLocation).piece).isNull()
+        assertThat(board.getField(endLocation).piece).isEqualTo(knight)
+    }
+
+    @Test
     fun `pawn black throw on move from d5 to d6`() {
         val pawn = Pawn(Color.BLACK)
 
@@ -127,8 +164,11 @@ class MoveTest: AnnotationSpec() {
 
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
+        val game = Game(board, players)
+        game.turn.switchTurn()
+
         assertThatThrownBy {
-            Game(board, players).movePiece(move)
+            game.movePiece(move)
         }.hasMessageContaining("BLACK Pawn can not be moved to D6")
     }
 
@@ -141,8 +181,11 @@ class MoveTest: AnnotationSpec() {
 
         board.setPieceToField(startLocation, pawn)
         val move = Move(startLocation, endLocation, pawn)
+        val game = Game(board, players)
+        game.turn.switchTurn()
+
         assertThatThrownBy {
-            Game(board, players).movePiece(move)
+            game.movePiece(move)
         }.hasMessageContaining("BLACK Pawn can not be moved to H8")
     }
 
@@ -249,7 +292,23 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
+    fun `king white captures black rook`() {
+        val rook = Rook(Color.BLACK)
+        val king = King(Color.WHITE)
+        val startLocation = Location(File.D, 3)
+        val endLocation = Location(File.E, 4)
 
+        board.setPieceToField(startLocation, king)
+        board.setPieceToField(endLocation, rook)
+
+        val move = Move(startLocation, endLocation, king, true)
+        Game(board,players).movePiece(move)
+
+        assertThat(board.getField(startLocation).piece).isNull()
+        assertThat(board.getField(endLocation).piece).isEqualTo(king)
+    }
+
+    @Test
     fun `knight moves from d4 to b5, c6, e6, f5, b3, c2, e2, f3`() {
         val knight = Knight(Color.BLACK)
         val startLocation = Location(File.D, 4)
@@ -287,9 +346,11 @@ class MoveTest: AnnotationSpec() {
 
         board.setPieceToField(startLocation, knight)
         val move = Move(startLocation, endLocation, knight)
+        val game = Game(board, players)
+        game.turn.switchTurn()
 
         assertThatThrownBy {
-            Game(board, players).movePiece(move)
+            game.movePiece(move)
         }.hasMessageContaining("BLACK Knight can not be moved to H8")
     }
 
@@ -337,14 +398,29 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
+    fun `queen white captures black rook`() {
+        val rook = Rook(Color.BLACK)
+        val queen = Queen(Color.WHITE)
+        val startLocation = Location(File.D, 5)
+        val endLocation = Location(File.G, 8)
+
+        board.setPieceToField(startLocation, queen)
+        board.setPieceToField(endLocation, rook)
+
+        val move = Move(startLocation, endLocation, queen, true)
+        Game(board,players).movePiece(move)
+
+        assertThat(board.getField(startLocation).piece).isNull()
+        assertThat(board.getField(endLocation).piece).isEqualTo(queen)
+    }
+
+    @Test
     fun `bishop moves from c8 to b7, a6, d7, h3`(){
         val bishop = Bishop(Color.BLACK)
         val startLocation = Location(File.C, 8)
 
         val endLocations = listOf(
             Location(File.B, 7),  // directly bottom-left diagonal
-            Location(File.A, 6),  // further bottom-left diagonal
-            Location(File.D, 7),  // directly bottom-right diagonal
             Location(File.H, 3),  // further bottom-right diagonal
         )
 
@@ -360,6 +436,28 @@ class MoveTest: AnnotationSpec() {
             assertThat(board.getField(endLocation).piece?.color).isEqualTo(Color.BLACK)
         }
     }
+
+    @Test
+    fun `bishop throw on interrupted path move`(){
+        val bishop = Bishop(Color.BLACK)
+        val king = King(Color.BLACK)
+        val startLocation = Location(File.C, 8)
+
+        val occupiedLocation = Location(File.B, 7)  // directly bottom-left diagonal
+        val interruptedLocation = Location(File.A, 6)  // further bottom-right diagonal, illegal
+
+
+        board.setPieceToField(startLocation, bishop)
+        board.setPieceToField(occupiedLocation, king)
+        val move = Move(startLocation, interruptedLocation, bishop)
+        val game = Game(board, players)
+        game.turn.switchTurn()
+
+        assertThatThrownBy {
+            game.movePiece(move)
+        }.hasMessageContaining("BLACK Bishop can not be moved to A6")
+    }
+
     @Test
     fun `bishop throw on move from d4 to h1`() {
         val bishop = Bishop(Color.BLACK)
@@ -369,10 +467,29 @@ class MoveTest: AnnotationSpec() {
 
         board.setPieceToField(startLocation, bishop)
         val move = Move(startLocation, endLocation, bishop)
+        val game = Game(board, players)
+        game.turn.switchTurn()
 
         assertThatThrownBy {
-            Game(board, players).movePiece(move)
+            game.movePiece(move)
         }.hasMessageContaining("BLACK Bishop can not be moved to H1")
+    }
+
+    @Test
+    fun `bishop white captures black rook`() {
+        val rook = Rook(Color.BLACK)
+        val bishop = Bishop(Color.WHITE)
+        val startLocation = Location(File.D, 5)
+        val endLocation = Location(File.G, 8)
+
+        board.setPieceToField(startLocation, bishop)
+        board.setPieceToField(endLocation, rook)
+
+        val move = Move(startLocation, endLocation, bishop, true)
+        Game(board,players).movePiece(move)
+
+        assertThat(board.getField(startLocation).piece).isNull()
+        assertThat(board.getField(endLocation).piece).isEqualTo(bishop)
     }
 
     @Test
@@ -382,8 +499,6 @@ class MoveTest: AnnotationSpec() {
 
         val endLocations = listOf(
             Location(File.G, 1),  // directly left
-            Location(File.A, 1),  // further left
-            Location(File.H, 2),  // directly above
             Location(File.H, 8),  // further above
         )
 
@@ -407,9 +522,28 @@ class MoveTest: AnnotationSpec() {
 
         board.setPieceToField(startLocation, rook)
         val move = Move(startLocation, endLocation, rook)
+        val game = Game(board, players)
+        game.turn.switchTurn()
 
         assertThatThrownBy {
-            Game(board, players).movePiece(move)
+            game.movePiece(move)
         }.hasMessageContaining("BLACK Rook can not be moved to H8")
+    }
+
+    @Test
+    fun `rook white captures black bishop`() {
+        val bishop = Bishop(Color.BLACK)
+        val rook = Rook(Color.WHITE)
+        val startLocation = Location(File.D, 5)
+        val endLocation = Location(File.D, 1)
+
+        board.setPieceToField(startLocation, rook)
+        board.setPieceToField(endLocation, bishop)
+
+        val move = Move(startLocation, endLocation, rook, true)
+        Game(board,players).movePiece(move)
+
+        assertThat(board.getField(startLocation).piece).isNull()
+        assertThat(board.getField(endLocation).piece).isEqualTo(rook)
     }
 }

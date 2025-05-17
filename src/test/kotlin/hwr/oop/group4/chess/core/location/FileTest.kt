@@ -3,7 +3,7 @@ package hwr.oop.group4.chess.core.location
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
-class MoveTest: AnnotationSpec() {
+class FileTest: AnnotationSpec() {
 
     @Test
     fun `next file of a is b`() {
