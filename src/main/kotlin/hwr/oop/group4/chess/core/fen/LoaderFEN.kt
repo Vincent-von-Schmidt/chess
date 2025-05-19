@@ -18,24 +18,24 @@ class LoaderFEN {
             else -> throw IllegalArgumentException("Unknown char: $char")
         }
     }
-    
-     fun placePieces(fen: ReaderFEN, board: Board) {
-         var location = Location(File.A, 8) // root of board
 
-         for (rank in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
-             for (char in rank) {
-                 if (char.isDigit()) {
-                     repeat(char.digitToInt()) {
-                         val next = board.nextField(location)
-                         location = next.location
-                     }
-                 } else {
-                     board.setPieceToField(location, parsePiece(char))
-                     val next = board.nextField(location)
-                     location = next.location
-                 }
-             }
-         }
-          //hier kann en passent rein und sowas
-     }
+    fun placePieces(fen: ReaderFEN, board: Board) {
+        var location = Location(File.A, 8) // root of board
+
+        for (rank in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
+            for (char in rank) {
+                if (char.isDigit()) {
+                    repeat(char.digitToInt()) {
+                        val next = board.nextField(location)
+                        location = next.location
+                    }
+                } else {
+                    board.setPieceToField(location, parsePiece(char))
+                    val next = board.nextField(location)
+                    location = next.location
+                }
+            }
+        }
+        //hier kann en passent rein und sowas
+    }
 }

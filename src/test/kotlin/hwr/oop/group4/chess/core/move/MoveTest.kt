@@ -1,23 +1,20 @@
 package hwr.oop.group4.chess.core.move
 
-import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.player.Player
-import hwr.oop.group4.chess.core.player.Turn
-
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.matchers.should
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
-class MoveTest: AnnotationSpec() {
+class MoveTest : AnnotationSpec() {
 
     private lateinit var board: Board
     private lateinit var players: List<Player>
+
     @BeforeEach
     fun setUp() {
         board = Board()
@@ -117,7 +114,7 @@ class MoveTest: AnnotationSpec() {
         val move = Move(startLocation, endLocation, pawn, true)
 
         assertThatThrownBy {
-           game.movePiece(move)
+            game.movePiece(move)
         }.hasMessageContaining("BLACK Pawn can not capture WHITE Queen at D4")
     }
 
@@ -132,7 +129,7 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(endLocation, queen)
 
         val move = Move(startLocation, endLocation, pawn, true)
-        Game(board,players).movePiece(move)
+        Game(board, players).movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(pawn)
@@ -149,7 +146,7 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(endLocation, king)
 
         val move = Move(startLocation, endLocation, knight, true)
-        Game(board,players).movePiece(move)
+        Game(board, players).movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(knight)
@@ -302,7 +299,7 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(endLocation, rook)
 
         val move = Move(startLocation, endLocation, king, true)
-        Game(board,players).movePiece(move)
+        Game(board, players).movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(king)
@@ -322,7 +319,7 @@ class MoveTest: AnnotationSpec() {
             Location(File.C, 2),  // down 2, left 1
             Location(File.E, 2),  // down 2, right 1
             Location(File.F, 3),  // down 1, right 2
-            )
+        )
 
         for (endLocation in endLocations) {
             board.setPieceToField(startLocation, knight)
@@ -355,7 +352,7 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
-    fun `queen moves from d1 to c1, a1, e1, h1, d2, d8, c2, a4, e2, h5`(){
+    fun `queen moves from d1 to c1, a1, e1, h1, d2, d8, c2, a4, e2, h5`() {
         val queen = Queen(Color.WHITE)
         val startLocation = Location(File.D, 1)
 
@@ -408,14 +405,14 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(endLocation, rook)
 
         val move = Move(startLocation, endLocation, queen, true)
-        Game(board,players).movePiece(move)
+        Game(board, players).movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(queen)
     }
 
     @Test
-    fun `bishop moves from c8 to b7, a6, d7, h3`(){
+    fun `bishop moves from c8 to b7, a6, d7, h3`() {
         val bishop = Bishop(Color.BLACK)
         val startLocation = Location(File.C, 8)
 
@@ -438,13 +435,15 @@ class MoveTest: AnnotationSpec() {
     }
 
     @Test
-    fun `bishop throw on interrupted path move`(){
+    fun `bishop throw on interrupted path move`() {
         val bishop = Bishop(Color.BLACK)
         val king = King(Color.BLACK)
         val startLocation = Location(File.C, 8)
 
-        val occupiedLocation = Location(File.B, 7)  // directly bottom-left diagonal
-        val interruptedLocation = Location(File.A, 6)  // further bottom-right diagonal, illegal
+        val occupiedLocation =
+            Location(File.B, 7)  // directly bottom-left diagonal
+        val interruptedLocation =
+            Location(File.A, 6)  // further bottom-right diagonal, illegal
 
 
         board.setPieceToField(startLocation, bishop)
@@ -486,14 +485,14 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(endLocation, rook)
 
         val move = Move(startLocation, endLocation, bishop, true)
-        Game(board,players).movePiece(move)
+        Game(board, players).movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(bishop)
     }
 
     @Test
-    fun `rook moves from h1 to g1, a1, h2, h8`(){
+    fun `rook moves from h1 to g1, a1, h2, h8`() {
         val rook = Rook(Color.WHITE)
         val startLocation = Location(File.H, 1)
 
@@ -541,7 +540,7 @@ class MoveTest: AnnotationSpec() {
         board.setPieceToField(endLocation, bishop)
 
         val move = Move(startLocation, endLocation, rook, true)
-        Game(board,players).movePiece(move)
+        Game(board, players).movePiece(move)
 
         assertThat(board.getField(startLocation).piece).isNull()
         assertThat(board.getField(endLocation).piece).isEqualTo(rook)

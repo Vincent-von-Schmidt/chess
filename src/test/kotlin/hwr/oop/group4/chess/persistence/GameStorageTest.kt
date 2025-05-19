@@ -1,12 +1,12 @@
 package hwr.oop.group4.chess.persistence
 
-import hwr.oop.group4.chess.persistence.GameStorage.GameDoesNotExistException
-import hwr.oop.group4.chess.persistence.GameStorage.GameAlreadyExistsException
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
-
+import hwr.oop.group4.chess.persistence.GameStorage.GameAlreadyExistsException
+import hwr.oop.group4.chess.persistence.GameStorage.GameDoesNotExistException
 import io.kotest.core.spec.style.AnnotationSpec
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class GameStorageTest : AnnotationSpec() {
 
@@ -145,7 +145,8 @@ class GameStorageTest : AnnotationSpec() {
     fun `load game that has difficult fen`() {
         // Given
         val id = TEST_NUMBER
-        val fen = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
+        val fen =
+            "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
 
         // When
         storage.saveGame(id, fen)
