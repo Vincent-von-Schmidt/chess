@@ -8,8 +8,8 @@ import hwr.oop.group4.chess.core.player.Player
 class Move(
     val startLocation: Location,
     val endLocation: Location,
-    val movingPiece: Piece,
-    val capture: Boolean = false,
+    val movingPiece: Piece, // muss ausm board selbst bestimmt werden
+    val capture: Boolean = false, // muss ausm board selbst bestimmt werden
 ) {
     private val piece = movingPiece.description
     private val startLoc = startLocation.description
@@ -34,25 +34,8 @@ class Move(
             }
         }
 
-        if (capture) {
-            if (occupyingPiece == null) {
-                throw IllegalArgumentException("at $endLoc is no piece to capture")
-            }
-            if (endLocation !in movingPiece.allowedCaptureLocations(
-                    startLocation,
-                    board
-                )
-            ) {
-                throw IllegalArgumentException("$piece can not capture ${occupyingPiece.description} at $endLoc")
-            }
-        } else {
-            if (endLocation !in movingPiece.allowedLocations(
-                    startLocation,
-                    board
-                )
-            ) {
-                throw IllegalArgumentException("$piece can not be moved to $endLoc")
-            }
+        if (endLocation !in movingPiece.allowedLocations(startLocation, board, capture)) {
+            throw IllegalArgumentException("$piece can not be moved to $endLoc")
         }
     }
 }
