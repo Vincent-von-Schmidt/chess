@@ -27,9 +27,9 @@ class Board {
   }
 
   private fun generateRank(
-      rank: Int,
-      previousRankStart: Field?,
-      allFields: MutableMap<Location, Field>,
+    rank: Int,
+    previousRankStart: Field?,
+    allFields: MutableMap<Location, Field>,
   ): Field {
     var currentField = Field(
       Location(
