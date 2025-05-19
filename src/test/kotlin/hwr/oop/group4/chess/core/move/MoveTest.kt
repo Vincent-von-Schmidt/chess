@@ -12,6 +12,8 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class MoveTest : AnnotationSpec() {
 
+  // TODO("Refactor this class into seperate classes")
+
   private val storage = GameStorage()
 
   @Test

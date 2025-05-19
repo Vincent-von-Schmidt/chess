@@ -31,6 +31,8 @@ class Move(
         throw SameColorCaptureException(endLoc, occupyingPiece)
       } else if (occupyingPiece.color != playerAtTurn.color && !capture) {
         throw CaptureException(endLoc, occupyingPiece)
+
+        // TODO("rewrite this code")
         // This doesn't make sense, bc the user only runs the program with each command.
         // He can't respond to a question. So the capture needs to be automatic.
         // This code has to be rewritten...
