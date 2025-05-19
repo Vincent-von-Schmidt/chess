@@ -5,11 +5,15 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 
 interface Piece {
-    val name: String
-    val color: Color
-    val description: String get() = "$color $name"
-    val value: Int
-    val directions: List<Direction>
+  val name: String
+  val color: Color
+  val description: String get() = "$color $name"
+  val value: Int
+  val directions: List<Direction>
 
-    fun allowedLocations(from: Location, board: Board, capture: Boolean): List<Location>
+  fun allowedLocations(
+    from: Location,
+    board: Board,
+    capture: Boolean,
+  ): List<Location>
 }
