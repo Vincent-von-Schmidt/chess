@@ -43,17 +43,7 @@ class BoardTest : AnnotationSpec() {
 
         assertThatThrownBy {
             board.getField(invalidLocation)
-        }.hasMessageContaining("Invalid rank")
-    }
-
-    @Test
-    fun `getField throws if file is unreachable`() {
-        val field = board.getField(Location(File.G, 1))
-        field.right = null // now H1 is unreachable
-
-        assertThatThrownBy {
-            board.getField(Location(File.H, 1))
-        }.hasMessageContaining("Invalid file")
+        }.hasMessageContaining("No field at A9")
     }
 
     @Test
