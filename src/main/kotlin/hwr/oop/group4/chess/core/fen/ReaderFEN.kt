@@ -2,8 +2,9 @@ package hwr.oop.group4.chess.core.fen
 
 import hwr.oop.group4.chess.core.pieces.Color
 
-data class ReaderFEN (val notation: String) {
-    val piecePlacement: List<String> = notation.split(" ").elementAt(0).split("/")
+data class ReaderFEN(val notation: String) {
+    val piecePlacement: List<String> =
+        notation.split(" ").elementAt(0).split("/")
     val activeColor: Color = when (notation.split(" ").elementAt(1)) {
         "w" -> Color.WHITE
         "b" -> Color.BLACK

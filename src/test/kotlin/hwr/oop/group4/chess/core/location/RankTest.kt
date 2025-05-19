@@ -3,7 +3,7 @@ package hwr.oop.group4.chess.core.location
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
-class RankTest: AnnotationSpec() {
+class RankTest : AnnotationSpec() {
 
     @Test
     fun `next rank of 1 is 2`() {

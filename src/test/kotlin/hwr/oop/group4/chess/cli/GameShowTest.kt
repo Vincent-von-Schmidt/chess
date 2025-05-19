@@ -1,8 +1,7 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.persistence.GameStorage.GameDoesNotExistException
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
-
+import hwr.oop.group4.chess.persistence.GameStorage.GameDoesNotExistException
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
@@ -27,45 +26,53 @@ class GameShowTest : AnnotationSpec() {
     fun `user prompts -chess game show-`() {
         assertThatThrownBy { main(arrayOf("game", "show")) }
             .isInstanceOf(NoCommandException::class.java)
-            .hasMessage("""
+            .hasMessage(
+                """
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
         chess on <id> move <from> to <to>
-        """.trimIndent())
+        """.trimIndent()
+            )
     }
 
     @Test
     fun `user prompts -chess game show 1 1-`() {
         assertThatThrownBy { main(arrayOf("game", "show", "1", "1")) }
             .isInstanceOf(NoCommandException::class.java)
-            .hasMessage("""
+            .hasMessage(
+                """
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
         chess on <id> move <from> to <to>
-        """.trimIndent())
+        """.trimIndent()
+            )
     }
 
     @Test
     fun `user prompts -chess game sow 1-`() {
         assertThatThrownBy { main(arrayOf("game", "sow", "1")) }
             .isInstanceOf(NoCommandException::class.java)
-            .hasMessage("""
+            .hasMessage(
+                """
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
         chess on <id> move <from> to <to>
-        """.trimIndent())
+        """.trimIndent()
+            )
     }
 
     @Test
     fun `user prompts -chess game show char-`() {
         assertThatThrownBy { main(arrayOf("game", "show", "char")) }
             .isInstanceOf(WrongIdFormatException::class.java)
-            .hasMessage("""
+            .hasMessage(
+                """
         Error: <id> must be a valid integer!
-        """.trimIndent())
+        """.trimIndent()
+            )
     }
 
     @Test

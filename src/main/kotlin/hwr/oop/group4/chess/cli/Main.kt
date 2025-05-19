@@ -3,7 +3,7 @@ package hwr.oop.group4.chess.cli
 import hwr.oop.group4.chess.persistence.GameStorage
 
 fun main(args: Array<String>) {
-  """
+    """
     
     Possible commands: 
     chess new_game <id>
@@ -12,10 +12,14 @@ fun main(args: Array<String>) {
   
   """.trimIndent()
 
-  val fileSystemPersistenceAdapter = GameStorage()
-  val cli = Cli(
-    loadGamePort = fileSystemPersistenceAdapter,
-    saveGamePort = fileSystemPersistenceAdapter,
-  )
-  cli.handle(args.toList(), fileSystemPersistenceAdapter, fileSystemPersistenceAdapter)
+    val fileSystemPersistenceAdapter = GameStorage()
+    val cli = Cli(
+        loadGamePort = fileSystemPersistenceAdapter,
+        saveGamePort = fileSystemPersistenceAdapter,
+    )
+    cli.handle(
+        args.toList(),
+        fileSystemPersistenceAdapter,
+        fileSystemPersistenceAdapter
+    )
 }

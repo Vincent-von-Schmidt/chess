@@ -1,15 +1,14 @@
 package hwr.oop.group4.chess.core.player
 
 import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.pieces.*
-
+import hwr.oop.group4.chess.core.pieces.Color
 import io.kotest.core.spec.style.AnnotationSpec
-import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
-class MoveTest: AnnotationSpec() {
+class MoveTest : AnnotationSpec() {
 
     private lateinit var board: Board
+
     @BeforeEach
     fun setUp() {
         board = Board()

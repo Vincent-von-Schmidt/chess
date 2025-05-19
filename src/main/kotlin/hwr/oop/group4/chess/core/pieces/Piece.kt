@@ -15,7 +15,12 @@ interface Piece {
 
     fun allowedCaptureLocations(from: Location, board: Board): List<Location>
 
-    fun searchAllowedLocations(from: Location, board: Board, directions: List<Direction>, maxSteps:Int = 8): List<Location> {
+    fun searchAllowedLocations(
+        from: Location,
+        board: Board,
+        directions: List<Direction>,
+        maxSteps: Int = 8,
+    ): List<Location> {
         val possibleLocations = mutableListOf<Location>()
 
         for (direction in directions) {

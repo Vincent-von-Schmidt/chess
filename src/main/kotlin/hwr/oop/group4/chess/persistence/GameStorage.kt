@@ -1,9 +1,9 @@
 package hwr.oop.group4.chess.persistence
 
+import hwr.oop.group4.chess.core.fen.ReaderFEN
+import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
-import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE
-import hwr.oop.group4.chess.core.fen.ReaderFEN
 import java.io.File
 
 class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
@@ -12,7 +12,11 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
 
     override fun saveGame(id: Int, fen: String) {
         if (id >= TEST_NUMBER) filepath = GAMES_FILE_TEST
-        if (loadGameFromFile(id, filepath) != null) throw GameAlreadyExistsException(id)
+        if (loadGameFromFile(
+                id,
+                filepath
+            ) != null
+        ) throw GameAlreadyExistsException(id)
         saveGameToFile(id, fen, filepath)
     }
 
