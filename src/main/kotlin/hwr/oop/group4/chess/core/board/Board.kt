@@ -70,7 +70,7 @@ class Board {
 
   fun getField(location: Location): Field {
     return fields[location]
-      ?: throw IllegalArgumentException("No field at ${location.description}")
+      ?: throw NoFieldException(location)
   }
 
   fun nextField(location: Location): Field { // next means go one right if possible, else switch rank 1 down
@@ -109,3 +109,7 @@ class Board {
     removePieceFromField(move.startLocation)
   }
 }
+
+class NoFieldException(location: Location) : Exception(
+  "No field at ${location.description}"
+)
