@@ -21,5 +21,4 @@ enum class Direction(val move: (Field) -> Field?) {
   JUMP_BOTTOM_BOTTOM_RIGHT({ it.bottom?.bottom?.right }),
   JUMP_BOTTOM_BOTTOM_LEFT({ it.bottom?.bottom?.left }),
   JUMP_BOTTOM_LEFT_LEFT({ it.bottom?.left?.left });
-
 }
