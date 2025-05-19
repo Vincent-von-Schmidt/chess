@@ -19,6 +19,16 @@ class Game(
 ) {
   val turn = Turn(players)
 
+  fun move(from: String, to: String): Boolean {
+    // - returns true if move was successful, throws otherwise
+    // - utilizes movePiece(move: Move) but has to get Move beforehand
+    TODO("" +
+        "implement move()" +
+        "make movePiece(move: Move) private" +
+        "change tests to use move(from: String, to: String) instead of movePiece(move: Move)"
+    )
+  }
+
   fun movePiece(move: Move) {
     val playerAtTurn = turn.currentPlayer
     move.validateMove(board, playerAtTurn)
