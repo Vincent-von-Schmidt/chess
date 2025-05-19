@@ -15,15 +15,14 @@ class LoaderFEN {
       'n' -> Knight(color)
       'r' -> Rook(color)
       'p' -> Pawn(color)
-      else -> throw IllegalArgumentException("Unknown char: $char")
-      // TODO(" add exception class")
+      else -> throw IllegalPieceException(char)
     }
   }
 
   fun placePieces(fen: ReaderFEN, board: Board) {
     var location = Location(File.A, 8) // root of board
 
-    for (rank in fen.piecePlacement) {  // rows = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
+    for (rank in fen.piecePlacement) {  // ranks = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
       for (char in rank) {
         if (char.isDigit()) {
           repeat(char.digitToInt()) {
@@ -31,12 +30,24 @@ class LoaderFEN {
             location = next.location
           }
         } else {
-          board.setPieceToField(location, parsePiece(char))
+          try {
+            board.setPieceToField(location, parsePiece(char))
+          } catch (e: IllegalPieceException) {
+            throw InvalidFenException(fen)
+          }
           val next = board.nextField(location)
           location = next.location
         }
       }
     }
-    //hier kann en passent rein und sowas
+    TODO("implement castling and en passant")
   }
 }
+
+class InvalidFenException(fen: ReaderFEN) : Exception(
+  "The fen string: $fen is invalid."
+)
+
+class IllegalPieceException(char: Char) : Exception(
+  "Unknown char: $char"
+)

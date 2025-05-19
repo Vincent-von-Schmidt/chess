@@ -41,7 +41,7 @@ class GeneratorFEN {
           try {
             FEN.append(parsePiece(piece))
           } catch (e: UnknownPieceException) {
-            throw InvalidFenException()
+            throw InvalidBoardException()
           }
         }
       }
@@ -62,7 +62,7 @@ class UnknownPieceException(piece: Piece) : Exception(
     """.trimIndent()
 )
 
-class InvalidFenException() : Exception(
+class InvalidBoardException() : Exception(
   """
     Board can not be translated to FEN.
     """.trimIndent()
