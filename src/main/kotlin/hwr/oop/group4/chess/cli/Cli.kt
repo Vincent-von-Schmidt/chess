@@ -52,7 +52,8 @@ class Cli(
         }
         val from = args[3]
         val to = args[5]
-        // TODO("Implement move logic")
+        val game = loadGamePort.loadGame(id)
+        if (game.move(from, to)) println("Move from $from to $to executed.")
       }
 
       else -> throw NoCommandException()

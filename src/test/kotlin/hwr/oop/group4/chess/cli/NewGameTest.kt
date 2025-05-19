@@ -17,11 +17,6 @@ class NewGameTest : AnnotationSpec() {
     file.deleteRecursively()
   }
 
-  @AfterEach
-  fun tearDown() {
-    file.deleteRecursively()
-  }
-
   @Test
   fun `user prompts nothing`() {
     assertThatThrownBy { main(arrayOf()) }
