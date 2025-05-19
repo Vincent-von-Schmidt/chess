@@ -1,13 +1,15 @@
 package hwr.oop.group4.chess.persistence
 
+import hwr.oop.group4.chess.core.Game
+
 interface LoadGamePort {
-    fun loadGame(id: Int): String
+  fun loadGame(id: Int): Game
 }
 
 interface SaveGamePort {
-    fun saveGame(id: Int, fen: String)
+  fun saveGame(game: Game)
 }
 
 interface DeleteGamePort {
-    fun deleteGame(id: Int)
+  fun deleteGame(game: Game)
 }

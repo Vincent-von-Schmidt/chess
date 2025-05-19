@@ -1,15 +1,19 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
+import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.persistence.LoadGamePort
 import hwr.oop.group4.chess.persistence.SaveGamePort
 
 class Cli(
   loadGamePort: LoadGamePort,
   saveGamePort: SaveGamePort,
-  ){
+) {
 
-  fun handle(args: List<String>, loadGamePort: LoadGamePort, saveGamePort: SaveGamePort) {
+  fun handle(
+    args: List<String>,
+    loadGamePort: LoadGamePort,
+    saveGamePort: SaveGamePort,
+  ) {
     if (args.isEmpty()) throw NoCommandException()
 
     when (args.first()) {
@@ -21,9 +25,9 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        saveGamePort.saveGame(id, STARTING_POSITION)
+        val game = Game(id)
+        saveGamePort.saveGame(game)
         println("New game $id created.")
-
       }
 
       "game" -> {
@@ -34,8 +38,8 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val gameFen: String = loadGamePort.loadGame(id)
-        print(gameFen)
+        val game = loadGamePort.loadGame(id)
+        println(game.boardToString())
       }
 
       "on" -> {
@@ -48,7 +52,7 @@ class Cli(
         }
         val from = args[3]
         val to = args[5]
-        TODO("Implement move logic")
+        // TODO("Implement move logic")
       }
 
       else -> throw NoCommandException()
@@ -57,13 +61,13 @@ class Cli(
 }
 
 class WrongIdFormatException : Exception(
-      """
+  """
         Error: <id> must be a valid integer!
         """.trimIndent()
 )
 
 class NoCommandException : Exception(
-      """
+  """
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>

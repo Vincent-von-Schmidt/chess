@@ -1,158 +1,168 @@
 package hwr.oop.group4.chess.persistence
 
-import hwr.oop.group4.chess.persistence.GameStorage.GameDoesNotExistException
-import hwr.oop.group4.chess.persistence.GameStorage.GameAlreadyExistsException
+import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
-
 import io.kotest.core.spec.style.AnnotationSpec
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class GameStorageTest : AnnotationSpec() {
 
-    private val storage = GameStorage()
-    private val file = java.io.File(GAMES_FILE_TEST)
+  private val storage = GameStorage()
+  private val file = java.io.File(GAMES_FILE_TEST)
 
-    @BeforeEach
-    fun setup() {
-        file.deleteRecursively()
-    }
+  @BeforeEach
+  fun setup() {
+    file.deleteRecursively()
+  }
 
-    @AfterEach
-    fun tearDown() {
-        file.deleteRecursively()
-    }
+  @AfterEach
+  fun tearDown() {
+    file.deleteRecursively()
+  }
 
-    @Test
-    fun `games folder does not exist`() {
-        // Given
-        val id = TEST_NUMBER
-        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+  @Test
+  fun `games folder does not exist but is created`() {
+    // Given
+    val game = Game(TEST_NUMBER)
 
-        // When
-        storage.saveGame(id, fen)
+    // When
+    storage.saveGame(game)
 
-        // Then
-        assertThat(file.exists()).isTrue
-    }
+    // Then
+    assertThat(file.exists()).isTrue
+  }
 
-    @Test
-    fun `creating two games`() {
-        //given
-        val id = TEST_NUMBER
-        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        val id2 = TEST_NUMBER + 1
-        val fen2 = "Rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+  @Test
+  fun `creating two games`() {
+    // Given
+    val game1 = Game(TEST_NUMBER)
+    val game2 = Game(TEST_NUMBER + 1)
 
-        //when
-        storage.saveGame(id, fen)
-        storage.saveGame(id2, fen2)
+    // When
+    storage.saveGame(game1)
+    storage.saveGame(game2)
 
-        //then
-        assertThat(file.readLines()).isEqualTo(listOf("$id;$fen", "$id2;$fen2"))
-    }
+    // Then
+    assertThat(file.readLines()).isEqualTo(
+      listOf(
+        "$TEST_NUMBER;${game1.fen}",
+        "${TEST_NUMBER + 1};${game2.fen}"
+      )
+    )
+  }
 
-    @Test
-    fun `creating a game with existing ID`() {
-        //given
-        val id = TEST_NUMBER
-        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+  @Test
+  fun `creating a game with existing ID`() {
+    // Given
+    val game = Game(TEST_NUMBER)
 
-        //when
-        storage.saveGame(id, fen)
+    // When
+    storage.saveGame(game)
 
-        //then
-        assertThatThrownBy { storage.saveGame(id, fen) }
-            .isInstanceOf(GameAlreadyExistsException::class.java)
-            .hasMessage("Game with ID $id already exists.")
-    }
+    // Then
+    assertThatThrownBy { storage.saveGame(game) }
+      .hasMessage("Game with ID ${game.id} already exists.")
+  }
 
-    @Test
-    fun `loading game that doesn't exist`() {
-        //given
-        val id = TEST_NUMBER
+  @Test
+  fun `loading game that doesn't exist`() {
+    // Given
+    val game = Game(TEST_NUMBER)
 
-        //when
+    // Then
+    assertThatThrownBy { storage.loadGame(game.id) }
+      .hasMessage("Game with ID ${game.id} does not exist.")
+  }
 
-        //then
-        assertThatThrownBy { storage.loadGame(id) }
-            .isInstanceOf(GameDoesNotExistException::class.java)
-            .hasMessage("Game with ID $id does not exist.")
-    }
+  @Test
+  fun `loading game that exists`() {
+    // Given
+    val game = Game(TEST_NUMBER)
+    storage.saveGame(game)
 
-    @Test
-    fun `loading game that exists`() {
-        //given
-        val id = TEST_NUMBER
-        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        storage.saveGame(id, fen)
+    // When
+    val output = game.boardToString()
 
-        //when
-        val output = storage.loadGame(id)
+    // Then
+    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
+  }
 
-        //then
-        assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
-    }
+  @Test
+  fun `deleting a game`() {
+    // Given
+    val game = Game(TEST_NUMBER)
+    storage.saveGame(game)
 
-    @Test
-    fun `deleting a game`() {
-        //given
-        val id = TEST_NUMBER
-        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        storage.saveGame(id, fen)
+    // When
+    storage.deleteGame(game)
 
-        //when
-        storage.deleteGame(id)
+    // Then
+    assertThatThrownBy { storage.loadGame(TEST_NUMBER) }
+      .hasMessage("Game with ID $TEST_NUMBER does not exist.")
+  }
 
-        //then
-        assertThatThrownBy { storage.loadGame(id) }
-            .isInstanceOf(GameDoesNotExistException::class.java)
-            .hasMessage("Game with ID $id does not exist.")
-    }
+  @Test
+  fun `create two games and load the first`() {
+    // Given
+    val game1 = Game(TEST_NUMBER)
+    val game2 = Game(TEST_NUMBER + 1)
 
-    @Test
-    fun `create two games and load the first`() {
-        // Given
-        val id1 = TEST_NUMBER
-        val fen1 = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        val id2 = TEST_NUMBER + 1
-        val fen2 = "Rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+    // When
+    storage.saveGame(game1)
+    storage.saveGame(game2)
+    val output = game1.boardToString()
 
-        // When
-        storage.saveGame(id1, fen1)
-        storage.saveGame(id2, fen2)
-        val output = storage.loadGame(id1)
+    // Then
+    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
+  }
 
-        // Then
-        assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
-    }
+  @Test
+  fun `save game to file that contains gibberish`() {
+    // Given
+    val game = Game(TEST_NUMBER)
+    file.writeText("gibberish")
 
-    @Test
-    fun `save game to file that contains gibberish`() {
-        // Given
-        val id = TEST_NUMBER
-        val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-        file.writeText("gibberish")
+    // When
+    storage.saveGame(game)
 
-        // When
-        storage.saveGame(id, fen)
+    // Then
+    assertThat(file.readLines()).isEqualTo(
+      listOf(
+        "gibberish",
+        "${game.id};${game.fen}"
+      )
+    )
+  }
 
-        // Then
-        assertThat(file.readLines()).isEqualTo(listOf("gibberish", "$id;$fen"))
-    }
+  @Test
+  fun `load game that has difficult fen`() {
+    // Given
+    val fen = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
+    val game = Game(TEST_NUMBER, fen = fen)
+    storage.saveGame(game)
 
-    @Test
-    fun `load game that has difficult fen`() {
-        // Given
-        val id = TEST_NUMBER
-        val fen = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
+    // When
+    val output = game.boardToString()
 
-        // When
-        storage.saveGame(id, fen)
-        val output = storage.loadGame(id)
+    // Then
+    assertThat(output).isEqualTo("r   b k       r \np     p B p N p \nn         n     \n  p   N P     P \n            P   \n      P         \nP   P   K       \nq           b   \n")
+  }
 
-        // Then
-        assertThat(output).isEqualTo("r   b k       r \np     p B p N p \nn         n     \n  p   N P     P \n            P   \n      P         \nP   P   K       \nq           b   \n")
-    }
+  @Test
+  fun `get normal game`() {
+    // Given
+    val fen = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
+    val game = Game(TEST_NUMBER, fen = fen)
+    storage.saveGame(game)
+
+    // When
+    val gameLoaded = storage.loadGame(TEST_NUMBER)
+
+    // Then
+    assertThat(gameLoaded.id).isEqualTo(game.id)
+    assertThat(gameLoaded.fen).isEqualTo(fen)
+  }
 
 }
