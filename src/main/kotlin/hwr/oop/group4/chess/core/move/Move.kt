@@ -17,22 +17,26 @@ class Move(
 
   fun validateMove(board: Board, playerAtTurn: Player) {
     if (board.getField(startLocation).piece != movingPiece) {
-      throw IllegalArgumentException("$startLoc does not contain a $piece")
+      throw NonExistentPieceException(startLoc, piece)
     }
 
     if (movingPiece.color != playerAtTurn.color) {
-      throw IllegalStateException("You can not move a ${movingPiece.color} piece")
+      throw WrongColorMovedException(movingPiece)
     }
 
     val occupyingPiece = board.getField(endLocation).piece
 
-    if (occupyingPiece != null) { //if other color and capture, then capture. if other color: do u want to capture?
+    if (occupyingPiece != null) {
       if (occupyingPiece.color == playerAtTurn.color) {
-        throw IllegalStateException("$endLoc is already occupied with ${occupyingPiece.description}")
+        throw SameColorCaptureException(endLoc, occupyingPiece)
       } else if (occupyingPiece.color != playerAtTurn.color && !capture) {
-        throw IllegalStateException("$endLoc is already occupied with ${occupyingPiece.description}, do you want to capture?")
+        throw CaptureException(endLoc, occupyingPiece)
+        // This doesn't make sense, bc the user only runs the program with each command.
+        // He can't respond to a question. So the capture needs to be automatic.
+        // This code has to be rewritten...
       }
     }
+
 
     if (endLocation !in movingPiece.allowedLocations(
         startLocation,
@@ -40,7 +44,28 @@ class Move(
         capture
       )
     ) {
-      throw IllegalArgumentException("$piece can not be moved to $endLoc")
+      throw IllegalMoveException(piece, endLoc)
     }
   }
 }
+
+class IllegalMoveException(piece: String, endLoc: String) : Exception(
+  "$piece can not be moved to $endLoc"
+)
+
+class CaptureException(endLoc: String, occupyingPiece: Piece) : Exception(
+  "$endLoc is already occupied with ${occupyingPiece.description}, do you want to capture?"
+)
+
+class SameColorCaptureException(endLoc: String, occupyingPiece: Piece) :
+  Exception(
+    "$endLoc is already occupied with ${occupyingPiece.description}"
+  )
+
+class WrongColorMovedException(movingPiece: Piece) : Exception(
+  "You can not move a ${movingPiece.color} piece"
+)
+
+class NonExistentPieceException(startLoc: String, piece: String) : Exception(
+  "$startLoc does not contain a $piece"
+)
