@@ -40,7 +40,7 @@ class GeneratorFEN {
           }
           try {
             FEN.append(parsePiece(piece))
-          } catch (UnknownPieceException) {
+          } catch (e: UnknownPieceException) {
             throw InvalidFenException()
           }
         }
