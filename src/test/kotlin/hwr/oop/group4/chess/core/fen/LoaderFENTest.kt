@@ -25,6 +25,7 @@ class LoaderFENTest : AnnotationSpec() {
     val fieldD8 = board.getField(Location(File.D, 8))
     val fieldB2 = board.getField(Location(File.B, 2))
     val fieldG4 = board.getField(Location(File.G, 4))
+    val fieldG1 = board.getField(Location(File.G, 1))
 
     loaderFEN.placePieces(readerFEN, board)
 
@@ -43,6 +44,8 @@ class LoaderFENTest : AnnotationSpec() {
     assertThat(fieldB2.piece?.name).isEqualTo("Pawn")
     assertThat(fieldB2.piece?.color).isEqualTo(Color.WHITE)
     assertThat(fieldG4.piece).isNull()
+    assertThat(fieldG1.piece?.name).isEqualTo("Knight")
+    assertThat(fieldG1.piece?.color).isEqualTo(Color.WHITE)
   }
 
   @Test

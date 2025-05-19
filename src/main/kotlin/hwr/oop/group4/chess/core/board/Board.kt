@@ -6,23 +6,31 @@ import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
 
 class Board {
-  val root: Field = generateFirstFieldOfRank() // ist A1
+  private val root: Field = generateFirstFieldOfRank() // ist A1
+  private lateinit var fields: Map<Location, Field>
 
   private fun generateFirstFieldOfRank(): Field {
     var previousRankStart: Field? = null
-    var firstRankStart: Field? = null
+    lateinit var firstRankStart: Field
+    val allFields = mutableMapOf<Location, Field>()
 
     for (currentRank in 1..8) {
-      val currentRankStart = generateRank(currentRank, previousRankStart)
+      val currentRankStart =
+        generateRank(currentRank, previousRankStart, allFields)
       if (currentRank == 1) {
         firstRankStart = currentRankStart
       }
       previousRankStart = currentRankStart
     }
-    return firstRankStart!! //A1
+    fields = allFields.toMap()
+    return firstRankStart //A1
   }
 
-  private fun generateRank(rank: Int, previousRankStart: Field?): Field {
+  private fun generateRank(
+    rank: Int,
+    previousRankStart: Field?,
+    allFields: MutableMap<Location, Field>,
+  ): Field {
     var currentField = Field(
       Location(
         File.values()[0],
@@ -33,6 +41,8 @@ class Board {
       currentField // stationary pointer to first Field of Rank
     var bottomField: Field? =
       previousRankStart // moving pointer to the Field below the current Field
+    allFields[currentField.location] = currentField
+
 
     for (file in 1..8) {
       val hasBottomField: Boolean = bottomField != null
@@ -48,6 +58,7 @@ class Board {
         currentField.right = newField
         newField.left = currentField
         currentField = newField
+        allFields[currentField.location] = currentField
       }
 
       if (hasBottomField && isNotLastFile) {
@@ -58,17 +69,8 @@ class Board {
   }
 
   fun getField(location: Location): Field {
-    var current: Field? = root
-
-    while (current!!.location.rank < location.rank) {
-      current = current.top
-        ?: throw IllegalArgumentException("Invalid rank ${location.rank}")
-    }
-    while (current!!.location.file.ordinal < location.file.ordinal) {
-      current = current.right
-        ?: throw IllegalArgumentException("Invalid file ${location.file}")
-    }
-    return current
+    return fields[location]
+      ?: throw NoFieldException(location)
   }
 
   fun nextField(location: Location): Field { // next means go one right if possible, else switch rank 1 down
@@ -83,7 +85,12 @@ class Board {
         )
       )   // next file, same rank
     } else if (rank > 1) {
-      getField(Location(File.A, rank - 1))  // beginning of the next rank, down
+      getField(
+        Location(
+          File.A,
+          rank - 1
+        )
+      )  // beginning of the next rank, down
     } else {
       getField(location) // last Field with no successor (H1) returns H1
     }
@@ -102,3 +109,7 @@ class Board {
     removePieceFromField(move.startLocation)
   }
 }
+
+class NoFieldException(location: Location) : Exception(
+  "No field at ${location.description}"
+)

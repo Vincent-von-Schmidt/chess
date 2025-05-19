@@ -124,10 +124,9 @@ class MoveTest : AnnotationSpec() {
     // When
     val move = Move(startLocation, endLocation, pawn, true)
 
-    // Then
     assertThatThrownBy {
       game.movePiece(move)
-    }.hasMessageContaining("BLACK Pawn can not capture WHITE Queen at D4")
+    }.hasMessageContaining("BLACK Pawn can not be moved to D4")
   }
 
   @Test

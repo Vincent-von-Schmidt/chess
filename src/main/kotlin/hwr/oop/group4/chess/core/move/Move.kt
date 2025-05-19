@@ -8,8 +8,8 @@ import hwr.oop.group4.chess.core.player.Player
 class Move(
   val startLocation: Location,
   val endLocation: Location,
-  val movingPiece: Piece,
-  val capture: Boolean = false,
+  val movingPiece: Piece, // muss ausm board selbst bestimmt werden
+  val capture: Boolean = false, // muss ausm board selbst bestimmt werden
 ) {
   private val piece = movingPiece.description
   private val startLoc = startLocation.description
@@ -17,38 +17,55 @@ class Move(
 
   fun validateMove(board: Board, playerAtTurn: Player) {
     if (board.getField(startLocation).piece != movingPiece) {
-      throw IllegalArgumentException("$startLoc does not contain a $piece")
+      throw NonExistentPieceException(startLoc, piece)
     }
 
     if (movingPiece.color != playerAtTurn.color) {
-      throw IllegalStateException("You can not move a ${movingPiece.color} piece")
+      throw WrongColorMovedException(movingPiece)
     }
 
     val occupyingPiece = board.getField(endLocation).piece
 
-    if (occupyingPiece != null) { //if other color and capture, then capture. if other color: do u want to capture?
+    if (occupyingPiece != null) {
       if (occupyingPiece.color == playerAtTurn.color) {
-        throw IllegalStateException("$endLoc is already occupied with ${occupyingPiece.description}")
+        throw SameColorCaptureException(endLoc, occupyingPiece)
       } else if (occupyingPiece.color != playerAtTurn.color && !capture) {
-        throw IllegalStateException("$endLoc is already occupied with ${occupyingPiece.description}, do you want to capture?")
+        throw CaptureException(endLoc, occupyingPiece)
+        // This doesn't make sense, bc the user only runs the program with each command.
+        // He can't respond to a question. So the capture needs to be automatic.
+        // This code has to be rewritten...
       }
     }
 
-    if (capture) {
-      if (occupyingPiece == null) {
-        throw IllegalArgumentException("at $endLoc is no piece to capture")
-      }
-      if (endLocation !in movingPiece.allowedCaptureLocations(
-          startLocation,
-          board
-        )
-      ) {
-        throw IllegalArgumentException("$piece can not capture ${occupyingPiece.description} at $endLoc")
-      }
-    } else {
-      if (endLocation !in movingPiece.allowedLocations(startLocation, board)) {
-        throw IllegalArgumentException("$piece can not be moved to $endLoc")
-      }
+
+    if (endLocation !in movingPiece.allowedLocations(
+        startLocation,
+        board,
+        capture
+      )
+    ) {
+      throw IllegalMoveException(piece, endLoc)
     }
   }
 }
+
+class IllegalMoveException(piece: String, endLoc: String) : Exception(
+  "$piece can not be moved to $endLoc"
+)
+
+class CaptureException(endLoc: String, occupyingPiece: Piece) : Exception(
+  "$endLoc is already occupied with ${occupyingPiece.description}, do you want to capture?"
+)
+
+class SameColorCaptureException(endLoc: String, occupyingPiece: Piece) :
+  Exception(
+    "$endLoc is already occupied with ${occupyingPiece.description}"
+  )
+
+class WrongColorMovedException(movingPiece: Piece) : Exception(
+  "You can not move a ${movingPiece.color} piece"
+)
+
+class NonExistentPieceException(startLoc: String, piece: String) : Exception(
+  "$startLoc does not contain a $piece"
+)
