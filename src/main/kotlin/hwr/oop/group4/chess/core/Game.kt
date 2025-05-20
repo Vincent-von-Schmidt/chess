@@ -30,7 +30,6 @@ class Game(
   }
 
   fun movePiece(move: Move): Boolean {
-
     val playerAtTurn = turn.currentPlayer
     move.validateMove(board, playerAtTurn)
     board.movePiece(move)
