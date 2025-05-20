@@ -22,7 +22,7 @@ class GeneratorFEN {
   }
 
   fun generateFEN(board: Board): String {
-    val FEN = StringBuilder()
+    val fen = StringBuilder()
 
     for (rank in 8 downTo 1) {
       var emptyCount = 0
@@ -35,11 +35,11 @@ class GeneratorFEN {
           emptyCount++
         } else {
           if (emptyCount > 0) {
-            FEN.append(emptyCount)
+            fen.append(emptyCount)
             emptyCount = 0
           }
           try {
-            FEN.append(parsePiece(piece))
+            fen.append(parsePiece(piece))
           } catch (e: UnknownPieceException) {
             throw InvalidBoardException()
           }
@@ -47,12 +47,12 @@ class GeneratorFEN {
       }
 
       if (emptyCount > 0) {
-        FEN.append(emptyCount)
+        fen.append(emptyCount)
       }
-      if (rank > 1) FEN.append("/")
+      if (rank > 1) fen.append("/")
     }
 
-    return FEN.toString()
+    return fen.toString()
   }
 }
 

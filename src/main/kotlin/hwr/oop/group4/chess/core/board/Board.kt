@@ -73,6 +73,10 @@ class Board {
       ?: throw NoFieldException(location)
   }
 
+  fun getPiece(location: Location): Piece? {
+    return getField(location).piece
+  }
+
   fun nextField(location: Location): Field { // next means go one right if possible, else switch rank 1 down
     val fileIndex = location.file.ordinal
     val rank = location.rank
@@ -105,7 +109,7 @@ class Board {
   }
 
   fun movePiece(move: Move) {
-    setPieceToField(move.endLocation, move.movingPiece)
+    setPieceToField(move.endLocation, getPiece(move.startLocation)!!)
     removePieceFromField(move.startLocation)
   }
 }

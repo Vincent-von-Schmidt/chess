@@ -58,6 +58,6 @@ class LoaderFENTest : AnnotationSpec() {
 
     assertThatThrownBy {
       fenLoader.placePieces(fenReader, board)
-    }.hasMessageContaining("Unknown char: z")
+    }.hasMessageContaining("The fen string: [rnbqkbnr, zppppppp, 8, 8, 8, 8, PPPPPPPP, RNBQKBNR] WHITE KQkq c6 0 2 is invalid.")
   }
 }

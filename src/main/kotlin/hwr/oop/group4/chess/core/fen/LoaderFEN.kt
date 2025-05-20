@@ -40,12 +40,12 @@ class LoaderFEN {
         }
       }
     }
-    TODO("implement castling and en passant")
+  // TODO("implement castling and en passant")
   }
 }
 
 class InvalidFenException(fen: ReaderFEN) : Exception(
-  "The fen string: $fen is invalid."
+  "The fen string: ${fen.piecePlacement} ${fen.activeColor} ${fen.castle} ${fen.enpassant} ${fen.halfmoves} ${fen.fullmoves} is invalid."
 )
 
 class IllegalPieceException(char: Char) : Exception(

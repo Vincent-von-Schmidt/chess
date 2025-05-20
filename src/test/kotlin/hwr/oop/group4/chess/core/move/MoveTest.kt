@@ -25,12 +25,12 @@ class MoveTest : AnnotationSpec() {
     val pawn = Pawn(Color.WHITE)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
       game.movePiece(move)
-    }.hasMessageContaining("A2 does not contain a WHITE Pawn")
+    }.hasMessageContaining("A2 does not contain a piece")
     storage.deleteGame(game)
   }
 
@@ -38,19 +38,18 @@ class MoveTest : AnnotationSpec() {
   fun `field with wrong piece is immovable`() {
     // Given
     val game = Game(TEST_NUMBER)
-    val pawn = Pawn(Color.WHITE)
     val queen = Queen(Color.WHITE)
     val startLocation = Location(File.A, 2)
     val endLocation = Location(File.H, 7)
     game.board.setPieceToField(startLocation, queen)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
       game.movePiece(move)
-    }.hasMessageContaining("A2 does not contain a WHITE Pawn")
+    }.hasMessageContaining("WHITE Queen can not be moved to H7")
   }
 
   @Test
@@ -63,7 +62,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, pawn)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
@@ -83,32 +82,12 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(endLocation, queen)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
       game.movePiece(move)
     }.hasMessageContaining("D4 is already occupied with WHITE Queen")
-  }
-
-  @Test
-  fun `throw on white pawn move to black queen`() {
-    // Given
-    val game = Game(TEST_NUMBER)
-    val pawn = Pawn(Color.WHITE)
-    val queen = Queen(Color.BLACK)
-    val startLocation = Location(File.D, 3)
-    val endLocation = Location(File.D, 4)
-    game.board.setPieceToField(startLocation, pawn)
-    game.board.setPieceToField(endLocation, queen)
-
-    // When
-    val move = Move(startLocation, endLocation, pawn)
-
-    // Then
-    assertThatThrownBy {
-      game.movePiece(move)
-    }.hasMessageContaining("D4 is already occupied with BLACK Queen, do you want to capture?")
   }
 
   @Test
@@ -124,7 +103,7 @@ class MoveTest : AnnotationSpec() {
     game.turn.switchTurn()
 
     // When
-    val move = Move(startLocation, endLocation, pawn, true)
+    val move = Move(startLocation, endLocation)
 
     assertThatThrownBy {
       game.movePiece(move)
@@ -143,7 +122,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(endLocation, queen)
 
     // When
-    val move = Move(startLocation, endLocation, pawn, true)
+    val move = Move(startLocation, endLocation)
     game.movePiece(move)
 
     // Then
@@ -163,7 +142,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(endLocation, king)
 
     // When
-    val move = Move(startLocation, endLocation, knight, true)
+    val move = Move(startLocation, endLocation)
     game.movePiece(move)
 
     // Then
@@ -181,7 +160,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, pawn)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
     game.turn.switchTurn()
 
     // Then
@@ -200,7 +179,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, pawn)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
     game.turn.switchTurn()
 
     // Then
@@ -219,7 +198,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, pawn)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
     game.turn.switchTurn()
     game.movePiece(move)
 
@@ -238,7 +217,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, pawn)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
@@ -256,7 +235,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, pawn)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
@@ -274,7 +253,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, pawn)
 
     // When
-    val move = Move(startLocation, endLocation, pawn)
+    val move = Move(startLocation, endLocation)
     game.movePiece(move)
 
     // Then
@@ -300,7 +279,7 @@ class MoveTest : AnnotationSpec() {
       game.board.setPieceToField(startLocation, king)
 
       // When
-      val move = Move(startLocation, endLocation, king)
+      val move = Move(startLocation, endLocation)
       game.movePiece(move)
 
       // Then
@@ -320,7 +299,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, king)
 
     // When
-    val move = Move(startLocation, endLocation, king)
+    val move = Move(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
@@ -340,7 +319,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(endLocation, rook)
 
     // When
-    val move = Move(startLocation, endLocation, king, true)
+    val move = Move(startLocation, endLocation)
     game.movePiece(move)
 
     // Then
@@ -369,7 +348,7 @@ class MoveTest : AnnotationSpec() {
       game.board.setPieceToField(startLocation, knight)
 
       // When
-      val move = Move(startLocation, endLocation, knight)
+      val move = Move(startLocation, endLocation)
       game.turn.switchTurn()
       game.movePiece(move)
 
@@ -390,7 +369,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, knight)
 
     // When
-    val move = Move(startLocation, endLocation, knight)
+    val move = Move(startLocation, endLocation)
     game.turn.switchTurn()
 
     // Then
@@ -421,7 +400,7 @@ class MoveTest : AnnotationSpec() {
       game.board.setPieceToField(startLocation, queen)
 
       // When
-      val move = Move(startLocation, endLocation, queen)
+      val move = Move(startLocation, endLocation)
       game.board.movePiece(move)
 
       // Then
@@ -441,7 +420,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, queen)
 
     // When
-    val move = Move(startLocation, endLocation, queen)
+    val move = Move(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
@@ -461,7 +440,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(endLocation, rook)
 
     // When
-    val move = Move(startLocation, endLocation, queen, true)
+    val move = Move(startLocation, endLocation)
     game.movePiece(move)
 
     // Then
@@ -483,7 +462,7 @@ class MoveTest : AnnotationSpec() {
     for (endLocation in endLocations) {
       game.board.setPieceToField(startLocation, bishop)
       // When
-      val move = Move(startLocation, endLocation, bishop)
+      val move = Move(startLocation, endLocation)
       game.turn.switchTurn()
       game.movePiece(move)
 
@@ -508,7 +487,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(occupiedLocation, king)
 
     // When
-    val move = Move(startLocation, interruptedLocation, bishop)
+    val move = Move(startLocation, interruptedLocation)
     game.turn.switchTurn()
 
     // Then
@@ -527,7 +506,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, bishop)
 
     // When
-    val move = Move(startLocation, endLocation, bishop)
+    val move = Move(startLocation, endLocation)
     game.turn.switchTurn()
 
     // Then
@@ -548,7 +527,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(endLocation, rook)
 
     // When
-    val move = Move(startLocation, endLocation, bishop, true)
+    val move = Move(startLocation, endLocation)
     game.movePiece(move)
 
     // Then
@@ -571,7 +550,7 @@ class MoveTest : AnnotationSpec() {
       game.board.setPieceToField(startLocation, rook)
 
       // When
-      val move = Move(startLocation, endLocation, rook)
+      val move = Move(startLocation, endLocation)
       game.movePiece(move)
 
       // Then
@@ -591,7 +570,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, rook)
 
     // When
-    val move = Move(startLocation, endLocation, rook)
+    val move = Move(startLocation, endLocation)
     game.turn.switchTurn()
 
     // Then
@@ -612,7 +591,7 @@ class MoveTest : AnnotationSpec() {
     game.board.setPieceToField(endLocation, bishop)
 
     // When
-    val move = Move(startLocation, endLocation, rook, true)
+    val move = Move(startLocation, endLocation)
     game.movePiece(move)
 
     // Then
