@@ -1,26 +1,26 @@
 set shell := ["powershell"]
 
 default:
-  just --list
+    just --list
 
 # Useful commands for the project
 build:
-  .\mvnw.cmd clean package
+    .\mvnw.cmd clean package
 
 mutation-testing:
-  .\mvnw.cmd package pitest:mutationCoverage
+    .\mvnw.cmd package pitest:mutationCoverage
 
 setup-maven-wrapper:
-  chmod +x ./mvnw
+    chmod +x ./mvnw
 
 reset-maven-wrapper:
-  chmod -x ./mvnw
+    chmod -x ./mvnw
 
 # Convenience scripts for syncing the project fork with the template
 setup fork:
-  git remote add upstream git@github.com:stefreschke/hwr-oop-project-template.git
-  git fetch upstream
+    git remote add upstream git@github.com:stefreschke/hwr-oop-project-template.git
+    git fetch upstream
 
 sync fork:
-	git switch main
-	git pull --rebase upstream main
+    git switch main
+    git pull --rebase upstream main

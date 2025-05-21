@@ -5,9 +5,9 @@ import org.assertj.core.api.Assertions.assertThat
 
 class FileTest : AnnotationSpec() {
 
-    @Test
-    fun `next file of a is b`() {
-        val file = File.A
-        assertThat(file.next()).isEqualTo(File.B)
-    }
+  @Test
+  fun `next file of a is b`() {
+    val file = File.A
+    assertThat(file.next()).isEqualTo(File.B)
+  }
 }
