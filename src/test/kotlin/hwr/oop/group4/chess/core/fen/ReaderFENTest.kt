@@ -71,9 +71,9 @@ class ReaderFENTest : AnnotationSpec() {
   @Test
   fun `halfmoves are read correctly`() {
     val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
+      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 1 2"
     val fenOb = ReaderFEN(notationExample)
-    assertThat(fenOb.halfmoves).isEqualTo(0)
+    assertThat(fenOb.halfmoves).isEqualTo(1)
   }
 
   @Test
@@ -82,5 +82,13 @@ class ReaderFENTest : AnnotationSpec() {
       "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
     val fenOb = ReaderFEN(notationExample)
     assertThat(fenOb.fullmoves).isEqualTo(2)
+  }
+
+  @Test
+  fun `check returnvalue of reader dataclass`() {
+    val notation: String = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
+    val reader = ReaderFEN(notation)
+
+    assertThat(reader.notation).isEqualTo(notation)
   }
 }

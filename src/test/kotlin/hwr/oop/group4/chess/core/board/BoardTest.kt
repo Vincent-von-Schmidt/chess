@@ -73,8 +73,8 @@ class BoardTest : AnnotationSpec() {
         // TODO: problem -> if upper end of interval greater than 8, no code will be executed and so cant be checked by a test
 
         var length: Int = 0
-        val rootLocation = Location(File.A, 2)
-        var current: Field? = this.board.getField(rootLocation)
+        val location = Location(File.A, 2)
+        var current: Field? = this.board.getField(location)
 
         while (current?.bottom != null) {
             length++
@@ -85,4 +85,11 @@ class BoardTest : AnnotationSpec() {
         assertThat(length).isEqualTo(8)
     }
 
+  @Test
+  fun `root pointer is pointing to A1`() {
+    val rootLocation = Location(File.A, 1)
+    val firstField: Field = this.board.getField(rootLocation)
+
+    assertThat(firstField.location).isEqualTo(rootLocation)
+  }
 }
