@@ -78,4 +78,21 @@ class BoardTest : AnnotationSpec() {
         assertThat(board.nextField(location).location.description).isEqualTo("H1")
     }
 
+    @Test
+    fun `rank length is 8`() {
+        // TODO: problem -> if upper end of interval greater than 8, no code will be executed and so cant be checked by a test
+
+        var length: Int = 0
+        val rootLocation = Location(File.A, 2)
+        var current: Field? = this.board.getField(rootLocation)
+
+        while (current?.bottom != null) {
+            length++
+            println("$length -> ${current.location.file}${current.location.rank}")
+            current = current.right
+        }
+
+        assertThat(length).isEqualTo(8)
+    }
+
 }
