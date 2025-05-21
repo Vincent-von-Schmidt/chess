@@ -16,10 +16,10 @@ data class ReaderFEN(val notation: String) {
 }
 
 /* "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-groß weiß, klein schawarz,
+groß weiß, klein schwarz,
 zahl:freie felder,
 w oder b für wessen zug es ist,
-castlezüge KQkq
+castle-züge KQkq
 c6 ein en passant ziel feld
 50züge remis regel zähler, (halbzüge)
 zugzähler */
