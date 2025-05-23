@@ -49,14 +49,14 @@ class Board {
       val isNotLastFile: Boolean = file < 8
 
       if (hasBottomField) {
-        currentField.bottom = bottomField
-        bottomField!!.top = currentField
+        currentField.connectBottom(bottomField!!)
+        bottomField.connectTop(currentField)
       }
 
       if (isNotLastFile) { // new field on the right of current
         val newField = Field(Location(File.values()[file], rank))
-        currentField.right = newField
-        newField.left = currentField
+        currentField.connectRight(newField)
+        newField.connectLeft(currentField)
         currentField = newField
         allFields[currentField.location] = currentField
       }
