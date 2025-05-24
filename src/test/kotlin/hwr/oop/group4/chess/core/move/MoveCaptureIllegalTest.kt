@@ -31,6 +31,4 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
       game.movePiece(move)
     }.hasMessageContaining("BLACK Pawn can not be moved to D4")
   }
-
-
 }

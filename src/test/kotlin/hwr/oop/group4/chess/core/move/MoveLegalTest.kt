@@ -80,7 +80,6 @@ class MoveLegalTest : AnnotationSpec() {
       // Then
       assertThat(pieceOnStartLocation).isNull()
       assertThat(pieceOnEndLocation).isEqualTo(king)
-      assertThat(pieceOnEndLocation!!.color).isEqualTo(Color.WHITE)
     }
   }
 
