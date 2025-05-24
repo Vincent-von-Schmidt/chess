@@ -11,8 +11,6 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class MoveIllegalTest : AnnotationSpec() {
 
-  private val storage = GameStorage()
-
   @Test
   fun `empty field is immovable`() {
     // Given
@@ -27,7 +25,6 @@ class MoveIllegalTest : AnnotationSpec() {
     assertThatThrownBy {
       game.movePiece(move)
     }.hasMessageContaining("A2 does not contain a piece")
-    storage.deleteGame(game)
   }
 
   @Test

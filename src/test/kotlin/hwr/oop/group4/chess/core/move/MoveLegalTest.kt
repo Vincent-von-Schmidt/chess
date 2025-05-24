@@ -19,17 +19,19 @@ class MoveLegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
     val pawn = Pawn(Color.BLACK)
     val startLocation = Location(File.D, 5)
-    val endLocation = Location(File.D, 4) // legal move
+    val endLocation = Location(File.D, 4)
     game.board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
     game.turn.switchTurn()
     game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
     // Then
-    assertThat(game.board.getField(startLocation).piece).isNull()
-    assertThat(game.board.getField(endLocation).piece).isEqualTo(pawn)
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(pawn)
   }
 
   @Test
@@ -44,10 +46,12 @@ class MoveLegalTest : AnnotationSpec() {
     // When
     val move = Move(startLocation, endLocation)
     game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
     // Then
-    assertThat(game.board.getField(startLocation).piece).isNull()
-    assertThat(game.board.getField(endLocation).piece).isEqualTo(pawn)
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(pawn)
   }
 
   @Test
@@ -70,11 +74,13 @@ class MoveLegalTest : AnnotationSpec() {
       // When
       val move = Move(startLocation, endLocation)
       game.movePiece(move)
+      val pieceOnStartLocation = game.board.getField(startLocation).piece
+      val pieceOnEndLocation = game.board.getField(endLocation).piece
 
       // Then
-      assertThat(game.board.getField(startLocation).piece).isNull()
-      assertThat(game.board.getField(endLocation).piece).isEqualTo(king)
-      assertThat(game.board.getField(endLocation).piece?.color).isEqualTo(Color.WHITE)
+      assertThat(pieceOnStartLocation).isNull()
+      assertThat(pieceOnEndLocation).isEqualTo(king)
+      assertThat(pieceOnEndLocation!!.color).isEqualTo(Color.WHITE)
     }
   }
 
@@ -102,11 +108,12 @@ class MoveLegalTest : AnnotationSpec() {
       val move = Move(startLocation, endLocation)
       game.turn.switchTurn()
       game.movePiece(move)
+      val pieceOnStartLocation = game.board.getField(startLocation).piece
+      val pieceOnEndLocation = game.board.getField(endLocation).piece
 
       // Then
-      assertThat(game.board.getField(startLocation).piece).isNull()
-      assertThat(game.board.getField(endLocation).piece).isEqualTo(knight)
-      assertThat(game.board.getField(endLocation).piece?.color).isEqualTo(Color.BLACK)
+      assertThat(pieceOnStartLocation).isNull()
+      assertThat(pieceOnEndLocation).isEqualTo(knight)
     }
   }
 
@@ -134,11 +141,12 @@ class MoveLegalTest : AnnotationSpec() {
       // When
       val move = Move(startLocation, endLocation)
       game.board.movePiece(move)
+      val pieceOnStartLocation = game.board.getField(startLocation).piece
+      val pieceOnEndLocation = game.board.getField(endLocation).piece
 
       // Then
-      assertThat(game.board.getField(startLocation).piece).isNull()
-      assertThat(game.board.getField(endLocation).piece).isEqualTo(queen)
-      assertThat(game.board.getField(endLocation).piece?.color).isEqualTo(Color.WHITE)
+      assertThat(pieceOnStartLocation).isNull()
+      assertThat(pieceOnEndLocation).isEqualTo(queen)
     }
   }
 
@@ -159,11 +167,12 @@ class MoveLegalTest : AnnotationSpec() {
       val move = Move(startLocation, endLocation)
       game.turn.switchTurn()
       game.movePiece(move)
+      val pieceOnStartLocation = game.board.getField(startLocation).piece
+      val pieceOnEndLocation = game.board.getField(endLocation).piece
 
       // Then
-      assertThat(game.board.getField(startLocation).piece).isNull()
-      assertThat(game.board.getField(endLocation).piece).isEqualTo(bishop)
-      assertThat(game.board.getField(endLocation).piece?.color).isEqualTo(Color.BLACK)
+      assertThat(pieceOnStartLocation).isNull()
+      assertThat(pieceOnEndLocation).isEqualTo(bishop)
     }
   }
 
@@ -184,11 +193,12 @@ class MoveLegalTest : AnnotationSpec() {
       // When
       val move = Move(startLocation, endLocation)
       game.movePiece(move)
+      val pieceOnStartLocation = game.board.getField(startLocation).piece
+      val pieceOnEndLocation = game.board.getField(endLocation).piece
 
       // Then
-      assertThat(game.board.getField(startLocation).piece).isNull()
-      assertThat(game.board.getField(endLocation).piece).isEqualTo(rook)
-      assertThat(game.board.getField(endLocation).piece?.color).isEqualTo(Color.WHITE)
+      assertThat(pieceOnStartLocation).isNull()
+      assertThat(pieceOnEndLocation).isEqualTo(rook)
     }
   }
 }

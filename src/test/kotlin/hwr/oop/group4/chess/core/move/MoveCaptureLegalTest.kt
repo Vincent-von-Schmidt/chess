@@ -26,10 +26,12 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     // When
     val move = Move(startLocation, endLocation)
     game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
     // Then
-    assertThat(game.board.getField(startLocation).piece).isNull()
-    assertThat(game.board.getField(endLocation).piece).isEqualTo(pawn)
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(pawn)
   }
 
   @Test
@@ -46,10 +48,12 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     // When
     val move = Move(startLocation, endLocation)
     game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
     // Then
-    assertThat(game.board.getField(startLocation).piece).isNull()
-    assertThat(game.board.getField(endLocation).piece).isEqualTo(knight)
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
   }
 
   @Test
@@ -66,10 +70,12 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     // When
     val move = Move(startLocation, endLocation)
     game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
     // Then
-    assertThat(game.board.getField(startLocation).piece).isNull()
-    assertThat(game.board.getField(endLocation).piece).isEqualTo(king)
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(king)
   }
 
   @Test
@@ -86,10 +92,12 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     // When
     val move = Move(startLocation, endLocation)
     game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
     // Then
-    assertThat(game.board.getField(startLocation).piece).isNull()
-    assertThat(game.board.getField(endLocation).piece).isEqualTo(queen)
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
   }
 
   @Test
@@ -106,10 +114,12 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     // When
     val move = Move(startLocation, endLocation)
     game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
     // Then
-    assertThat(game.board.getField(startLocation).piece).isNull()
-    assertThat(game.board.getField(endLocation).piece).isEqualTo(bishop)
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(bishop)
   }
 
   @Test
@@ -126,9 +136,11 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     // When
     val move = Move(startLocation, endLocation)
     game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
     // Then
-    assertThat(game.board.getField(startLocation).piece).isNull()
-    assertThat(game.board.getField(endLocation).piece).isEqualTo(rook)
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(rook)
   }
 }
