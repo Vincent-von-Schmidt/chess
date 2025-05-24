@@ -30,4 +30,23 @@ class MoveTurnTest : AnnotationSpec() {
     }.hasMessageContaining("You can not move a BLACK piece")
   }
 
+  @Test
+  fun `black player cant move white queen`() {
+    // Given
+    val game = Game(TEST_NUMBER)
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.A, 2)
+    val endLocation = Location(File.A, 1)
+    game.board.setPieceToField(startLocation, queen)
+    game.turn.switchTurn()
+
+    // When
+    val move = Move(startLocation, endLocation)
+
+    // Then
+    assertThatThrownBy {
+      game.movePiece(move)
+    }.hasMessageContaining("You can not move a WHITE piece")
+  }
+
 }
