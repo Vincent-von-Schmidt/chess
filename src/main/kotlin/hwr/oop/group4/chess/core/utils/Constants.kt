@@ -6,4 +6,6 @@ object Constants {
   const val GAMES_FILE = "games/games.csv"
   const val STARTING_POSITION =
     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+  const val EMPTY_BOARD =
+    "8/8/8/8/8/8/8/8 w KQkq - 0 1"
 }

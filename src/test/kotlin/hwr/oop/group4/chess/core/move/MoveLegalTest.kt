@@ -1,9 +1,11 @@
 package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
@@ -68,7 +70,8 @@ class MoveLegalTest : AnnotationSpec() {
     )
 
     for (endLocation in endLocations) {
-      val game = Game(TEST_NUMBER)
+      val board = Board(EMPTY_BOARD)
+      val game = Game(TEST_NUMBER, board)
       game.board.setPieceToField(startLocation, king)
 
       // When
@@ -152,7 +155,8 @@ class MoveLegalTest : AnnotationSpec() {
   @Test
   fun `bishop moves from c8 to b7, a6, d7, h3`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val bishop = Bishop(Color.BLACK)
     val startLocation = Location(File.C, 8)
     val endLocations = listOf(
@@ -186,7 +190,8 @@ class MoveLegalTest : AnnotationSpec() {
     )
 
     for (endLocation in endLocations) {
-      val game = Game(TEST_NUMBER)
+      val board = Board(EMPTY_BOARD)
+      val game = Game(TEST_NUMBER, board)
       game.board.setPieceToField(startLocation, rook)
 
       // When

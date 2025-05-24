@@ -1,9 +1,11 @@
 package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
@@ -81,7 +83,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `queen white captures black rook`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val rook = Rook(Color.BLACK)
     val queen = Queen(Color.WHITE)
     val startLocation = Location(File.D, 5)
@@ -103,7 +106,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `bishop white captures black rook`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val rook = Rook(Color.BLACK)
     val bishop = Bishop(Color.WHITE)
     val startLocation = Location(File.D, 5)
@@ -125,7 +129,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `rook white captures black bishop`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val bishop = Bishop(Color.BLACK)
     val rook = Rook(Color.WHITE)
     val startLocation = Location(File.D, 5)

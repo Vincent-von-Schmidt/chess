@@ -1,12 +1,22 @@
 package hwr.oop.group4.chess.core.board
 
+import hwr.oop.group4.chess.core.fen.LoaderFEN
+import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
-class Board {
-  private val root: Field = generateFirstFieldOfRank() // ist A1
+class Board (fen: String = STARTING_POSITION) {
+  val root: Field
+  init {
+    root = generateFirstFieldOfRank()
+
+    val readerFEN = ReaderFEN(fen)
+    val loaderFEN = LoaderFEN()
+    loaderFEN.placePieces(readerFEN, this)
+  }
   private lateinit var fields: Map<Location, Field>
 
   private fun generateFirstFieldOfRank(): Field {
@@ -33,7 +43,7 @@ class Board {
   ): Field {
     var currentField = Field(
       Location(
-        File.values()[0],
+        File.entries[0],
         rank
       )
     ) // first Field of Rank + moving pointer to the current Field
@@ -49,12 +59,12 @@ class Board {
       val isNotLastFile: Boolean = file < 8
 
       if (hasBottomField) {
-        currentField.connectBottom(bottomField!!)
+        currentField.connectBottom(bottomField)
         bottomField.connectTop(currentField)
       }
 
       if (isNotLastFile) { // new field on the right of current
-        val newField = Field(Location(File.values()[file], rank))
+        val newField = Field(Location(File.entries[file], rank))
         currentField.connectRight(newField)
         newField.connectLeft(currentField)
         currentField = newField
@@ -62,7 +72,7 @@ class Board {
       }
 
       if (hasBottomField && isNotLastFile) {
-        bottomField = bottomField!!.right!!
+        bottomField = bottomField.right!!
       }
     }
     return rankStart
@@ -81,10 +91,10 @@ class Board {
     val fileIndex = location.file.ordinal
     val rank = location.rank
 
-    return if (fileIndex < File.values().lastIndex) {
+    return if (fileIndex < File.entries.toTypedArray().lastIndex) {
       getField(
         Location(
-          File.values()[fileIndex + 1],
+          File.entries[fileIndex + 1],
           rank
         )
       )   // next file, same rank

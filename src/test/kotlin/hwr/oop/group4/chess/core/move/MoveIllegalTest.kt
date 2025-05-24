@@ -1,9 +1,11 @@
 package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
@@ -14,7 +16,8 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `empty field is immovable`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val startLocation = Location(File.A, 2)
     val endLocation = Location(File.H, 7)
 
@@ -87,7 +90,8 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `pawn black throw on move from d5 to h8`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val pawn = Pawn(Color.BLACK)
     val startLocation = Location(File.D, 5)
     val endLocation = Location(File.H, 8) // illegal move
@@ -160,7 +164,8 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `knight throw on move from d4 to h8`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val knight = Knight(Color.BLACK)
     val startLocation = Location(File.D, 4)
     val endLocation = Location(File.H, 8) // illegal move
@@ -179,7 +184,8 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `queen throw on move from d4 to h1`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val queen = Queen(Color.WHITE)
     val startLocation = Location(File.D, 4)
     val endLocation = Location(File.H, 1) // illegal move
@@ -239,7 +245,8 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `rook throw on move from d4 to h8`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val board = Board(EMPTY_BOARD)
+    val game = Game(TEST_NUMBER, board)
     val rook = Rook(Color.BLACK)
     val startLocation = Location(File.D, 4)
     val endLocation = Location(File.H, 8) // illegal move
