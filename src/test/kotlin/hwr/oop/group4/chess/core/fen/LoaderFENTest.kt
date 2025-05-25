@@ -16,8 +16,7 @@ class LoaderFENTest : AnnotationSpec() {
     val board = Board()
     val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
-    val loaderFEN = LoaderFEN()
-    val readerFEN = ReaderFEN(fen)
+    val piecePlacement = ReaderFEN(fen).piecePlacement
 
     val fieldA1 = board.getField(Location(File.A, 1))
     val fieldH1 = board.getField(Location(File.H, 1))
@@ -27,7 +26,7 @@ class LoaderFENTest : AnnotationSpec() {
     val fieldG4 = board.getField(Location(File.G, 4))
     val fieldG1 = board.getField(Location(File.G, 1))
 
-    loaderFEN.placePieces(readerFEN, board)
+    LoaderFEN.placePieces(piecePlacement, board)
 
     assertThat(fieldA1.piece?.name).isEqualTo("Rook")
     assertThat(fieldA1.piece?.color).isEqualTo(Color.WHITE)
@@ -53,11 +52,10 @@ class LoaderFENTest : AnnotationSpec() {
     val board = Board()
     val badFen = "rnbqkbnr/zppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
-    val fenReader = ReaderFEN(badFen)
-    val fenLoader = LoaderFEN()
+    val piecePlacement = ReaderFEN(badFen).piecePlacement
 
     assertThatThrownBy {
-      fenLoader.placePieces(fenReader, board)
-    }.hasMessageContaining("The fen string: [rnbqkbnr, zppppppp, 8, 8, 8, 8, PPPPPPPP, RNBQKBNR] WHITE KQkq c6 0 2 is invalid.")
+      LoaderFEN.placePieces(piecePlacement, board)
+    }.hasMessage("The piece placement [rnbqkbnr, zppppppp, 8, 8, 8, 8, PPPPPPPP, RNBQKBNR] is invalid.")
   }
 }

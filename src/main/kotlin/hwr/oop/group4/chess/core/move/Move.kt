@@ -45,7 +45,11 @@ class Move(
   }
 
   private fun isCapture(movingPiece: Piece, board: Board): Boolean {
-    return endLocation in movingPiece.allowedLocations(startLocation, board, true)
+    return endLocation in movingPiece.allowedLocations(
+      startLocation,
+      board,
+      true
+    )
   }
 
   private fun getMovingPiece(location: Location, board: Board): Piece? {

@@ -26,7 +26,7 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = Game(id)
-        saveGamePort.saveGame(game)
+        saveGamePort.saveGame(game, newGame = true)
         println("New game $id created.")
       }
 
@@ -39,7 +39,8 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = loadGamePort.loadGame(id)
-        println(game.boardToString())
+        val gameString = game.boardToString()
+        println(gameString)
       }
 
       "on" -> {
@@ -53,7 +54,14 @@ class Cli(
         val from = args[3]
         val to = args[5]
         val game = loadGamePort.loadGame(id)
-        if (game.move(from, to)) println("Move from $from to $to executed.")
+        try {
+          game.move(from, to)
+        } catch (e: Exception) {
+          println("Invalid move from $from to $to.")
+          return
+        }
+        println("Move from $from to $to executed.")
+        saveGamePort.saveGame(game, newGame = false)
       }
 
       else -> throw NoCommandException()

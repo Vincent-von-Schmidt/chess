@@ -2,7 +2,6 @@ package hwr.oop.group4.chess.core
 
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.fen.ReaderFEN
-import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Color
 import hwr.oop.group4.chess.core.player.Player
@@ -12,13 +11,13 @@ import hwr.oop.group4.chess.core.utils.StringParser
 
 class Game(
   val id: Int,
-  val board: Board = Board(),
-  players: List<Player> = listOf(
-    Player(1, Color.WHITE),
-    Player(2, Color.BLACK)
-  ),
   val fen: String = STARTING_POSITION,
 ) {
+  val board: Board = Board(fen = fen)
+  private val players: List<Player> = listOf(
+    Player(1, Color.WHITE),
+    Player(2, Color.BLACK)
+  )
   val turn = Turn(players)
 
   fun move(from: String, to: String): Boolean {
@@ -38,11 +37,11 @@ class Game(
   }
 
   fun boardToString(): String {
-    val fenProcessed = ReaderFEN(fen)
+    val piecePlacement = ReaderFEN(fen).piecePlacement
     var boardString = ""
-    for (line in fenProcessed.piecePlacement) {
+    for (rank in piecePlacement) {
       var lineString = ""
-      for (field in line) {
+      for (field in rank) {
         if (field in '1'..'8') {
           repeat(field.digitToInt()) { lineString += "  " }
         } else {
