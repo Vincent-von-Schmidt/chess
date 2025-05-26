@@ -7,7 +7,7 @@ interface LoadGamePort {
 }
 
 interface SaveGamePort {
-  fun saveGame(game: Game)
+  fun saveGame(game: Game, newGame: Boolean = true)
 }
 
 interface DeleteGamePort {

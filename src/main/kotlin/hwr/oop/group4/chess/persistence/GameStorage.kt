@@ -10,16 +10,13 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
   private val gamesFolder = File("games")
   private var filepath = GAMES_FILE
 
-  override fun saveGame(game: Game) {
+  override fun saveGame(game: Game, newGame: Boolean) {
     val id = game.id
     val fen = game.fen
     if (id >= TEST_NUMBER) filepath = GAMES_FILE_TEST
-    if (loadGameFromFile(
-        id,
-        filepath
-      ) != null
-    ) throw GameAlreadyExistsException(id)
-    saveGameToFile(id, fen, filepath)
+    if (newGame && loadGameFromFile(id, filepath) != null)
+      throw GameAlreadyExistsException(id)
+    else saveGameToFile(id, fen, filepath, newGame = newGame)
   }
 
   override fun loadGame(id: Int): Game {
@@ -38,11 +35,25 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
     file.writeText(lines.joinToString("\n"))
   }
 
-  private fun saveGameToFile(id: Int, fen: String, filepath: String) {
+  private fun saveGameToFile(
+    id: Int,
+    fen: String,
+    filepath: String,
+    newGame: Boolean,
+  ) {
     val file = File(filepath)
     val needsNewline = file.length() > 0 && !file.readText().endsWith("\n")
     if (needsNewline) file.appendText("\n")
-    file.appendText("$id;$fen\n")
+    if (newGame) file.appendText("$id;$fen\n") else {
+      val lines = file.readLines().toMutableList()
+      for (i in lines.indices) {
+        if (lines[i].startsWith(id.toString())) {
+          lines[i] = "$id;$fen"
+          break
+        }
+      }
+      file.writeText(lines.joinToString("\n"))
+    }
   }
 
   private fun loadGameFromFile(id: Int, filepath: String): String? {

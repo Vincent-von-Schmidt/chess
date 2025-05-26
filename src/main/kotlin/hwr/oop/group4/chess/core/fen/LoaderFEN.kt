@@ -5,7 +5,7 @@ import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.*
 
-class LoaderFEN {
+object LoaderFEN {
   private fun parsePiece(char: Char): Piece {
     val color = if (char.isUpperCase()) Color.WHITE else Color.BLACK
     return when (char.lowercaseChar()) {
@@ -19,10 +19,10 @@ class LoaderFEN {
     }
   }
 
-  fun placePieces(fen: ReaderFEN, board: Board) {
+  fun placePieces(piecePlacement: List<String>, board: Board) {
     var location = Location(File.A, 8) // root of board
 
-    for (rank in fen.piecePlacement) {  // ranks = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
+    for (rank in piecePlacement) {  // ranks = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
       for (char in rank) {
         if (char.isDigit()) {
           repeat(char.digitToInt()) {
@@ -33,19 +33,19 @@ class LoaderFEN {
           try {
             board.setPieceToField(location, parsePiece(char))
           } catch (e: IllegalPieceException) {
-            throw InvalidFenException(fen)
+            throw InvalidPiecePlacementException(piecePlacement)
           }
           val next = board.nextField(location)
           location = next.location
         }
       }
     }
-  // TODO("implement castling and en passant")
   }
+  // TODO("implement castling and en passant")
 }
 
-class InvalidFenException(fen: ReaderFEN) : Exception(
-  "The fen string: ${fen.piecePlacement} ${fen.activeColor} ${fen.castle} ${fen.enpassant} ${fen.halfmoves} ${fen.fullmoves} is invalid."
+class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(
+  "The piece placement $piecePlacement is invalid."
 )
 
 class IllegalPieceException(char: Char) : Exception(

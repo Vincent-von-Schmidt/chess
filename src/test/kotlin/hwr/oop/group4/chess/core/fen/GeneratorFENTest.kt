@@ -12,14 +12,13 @@ class GeneratorFENTest : AnnotationSpec() {
     val fenWrite = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
     val fenRead = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
 
-    val loaderFEN = LoaderFEN()
-    val readerFEN = ReaderFEN(fenWrite)
+    val piecePlacement = ReaderFEN(fenWrite).piecePlacement
 
-    loaderFEN.placePieces(readerFEN, board)
+    LoaderFEN.placePieces(piecePlacement, board)
 
     val generator = GeneratorFEN()
-    val FEN = generator.generateFEN(board)
+    val fen = generator.generateFEN(board)
 
-    assertThat(FEN).isEqualTo(fenRead)
+    assertThat(fen).isEqualTo(fenRead)
   }
 }
