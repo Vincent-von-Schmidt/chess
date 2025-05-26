@@ -83,7 +83,7 @@ class GameStorageTest : AnnotationSpec() {
     storage.saveGame(game)
 
     // When
-    val output = game.boardToString()
+    val output = game.asciiArtFEN()
 
     // Then
     assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
@@ -112,7 +112,7 @@ class GameStorageTest : AnnotationSpec() {
     // When
     storage.saveGame(game1)
     storage.saveGame(game2)
-    val output = game1.boardToString()
+    val output = game1.asciiArtFEN()
 
     // Then
     assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
@@ -144,7 +144,7 @@ class GameStorageTest : AnnotationSpec() {
     storage.saveGame(game)
 
     // When
-    val output = game.boardToString()
+    val output = game.asciiArtFEN()
 
     // Then
     assertThat(output).isEqualTo("r   b k       r \np     p B p N p \nn         n     \n  p   N P     P \n            P   \n      P         \nP   P   K       \nq           b   \n")

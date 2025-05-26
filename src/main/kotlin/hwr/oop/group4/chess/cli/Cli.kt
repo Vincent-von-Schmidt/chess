@@ -1,6 +1,8 @@
 package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.utils.StringParser
 import hwr.oop.group4.chess.persistence.LoadGamePort
 import hwr.oop.group4.chess.persistence.SaveGamePort
 
@@ -39,7 +41,7 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = loadGamePort.loadGame(id)
-        val gameString = game.boardToString()
+        val gameString = game.asciiArtFEN()
         println(gameString)
       }
 
@@ -51,16 +53,18 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val from = args[3]
-        val to = args[5]
+        val from = StringParser().parseLocation(args[3])
+        val to = StringParser().parseLocation(args[5])
+        val move = Move(from, to)
+
         val game = loadGamePort.loadGame(id)
         try {
-          game.move(from, to)
+          game.movePiece(move)
         } catch (e: Exception) {
-          println("Invalid move from $from to $to.")
+          println("Invalid move from ${from.description} to ${to.description}. ")
           return
         }
-        println("Move from $from to $to executed.")
+        println("Move from ${from.description} to ${to.description} executed.")
         saveGamePort.saveGame(game, newGame = false)
       }
 

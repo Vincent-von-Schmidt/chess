@@ -1,5 +1,6 @@
 package hwr.oop.group4.chess.cli
 
+import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
@@ -14,6 +15,7 @@ class CliMoveTest : AnnotationSpec() {
 
   private val storage = GameStorage()
   private val file = File(GAMES_FILE_TEST)
+  private val testNumber = TEST_NUMBER.toString()
 
   @BeforeEach
   fun setup() {
@@ -23,27 +25,26 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `user prompts valid move`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", testNumber))
 
     // When
     val outputMove = captureStandardOut {
-      main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to", "e3"))
+      main(arrayOf("on", testNumber, "move", "e2", "to", "e3"))
     }.trim()
 
     val outputShow = captureStandardOut {
-      main(arrayOf("game", "show", TEST_NUMBER.toString()))
+      main(arrayOf("game", "show", testNumber))
     }.trim()
 
     // Then
-    assertThat(outputMove).isEqualTo("Move from e2 to e3 executed.")
-    val n = System.lineSeparator()
-    assertThat(outputShow).isEqualTo("r n b q k b n r ${n}p p p p p p p p ${n}                ${n}                ${n}                ${n}        P       ${n}P P P P   P P P ${n}R N B Q K B N R ${n}")
+    assertThat(outputMove).isEqualTo("Move from E2 to E3 executed.")
+    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n        P       \nP P P P   P P P \nR N B Q K B N R \n")
   }
 
   @Test
   fun `user prompts invalid move`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", testNumber))
 
     // When
     val outputMove = captureStandardOut {
@@ -51,12 +52,12 @@ class CliMoveTest : AnnotationSpec() {
     }.trim()
 
     val outputShow = captureStandardOut {
-      main(arrayOf("game", "show", TEST_NUMBER.toString()))
+      main(arrayOf("game", "show", testNumber))
     }.trim('\n')
 
     // Then
-    assertThat(outputMove).isEqualTo("Invalid move from e2 to e5.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
+    assertThat(outputMove).isEqualTo("Invalid move from E2 to E5.")
+    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R ")
   }
 
   @Test
