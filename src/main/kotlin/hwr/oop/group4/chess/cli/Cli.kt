@@ -43,7 +43,7 @@ class Cli(
         val game = loadGamePort.loadGame(id)
         val gameString = game.boardToString()
         print(gameString)
-        println("${game.turn.currentPlayer.color} to move.")
+        println("${game.turn.colorToMove} to move.")
       }
 
       "on" -> {

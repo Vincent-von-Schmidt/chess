@@ -18,18 +18,17 @@ class Game(
     Player(1, Color.WHITE),
     Player(2, Color.BLACK)
   )
-  val turn = Turn(players)
-  // TODO("get turn from fen")
+  val turn = Turn(fen)
 
   // TODO("update these properties after each move")
+
   private val castle = ""
   private val enPassant = ""
   private val halfMoveClock = 0
   private val fullMoveNumber = 1
 
   fun movePiece(move: Move): Boolean {
-    val playerAtTurn = turn.currentPlayer
-    move.validateMove(board, playerAtTurn)
+    move.validateMove(board, turn.colorToMove)
     board.movePiece(move)
     turn.switchTurn()
     this.fen = GeneratorFEN.generateFen(
@@ -38,7 +37,7 @@ class Game(
       enPassant,
       halfMoveClock,
       fullMoveNumber,
-      turn.currentPlayer.color
+      turn.colorToMove
     )
     this.board = Board(fen = this.fen)
     return true

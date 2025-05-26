@@ -36,7 +36,7 @@ class CliMoveTest : AnnotationSpec() {
 
     // Then
     assertThat(outputMove).isEqualTo("Move from E2 to E3 executed.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R\nWHITE to move.")
+    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R \nBLACK to move.")
   }
 
   @Test
@@ -55,7 +55,7 @@ class CliMoveTest : AnnotationSpec() {
 
     // Then
     assertThat(outputMove).isEqualTo("Invalid move from E2 to E5.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R\nWHITE to move.")
+    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \nWHITE to move.")
   }
 
   @Test

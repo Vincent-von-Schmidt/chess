@@ -3,7 +3,7 @@ package hwr.oop.group4.chess.core.move
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Piece
-import hwr.oop.group4.chess.core.player.Player
+import hwr.oop.group4.chess.core.utils.Color
 
 class Move(
   val startLocation: Location,
@@ -12,23 +12,21 @@ class Move(
   private val startLoc = startLocation.description
   private val endLoc = endLocation.description
 
-  fun validateMove(board: Board, playerAtTurn: Player) {
+  fun validateMove(board: Board, colorToMove: Color) {
 
     val movingPiece: Piece? = getMovingPiece(startLocation, board)
     val occupyingPiece = board.getPiece(endLocation)
     val piece = movingPiece?.description
     var capture = false
 
-    if (movingPiece == null) {
-      throw NonExistentPieceException(startLoc)
-    }
+    if (movingPiece == null) throw NonExistentPieceException(startLoc)
 
-    if (movingPiece.color != playerAtTurn.color) {
+    if (movingPiece.color != colorToMove) {
       throw WrongColorMovedException(movingPiece)
     }
 
     if (occupyingPiece != null) {
-      if (occupyingPiece.color == playerAtTurn.color) {
+      if (occupyingPiece.color == colorToMove) {
         throw SameColorCaptureException(endLoc, occupyingPiece)
       }
       capture = isCapture(movingPiece, board)
