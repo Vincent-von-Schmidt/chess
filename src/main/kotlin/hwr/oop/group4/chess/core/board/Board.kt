@@ -9,7 +9,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
 class Board(fen: String = STARTING_POSITION) {
-  val root: Field
+  private val root: Field
 
   init {
     root = generateFirstFieldOfRank()
@@ -87,27 +87,14 @@ class Board(fen: String = STARTING_POSITION) {
     return getField(location).piece
   }
 
-  fun nextField(location: Location): Field { // next means go one right if possible, else switch rank 1 down
-    val fileIndex = location.file.ordinal
-    val rank = location.rank
+  fun nextField(location: Location): Field {
+    val nextFileIndex = location.file.ordinal + 1
+    val nextRank = if (nextFileIndex > File.values().lastIndex) location.rank - 1 else location.rank
+    val nextFile = if (nextFileIndex > File.values().lastIndex) File.A else File.values()[nextFileIndex]
 
-    return if (fileIndex < File.values().lastIndex) {
-      getField(
-        Location(
-          File.values()[fileIndex + 1],
-          rank
-        )
-      )   // next file, same rank
-    } else if (rank > 1) {
-      getField(
-        Location(
-          File.A,
-          rank - 1
-        )
-      )  // beginning of the next rank, down
-    } else {
-      getField(location) // last Field with no successor (H1) returns H1
-    }
+    val nextLocation = Location(nextFile, nextRank)
+
+    return fields[nextLocation] ?: getField(location) // returns H1 at H1
   }
 
   private fun removePieceFromField(location: Location) {
