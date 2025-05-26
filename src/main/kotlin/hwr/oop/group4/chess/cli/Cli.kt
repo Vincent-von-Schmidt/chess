@@ -41,8 +41,9 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = loadGamePort.loadGame(id)
-        val gameString = game.asciiArtFEN()
-        println(gameString)
+        val gameString = game.boardToString()
+        print(gameString)
+        println("${game.turn.currentPlayer.color} to move.")
       }
 
       "on" -> {
@@ -53,15 +54,13 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val from = StringParser().parseLocation(args[3])
-        val to = StringParser().parseLocation(args[5])
-        val move = Move(from, to)
-
+        val from = StringParser.parseLocation(args[3])
+        val to = StringParser.parseLocation(args[5])
         val game = loadGamePort.loadGame(id)
         try {
-          game.movePiece(move)
+          game.movePiece(Move(from, to))
         } catch (e: Exception) {
-          println("Invalid move from ${from.description} to ${to.description}. ")
+          println("Invalid move from ${from.description} to ${to.description}.")
           return
         }
         println("Move from ${from.description} to ${to.description} executed.")

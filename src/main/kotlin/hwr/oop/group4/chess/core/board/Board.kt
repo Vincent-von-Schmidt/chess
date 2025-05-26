@@ -70,16 +70,15 @@ class Board(fen: String = STARTING_POSITION) {
 
   fun nextField(location: Location): Field {
     val nextFile = location.file.next()
-    val nextRank = if (nextFile == null) location.rank.previous() else location.rank
+    val nextRank =
+      if (nextFile == null) location.rank.previous() else location.rank
 
     // If no next file and no previous rank return current field (on H1)
     if (nextFile == null && nextRank == null) {
       return getField(location)
     }
-
     val finalFile = nextFile ?: File.A
     val finalRank = nextRank ?: location.rank
-
     val nextLocation = Location(finalFile, finalRank)
     return fields[nextLocation] ?: getField(location)
   }

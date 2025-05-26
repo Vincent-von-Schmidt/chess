@@ -6,7 +6,6 @@ import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class BoardTest : AnnotationSpec() {
 
@@ -81,5 +80,4 @@ class BoardTest : AnnotationSpec() {
     // Then
     assertThat(pieceAtLocation).isNull()
   }
-
 }

@@ -140,7 +140,6 @@ class MoveLegalTest : AnnotationSpec() {
     assertThat(pieceOnEndLocation).isEqualTo(king)
   }
 
-
   @Test
   fun `knight moves from d4 to b5`() {
     val game = Game(TEST_NUMBER)

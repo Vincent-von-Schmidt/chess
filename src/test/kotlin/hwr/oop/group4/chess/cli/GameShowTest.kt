@@ -81,7 +81,7 @@ class GameShowTest : AnnotationSpec() {
     val output = captureStandardOut {
       main(arrayOf("game", "show", "1000000"))
     }.trim()
-    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R")
+    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R")
   }
 
   @Test

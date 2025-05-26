@@ -15,7 +15,6 @@ class CliMoveTest : AnnotationSpec() {
 
   private val storage = GameStorage()
   private val file = File(GAMES_FILE_TEST)
-  private val testNumber = TEST_NUMBER.toString()
 
   @BeforeEach
   fun setup() {
@@ -25,45 +24,45 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `user prompts valid move`() {
     // Given
-    main(arrayOf("new_game", testNumber))
+    main(arrayOf("new_game", TEST_NUMBER.toString()))
 
     // When
     val outputMove = captureStandardOut {
-      main(arrayOf("on", testNumber, "move", "e2", "to", "e3"))
+      main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to", "e3"))
     }.trim()
 
     val outputShow = captureStandardOut {
-      main(arrayOf("game", "show", testNumber))
+      main(arrayOf("game", "show", $TEST_NUMBER)))
     }.trim()
 
     // Then
-    assertThat(outputMove).isEqualTo("Move from E2 to E3 executed.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n        P       \nP P P P   P P P \nR N B Q K B N R \n")
+    assertThat(outputMove).isEqualTo("Move from e2 to e3 executed.")
+    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R\nWHITE to move.")
   }
 
   @Test
   fun `user prompts invalid move`() {
     // Given
-    main(arrayOf("new_game", testNumber))
+    main(arrayOf("new_game", TEST_NUMBER.toString()))
 
     // When
     val outputMove = captureStandardOut {
-      main(arrayOf("on", "1000000", "move", "e2", "to", "e5"))
+      main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to", "e5"))
     }.trim()
 
     val outputShow = captureStandardOut {
-      main(arrayOf("game", "show", testNumber))
-    }.trim('\n')
+      main(arrayOf("game", "show", TEST_NUMBER.toString()))
+    }.trim()
 
     // Then
-    assertThat(outputMove).isEqualTo("Invalid move from E2 to E5.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R ")
+    assertThat(outputMove).isEqualTo("Invalid move from e2 to e5.")
+    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R\nWHITE to move.")
   }
 
   @Test
   fun `user prompts less than 6 args`() {
     // Then
-    assertThatThrownBy { main(arrayOf("on", "1000000", "move", "e2", "to")) }
+    assertThatThrownBy { main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to")) }
       .hasMessage(
         """
         No valid command provided. Try one of the following:
@@ -81,7 +80,7 @@ class CliMoveTest : AnnotationSpec() {
       main(
         arrayOf(
           "on",
-          "1000000",
+          TEST_NUMBER.toString(),
           "move",
           "e2",
           "to",
@@ -129,7 +128,7 @@ class CliMoveTest : AnnotationSpec() {
       main(
         arrayOf(
           "on",
-          "1000000",
+          TEST_NUMBER.toString(),
           "invalid_keyword",
           "e2",
           "to",
@@ -154,7 +153,7 @@ class CliMoveTest : AnnotationSpec() {
       main(
         arrayOf(
           "on",
-          "1000000",
+          TEST_NUMBER.toString(),
           "move",
           "e2",
           "invalid_keyword",
