@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.move
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
@@ -15,8 +16,8 @@ class MoveIllegalTest : AnnotationSpec() {
   fun `empty field is immovable`() {
     // Given
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
-    val startLocation = Location(File.A, 2)
-    val endLocation = Location(File.H, 7)
+    val startLocation = Location(File.A, Rank.TWO)
+    val endLocation = Location(File.H, Rank.SEVEN)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -32,8 +33,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val queen = Queen(Color.WHITE)
-    val startLocation = Location(File.A, 2)
-    val endLocation = Location(File.H, 7)
+    val startLocation = Location(File.A, Rank.TWO)
+    val endLocation = Location(File.H, Rank.SEVEN)
     game.board.setPieceToField(startLocation, queen)
 
     // When
@@ -51,8 +52,8 @@ class MoveIllegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
     val pawn = Pawn(Color.WHITE)
     val queen = Queen(Color.WHITE)
-    val startLocation = Location(File.D, 3)
-    val endLocation = Location(File.D, 4)
+    val startLocation = Location(File.D, Rank.THREE)
+    val endLocation = Location(File.D, Rank.FOUR)
     game.board.setPieceToField(startLocation, pawn)
     game.board.setPieceToField(endLocation, queen)
 
@@ -70,8 +71,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val pawn = Pawn(Color.BLACK)
-    val startLocation = Location(File.D, 5)
-    val endLocation = Location(File.D, 6) // illegal move
+    val startLocation = Location(File.D, Rank.FIVE)
+    val endLocation = Location(File.D, Rank.SIX) // illegal move
     game.board.setPieceToField(startLocation, pawn)
 
     // When
@@ -89,8 +90,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
     val pawn = Pawn(Color.BLACK)
-    val startLocation = Location(File.D, 5)
-    val endLocation = Location(File.H, 8) // illegal move
+    val startLocation = Location(File.D, Rank.FIVE)
+    val endLocation = Location(File.H, Rank.EIGHT) // illegal move
     game.board.setPieceToField(startLocation, pawn)
 
     // When
@@ -108,8 +109,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val pawn = Pawn(Color.WHITE)
-    val startLocation = Location(File.D, 5)
-    val endLocation = Location(File.D, 4) // illegal move
+    val startLocation = Location(File.D, Rank.FIVE)
+    val endLocation = Location(File.D, Rank.FOUR) // illegal move
     game.board.setPieceToField(startLocation, pawn)
 
     // When
@@ -126,8 +127,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val pawn = Pawn(Color.WHITE)
-    val startLocation = Location(File.D, 5)
-    val endLocation = Location(File.H, 8) // illegal move
+    val startLocation = Location(File.D, Rank.FIVE)
+    val endLocation = Location(File.H, Rank.EIGHT) // illegal move
     game.board.setPieceToField(startLocation, pawn)
 
     // When
@@ -144,8 +145,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val king = King(Color.WHITE)
-    val startLocation = Location(File.E, 1)
-    val endLocation = Location(File.H, 8) // illegal move
+    val startLocation = Location(File.E, Rank.ONE)
+    val endLocation = Location(File.H, Rank.EIGHT) // illegal move
     game.board.setPieceToField(startLocation, king)
 
     // When
@@ -162,8 +163,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
     val knight = Knight(Color.BLACK)
-    val startLocation = Location(File.D, 4)
-    val endLocation = Location(File.H, 8) // illegal move
+    val startLocation = Location(File.D, Rank.FOUR)
+    val endLocation = Location(File.H, Rank.EIGHT) // illegal move
     game.board.setPieceToField(startLocation, knight)
 
     // When
@@ -181,8 +182,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
     val queen = Queen(Color.WHITE)
-    val startLocation = Location(File.D, 4)
-    val endLocation = Location(File.H, 1) // illegal move
+    val startLocation = Location(File.D, Rank.FOUR)
+    val endLocation = Location(File.H, Rank.ONE) // illegal move
     game.board.setPieceToField(startLocation, queen)
 
     // When
@@ -200,10 +201,10 @@ class MoveIllegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
     val bishop = Bishop(Color.BLACK)
     val king = King(Color.BLACK)
-    val startLocation = Location(File.C, 8)
-    val occupiedLocation = Location(File.B, 7)  // directly bottom-left diagonal
+    val startLocation = Location(File.C, Rank.EIGHT)
+    val occupiedLocation = Location(File.B, Rank.SEVEN)  // directly bottom-left diagonal
     val interruptedLocation =
-      Location(File.A, 6)  // further bottom-right diagonal, illegal
+      Location(File.A, Rank.SIX)  // further bottom-right diagonal, illegal
     game.board.setPieceToField(startLocation, bishop)
     game.board.setPieceToField(occupiedLocation, king)
 
@@ -222,8 +223,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val bishop = Bishop(Color.BLACK)
-    val startLocation = Location(File.D, 4)
-    val endLocation = Location(File.H, 1) // illegal move
+    val startLocation = Location(File.D, Rank.FOUR)
+    val endLocation = Location(File.H, Rank.ONE) // illegal move
     game.board.setPieceToField(startLocation, bishop)
 
     // When
@@ -241,8 +242,8 @@ class MoveIllegalTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
     val rook = Rook(Color.BLACK)
-    val startLocation = Location(File.D, 4)
-    val endLocation = Location(File.H, 8) // illegal move
+    val startLocation = Location(File.D, Rank.FOUR)
+    val endLocation = Location(File.H, Rank.EIGHT) // illegal move
     game.board.setPieceToField(startLocation, rook)
 
     // When

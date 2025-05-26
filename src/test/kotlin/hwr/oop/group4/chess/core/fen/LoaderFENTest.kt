@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.fen
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Color
 
 import io.kotest.core.spec.style.AnnotationSpec
@@ -18,13 +19,13 @@ class LoaderFENTest : AnnotationSpec() {
 
     val piecePlacement = ReaderFEN(fen).piecePlacement
 
-    val fieldA1 = board.getField(Location(File.A, 1))
-    val fieldH1 = board.getField(Location(File.H, 1))
-    val fieldA8 = board.getField(Location(File.A, 8))
-    val fieldD8 = board.getField(Location(File.D, 8))
-    val fieldB2 = board.getField(Location(File.B, 2))
-    val fieldG4 = board.getField(Location(File.G, 4))
-    val fieldG1 = board.getField(Location(File.G, 1))
+    val fieldA1 = board.getField(Location(File.A, Rank.ONE))
+    val fieldH1 = board.getField(Location(File.H, Rank.ONE))
+    val fieldA8 = board.getField(Location(File.A, Rank.EIGHT))
+    val fieldD8 = board.getField(Location(File.D, Rank.EIGHT))
+    val fieldB2 = board.getField(Location(File.B, Rank.TWO))
+    val fieldG4 = board.getField(Location(File.G, Rank.FOUR))
+    val fieldG1 = board.getField(Location(File.G, Rank.ONE))
 
     LoaderFEN.placePieces(piecePlacement, board)
 

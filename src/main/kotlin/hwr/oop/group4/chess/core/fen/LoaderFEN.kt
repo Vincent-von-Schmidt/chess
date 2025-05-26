@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.fen
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 
 object LoaderFEN {
@@ -20,7 +21,7 @@ object LoaderFEN {
   }
 
   fun placePieces(piecePlacement: List<String>, board: Board) {
-    var location = Location(File.A, 8) // root of board
+    var location = Location(File.A, Rank.EIGHT) // root of board
 
     for (rank in piecePlacement) {  // ranks = ["rnbqkbnr", "pppppppp", "8", "8", "8", "8", "PPPPPPPP", "RNBQKBNR"
       for (char in rank) {

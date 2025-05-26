@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.fen
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 
 class GeneratorFEN {
@@ -22,7 +23,7 @@ class GeneratorFEN {
   fun generateFEN(board: Board): String {
     val fen = StringBuilder()
 
-    for (rank in 8 downTo 1) {
+    for (rank in Rank.values().reversed()) { // iterate over Rank enum in reverse order
       var emptyCount = 0
 
       for (file in File.values()) {
@@ -36,16 +37,16 @@ class GeneratorFEN {
             fen.append(emptyCount)
             emptyCount = 0
           }
-            fen.append(parsePiece(piece))
+          fen.append(parsePiece(piece))
         }
       }
 
       if (emptyCount > 0) {
         fen.append(emptyCount)
       }
-      if (rank > 1) fen.append("/")
+      if (rank != Rank.ONE) fen.append("/")
     }
 
-    return "$fen w - - 0 1" //pieceplacement and dummy fen stuff
+    return "$fen w - - 0 1" // piece placement + dummy fen suffix
   }
 }
