@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.move
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Color
 import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Queen
@@ -17,8 +18,8 @@ class MoveTurnTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val pawn = Pawn(Color.BLACK)
-    val startLocation = Location(File.A, 2)
-    val endLocation = Location(File.A, 1)
+    val startLocation = Location(File.A, Rank.TWO)
+    val endLocation = Location(File.A, Rank.ONE)
     game.board.setPieceToField(startLocation, pawn)
 
     // When
@@ -35,8 +36,8 @@ class MoveTurnTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val queen = Queen(Color.WHITE)
-    val startLocation = Location(File.A, 2)
-    val endLocation = Location(File.A, 1)
+    val startLocation = Location(File.A, Rank.TWO)
+    val endLocation = Location(File.A, Rank.ONE)
     game.board.setPieceToField(startLocation, queen)
     game.turn.switchTurn()
 

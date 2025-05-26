@@ -36,8 +36,7 @@ class CliMoveTest : AnnotationSpec() {
 
     // Then
     assertThat(outputMove).isEqualTo("Move from e2 to e3 executed.")
-    val n = System.lineSeparator()
-    assertThat(outputShow).isEqualTo("r n b q k b n r ${n}p p p p p p p p ${n}                ${n}                ${n}                ${n}        P       ${n}P P P P   P P P ${n}R N B Q K B N R ${n}")
+    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R\nWHITE to move.")
   }
 
   @Test
@@ -52,11 +51,11 @@ class CliMoveTest : AnnotationSpec() {
 
     val outputShow = captureStandardOut {
       main(arrayOf("game", "show", TEST_NUMBER.toString()))
-    }.trim('\n')
+    }.trim()
 
     // Then
     assertThat(outputMove).isEqualTo("Invalid move from e2 to e5.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
+    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R\nWHITE to move.")
   }
 
   @Test

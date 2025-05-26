@@ -1,24 +1,21 @@
 package hwr.oop.group4.chess.core.fen
 
 import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.pieces.Color
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
 class GeneratorFENTest : AnnotationSpec() {
 
   @Test
-  fun `pieces from fen placed correctly`() {
+  fun `generate fen from board`() {
+    // Given
     val board = Board()
-    val fenWrite = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-    val fenRead = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
 
-    val piecePlacement = ReaderFEN(fenWrite).piecePlacement
+    // When
+    val fen = GeneratorFEN.generateFen(board, "", "", 0, 1, Color.WHITE)
 
-    LoaderFEN.placePieces(piecePlacement, board)
-
-    val generator = GeneratorFEN()
-    val fen = generator.generateFEN(board)
-
-    assertThat(fen).isEqualTo(fenRead)
+    // Then
+    assertThat(fen).isEqualTo("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1")
   }
 }
