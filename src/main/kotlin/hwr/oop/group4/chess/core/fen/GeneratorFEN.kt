@@ -52,7 +52,7 @@ class GeneratorFEN {
       if (rank > 1) fen.append("/")
     }
 
-    return fen.toString()
+    return "$fen w - - 0 1"
   }
 }
 
