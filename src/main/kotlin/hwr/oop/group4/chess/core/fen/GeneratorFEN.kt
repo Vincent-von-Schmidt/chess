@@ -65,6 +65,6 @@ object GeneratorFEN {
       if (rank != Rank.ONE) fen.append("/")
     }
 
-    return fen.toString()
+    return "$fen w - - 0 1" // piece placement + dummy fen suffix
   }
 }

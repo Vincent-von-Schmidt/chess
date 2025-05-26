@@ -1,5 +1,6 @@
 package hwr.oop.group4.chess.cli
 
+import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
@@ -31,7 +32,7 @@ class CliMoveTest : AnnotationSpec() {
     }.trim()
 
     val outputShow = captureStandardOut {
-      main(arrayOf("game", "show", TEST_NUMBER.toString()))
+      main(arrayOf("game", "show", $TEST_NUMBER)))
     }.trim()
 
     // Then
@@ -46,7 +47,7 @@ class CliMoveTest : AnnotationSpec() {
 
     // When
     val outputMove = captureStandardOut {
-      main(arrayOf("on", "1000000", "move", "e2", "to", "e5"))
+      main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to", "e5"))
     }.trim()
 
     val outputShow = captureStandardOut {
@@ -61,7 +62,7 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `user prompts less than 6 args`() {
     // Then
-    assertThatThrownBy { main(arrayOf("on", "1000000", "move", "e2", "to")) }
+    assertThatThrownBy { main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to")) }
       .hasMessage(
         """
         No valid command provided. Try one of the following:
@@ -79,7 +80,7 @@ class CliMoveTest : AnnotationSpec() {
       main(
         arrayOf(
           "on",
-          "1000000",
+          TEST_NUMBER.toString(),
           "move",
           "e2",
           "to",
@@ -127,7 +128,7 @@ class CliMoveTest : AnnotationSpec() {
       main(
         arrayOf(
           "on",
-          "1000000",
+          TEST_NUMBER.toString(),
           "invalid_keyword",
           "e2",
           "to",
@@ -152,7 +153,7 @@ class CliMoveTest : AnnotationSpec() {
       main(
         arrayOf(
           "on",
-          "1000000",
+          TEST_NUMBER.toString(),
           "move",
           "e2",
           "invalid_keyword",

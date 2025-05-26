@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.move
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
@@ -17,8 +18,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
     val pawn = Pawn(Color.WHITE)
     val queen = Queen(Color.BLACK)
-    val startLocation = Location(File.D, 3)
-    val endLocation = Location(File.E, 4)
+    val startLocation = Location(File.D, Rank.THREE)
+    val endLocation = Location(File.E, Rank.FOUR)
     game.board.setPieceToField(startLocation, pawn)
     game.board.setPieceToField(endLocation, queen)
 
@@ -39,8 +40,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
     val knight = Knight(Color.WHITE)
     val king = King(Color.BLACK)
-    val startLocation = Location(File.D, 3)
-    val endLocation = Location(File.F, 4)
+    val startLocation = Location(File.D, Rank.THREE)
+    val endLocation = Location(File.F, Rank.FOUR)
     game.board.setPieceToField(startLocation, knight)
     game.board.setPieceToField(endLocation, king)
 
@@ -61,8 +62,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
     val rook = Rook(Color.BLACK)
     val king = King(Color.WHITE)
-    val startLocation = Location(File.D, 3)
-    val endLocation = Location(File.E, 4)
+    val startLocation = Location(File.D, Rank.THREE)
+    val endLocation = Location(File.E, Rank.FOUR)
     game.board.setPieceToField(startLocation, king)
     game.board.setPieceToField(endLocation, rook)
 
@@ -83,8 +84,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
     val rook = Rook(Color.BLACK)
     val queen = Queen(Color.WHITE)
-    val startLocation = Location(File.D, 5)
-    val endLocation = Location(File.G, 8)
+    val startLocation = Location(File.D, Rank.FIVE)
+    val endLocation = Location(File.G, Rank.EIGHT)
     game.board.setPieceToField(startLocation, queen)
     game.board.setPieceToField(endLocation, rook)
 
@@ -105,8 +106,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
     val rook = Rook(Color.BLACK)
     val bishop = Bishop(Color.WHITE)
-    val startLocation = Location(File.D, 5)
-    val endLocation = Location(File.G, 8)
+    val startLocation = Location(File.D, Rank.FIVE)
+    val endLocation = Location(File.G, Rank.EIGHT)
     game.board.setPieceToField(startLocation, bishop)
     game.board.setPieceToField(endLocation, rook)
 
@@ -127,8 +128,8 @@ class MoveCaptureLegalTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
     val bishop = Bishop(Color.BLACK)
     val rook = Rook(Color.WHITE)
-    val startLocation = Location(File.D, 5)
-    val endLocation = Location(File.D, 1)
+    val startLocation = Location(File.D, Rank.FIVE)
+    val endLocation = Location(File.D, Rank.ONE)
     game.board.setPieceToField(startLocation, rook)
     game.board.setPieceToField(endLocation, bishop)
 
