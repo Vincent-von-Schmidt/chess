@@ -15,9 +15,7 @@ class GeneratorFEN {
       is Knight -> 'n'
       is Rook -> 'r'
       is Pawn -> 'p'
-      else -> throw UnknownPieceException(piece)
     }
-
     return if (isUppercase) char.uppercaseChar() else char
   }
 
@@ -38,11 +36,7 @@ class GeneratorFEN {
             fen.append(emptyCount)
             emptyCount = 0
           }
-          try {
             fen.append(parsePiece(piece))
-          } catch (e: UnknownPieceException) {
-            throw InvalidBoardException()
-          }
         }
       }
 
@@ -52,18 +46,6 @@ class GeneratorFEN {
       if (rank > 1) fen.append("/")
     }
 
-    return "$fen w - - 0 1"
+    return "$fen w - - 0 1" //pieceplacement and dummy fen stuff
   }
 }
-
-class UnknownPieceException(piece: Piece) : Exception(
-  """
-    "Unknown piece: $piece"
-    """.trimIndent()
-)
-
-class InvalidBoardException() : Exception(
-  """
-    Board can not be translated to FEN.
-    """.trimIndent()
-)

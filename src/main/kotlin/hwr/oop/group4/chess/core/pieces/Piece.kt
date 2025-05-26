@@ -4,7 +4,7 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 
-interface Piece {
+sealed interface Piece {
   val name: String
   val color: Color
   val description: String get() = "$color $name"

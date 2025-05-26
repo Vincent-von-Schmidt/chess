@@ -8,6 +8,14 @@ class FileTest : AnnotationSpec() {
   @Test
   fun `next file of a is b`() {
     val file = File.A
-    assertThat(file.next()).isEqualTo(File.B)
+    val nexFile = file.next()
+    assertThat(nexFile).isEqualTo(File.B)
+  }
+
+  @Test
+  fun `previous file of b is a`() {
+    val file = File.B
+    val previousFile = file.previous()
+    assertThat(previousFile).isEqualTo(File.A)
   }
 }
