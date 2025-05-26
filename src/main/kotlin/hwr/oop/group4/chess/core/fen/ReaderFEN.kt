@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.core.fen
 
-import hwr.oop.group4.chess.core.pieces.Color
+import hwr.oop.group4.chess.core.utils.Color
 
 data class ReaderFEN(val notation: String) {
   val piecePlacement: List<String> =

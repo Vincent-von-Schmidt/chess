@@ -5,6 +5,7 @@ import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.utils.Color
 
 object GeneratorFEN {
   private fun parsePiece(piece: Piece): Char {
@@ -40,17 +41,14 @@ object GeneratorFEN {
   private fun genPiecePlacement(board: Board): String {
     val fen = StringBuilder()
 
-    for (rank in Rank.values()
-      .reversed()) { // iterate over Rank enum in reverse order
+    for (rank in Rank.values().reversed()) {
       var emptyCount = 0
 
       for (file in File.values()) {
         val location = Location(file, rank)
         val piece = board.getField(location).piece
 
-        if (piece == null) {
-          emptyCount++
-        } else {
+        if (piece == null) emptyCount++ else {
           if (emptyCount > 0) {
             fen.append(emptyCount)
             emptyCount = 0
@@ -59,12 +57,10 @@ object GeneratorFEN {
         }
       }
 
-      if (emptyCount > 0) {
-        fen.append(emptyCount)
-      }
+      if (emptyCount > 0) fen.append(emptyCount)
       if (rank != Rank.ONE) fen.append("/")
     }
 
-    return "$fen w - - 0 1" // piece placement + dummy fen suffix
+    return fen.toString()
   }
 }

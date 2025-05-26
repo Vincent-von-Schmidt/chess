@@ -5,6 +5,7 @@ import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import io.kotest.core.spec.style.AnnotationSpec
@@ -202,7 +203,8 @@ class MoveIllegalTest : AnnotationSpec() {
     val bishop = Bishop(Color.BLACK)
     val king = King(Color.BLACK)
     val startLocation = Location(File.C, Rank.EIGHT)
-    val occupiedLocation = Location(File.B, Rank.SEVEN)  // directly bottom-left diagonal
+    val occupiedLocation =
+      Location(File.B, Rank.SEVEN)  // directly bottom-left diagonal
     val interruptedLocation =
       Location(File.A, Rank.SIX)  // further bottom-right diagonal, illegal
     game.board.setPieceToField(startLocation, bishop)

@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
@@ -32,11 +31,11 @@ class CliMoveTest : AnnotationSpec() {
     }.trim()
 
     val outputShow = captureStandardOut {
-      main(arrayOf("game", "show", $TEST_NUMBER)))
+      main(arrayOf("game", "show", TEST_NUMBER.toString()))
     }.trim()
 
     // Then
-    assertThat(outputMove).isEqualTo("Move from e2 to e3 executed.")
+    assertThat(outputMove).isEqualTo("Move from E2 to E3 executed.")
     assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R\nWHITE to move.")
   }
 
@@ -55,14 +54,24 @@ class CliMoveTest : AnnotationSpec() {
     }.trim()
 
     // Then
-    assertThat(outputMove).isEqualTo("Invalid move from e2 to e5.")
+    assertThat(outputMove).isEqualTo("Invalid move from E2 to E5.")
     assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R\nWHITE to move.")
   }
 
   @Test
   fun `user prompts less than 6 args`() {
     // Then
-    assertThatThrownBy { main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to")) }
+    assertThatThrownBy {
+      main(
+        arrayOf(
+          "on",
+          TEST_NUMBER.toString(),
+          "move",
+          "e2",
+          "to"
+        )
+      )
+    }
       .hasMessage(
         """
         No valid command provided. Try one of the following:

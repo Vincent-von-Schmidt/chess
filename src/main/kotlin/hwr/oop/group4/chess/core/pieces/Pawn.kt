@@ -4,8 +4,9 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveGenerator
+import hwr.oop.group4.chess.core.utils.Color
 
-class Pawn(override val color: Color) : Piece {
+class Pawn(override val color: Color) : Piece() {
   override val name = "Pawn"
   override val value = 1
   override val directions = mutableListOf(

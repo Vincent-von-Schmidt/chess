@@ -5,6 +5,7 @@ import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.utils.Color
 
 object LoaderFEN {
   private fun parsePiece(char: Char): Piece {

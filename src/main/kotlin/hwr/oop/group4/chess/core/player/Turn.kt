@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.core.player
 
-import hwr.oop.group4.chess.core.pieces.Color
+import hwr.oop.group4.chess.core.utils.Color
 
 class Turn(players: List<Player>) {
 

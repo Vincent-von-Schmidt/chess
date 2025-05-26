@@ -21,42 +21,42 @@ class Board(fen: String = STARTING_POSITION) {
   private lateinit var fields: Map<Location, Field>
 
   private fun generateBoard(): Field {
-      val allFields = mutableMapOf<Location, Field>()
-      var firstField: Field? = null
-      var previousRank: Rank? = null
+    val allFields = mutableMapOf<Location, Field>()
+    var firstField: Field? = null
+    var previousRank: Rank? = null
 
-      for (rank in Rank.values()) {
-          var previousFile: File? = null
-          for (file in File.values()) {
-              val location = Location(file, rank)
-              val field = Field(location)
-              allFields[location] = field
+    for (rank in Rank.values()) {
+      var previousFile: File? = null
+      for (file in File.values()) {
+        val location = Location(file, rank)
+        val field = Field(location)
+        allFields[location] = field
 
-              if (previousFile != null) {              // Set left /right neighbor
-                  val leftLocation = Location(previousFile, rank)
-                  val leftField = allFields[leftLocation]!!
-                  field.connectLeft(leftField)
-                  leftField.connectRight(field)
-              }
+        if (previousFile != null) {              // Set left /right neighbor
+          val leftLocation = Location(previousFile, rank)
+          val leftField = allFields[leftLocation]!!
+          field.connectLeft(leftField)
+          leftField.connectRight(field)
+        }
 
-              if (previousRank != null) {              // Set bottom /top neighbor
-                  val bottomLocation = Location(file, previousRank)
-                  val bottomField = allFields[bottomLocation]!!
-                  field.connectBottom(bottomField)
-                  bottomField.connectTop(field)
-              }
+        if (previousRank != null) {              // Set bottom /top neighbor
+          val bottomLocation = Location(file, previousRank)
+          val bottomField = allFields[bottomLocation]!!
+          field.connectBottom(bottomField)
+          bottomField.connectTop(field)
+        }
 
-              if (file == File.A && rank == Rank.ONE) {
-                  firstField = field
-              }
+        if (file == File.A && rank == Rank.ONE) {
+          firstField = field
+        }
 
-              previousFile = file
-          }
-          previousRank = rank
+        previousFile = file
       }
+      previousRank = rank
+    }
 
-      fields = allFields.toMap()
-      return firstField ?: throw IllegalStateException("No starting field found")
+    fields = allFields.toMap()
+    return firstField ?: throw IllegalStateException("No starting field found")
   }
 
   fun getField(location: Location): Field {

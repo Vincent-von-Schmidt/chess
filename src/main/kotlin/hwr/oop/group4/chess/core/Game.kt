@@ -4,10 +4,9 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.fen.GeneratorFEN
 import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.move.Move
-import hwr.oop.group4.chess.core.pieces.Color
 import hwr.oop.group4.chess.core.player.Player
 import hwr.oop.group4.chess.core.player.Turn
-import hwr.oop.group4.chess.core.utils.AsciiArtFEN
+import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
 class Game(
@@ -27,7 +26,7 @@ class Game(
   private val enPassant = ""
   private val halfMoveClock = 0
   private val fullMoveNumber = 1
-  
+
   fun movePiece(move: Move): Boolean {
     val playerAtTurn = turn.currentPlayer
     move.validateMove(board, playerAtTurn)
@@ -44,7 +43,7 @@ class Game(
     this.board = Board(fen = this.fen)
     return true
   }
-  
+
   fun boardToString(): String {
     val piecePlacement = ReaderFEN(fen).piecePlacement
     var boardString = ""
