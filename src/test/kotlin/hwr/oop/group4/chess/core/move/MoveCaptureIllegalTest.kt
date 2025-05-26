@@ -23,7 +23,6 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
     game.board.setPieceToField(startLocation, pawn)
     game.board.setPieceToField(endLocation, queen)
     game.turn.switchTurn()
-
     // When
     val move = Move(startLocation, endLocation)
 

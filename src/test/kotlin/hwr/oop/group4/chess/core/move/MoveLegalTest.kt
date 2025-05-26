@@ -55,149 +55,542 @@ class MoveLegalTest : AnnotationSpec() {
   }
 
   @Test
-  fun `king moves from e1 to d1, d2, e2, f2, f1`() {
-    // Given
+  fun `king moves from e1 to d1`() {
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, 1)
-    val endLocations = listOf(
-      Location(File.D, 1),  // left
-      Location(File.D, 2),  // top left
-      Location(File.E, 2),  // top
-      Location(File.F, 2),  // top right
-      Location(File.F, 1),  // right
-    )
+    val endLocation = Location(File.D, 1)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, king)
 
-    for (endLocation in endLocations) {
-      val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
-      game.board.setPieceToField(startLocation, king)
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
-      // When
-      val move = Move(startLocation, endLocation)
-      game.movePiece(move)
-      val pieceOnStartLocation = game.board.getField(startLocation).piece
-      val pieceOnEndLocation = game.board.getField(endLocation).piece
-
-      // Then
-      assertThat(pieceOnStartLocation).isNull()
-      assertThat(pieceOnEndLocation).isEqualTo(king)
-    }
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(king)
   }
 
   @Test
-  fun `knight moves from d4 to b5, c6, e6, f5, b3, c2, e2, f3`() {
-    // Given
+  fun `king moves from e1 to d2`() {
+    val king = King(Color.WHITE)
+    val startLocation = Location(File.E, 1)
+    val endLocation = Location(File.D, 2)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, king)
+
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(king)
+  }
+
+  @Test
+  fun `king moves from e1 to e2`() {
+    val king = King(Color.WHITE)
+    val startLocation = Location(File.E, 1)
+    val endLocation = Location(File.E, 2)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, king)
+
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(king)
+  }
+
+  @Test
+  fun `king moves from e1 to f2`() {
+    val king = King(Color.WHITE)
+    val startLocation = Location(File.E, 1)
+    val endLocation = Location(File.F, 2)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, king)
+
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(king)
+  }
+
+  @Test
+  fun `king moves from e1 to f1`() {
+    val king = King(Color.WHITE)
+    val startLocation = Location(File.E, 1)
+    val endLocation = Location(File.F, 1)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, king)
+
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(king)
+  }
+
+
+  @Test
+  fun `knight moves from d4 to b5`() {
     val game = Game(TEST_NUMBER)
     val knight = Knight(Color.BLACK)
     val startLocation = Location(File.D, 4)
-    val endLocations = listOf(
-      Location(File.B, 5),  // up 1, left 2
-      Location(File.C, 6),  // up 2, left 1
-      Location(File.E, 6),  // up 2, right 1
-      Location(File.F, 5),  // up 1, right 2
-      Location(File.B, 3),  // down 1, left 2
-      Location(File.C, 2),  // down 2, left 1
-      Location(File.E, 2),  // down 2, right 1
-      Location(File.F, 3),  // down 1, right 2
-    )
+    val endLocation = Location(File.B, 5)
+    game.board.setPieceToField(startLocation, knight)
 
-    for (endLocation in endLocations) {
-      game.board.setPieceToField(startLocation, knight)
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
-      // When
-      val move = Move(startLocation, endLocation)
-      game.turn.switchTurn()
-      game.movePiece(move)
-      val pieceOnStartLocation = game.board.getField(startLocation).piece
-      val pieceOnEndLocation = game.board.getField(endLocation).piece
-
-      // Then
-      assertThat(pieceOnStartLocation).isNull()
-      assertThat(pieceOnEndLocation).isEqualTo(knight)
-    }
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
   }
 
   @Test
-  fun `queen moves from d1 to c1, a1, e1, h1, d2, d8, c2, a4, e2, h5`() {
-    // Given
+  fun `knight moves from d4 to c6`() {
+    val game = Game(TEST_NUMBER)
+    val knight = Knight(Color.BLACK)
+    val startLocation = Location(File.D, 4)
+    val endLocation = Location(File.C, 6)
+    game.board.setPieceToField(startLocation, knight)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
+  }
+
+  @Test
+  fun `knight moves from d4 to e6`() {
+    val game = Game(TEST_NUMBER)
+    val knight = Knight(Color.BLACK)
+    val startLocation = Location(File.D, 4)
+    val endLocation = Location(File.E, 6)
+    game.board.setPieceToField(startLocation, knight)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
+  }
+
+  @Test
+  fun `knight moves from d4 to f5`() {
+    val game = Game(TEST_NUMBER)
+    val knight = Knight(Color.BLACK)
+    val startLocation = Location(File.D, 4)
+    val endLocation = Location(File.F, 5)
+    game.board.setPieceToField(startLocation, knight)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
+  }
+
+  @Test
+  fun `knight moves from d4 to b3`() {
+    val game = Game(TEST_NUMBER)
+    val knight = Knight(Color.BLACK)
+    val startLocation = Location(File.D, 4)
+    val endLocation = Location(File.B, 3)
+    game.board.setPieceToField(startLocation, knight)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
+  }
+
+  @Test
+  fun `knight moves from d4 to c2`() {
+    val game = Game(TEST_NUMBER)
+    val knight = Knight(Color.BLACK)
+    val startLocation = Location(File.D, 4)
+    val endLocation = Location(File.C, 2)
+    game.board.setPieceToField(startLocation, knight)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
+  }
+
+  @Test
+  fun `knight moves from d4 to e2`() {
+    val game = Game(TEST_NUMBER)
+    val knight = Knight(Color.BLACK)
+    val startLocation = Location(File.D, 4)
+    val endLocation = Location(File.E, 2)
+    game.board.setPieceToField(startLocation, knight)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
+  }
+
+  @Test
+  fun `knight moves from d4 to f3`() {
+    val game = Game(TEST_NUMBER)
+    val knight = Knight(Color.BLACK)
+    val startLocation = Location(File.D, 4)
+    val endLocation = Location(File.F, 3)
+    game.board.setPieceToField(startLocation, knight)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(knight)
+  }
+
+  @Test
+  fun `queen moves from d1 to c1`() {
     val queen = Queen(Color.WHITE)
     val startLocation = Location(File.D, 1)
-    val endLocations = listOf(
-      Location(File.C, 1),  // directly left
-      Location(File.A, 1),  // further left
-      Location(File.E, 1),  // directly right
-      Location(File.H, 1),  // further right
-      Location(File.D, 2),  // directly above
-      Location(File.D, 8),  // further above
-      Location(File.A, 4),  // further diagonal left
-      Location(File.E, 2),  // directly diagonal right
-      Location(File.H, 5),  // further diagonal right
-    )
+    val endLocation = Location(File.C, 1)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
 
-    for (endLocation in endLocations) {
-      val game = Game(TEST_NUMBER)
-      game.board.setPieceToField(startLocation, queen)
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
-      // When
-      val move = Move(startLocation, endLocation)
-      game.board.movePiece(move)
-      val pieceOnStartLocation = game.board.getField(startLocation).piece
-      val pieceOnEndLocation = game.board.getField(endLocation).piece
-
-      // Then
-      assertThat(pieceOnStartLocation).isNull()
-      assertThat(pieceOnEndLocation).isEqualTo(queen)
-    }
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
   }
 
   @Test
-  fun `bishop moves from c8 to b7, a6, d7, h3`() {
-    // Given
+  fun `queen moves from d1 to a1`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.A, 1)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `queen moves from d1 to e1`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.E, 1)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `queen moves from d1 to h1`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.H, 1)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `queen moves from d1 to d2`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.D, 2)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `queen moves from d1 to d8`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.D, 8)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `queen moves from d1 to a4`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.A, 4)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `queen moves from d1 to e2`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.E, 2)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `queen moves from d1 to h5`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.H, 5)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `queen moves from d1 to c2`() {
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, 1)
+    val endLocation = Location(File.C, 2)
+    val game = Game(TEST_NUMBER)
+    game.board.setPieceToField(startLocation, queen)
+
+    val move = Move(startLocation, endLocation)
+    game.board.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(queen)
+  }
+
+  @Test
+  fun `bishop moves from c8 to b7`() {
     val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
     val bishop = Bishop(Color.BLACK)
     val startLocation = Location(File.C, 8)
-    val endLocations = listOf(
-      Location(File.B, 7),  // directly bottom-left diagonal
-      Location(File.H, 3),  // further bottom-right diagonal
-    )
+    val endLocation = Location(File.B, 7)
+    game.board.setPieceToField(startLocation, bishop)
 
-    for (endLocation in endLocations) {
-      game.board.setPieceToField(startLocation, bishop)
-      // When
-      val move = Move(startLocation, endLocation)
-      game.turn.switchTurn()
-      game.movePiece(move)
-      val pieceOnStartLocation = game.board.getField(startLocation).piece
-      val pieceOnEndLocation = game.board.getField(endLocation).piece
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
-      // Then
-      assertThat(pieceOnStartLocation).isNull()
-      assertThat(pieceOnEndLocation).isEqualTo(bishop)
-    }
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(bishop)
   }
 
   @Test
-  fun `rook moves from h1 to g1, a1, h2, h8`() {
-    // Given
+  fun `bishop moves from c8 to a6`() {
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    val bishop = Bishop(Color.BLACK)
+    val startLocation = Location(File.C, 8)
+    val endLocation = Location(File.A, 6)
+    game.board.setPieceToField(startLocation, bishop)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(bishop)
+  }
+
+  @Test
+  fun `bishop moves from c8 to d7`() {
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    val bishop = Bishop(Color.BLACK)
+    val startLocation = Location(File.C, 8)
+    val endLocation = Location(File.D, 7)
+    game.board.setPieceToField(startLocation, bishop)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(bishop)
+  }
+
+  @Test
+  fun `bishop moves from c8 to h3`() {
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    val bishop = Bishop(Color.BLACK)
+    val startLocation = Location(File.C, 8)
+    val endLocation = Location(File.H, 3)
+    game.board.setPieceToField(startLocation, bishop)
+
+    val move = Move(startLocation, endLocation)
+    game.turn.switchTurn()
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(bishop)
+  }
+
+  @Test
+  fun `rook moves from h1 to g1`() {
     val rook = Rook(Color.WHITE)
     val startLocation = Location(File.H, 1)
-    val endLocations = listOf(
-      Location(File.G, 1),  // directly left
-      Location(File.H, 8),  // further above
-    )
+    val endLocation = Location(File.G, 1)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, rook)
 
-    for (endLocation in endLocations) {
-      val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
-      game.board.setPieceToField(startLocation, rook)
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
 
-      // When
-      val move = Move(startLocation, endLocation)
-      game.movePiece(move)
-      val pieceOnStartLocation = game.board.getField(startLocation).piece
-      val pieceOnEndLocation = game.board.getField(endLocation).piece
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(rook)
+  }
 
-      // Then
-      assertThat(pieceOnStartLocation).isNull()
-      assertThat(pieceOnEndLocation).isEqualTo(rook)
-    }
+  @Test
+  fun `rook moves from h1 to a1`() {
+    val rook = Rook(Color.WHITE)
+    val startLocation = Location(File.H, 1)
+    val endLocation = Location(File.A, 1)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, rook)
+
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(rook)
+  }
+
+  @Test
+  fun `rook moves from h1 to h2`() {
+    val rook = Rook(Color.WHITE)
+    val startLocation = Location(File.H, 1)
+    val endLocation = Location(File.H, 2)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, rook)
+
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(rook)
+  }
+
+  @Test
+  fun `rook moves from h1 to h8`() {
+    val rook = Rook(Color.WHITE)
+    val startLocation = Location(File.H, 1)
+    val endLocation = Location(File.H, 8)
+    val game = Game(TEST_NUMBER, fen = EMPTY_BOARD)
+    game.board.setPieceToField(startLocation, rook)
+
+    val move = Move(startLocation, endLocation)
+    game.movePiece(move)
+    val pieceOnStartLocation = game.board.getField(startLocation).piece
+    val pieceOnEndLocation = game.board.getField(endLocation).piece
+
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(rook)
   }
 }
