@@ -13,56 +13,50 @@ class Board(fen: String = STARTING_POSITION) {
   private val root: Field
 
   init {
-    root = generateFirstFieldOfRank()
+    root = generateBoard()
     val piecePlacement = ReaderFEN(fen).piecePlacement
     LoaderFEN.placePieces(piecePlacement, this)
   }
 
   private lateinit var fields: Map<Location, Field>
 
-  private fun generateFirstFieldOfRank(): Field {
-    var previousRankStart: Field? = null
-    lateinit var firstRankStart: Field
-    val allFields = mutableMapOf<Location, Field>()
+  private fun generateBoard(): Field {
+      val allFields = mutableMapOf<Location, Field>()
+      var firstField: Field? = null
+      var previousRank: Rank? = null
 
-    for (rank in Rank.values()) {
-      val currentRankStart = generateRank(rank, previousRankStart, allFields)
-      if (rank == Rank.ONE) {
-        firstRankStart = currentRankStart
+      for (rank in Rank.values()) {
+          var previousFile: File? = null
+          for (file in File.values()) {
+              val location = Location(file, rank)
+              val field = Field(location)
+              allFields[location] = field
+
+              if (previousFile != null) {              // Set left /right neighbor
+                  val leftLocation = Location(previousFile, rank)
+                  val leftField = allFields[leftLocation]!!
+                  field.connectLeft(leftField)
+                  leftField.connectRight(field)
+              }
+
+              if (previousRank != null) {              // Set bottom /top neighbor
+                  val bottomLocation = Location(file, previousRank)
+                  val bottomField = allFields[bottomLocation]!!
+                  field.connectBottom(bottomField)
+                  bottomField.connectTop(field)
+              }
+
+              if (file == File.A && rank == Rank.ONE) {
+                  firstField = field
+              }
+
+              previousFile = file
+          }
+          previousRank = rank
       }
-      previousRankStart = currentRankStart
-    }
 
-    fields = allFields.toMap()
-    return firstRankStart //A1
-  }
-
-  private fun generateRank(
-    rank: Rank,
-    previousRankStart: Field?,
-    allFields: MutableMap<Location, Field>
-  ): Field {
-    var currentField = Field(Location(File.A, rank)) // first Field of Rank + moving pointer to the current Field
-    val rankStart = currentField // stationary pointer to first Field of Rank
-    var bottomField = previousRankStart // moving pointer to the Field below the current Field
-    allFields[currentField.location] = currentField
-
-    for (file in File.values().drop(1)) {
-      val hasBottomField: Boolean = bottomField != null
-      val newField = Field(Location(file, rank))
-      currentField.connectRight(newField)
-      newField.connectLeft(currentField)
-      currentField = newField
-      allFields[currentField.location] = currentField
-
-      if (hasBottomField) {
-        bottomField = bottomField!!.right
-        currentField.connectBottom(bottomField!!)
-        bottomField.connectTop(currentField)
-      }
-    }
-
-    return rankStart
+      fields = allFields.toMap()
+      return firstField ?: throw IllegalStateException("No starting field found")
   }
 
   fun getField(location: Location): Field {
