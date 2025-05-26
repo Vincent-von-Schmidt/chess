@@ -36,7 +36,8 @@ class CliMoveTest : AnnotationSpec() {
 
     // Then
     assertThat(outputMove).isEqualTo("Move from e2 to e3 executed.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n        P       \nP P P P   P P P \nR N B Q K B N R \n")
+    val n = System.lineSeparator()
+    assertThat(outputShow).isEqualTo("r n b q k b n r ${n}p p p p p p p p ${n}                ${n}                ${n}                ${n}        P       ${n}P P P P   P P P ${n}R N B Q K B N R ${n}")
   }
 
   @Test
