@@ -19,11 +19,15 @@ object StringParser {
 
     val rank =
       Rank.values().firstOrNull { it.number.toString() == rankChar.toString() }
-        ?: throw IllegalArgumentException("Invalid rank character: $rankChar")
+        ?: throw IllegalRankException(rankChar)
 
     return Location(file, rank)
   }
 }
+
+class IllegalRankException(rankChar: Char) : Exception(
+  "Illegal rank character: $rankChar"
+)
 
 class IllegalFileException(fileChar: Char) : Exception(
   "Invalid file character: $fileChar"
