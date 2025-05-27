@@ -6,7 +6,7 @@ import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveGenerator
 import hwr.oop.group4.chess.core.utils.Color
 
-class Queen(override val color: Color) : Piece() {
+class Queen(override val color: Color) : Piece {
   override val name = "Queen"
   override val value = 9
   override val directions = listOf(
@@ -27,4 +27,12 @@ class Queen(override val color: Color) : Piece() {
   ): List<Location> {
     return MoveGenerator().searchAllowedLocations(from, board, directions)
   }
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other !is Piece) return false
+    return this.description == other.description
+  }
+
+  override fun hashCode(): Int = description.hashCode()
 }
