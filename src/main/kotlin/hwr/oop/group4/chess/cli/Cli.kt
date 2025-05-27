@@ -41,7 +41,7 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = loadGamePort.loadGame(id)
-        val gameString = game.asciiArtFEN()
+        val gameString = game.boardToAscii()
         print(gameString)
         println("${game.turn.colorToMove} to move.")
       }
