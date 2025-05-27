@@ -8,7 +8,6 @@ import hwr.oop.group4.chess.core.utils.Color
 
 data class Queen(override val color: Color) : Piece {
   override val name = "Queen"
-  // override val value = 9
   override val directions = listOf(
     Direction.TOP_LEFT,
     Direction.TOP,
@@ -19,6 +18,7 @@ data class Queen(override val color: Color) : Piece {
     Direction.BOTTOM_LEFT,
     Direction.LEFT
   )
+  // override val value = 9
 
   override fun allowedLocations(
     from: Location,

@@ -1,7 +1,5 @@
 # HWR OOP Lecture Project - Chess
 
-[TODO]: # (Change README.md Headline to better fit to your project!)
-
 This repository contains a student project created for an ongoing lecture on object-oriented
 programming with Kotlin at HWR Berlin (summer term 2025).
 
@@ -41,23 +39,47 @@ just build
 
 ## Abstract
 
-[TODO]: # (Write a short description of your project.)
+This is a command-line chess application written in Kotlin that supports multiple games by ID, basic piece movement, and
+board visualization using ASCII art. It follows a clean architecture with persistence layers for saving and loading
+games.
 
-[TODO]: # (State most important features.)
+Start a new game with:
 
-[TODO]: # (State the most interesting problems you encountered during the project.)
+```
+chess new_game <id>
+```
+
+Show the current state of a game:
+
+```
+chess game show <id>
+```
+
+Make a move in an existing game:
+
+```
+chess on <id> move <from> to <to>
+```
+
+Most Interesting Problems:
+
+- Implementing a clean architecture with multiple layers.
+- Handling piece movement and validation.
+- Creating a user-friendly command-line interface.
+- Persisting game state and loading it back.
+- Visualizing the chess board using ASCII art.
+- Managing multiple games by ID.
 
 ## Feature List
 
-[TODO]: # (For each feature implemented, add a row to the table!)
-
-| Number | Feature | Tests |
-|--------|---------|-------|
-| 1      | /       | /     |
+| Number | Feature           | Tests |
+|--------|-------------------|-------|
+| 1      | Creating a game   | /     |
+| 2      | Printing a game   | /     |
+| 3      | Moving a piece    | /     |
+| 4      | Capturing a piece | /     |
 
 ## Additional Dependencies
-
-[TODO]: # (For each additional dependency your project requires- Add an additional row to the table!)
 
 | Number | Dependency Name | Dependency Description | Why is it necessary? |
 |--------|-----------------|------------------------|----------------------|

@@ -8,7 +8,6 @@ import hwr.oop.group4.chess.core.utils.Color
 
 data class Pawn(override val color: Color) : Piece {
   override val name = "Pawn"
-  // override val value = 1
   override val directions = mutableListOf(
     Direction.TOP,
     Direction.BOTTOM
@@ -19,6 +18,7 @@ data class Pawn(override val color: Color) : Piece {
     Direction.BOTTOM_RIGHT,
     Direction.BOTTOM_LEFT
   )
+  // override val value = 1
 
   override fun allowedLocations(
     from: Location,
