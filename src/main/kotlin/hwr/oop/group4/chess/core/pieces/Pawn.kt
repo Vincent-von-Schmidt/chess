@@ -6,7 +6,7 @@ import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveGenerator
 import hwr.oop.group4.chess.core.utils.Color
 
-class Pawn(override val color: Color) : Piece {
+data class Pawn(override val color: Color) : Piece {
   override val name = "Pawn"
   override val value = 1
   override val directions = mutableListOf(
@@ -40,12 +40,4 @@ class Pawn(override val color: Color) : Piece {
       MoveGenerator().searchAllowedLocations(from, board, directions, 1)
     }
   }
-
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (other !is Piece) return false
-    return this.description == other.description
-  }
-
-  override fun hashCode(): Int = description.hashCode()
 }
