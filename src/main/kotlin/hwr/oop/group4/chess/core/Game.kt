@@ -43,7 +43,7 @@ class Game(
     return true
   }
 
-  fun boardToString(): String {
+  fun asciiArtFEN(): String {
     val piecePlacement = ReaderFEN(fen).piecePlacement
     var boardString = ""
     for (rank in piecePlacement) {

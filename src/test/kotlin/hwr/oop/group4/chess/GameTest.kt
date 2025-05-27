@@ -32,7 +32,7 @@ class GameTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
 
     // When
-    val boardString = game.boardToString()
+    val boardString = game.asciiArtFEN()
 
     // Then
     assertThat(boardString).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \n")
@@ -46,7 +46,7 @@ class GameTest : AnnotationSpec() {
     game.movePiece(move)
 
     // When
-    val boardStringAfterMove = game.boardToString()
+    val boardStringAfterMove = game.asciiArtFEN()
 
     // Then
     assertThat(boardStringAfterMove).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R \n")
@@ -88,7 +88,7 @@ class GameTest : AnnotationSpec() {
     game.movePiece(moveBlack)
 
     // Then
-    assertThat(game.boardToString()).isEqualTo("r n b q k b n r \np p p p - p p p \n- - - - p - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R \n")
+    assertThat(game.asciiArtFEN()).isEqualTo("r n b q k b n r \np p p p - p p p \n- - - - p - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R \n")
   }
 
 }
