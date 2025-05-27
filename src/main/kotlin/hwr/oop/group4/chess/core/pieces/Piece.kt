@@ -8,7 +8,7 @@ import hwr.oop.group4.chess.core.utils.Color
 sealed interface Piece {
   val name: String
   val color: Color
-  val value: Int
+  // val value: Int
   val directions: List<Direction>
   val description: String get() = "$color $name"
 

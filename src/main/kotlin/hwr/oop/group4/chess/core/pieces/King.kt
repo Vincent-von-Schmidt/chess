@@ -8,7 +8,7 @@ import hwr.oop.group4.chess.core.utils.Color
 
 data class King(override val color: Color) : Piece {
   override val name = "King"
-  override val value = 10
+  // override val value = 10
   override val directions = listOf(
     Direction.TOP_LEFT,
     Direction.TOP,
