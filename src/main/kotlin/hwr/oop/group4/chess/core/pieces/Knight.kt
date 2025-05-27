@@ -7,7 +7,7 @@ import hwr.oop.group4.chess.core.move.Jump
 import hwr.oop.group4.chess.core.move.MoveGenerator
 import hwr.oop.group4.chess.core.utils.Color
 
-class Knight(override val color: Color) : Piece {
+data class Knight(override val color: Color) : Piece {
   override val name = "Knight"
   override val value = 3
   override val directions = emptyList<Direction>()
@@ -29,12 +29,4 @@ class Knight(override val color: Color) : Piece {
   ): List<Location> {
     return MoveGenerator().searchJumpLocations(from, board, jumps)
   }
-
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (other !is Piece) return false
-    return this.description == other.description
-  }
-
-  override fun hashCode(): Int = description.hashCode()
 }

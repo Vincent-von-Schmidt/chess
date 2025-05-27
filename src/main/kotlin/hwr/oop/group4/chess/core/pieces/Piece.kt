@@ -12,7 +12,6 @@ sealed interface Piece {
   val directions: List<Direction>
   val description: String get() = "$color $name"
 
-
   fun allowedLocations(
     from: Location,
     board: Board,
