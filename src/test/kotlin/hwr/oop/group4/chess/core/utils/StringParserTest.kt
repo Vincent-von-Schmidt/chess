@@ -24,4 +24,14 @@ class StringParserTest : AnnotationSpec() {
       .hasMessage("Invalid file character: Z")
   }
 
+  @Test
+  fun `rank character is invalid`() {
+    // Given
+    val invalidRankInput = "A9"
+
+    // Then
+    assertThatThrownBy { StringParser.parseLocation(invalidRankInput) }
+      .hasMessage("Illegal rank character: 9")
+  }
+
 }
