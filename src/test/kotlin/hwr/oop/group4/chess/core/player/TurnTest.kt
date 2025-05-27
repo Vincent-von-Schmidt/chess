@@ -1,34 +1,34 @@
 package hwr.oop.group4.chess.core.player
 
-import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.pieces.Color
+import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import io.kotest.core.spec.style.AnnotationSpec
-import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.assertj.core.api.Assertions.assertThat
 
-class MoveTest : AnnotationSpec() {
+class TurnTest : AnnotationSpec() {
 
-  private lateinit var board: Board
+  @Test
+  fun `test get turn`() {
+    // Given
+    val fen = STARTING_POSITION
 
-  @BeforeEach
-  fun setUp() {
-    board = Board()
+    // When
+    val turn = Turn(fen)
+
+    // Then
+    assertThat(turn.colorToMove).isEqualTo(Color.WHITE)
   }
 
   @Test
-  fun `throw on no white player`() {
-    val players = listOf(Player(2, Color.BLACK))
+  fun `test switch turn`() {
+    // Given
+    val fen = STARTING_POSITION
+    val turn = Turn(fen)
 
-    assertThatThrownBy {
-      Turn(players)
-    }.hasMessageContaining("Missing WHITE player")
-  }
+    // When
+    turn.switchTurn()
 
-  @Test
-  fun `throw on no black player`() {
-    val players = listOf(Player(1, Color.WHITE))
-
-    assertThatThrownBy {
-      Turn(players)
-    }.hasMessageContaining("Missing BLACK player")
+    // Then
+    assertThat(turn.colorToMove == Color.BLACK)
   }
 }

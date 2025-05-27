@@ -1,71 +1,62 @@
 package hwr.oop.group4.chess.core.board
 
+import hwr.oop.group4.chess.core.fen.LoaderFEN
+import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
-class Board {
-  private val root: Field = generateFirstFieldOfRank() // ist A1
-  private lateinit var fields: Map<Location, Field>
+class Board(fen: String = STARTING_POSITION) {
+  private val root: Field
 
-  private fun generateFirstFieldOfRank(): Field {
-    var previousRankStart: Field? = null
-    lateinit var firstRankStart: Field
-    val allFields = mutableMapOf<Location, Field>()
-
-    for (currentRank in 1..8) {
-      val currentRankStart =
-        generateRank(currentRank, previousRankStart, allFields)
-      if (currentRank == 1) {
-        firstRankStart = currentRankStart
-      }
-      previousRankStart = currentRankStart
-    }
-    fields = allFields.toMap()
-    return firstRankStart //A1
+  init {
+    root = generateBoard()
+    val piecePlacement = ReaderFEN(fen).piecePlacement
+    LoaderFEN.placePieces(piecePlacement, this)
   }
 
-  private fun generateRank(
-    rank: Int,
-    previousRankStart: Field?,
-    allFields: MutableMap<Location, Field>,
-  ): Field {
-    var currentField = Field(
-      Location(
-        File.values()[0],
-        rank
-      )
-    ) // first Field of Rank + moving pointer to the current Field
-    val rankStart: Field =
-      currentField // stationary pointer to first Field of Rank
-    var bottomField: Field? =
-      previousRankStart // moving pointer to the Field below the current Field
-    allFields[currentField.location] = currentField
+  private lateinit var fields: Map<Location, Field>
 
+  private fun generateBoard(): Field {
+    val allFields = mutableMapOf<Location, Field>()
+    var firstField: Field? = null
+    var previousRank: Rank? = null
 
-    for (file in 1..8) {
-      val hasBottomField: Boolean = bottomField != null
-      val isNotLastFile: Boolean = file < 8
+    for (rank in Rank.values()) {
+      var previousFile: File? = null
+      for (file in File.values()) {
+        val location = Location(file, rank)
+        val field = Field(location)
+        allFields[location] = field
 
-      if (hasBottomField) {
-        currentField.bottom = bottomField
-        bottomField!!.top = currentField
+        if (previousFile != null) {              // Set left /right neighbor
+          val leftLocation = Location(previousFile, rank)
+          val leftField = allFields[leftLocation]!!
+          field.connectLeft(leftField)
+          leftField.connectRight(field)
+        }
+
+        if (previousRank != null) {              // Set bottom /top neighbor
+          val bottomLocation = Location(file, previousRank)
+          val bottomField = allFields[bottomLocation]!!
+          field.connectBottom(bottomField)
+          bottomField.connectTop(field)
+        }
+
+        if (file == File.A && rank == Rank.ONE) {
+          firstField = field
+        }
+
+        previousFile = file
       }
-
-      if (isNotLastFile) { // new field on the right of current
-        val newField = Field(Location(File.values()[file], rank))
-        currentField.right = newField
-        newField.left = currentField
-        currentField = newField
-        allFields[currentField.location] = currentField
-      }
-
-      if (hasBottomField && isNotLastFile) {
-        bottomField = bottomField!!.right!!
-      }
+      previousRank = rank
     }
-    return rankStart
+
+    fields = allFields.toMap()
+    return firstField ?: throw IllegalStateException("No starting field found")
   }
 
   fun getField(location: Location): Field {
@@ -77,27 +68,19 @@ class Board {
     return getField(location).piece
   }
 
-  fun nextField(location: Location): Field { // next means go one right if possible, else switch rank 1 down
-    val fileIndex = location.file.ordinal
-    val rank = location.rank
+  fun nextField(location: Location): Field {
+    val nextFile = location.file.next()
+    val nextRank =
+      if (nextFile == null) location.rank.previous() else location.rank
 
-    return if (fileIndex < File.values().lastIndex) {
-      getField(
-        Location(
-          File.values()[fileIndex + 1],
-          rank
-        )
-      )   // next file, same rank
-    } else if (rank > 1) {
-      getField(
-        Location(
-          File.A,
-          rank - 1
-        )
-      )  // beginning of the next rank, down
-    } else {
-      getField(location) // last Field with no successor (H1) returns H1
+    // If no next file and no previous rank return current field (on H1)
+    if (nextFile == null && nextRank == null) {
+      return getField(location)
     }
+    val finalFile = nextFile ?: File.A
+    val finalRank = nextRank ?: location.rank
+    val nextLocation = Location(finalFile, finalRank)
+    return fields[nextLocation] ?: getField(location)
   }
 
   private fun removePieceFromField(location: Location) {

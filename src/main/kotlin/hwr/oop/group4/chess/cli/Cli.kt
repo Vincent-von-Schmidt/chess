@@ -1,6 +1,8 @@
 package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.utils.StringParser
 import hwr.oop.group4.chess.persistence.LoadGamePort
 import hwr.oop.group4.chess.persistence.SaveGamePort
 
@@ -26,7 +28,7 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = Game(id)
-        saveGamePort.saveGame(game)
+        saveGamePort.saveGame(game, newGame = true)
         println("New game $id created.")
       }
 
@@ -39,7 +41,9 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = loadGamePort.loadGame(id)
-        println(game.boardToString())
+        val gameString = game.asciiArtFEN()
+        print(gameString)
+        println("${game.turn.colorToMove} to move.")
       }
 
       "on" -> {
@@ -50,10 +54,17 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val from = args[3]
-        val to = args[5]
+        val from = StringParser.parseLocation(args[3])
+        val to = StringParser.parseLocation(args[5])
         val game = loadGamePort.loadGame(id)
-        if (game.move(from, to)) println("Move from $from to $to executed.")
+        try {
+          game.movePiece(Move(from, to))
+        } catch (e: Exception) {
+          println("Invalid move from ${from.description} to ${to.description}.")
+          return
+        }
+        println("Move from ${from.description} to ${to.description} executed.")
+        saveGamePort.saveGame(game, newGame = false)
       }
 
       else -> throw NoCommandException()

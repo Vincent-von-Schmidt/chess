@@ -3,7 +3,8 @@ package hwr.oop.group4.chess.core.fen
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.pieces.Color
+import hwr.oop.group4.chess.core.location.Rank
+import hwr.oop.group4.chess.core.utils.Color
 
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
@@ -16,18 +17,17 @@ class LoaderFENTest : AnnotationSpec() {
     val board = Board()
     val fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
-    val loaderFEN = LoaderFEN()
-    val readerFEN = ReaderFEN(fen)
+    val piecePlacement = ReaderFEN(fen).piecePlacement
 
-    val fieldA1 = board.getField(Location(File.A, 1))
-    val fieldH1 = board.getField(Location(File.H, 1))
-    val fieldA8 = board.getField(Location(File.A, 8))
-    val fieldD8 = board.getField(Location(File.D, 8))
-    val fieldB2 = board.getField(Location(File.B, 2))
-    val fieldG4 = board.getField(Location(File.G, 4))
-    val fieldG1 = board.getField(Location(File.G, 1))
+    val fieldA1 = board.getField(Location(File.A, Rank.ONE))
+    val fieldH1 = board.getField(Location(File.H, Rank.ONE))
+    val fieldA8 = board.getField(Location(File.A, Rank.EIGHT))
+    val fieldD8 = board.getField(Location(File.D, Rank.EIGHT))
+    val fieldB2 = board.getField(Location(File.B, Rank.TWO))
+    val fieldG4 = board.getField(Location(File.G, Rank.FOUR))
+    val fieldG1 = board.getField(Location(File.G, Rank.ONE))
 
-    loaderFEN.placePieces(readerFEN, board)
+    LoaderFEN.placePieces(piecePlacement, board)
 
     assertThat(fieldA1.piece?.name).isEqualTo("Rook")
     assertThat(fieldA1.piece?.color).isEqualTo(Color.WHITE)
@@ -53,11 +53,10 @@ class LoaderFENTest : AnnotationSpec() {
     val board = Board()
     val badFen = "rnbqkbnr/zppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
 
-    val fenReader = ReaderFEN(badFen)
-    val fenLoader = LoaderFEN()
+    val piecePlacement = ReaderFEN(badFen).piecePlacement
 
     assertThatThrownBy {
-      fenLoader.placePieces(fenReader, board)
-    }.hasMessageContaining("The fen string: [rnbqkbnr, zppppppp, 8, 8, 8, 8, PPPPPPPP, RNBQKBNR] WHITE KQkq c6 0 2 is invalid.")
+      LoaderFEN.placePieces(piecePlacement, board)
+    }.hasMessage("The piece placement [rnbqkbnr, zppppppp, 8, 8, 8, 8, PPPPPPPP, RNBQKBNR] is invalid.")
   }
 }

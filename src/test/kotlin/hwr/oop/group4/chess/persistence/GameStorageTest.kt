@@ -28,7 +28,7 @@ class GameStorageTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
 
     // When
-    storage.saveGame(game)
+    storage.saveGame(game, newGame = true)
 
     // Then
     assertThat(file.exists()).isTrue
@@ -41,8 +41,8 @@ class GameStorageTest : AnnotationSpec() {
     val game2 = Game(TEST_NUMBER + 1)
 
     // When
-    storage.saveGame(game1)
-    storage.saveGame(game2)
+    storage.saveGame(game1, newGame = true)
+    storage.saveGame(game2, newGame = true)
 
     // Then
     assertThat(file.readLines()).isEqualTo(
@@ -59,7 +59,7 @@ class GameStorageTest : AnnotationSpec() {
     val game = Game(TEST_NUMBER)
 
     // When
-    storage.saveGame(game)
+    storage.saveGame(game, newGame = true)
 
     // Then
     assertThatThrownBy { storage.saveGame(game) }
@@ -80,20 +80,20 @@ class GameStorageTest : AnnotationSpec() {
   fun `loading game that exists`() {
     // Given
     val game = Game(TEST_NUMBER)
-    storage.saveGame(game)
+    storage.saveGame(game, newGame = true)
 
     // When
-    val output = game.boardToString()
+    val output = game.asciiArtFEN()
 
     // Then
-    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
+    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \n")
   }
 
   @Test
   fun `deleting a game`() {
     // Given
     val game = Game(TEST_NUMBER)
-    storage.saveGame(game)
+    storage.saveGame(game, newGame = true)
 
     // When
     storage.deleteGame(game)
@@ -104,18 +104,33 @@ class GameStorageTest : AnnotationSpec() {
   }
 
   @Test
+  fun `override game with new fen`() {
+    // Given
+    val game = Game(TEST_NUMBER)
+    storage.saveGame(game, newGame = true)
+
+    // When
+    game.fen = "r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR w KQkq - 0 1"
+    storage.saveGame(game, newGame = false)
+
+    // Then
+    val loadedGame = storage.loadGame(TEST_NUMBER)
+    assertThat(loadedGame.fen).isEqualTo("r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR w KQkq - 0 1")
+  }
+
+  @Test
   fun `create two games and load the first`() {
     // Given
     val game1 = Game(TEST_NUMBER)
     val game2 = Game(TEST_NUMBER + 1)
 
     // When
-    storage.saveGame(game1)
-    storage.saveGame(game2)
-    val output = game1.boardToString()
+    storage.saveGame(game1, newGame = true)
+    storage.saveGame(game2, newGame = true)
+    val output = game1.asciiArtFEN()
 
     // Then
-    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n                \n                \n                \n                \nP P P P P P P P \nR N B Q K B N R \n")
+    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \n")
   }
 
   @Test
@@ -125,7 +140,7 @@ class GameStorageTest : AnnotationSpec() {
     file.writeText("gibberish")
 
     // When
-    storage.saveGame(game)
+    storage.saveGame(game, newGame = true)
 
     // Then
     assertThat(file.readLines()).isEqualTo(
@@ -141,13 +156,13 @@ class GameStorageTest : AnnotationSpec() {
     // Given
     val fen = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
     val game = Game(TEST_NUMBER, fen = fen)
-    storage.saveGame(game)
+    storage.saveGame(game, newGame = true)
 
     // When
-    val output = game.boardToString()
+    val output = game.asciiArtFEN()
 
     // Then
-    assertThat(output).isEqualTo("r   b k       r \np     p B p N p \nn         n     \n  p   N P     P \n            P   \n      P         \nP   P   K       \nq           b   \n")
+    assertThat(output).isEqualTo("r - b k - - - r \np - - p B p N p \nn - - - - n - - \n- p - N P - - P \n- - - - - - P - \n- - - P - - - - \nP - P - K - - - \nq - - - - - b - \n")
   }
 
   @Test
@@ -155,7 +170,7 @@ class GameStorageTest : AnnotationSpec() {
     // Given
     val fen = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
     val game = Game(TEST_NUMBER, fen = fen)
-    storage.saveGame(game)
+    storage.saveGame(game, newGame = true)
 
     // When
     val gameLoaded = storage.loadGame(TEST_NUMBER)

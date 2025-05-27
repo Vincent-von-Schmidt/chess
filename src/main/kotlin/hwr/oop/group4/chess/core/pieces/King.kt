@@ -4,8 +4,9 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveGenerator
+import hwr.oop.group4.chess.core.utils.Color
 
-class King(override val color: Color) : Piece {
+class King(override val color: Color) : Piece() {
   override val name = "King"
   override val value = 10
   override val directions = listOf(

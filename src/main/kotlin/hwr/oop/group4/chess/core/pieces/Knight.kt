@@ -5,8 +5,9 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.Jump
 import hwr.oop.group4.chess.core.move.MoveGenerator
+import hwr.oop.group4.chess.core.utils.Color
 
-class Knight(override val color: Color) : Piece {
+class Knight(override val color: Color) : Piece() {
   override val name = "Knight"
   override val value = 3
   override val directions = emptyList<Direction>()
