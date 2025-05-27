@@ -9,7 +9,6 @@ import hwr.oop.group4.chess.core.utils.Color
 
 data class Knight(override val color: Color) : Piece {
   override val name = "Knight"
-  // override val value = 3
   override val directions = emptyList<Direction>()
   private val jumps = listOf(
     Jump.TOP_LEFT_LEFT,
@@ -21,6 +20,7 @@ data class Knight(override val color: Color) : Piece {
     Jump.BOTTOM_BOTTOM_LEFT,
     Jump.BOTTOM_LEFT_LEFT
   )
+  // override val value = 3
 
   override fun allowedLocations(
     from: Location,
