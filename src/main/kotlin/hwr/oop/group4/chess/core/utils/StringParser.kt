@@ -6,7 +6,7 @@ import hwr.oop.group4.chess.core.location.Rank
 
 object StringParser {
   fun parseLocation(input: String): Location {
-    require(input.length == 2) { "Invalid location format: must be exactly 2 characters" }
+    if (input.length != 2) throw InvalidLocationFormatException()
 
     val fileChar = input[0].uppercaseChar()
     val rankChar = input[1]
@@ -14,7 +14,7 @@ object StringParser {
     val file = try {
       File.valueOf(fileChar.toString())
     } catch (e: IllegalArgumentException) {
-      throw IllegalArgumentException("Invalid file character: $fileChar")
+      throw IllegalFileException(fileChar)
     }
 
     val rank =
@@ -24,3 +24,11 @@ object StringParser {
     return Location(file, rank)
   }
 }
+
+class IllegalFileException(fileChar: Char) : Exception(
+  "Invalid file character: $fileChar"
+)
+
+class InvalidLocationFormatException : Exception(
+  "Invalid location format: must be exactly 2 characters"
+)
