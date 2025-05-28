@@ -4,9 +4,7 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.fen.GeneratorFEN
 import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.move.Move
-import hwr.oop.group4.chess.core.player.Player
 import hwr.oop.group4.chess.core.player.Turn
-import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
 class Game(
@@ -14,10 +12,11 @@ class Game(
   var fen: String = STARTING_POSITION,
 ) {
   var board: Board = Board(fen)
-  private val players: List<Player> = listOf(
-    Player(1, Color.WHITE),
-    Player(2, Color.BLACK)
-  )
+
+  // private val players: List<Player> = listOf(
+  //   Player(1, Color.WHITE),
+  //   Player(2, Color.BLACK)
+  // )
   val turn = Turn(fen)
 
   // TODO("update these properties after each move")
@@ -28,7 +27,7 @@ class Game(
   private val fullMoveNumber = 1
 
   fun movePiece(move: Move): Boolean {
-    move.validateMove(board, turn.colorToMove)
+    move.validateTurn(this)
     board.movePiece(move)
     turn.switchTurn()
     this.fen = GeneratorFEN.generateFen(

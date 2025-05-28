@@ -16,7 +16,8 @@ object GeneratorFEN {
       is Queen -> 'q'
       is Knight -> 'n'
       is Rook -> 'r'
-      is Pawn -> 'p'
+      is WhitePawn -> 'p'
+      is BlackPawn -> 'p'
     }
     return if (isUppercase) char.uppercaseChar() else char
   }
