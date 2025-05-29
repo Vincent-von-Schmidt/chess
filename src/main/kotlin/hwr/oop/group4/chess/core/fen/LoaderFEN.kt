@@ -44,7 +44,6 @@ object LoaderFEN {
       }
     }
   }
-  // TODO("implement castling and en passant")
 }
 
 class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(
