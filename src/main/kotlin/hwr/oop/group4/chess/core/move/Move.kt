@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.move
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Piece
 
 class Move(
@@ -46,6 +47,10 @@ class Move(
     if (movingPiece.color != game.turn.colorToMove) throw WrongColorMovedException(
       movingPiece
     )
+  }
+
+  fun isPromotion(move: Move): Boolean {
+    return move.endLocation.rank == Rank.EIGHT || move.endLocation.rank == Rank.ONE
   }
 
   private fun isCapture(movingPiece: Piece, board: Board): Boolean {

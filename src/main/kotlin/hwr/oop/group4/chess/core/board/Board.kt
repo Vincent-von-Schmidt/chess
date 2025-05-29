@@ -91,9 +91,14 @@ class Board(fen: String = STARTING_POSITION) {
     getField(location).piece = piece
   }
 
-  fun movePiece(move: Move) {
+  fun movePiece(move: Move, promoteToPiece: Piece? = null) {
     move.validateMove(this)
-    setPieceToField(move.endLocation, getPiece(move.startLocation)!!)
+    if (promoteToPiece is Piece && move.isPromotion(move)) {
+      setPieceToField(
+        move.endLocation,
+        promoteToPiece
+      )
+    } else setPieceToField(move.endLocation, getPiece(move.startLocation)!!)
     removePieceFromField(move.startLocation)
   }
 }
