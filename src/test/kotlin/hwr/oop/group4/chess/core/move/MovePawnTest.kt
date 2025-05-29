@@ -57,4 +57,23 @@ class MovePawnTest : AnnotationSpec() {
     assertThat(pieceOnStartLocation).isNull()
     assertThat(pieceOnEndLocation).isEqualTo(whitePawn)
   }
+
+  @Test
+  fun `white pawn moves 2 tiles on the first move`() {
+    // Given
+    val whitePawn = WhitePawn(Color.WHITE)
+    val startLocation = Location(File.A, Rank.TWO)
+    val endLocation = Location(File.A, Rank.FOUR)
+    board.setPieceToField(startLocation, whitePawn)
+
+    // When
+    val move = Move(startLocation, endLocation)
+    board.movePiece(move)
+    val pieceOnStartLocation = board.getField(startLocation).piece
+    val pieceOnEndLocation = board.getField(endLocation).piece
+
+    // Then
+    assertThat(pieceOnStartLocation).isNull()
+    assertThat(pieceOnEndLocation).isEqualTo(whitePawn)
+  }
 }
