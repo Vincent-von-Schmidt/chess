@@ -4,6 +4,7 @@ import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.core.spec.style.Test
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -77,13 +78,13 @@ class CliMoveTest : AnnotationSpec() {
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
       )
   }
 
   @Test
-  fun `user prompts more than 6 args`() {
+  fun `user prompts more than 7 args`() {
     // Then
     assertThatThrownBy {
       main(
@@ -94,6 +95,7 @@ class CliMoveTest : AnnotationSpec() {
           "e2",
           "to",
           "e4",
+          "queen",
           "extra"
         )
       )
@@ -103,7 +105,7 @@ class CliMoveTest : AnnotationSpec() {
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
       )
   }
@@ -150,7 +152,7 @@ class CliMoveTest : AnnotationSpec() {
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
       )
   }
@@ -175,8 +177,60 @@ class CliMoveTest : AnnotationSpec() {
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
       )
   }
+
+  @Test
+  fun `user prompts right promotion-title`() {
+    // Given
+    main(arrayOf("new_game", TEST_NUMBER.toString()))
+
+    // When
+    val outputMove = captureStandardOut {
+      main(
+        arrayOf(
+          "on",
+          TEST_NUMBER.toString(),
+          "move",
+          "a2",
+          "to",
+          "a4",
+          "queen"
+        )
+      )
+    }.trim()
+
+    // Then
+    assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
+  }
+
+  @Test
+  fun `user prompts wrong promotion-title`() {
+    // Given
+    main(arrayOf("new_game", TEST_NUMBER.toString()))
+
+    // Then
+    assertThatThrownBy {
+      main(
+        arrayOf(
+          "on",
+          TEST_NUMBER.toString(),
+          "move",
+          "a2",
+          "to",
+          "a4",
+          "wrong"
+        )
+      )
+    }
+      .hasMessage(
+        """
+    Valid Promotions are...
+    ...Queen, Rook, Bishop, Knight.  
+    """.trimIndent()
+      )
+  }
+
 }
