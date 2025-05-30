@@ -49,8 +49,8 @@ class Move(
     )
   }
 
-  fun isPromotion(move: Move): Boolean {
-    return move.endLocation.rank == Rank.EIGHT || move.endLocation.rank == Rank.ONE
+  fun isPromotion(): Boolean {
+    return (this.startLocation.rank == Rank.SEVEN && this.endLocation.rank == Rank.EIGHT) || (this.startLocation.rank == Rank.TWO && this.endLocation.rank == Rank.ONE)
   }
 
   private fun isCapture(movingPiece: Piece, board: Board): Boolean {

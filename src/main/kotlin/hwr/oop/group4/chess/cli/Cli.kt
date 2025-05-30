@@ -4,6 +4,7 @@ import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.StringParser
+import hwr.oop.group4.chess.core.utils.WrongPromotionInputException
 import hwr.oop.group4.chess.persistence.LoadGamePort
 import hwr.oop.group4.chess.persistence.SaveGamePort
 
@@ -57,11 +58,13 @@ class Cli(
         }
         val from = StringParser.parseLocation(args[3])
         val to = StringParser.parseLocation(args[5])
+        val move = Move(from, to)
+        if (args.size == 6 && move.isPromotion()) throw WrongPromotionInputException()
         val promoteTo: Piece? =
           if (args.size == 7) StringParser.parsePromotionPiece(args[6]) else null
         val game = loadGamePort.loadGame(id)
         try {
-          game.movePiece(Move(from, to), promoteTo)
+          game.movePiece(move, promoteTo)
         } catch (e: Exception) {
           println("Invalid move from ${from.description} to ${to.description}.")
           return

@@ -93,7 +93,7 @@ class Board(fen: String = STARTING_POSITION) {
 
   fun movePiece(move: Move, promoteToPiece: Piece? = null) {
     move.validateMove(this)
-    if (promoteToPiece is Piece && move.isPromotion(move)) {
+    if (promoteToPiece is Piece && move.isPromotion()) {
       setPieceToField(
         move.endLocation,
         promoteToPiece
