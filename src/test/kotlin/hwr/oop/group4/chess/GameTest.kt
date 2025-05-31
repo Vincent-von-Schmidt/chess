@@ -59,7 +59,7 @@ class GameTest : AnnotationSpec() {
     val move = Move(Location(File.E, Rank.TWO), Location(File.E, Rank.THREE))
 
     // When
-    game.movePiece(move, promoteTo = null)
+    game.movePiece(move)
 
     // Then
     assertThat(game.fen).isNotEqualTo(STARTING_POSITION)
@@ -71,7 +71,7 @@ class GameTest : AnnotationSpec() {
           Rank.THREE
         )
       ).piece
-    ).isInstanceOf(WhitePawn::class.java)
+    ).isEqualTo(WhitePawn())
   }
 
   @Test

@@ -7,7 +7,7 @@ import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveGenerator
 import hwr.oop.group4.chess.core.utils.Color
 
-data class WhitePawn(override val color: Color) : Piece {
+data class WhitePawn(override val color: Color = Color.WHITE) : Piece {
 
   init {
     if (color != Color.WHITE) throw WrongColorPawnException()

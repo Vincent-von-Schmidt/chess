@@ -24,7 +24,7 @@ class MoveTurnTest : AnnotationSpec() {
   @Test
   fun `white player cant move black pawn`() {
     // Given
-    val blackPawn = BlackPawn(Color.BLACK)
+    val blackPawn = BlackPawn()
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.ONE)
     game.board.setPieceToField(startLocation, blackPawn)

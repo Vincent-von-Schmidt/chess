@@ -22,7 +22,7 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `pawn white captures black queen`() {
     // Given
-    val whitePawn = WhitePawn(Color.WHITE)
+    val whitePawn = WhitePawn()
     val queen = Queen(Color.BLACK)
     val startLocation = Location(File.D, Rank.THREE)
     val endLocation = Location(File.E, Rank.FOUR)

@@ -7,7 +7,7 @@ import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveGenerator
 import hwr.oop.group4.chess.core.utils.Color
 
-data class BlackPawn(override val color: Color) : Piece {
+data class BlackPawn(override val color: Color = Color.BLACK) : Piece {
 
   init {
     if (color != Color.BLACK) throw WrongColorPawnException()
@@ -30,7 +30,7 @@ data class BlackPawn(override val color: Color) : Piece {
   ): List<Location> {
     return if (capture) {
       MoveGenerator().searchAllowedLocations(from, board, captureDirections, 1)
-    } else if (from.rank == Rank.SEVEN /* && this.color == Color.BLACK*/) { // if migrating back to one pawn
+    } else if (from.rank == Rank.SEVEN) {
       MoveGenerator().searchAllowedLocations(from, board, directions, 2)
     } else {
       MoveGenerator().searchAllowedLocations(from, board, directions, 1)
