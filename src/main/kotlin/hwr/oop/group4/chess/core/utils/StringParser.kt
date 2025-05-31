@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.utils
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
+import hwr.oop.group4.chess.core.pieces.*
 
 object StringParser {
   fun parseLocation(input: String): Location {
@@ -23,7 +24,25 @@ object StringParser {
 
     return Location(file, rank)
   }
+
+  fun parsePromotionPiece(inputString: String): Piece {
+    // all colors white as default (will be changed along the way
+    return when (inputString.lowercase()) {
+      "queen" -> Queen(Color.WHITE)
+      "knight" -> Knight(Color.WHITE)
+      "rook" -> Rook(Color.WHITE)
+      "bishop" -> Bishop(Color.WHITE)
+      else -> throw WrongPromotionInputException()
+    }
+  }
 }
+
+class WrongPromotionInputException : Exception(
+  """
+  Valid Promotions are...
+  ...Queen, Rook, Bishop, Knight.  
+  """.trimIndent()
+)
 
 class IllegalRankException(rankChar: Char) : Exception(
   "Illegal rank character: $rankChar"

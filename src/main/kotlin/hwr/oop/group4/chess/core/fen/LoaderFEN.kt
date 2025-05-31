@@ -10,13 +10,14 @@ import hwr.oop.group4.chess.core.utils.Color
 object LoaderFEN {
   private fun parsePiece(char: Char): Piece {
     val color = if (char.isUpperCase()) Color.WHITE else Color.BLACK
-    return when (char.lowercaseChar()) {
-      'b' -> Bishop(color)
-      'k' -> King(color)
-      'q' -> Queen(color)
-      'n' -> Knight(color)
-      'r' -> Rook(color)
-      'p' -> Pawn(color)
+    return when (char) {
+      'b', 'B' -> Bishop(color)
+      'k', 'K' -> King(color)
+      'q', 'Q' -> Queen(color)
+      'n', 'N' -> Knight(color)
+      'r', 'R' -> Rook(color)
+      'P' -> WhitePawn()
+      'p' -> BlackPawn()
       else -> throw IllegalPieceException(char)
     }
   }
@@ -43,7 +44,6 @@ object LoaderFEN {
       }
     }
   }
-  // TODO("implement castling and en passant")
 }
 
 class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(

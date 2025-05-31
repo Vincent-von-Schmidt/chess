@@ -5,7 +5,7 @@ import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.Move
-import hwr.oop.group4.chess.core.pieces.Pawn
+import hwr.oop.group4.chess.core.pieces.WhitePawn
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import io.kotest.core.spec.style.AnnotationSpec
@@ -43,7 +43,7 @@ class GameTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val move = Move(Location(File.E, Rank.TWO), Location(File.E, Rank.THREE))
-    game.movePiece(move)
+    game.movePiece(move, promoteTo = null)
 
     // When
     val boardStringAfterMove = game.boardToAscii()
@@ -71,7 +71,7 @@ class GameTest : AnnotationSpec() {
           Rank.THREE
         )
       ).piece
-    ).isInstanceOf(Pawn::class.java)
+    ).isEqualTo(WhitePawn())
   }
 
   @Test
@@ -84,8 +84,8 @@ class GameTest : AnnotationSpec() {
       Move(Location(File.E, Rank.SEVEN), Location(File.E, Rank.SIX))
 
     // When
-    game.movePiece(moveWhite)
-    game.movePiece(moveBlack)
+    game.movePiece(moveWhite, promoteTo = null)
+    game.movePiece(moveBlack, promoteTo = null)
 
     // Then
     assertThat(game.boardToAscii()).isEqualTo("r n b q k b n r \np p p p - p p p \n- - - - p - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R \n")

@@ -26,7 +26,7 @@ class NewGameTest : AnnotationSpec() {
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
       )
   }
@@ -40,7 +40,7 @@ class NewGameTest : AnnotationSpec() {
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
       )
   }
@@ -70,7 +70,7 @@ class NewGameTest : AnnotationSpec() {
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
       )
   }
@@ -95,7 +95,7 @@ class NewGameTest : AnnotationSpec() {
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
       )
   }

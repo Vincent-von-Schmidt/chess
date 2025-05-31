@@ -4,9 +4,8 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.fen.GeneratorFEN
 import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.move.Move
-import hwr.oop.group4.chess.core.player.Player
+import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.player.Turn
-import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
 class Game(
@@ -14,10 +13,11 @@ class Game(
   var fen: String = STARTING_POSITION,
 ) {
   var board: Board = Board(fen)
-  private val players: List<Player> = listOf(
-    Player(1, Color.WHITE),
-    Player(2, Color.BLACK)
-  )
+
+  // private val players: List<Player> = listOf(
+  //   Player(1, Color.WHITE),
+  //   Player(2, Color.BLACK)
+  // )
   val turn = Turn(fen)
 
   // TODO("update these properties after each move")
@@ -27,9 +27,18 @@ class Game(
   private val halfMoveClock = 0
   private val fullMoveNumber = 1
 
-  fun movePiece(move: Move): Boolean {
-    move.validateMove(board, turn.colorToMove)
-    board.movePiece(move)
+  fun movePiece(move: Move, promoteTo: Piece? = null): Boolean {
+    move.validateTurn(this)
+    if (promoteTo == null) board.movePiece(move) else {
+      val promoteToPiece: Piece = when (promoteTo) {
+        is Queen -> Queen(turn.colorToMove)
+        is Rook -> Rook(turn.colorToMove)
+        is Bishop -> Bishop(turn.colorToMove)
+        is Knight -> Knight(turn.colorToMove)
+        else -> throw NonPromotionablePieceException(promoteTo)
+      }
+      board.movePiece(move, promoteToPiece)
+    }
     turn.switchTurn()
     this.fen = GeneratorFEN.generateFen(
       this.board,
@@ -60,3 +69,7 @@ class Game(
     return boardString
   }
 }
+
+class NonPromotionablePieceException(promoteTo: Piece) : Exception(
+  "${promoteTo.description} is not a promotionable piece."
+)

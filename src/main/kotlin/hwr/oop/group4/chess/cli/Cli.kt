@@ -2,7 +2,9 @@ package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.StringParser
+import hwr.oop.group4.chess.core.utils.WrongPromotionInputException
 import hwr.oop.group4.chess.persistence.LoadGamePort
 import hwr.oop.group4.chess.persistence.SaveGamePort
 
@@ -48,7 +50,7 @@ class Cli(
 
       "on" -> {
         val id: Int
-        if (args.size < 6 || args[2] != "move" || args[4] != "to" || args.size > 6) throw NoCommandException()
+        if (args.size < 6 || args[2] != "move" || args[4] != "to" || args.size > 7) throw NoCommandException()
         try {
           id = args[1].toInt()
         } catch (e: NumberFormatException) {
@@ -56,9 +58,13 @@ class Cli(
         }
         val from = StringParser.parseLocation(args[3])
         val to = StringParser.parseLocation(args[5])
+        val move = Move(from, to)
+        if (args.size == 6 && move.isPromotion()) throw WrongPromotionInputException()
+        val promoteTo: Piece? =
+          if (args.size == 7) StringParser.parsePromotionPiece(args[6]) else null
         val game = loadGamePort.loadGame(id)
         try {
-          game.movePiece(Move(from, to))
+          game.movePiece(move, promoteTo)
         } catch (e: Exception) {
           println("Invalid move from ${from.description} to ${to.description}.")
           return
@@ -83,6 +89,6 @@ class NoCommandException : Exception(
         No valid command provided. Try one of the following:
         chess new_game <id>
         chess game show <id>
-        chess on <id> move <from> to <to>
+        chess on <id> move <from> to <to> <promotion-title>
         """.trimIndent()
 )
