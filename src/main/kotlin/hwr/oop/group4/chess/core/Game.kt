@@ -4,6 +4,7 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.fen.GeneratorFEN
 import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.move.NonPromotablePieceException
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.player.Turn
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
@@ -30,12 +31,13 @@ class Game(
   fun movePiece(move: Move, promoteTo: Piece? = null): Boolean {
     move.validateTurn(this)
     if (promoteTo == null) board.movePiece(move) else {
+      move.validatePromotion(this)
       val promoteToPiece: Piece = when (promoteTo) {
         is Queen -> Queen(turn.colorToMove)
         is Rook -> Rook(turn.colorToMove)
         is Bishop -> Bishop(turn.colorToMove)
         is Knight -> Knight(turn.colorToMove)
-        else -> throw NonPromotionablePieceException(promoteTo)
+        else -> throw NonPromotablePieceException(promoteTo)
       }
       board.movePiece(move, promoteToPiece)
     }
@@ -48,7 +50,6 @@ class Game(
       fullMoveNumber,
       turn.colorToMove
     )
-    this.board = Board(fen = this.fen)
     return true
   }
 
@@ -69,7 +70,3 @@ class Game(
     return boardString
   }
 }
-
-class NonPromotionablePieceException(promoteTo: Piece) : Exception(
-  "${promoteTo.description} is not a promotionable piece."
-)

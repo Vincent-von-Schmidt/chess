@@ -59,10 +59,10 @@ class Cli(
         val from = StringParser.parseLocation(args[3])
         val to = StringParser.parseLocation(args[5])
         val move = Move(from, to)
-        if (args.size == 6 && move.isPromotion()) throw WrongPromotionInputException()
+        val game = loadGamePort.loadGame(id)
+        if (args.size == 6 && move.validatePromotion(game)) throw WrongPromotionInputException()
         val promoteTo: Piece? =
           if (args.size == 7) StringParser.parsePromotionPiece(args[6]) else null
-        val game = loadGamePort.loadGame(id)
         try {
           game.movePiece(move, promoteTo)
         } catch (e: Exception) {

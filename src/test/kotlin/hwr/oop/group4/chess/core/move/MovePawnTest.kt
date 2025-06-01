@@ -4,8 +4,8 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.pieces.BlackPawn
-import hwr.oop.group4.chess.core.pieces.WhitePawn
+import hwr.oop.group4.chess.core.pieces.Pawn
+import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
@@ -22,10 +22,10 @@ class MovePawnTest : AnnotationSpec() {
   @Test
   fun `pawn black moves from d5 to d4`() {
     // Given
-    val blackPawn = BlackPawn()
+    val pawn = Pawn(Color.BLACK)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.FOUR)
-    board.setPieceToField(startLocation, blackPawn)
+    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -35,16 +35,16 @@ class MovePawnTest : AnnotationSpec() {
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(blackPawn)
+    assertThat(pieceOnEndLocation).isEqualTo(pawn)
   }
 
   @Test
   fun `pawn white moves from d5 to d6`() {
     // Given
-    val whitePawn = WhitePawn()
+    val pawn = Pawn(Color.WHITE)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.SIX) // legal move
-    board.setPieceToField(startLocation, whitePawn)
+    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -54,16 +54,16 @@ class MovePawnTest : AnnotationSpec() {
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(whitePawn)
+    assertThat(pieceOnEndLocation).isEqualTo(pawn)
   }
 
   @Test
   fun `white pawn moves 2 tiles on the first move`() {
     // Given
-    val whitePawn = WhitePawn()
+    val pawn = Pawn(Color.WHITE)
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.FOUR)
-    board.setPieceToField(startLocation, whitePawn)
+    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -73,6 +73,6 @@ class MovePawnTest : AnnotationSpec() {
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(whitePawn)
+    assertThat(pieceOnEndLocation).isEqualTo(pawn)
   }
 }

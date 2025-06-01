@@ -5,6 +5,7 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.pieces.Pawn
 
 class Move(
   val startLocation: Location,
@@ -49,8 +50,13 @@ class Move(
     )
   }
 
-  fun isPromotion(): Boolean {
-    return (this.startLocation.rank == Rank.SEVEN && this.endLocation.rank == Rank.EIGHT) || (this.startLocation.rank == Rank.TWO && this.endLocation.rank == Rank.ONE)
+  fun validatePromotion(game: Game): Boolean {
+    val toPromotePiece = getMovingPiece(startLocation, game.board)!!
+    val validPromotion =  ( (toPromotePiece is Pawn) && ((endLocation.rank == Rank.EIGHT)  || (endLocation.rank == Rank.ONE)) )
+    if (validPromotion) {
+     return true
+    } else { NonPromotablePieceException(toPromotePiece)}
+    return false
   }
 
   private fun isCapture(movingPiece: Piece, board: Board): Boolean {
@@ -81,4 +87,8 @@ class WrongColorMovedException(movingPiece: Piece) : Exception(
 
 class NonExistentPieceException(startLoc: String) : Exception(
   "$startLoc does not contain a piece"
+)
+
+class NonPromotablePieceException(promoteTo: Piece) : Exception(
+  "${promoteTo.description} is not a promotable piece."
 )

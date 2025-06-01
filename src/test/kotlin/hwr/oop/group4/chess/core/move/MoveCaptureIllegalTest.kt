@@ -4,7 +4,7 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.pieces.BlackPawn
+import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Queen
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
@@ -23,11 +23,11 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
   @Test
   fun `pawn black throw on wrong capture white queen`() {
     // Given
-    val blackPawn = BlackPawn()
+    val pawn = Pawn(Color.BLACK)
     val queen = Queen(Color.WHITE)
     val startLocation = Location(File.D, Rank.THREE)
     val endLocation = Location(File.D, Rank.FOUR)
-    board.setPieceToField(startLocation, blackPawn)
+    board.setPieceToField(startLocation, pawn)
     board.setPieceToField(endLocation, queen)
 
     // When

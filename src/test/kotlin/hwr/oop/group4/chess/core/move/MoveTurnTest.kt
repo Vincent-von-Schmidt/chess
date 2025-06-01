@@ -4,7 +4,7 @@ import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.pieces.BlackPawn
+import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Queen
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
@@ -24,7 +24,7 @@ class MoveTurnTest : AnnotationSpec() {
   @Test
   fun `white player cant move black pawn`() {
     // Given
-    val blackPawn = BlackPawn()
+    val blackPawn = Pawn(Color.BLACK)
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.ONE)
     game.board.setPieceToField(startLocation, blackPawn)

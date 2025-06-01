@@ -22,11 +22,11 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `pawn white captures black queen`() {
     // Given
-    val whitePawn = WhitePawn()
+    val pawn = Pawn(Color.WHITE)
     val queen = Queen(Color.BLACK)
     val startLocation = Location(File.D, Rank.THREE)
     val endLocation = Location(File.E, Rank.FOUR)
-    board.setPieceToField(startLocation, whitePawn)
+    board.setPieceToField(startLocation, pawn)
     board.setPieceToField(endLocation, queen)
 
     // When
@@ -37,7 +37,7 @@ class MoveCaptureLegalTest : AnnotationSpec() {
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(whitePawn)
+    assertThat(pieceOnEndLocation).isEqualTo(pawn)
   }
 
   @Test

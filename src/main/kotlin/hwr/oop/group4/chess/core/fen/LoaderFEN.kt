@@ -16,8 +16,7 @@ object LoaderFEN {
       'q', 'Q' -> Queen(color)
       'n', 'N' -> Knight(color)
       'r', 'R' -> Rook(color)
-      'P' -> WhitePawn()
-      'p' -> BlackPawn()
+      'p', 'P' -> Pawn(color)
       else -> throw IllegalPieceException(char)
     }
   }

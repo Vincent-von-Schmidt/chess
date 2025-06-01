@@ -54,11 +54,11 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `throw on white pawn move to occupied file with white queen`() {
     // Given
-    val whitePawn = WhitePawn()
+    val pawn = Pawn(Color.WHITE)
     val queen = Queen(Color.WHITE)
     val startLocation = Location(File.D, Rank.THREE)
     val endLocation = Location(File.D, Rank.FOUR)
-    board.setPieceToField(startLocation, whitePawn)
+    board.setPieceToField(startLocation, pawn)
     board.setPieceToField(endLocation, queen)
 
     // When
@@ -73,10 +73,10 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `pawn black throw on move from d5 to d6`() {
     // Given
-    val blackPawn = BlackPawn()
+    val pawn = Pawn(Color.BLACK)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.SIX) // illegal move
-    board.setPieceToField(startLocation, blackPawn)
+    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -90,10 +90,10 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `pawn black throw on move from d5 to h8`() {
     // Given
-    val blackPawn = BlackPawn()
+    val pawn = Pawn(Color.BLACK)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.H, Rank.EIGHT) // illegal move
-    board.setPieceToField(startLocation, blackPawn)
+    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -107,10 +107,10 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `pawn white throw on move from d5 to d4`() {
     // Given
-    val whitePawn = WhitePawn()
+    val pawn = Pawn(Color.WHITE)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.FOUR) // illegal move
-    board.setPieceToField(startLocation, whitePawn)
+    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -124,10 +124,10 @@ class MoveIllegalTest : AnnotationSpec() {
   @Test
   fun `pawn white throw on move from d5 to h8`() {
     // Given
-    val whitePawn = WhitePawn()
+    val pawn = Pawn(Color.WHITE)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.H, Rank.EIGHT) // illegal move
-    board.setPieceToField(startLocation, whitePawn)
+    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
