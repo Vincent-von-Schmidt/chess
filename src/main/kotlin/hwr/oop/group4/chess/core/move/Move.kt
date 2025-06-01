@@ -1,9 +1,10 @@
 package hwr.oop.group4.chess.core.move
 
+import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Piece
-import hwr.oop.group4.chess.core.utils.Color
 
 class Move(
   val startLocation: Location,
@@ -12,7 +13,9 @@ class Move(
   private val startLoc = startLocation.description
   private val endLoc = endLocation.description
 
-  fun validateMove(board: Board, colorToMove: Color) {
+  fun validateMove(
+    board: Board,
+  ) {
 
     val movingPiece: Piece? = getMovingPiece(startLocation, board)
     val occupyingPiece = board.getPiece(endLocation)
@@ -21,12 +24,8 @@ class Move(
 
     if (movingPiece == null) throw NonExistentPieceException(startLoc)
 
-    if (movingPiece.color != colorToMove) {
-      throw WrongColorMovedException(movingPiece)
-    }
-
     if (occupyingPiece != null) {
-      if (occupyingPiece.color == colorToMove) {
+      if (occupyingPiece.color == movingPiece.color) {
         throw SameColorCaptureException(endLoc, occupyingPiece)
       }
       capture = isCapture(movingPiece, board)
@@ -40,6 +39,18 @@ class Move(
     ) {
       throw IllegalMoveException(piece!!, endLoc)
     }
+  }
+
+  fun validateTurn(game: Game) {
+    val movingPiece: Piece = getMovingPiece(startLocation, game.board)
+      ?: throw NonExistentPieceException(startLoc)
+    if (movingPiece.color != game.turn.colorToMove) throw WrongColorMovedException(
+      movingPiece
+    )
+  }
+
+  fun isPromotion(): Boolean {
+    return (this.startLocation.rank == Rank.SEVEN && this.endLocation.rank == Rank.EIGHT) || (this.startLocation.rank == Rank.TWO && this.endLocation.rank == Rank.ONE)
   }
 
   private fun isCapture(movingPiece: Piece, board: Board): Boolean {
