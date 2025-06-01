@@ -40,6 +40,8 @@ class Game(
         else -> throw NonPromotablePieceException(promoteTo)
       }
       board.movePiece(move, promoteToPiece)
+//      move.isCheck()
+//      move.validateCheckMate()
     }
     turn.switchTurn()
     this.fen = GeneratorFEN.generateFen(

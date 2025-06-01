@@ -8,6 +8,8 @@ import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
+import hwr.oop.group4.chess.core.pieces.King
+import hwr.oop.group4.chess.core.utils.Color
 
 class Board(fen: String = STARTING_POSITION) {
   private val root: Field
@@ -81,6 +83,26 @@ class Board(fen: String = STARTING_POSITION) {
     val finalRank = nextRank ?: location.rank
     val nextLocation = Location(finalFile, finalRank)
     return fields[nextLocation] ?: getField(location)
+  }
+
+  fun findKing(color: Color): Location? {
+    for (location in allLocations()) {
+      val piece = getPiece(location)
+      if (piece is King && piece.color == color) {
+        return location
+      }
+    }
+    return null
+  }
+
+  fun allLocations(): List<Location> {
+      val locations = mutableListOf<Location>()
+      for (rank in Rank.values()) {
+          for (file in File.values()) {
+              locations.add(Location(file, rank))
+          }
+      }
+      return locations
   }
 
   private fun removePieceFromField(location: Location) {

@@ -6,6 +6,7 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.pieces.Pawn
+import hwr.oop.group4.chess.core.utils.opposite
 
 class Move(
   val startLocation: Location,
@@ -49,6 +50,36 @@ class Move(
       movingPiece
     )
   }
+
+  fun isCheck(game: Game): Boolean {
+    val opponentColor = game.turn.colorToMove.opposite()
+    val kingLocation = game.board.findKing(opponentColor)
+      ?: throw Exception("No king found for $opponentColor")
+
+    // Überprüfen, ob eine gegnerische Figur das Königsfeld bedroht
+    for (location in game.board.allLocations()) {
+      val piece = game.board.getPiece(location) ?: continue
+      if (piece.color != opponentColor) {
+        val possibleMoves = piece.allowedLocations(location, game.board, true)
+        if (kingLocation in possibleMoves) {
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
+  fun isCheckMate(){
+
+  }
+
+//  move out of the way (though he cannot castle!)
+//  block the check with another piece or
+//  capture the piece threatening the king.
+//  else: checkmate >:)
+
+  // TODO check if capturing king, and make exception
 
   fun validatePromotion(game: Game): Boolean {
     val toPromotePiece = getMovingPiece(startLocation, game.board)!!
