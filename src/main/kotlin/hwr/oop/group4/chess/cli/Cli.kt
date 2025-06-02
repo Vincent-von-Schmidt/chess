@@ -71,18 +71,3 @@ class Cli(
     }
   }
 }
-
-class WrongIdFormatException : Exception(
-  """
-        Error: <id> must be a valid integer!
-        """.trimIndent()
-)
-
-class NoCommandException : Exception(
-  """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-)
