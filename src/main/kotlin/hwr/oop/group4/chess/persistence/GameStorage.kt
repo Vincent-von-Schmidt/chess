@@ -6,7 +6,7 @@ import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import java.io.File
 
-class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
+class GameStorage : GamePersistencePort {
   private val gamesFolder = File("games")
   private var filepath = GAMES_FILE
 
@@ -45,6 +45,9 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
     val needsNewline = file.length() > 0 && !file.readText().endsWith("\n")
     if (needsNewline) file.appendText("\n")
     if (newGame) file.appendText("$id;$fen\n") else {
+
+      // TODO("implement ThreefoldRepetitionRule")
+
       val lines = file.readLines().toMutableList()
       for (i in lines.indices) {
         if (lines[i].startsWith(id.toString())) {

@@ -12,14 +12,6 @@ fun main(args: Array<String>) {
   
   """.trimIndent()
 
-  val fileSystemPersistenceAdapter = GameStorage()
-  val cli = Cli(
-    loadGamePort = fileSystemPersistenceAdapter,
-    saveGamePort = fileSystemPersistenceAdapter,
-  )
-  cli.handle(
-    args.toList(),
-    fileSystemPersistenceAdapter,
-    fileSystemPersistenceAdapter
-  )
+  val cli = Cli(gameStorage = GameStorage())
+  cli.handle(args.toList())
 }

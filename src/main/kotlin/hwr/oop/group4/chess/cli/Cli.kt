@@ -5,19 +5,13 @@ import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.StringParser
 import hwr.oop.group4.chess.core.utils.WrongPromotionInputException
-import hwr.oop.group4.chess.persistence.LoadGamePort
-import hwr.oop.group4.chess.persistence.SaveGamePort
+import hwr.oop.group4.chess.persistence.GamePersistencePort
 
 class Cli(
-  loadGamePort: LoadGamePort,
-  saveGamePort: SaveGamePort,
+  private val gameStorage: GamePersistencePort,
 ) {
 
-  fun handle(
-    args: List<String>,
-    loadGamePort: LoadGamePort,
-    saveGamePort: SaveGamePort,
-  ) {
+  fun handle(args: List<String>) {
     if (args.isEmpty()) throw NoCommandException()
 
     when (args.first()) {
@@ -30,7 +24,7 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = Game(id)
-        saveGamePort.saveGame(game, newGame = true)
+        gameStorage.saveGame(game, newGame = true)
         println("New game $id created.")
       }
 
@@ -42,7 +36,7 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val game = loadGamePort.loadGame(id)
+        val game = gameStorage.loadGame(id)
         val gameString = game.boardToAscii()
         print(gameString)
         println("${game.turn.colorToMove} to move.")
@@ -62,7 +56,7 @@ class Cli(
         if (args.size == 6 && move.isPromotion()) throw WrongPromotionInputException()
         val promoteTo: Piece? =
           if (args.size == 7) StringParser.parsePromotionPiece(args[6]) else null
-        val game = loadGamePort.loadGame(id)
+        val game = gameStorage.loadGame(id)
         try {
           game.movePiece(move, promoteTo)
         } catch (e: Exception) {
@@ -70,7 +64,7 @@ class Cli(
           return
         }
         println("Move from ${from.description} to ${to.description} executed.")
-        saveGamePort.saveGame(game, newGame = false)
+        gameStorage.saveGame(game, newGame = false)
       }
 
       else -> throw NoCommandException()
