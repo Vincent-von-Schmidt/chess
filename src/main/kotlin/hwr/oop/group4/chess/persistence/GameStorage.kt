@@ -15,14 +15,14 @@ class GameStorage : GamePersistencePort {
     val fen = game.fen
     if (id >= TEST_NUMBER) filepath = GAMES_FILE_TEST
     if (newGame && loadGameFromFile(id, filepath) != null)
-      throw GameAlreadyExistsException(id)
+      throw GameExistenceException("Game with ID $id already exists.")
     else saveGameToFile(id, fen, filepath, newGame = newGame)
   }
 
   override fun loadGame(id: Int): Game {
     if (id >= TEST_NUMBER) filepath = GAMES_FILE_TEST
     val fen: String = loadGameFromFile(id, filepath)
-      ?: throw GameDoesNotExistException(id)
+      ?: throw GameExistenceException("Game with ID $id does not exist.")
     return Game(id, fen = fen)
   }
 
@@ -69,12 +69,4 @@ class GameStorage : GamePersistencePort {
     }
     return null
   }
-
-  class GameAlreadyExistsException(id: Int) : Exception(
-    "Game with ID $id already exists."
-  )
-
-  class GameDoesNotExistException(id: Int) : Exception(
-    "Game with ID $id does not exist."
-  )
 }
