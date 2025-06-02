@@ -4,6 +4,7 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Piece
 
 class Field(val location: Location) {
+  // TODO: private vars
   var top: Field? = null
   var bottom: Field? = null
   var left: Field? = null

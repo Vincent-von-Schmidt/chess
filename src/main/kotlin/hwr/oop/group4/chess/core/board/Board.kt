@@ -10,6 +10,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
 class Board(fen: String = STARTING_POSITION) {
+  // TODO: remove root, pointer still exists in fields
   private val root: Field
 
   init {
@@ -20,6 +21,7 @@ class Board(fen: String = STARTING_POSITION) {
 
   private lateinit var fields: Map<Location, Field>
 
+  // TODO: return fields, remove root pointer
   private fun generateBoard(): Field {
     val allFields = mutableMapOf<Location, Field>()
     var firstField: Field? = null
@@ -68,6 +70,7 @@ class Board(fen: String = STARTING_POSITION) {
     return getField(location).piece
   }
 
+  // TODO: iter -> forward from fields map
   fun nextField(location: Location): Field {
     val nextFile = location.file.next()
     val nextRank =
@@ -87,6 +90,8 @@ class Board(fen: String = STARTING_POSITION) {
     getField(location).piece = null
   }
 
+  // TODO: change fun name -> placePieceOnField() -> remove getter and setter names
+  // TODO: candidate for private fun
   fun setPieceToField(location: Location, piece: Piece) {
     getField(location).piece = piece
   }

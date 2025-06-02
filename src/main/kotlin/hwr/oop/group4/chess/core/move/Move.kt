@@ -6,12 +6,12 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Piece
 
+// TODO: split move into two classes
+
 class Move(
   val startLocation: Location,
   val endLocation: Location,
 ) {
-  private val startLoc = startLocation.description
-  private val endLoc = endLocation.description
 
   fun validateMove(
     board: Board,
@@ -22,11 +22,11 @@ class Move(
     val piece = movingPiece?.description
     var capture = false
 
-    if (movingPiece == null) throw NonExistentPieceException(startLoc)
+    if (movingPiece == null) throw NonExistentPieceException(startLocation.description)
 
     if (occupyingPiece != null) {
       if (occupyingPiece.color == movingPiece.color) {
-        throw SameColorCaptureException(endLoc, occupyingPiece)
+        throw SameColorCaptureException(endLocation.description, occupyingPiece)
       }
       capture = isCapture(movingPiece, board)
     }
@@ -37,13 +37,16 @@ class Move(
         capture
       )
     ) {
-      throw IllegalMoveException(piece!!, endLoc)
+
+      // TODO: possible wrong error due to !!
+      throw IllegalMoveException(piece!!, endLocation.description)
     }
   }
 
+  // TODO: move fun to Game
   fun validateTurn(game: Game) {
     val movingPiece: Piece = getMovingPiece(startLocation, game.board)
-      ?: throw NonExistentPieceException(startLoc)
+      ?: throw NonExistentPieceException(startLocation.description)
     if (movingPiece.color != game.turn.colorToMove) throw WrongColorMovedException(
       movingPiece
     )
@@ -65,6 +68,8 @@ class Move(
     return board.getPiece(location)
   }
 }
+
+// TODO: move Exceptions to extra files
 
 class IllegalMoveException(piece: String, endLoc: String) : Exception(
   "$piece can not be moved to $endLoc"

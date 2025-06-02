@@ -9,14 +9,12 @@ import hwr.oop.group4.chess.persistence.LoadGamePort
 import hwr.oop.group4.chess.persistence.SaveGamePort
 
 class Cli(
-  loadGamePort: LoadGamePort,
-  saveGamePort: SaveGamePort,
+  private val loadGamePort: LoadGamePort,
+  private val saveGamePort: SaveGamePort,
 ) {
 
   fun handle(
-    args: List<String>,
-    loadGamePort: LoadGamePort,
-    saveGamePort: SaveGamePort,
+    args: List<String>
   ) {
     if (args.isEmpty()) throw NoCommandException()
 

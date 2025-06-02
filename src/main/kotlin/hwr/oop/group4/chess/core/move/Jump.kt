@@ -2,6 +2,8 @@ package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.board.Field
 
+// TODO: rename to knightJump() -> rename object and fun names to be more readable
+
 enum class Jump(val move: (Field) -> Field?) {
   TOP_LEFT_LEFT({ it.top?.left?.left }),
   TOP_TOP_LEFT({ it.top?.top?.left }),

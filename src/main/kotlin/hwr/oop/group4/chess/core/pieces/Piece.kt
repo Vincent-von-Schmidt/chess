@@ -5,6 +5,8 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.utils.Color
 
+// TODO: more functions, less attributes
+
 sealed interface Piece {
   val name: String
   val color: Color

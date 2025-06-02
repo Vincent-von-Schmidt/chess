@@ -2,6 +2,8 @@ package hwr.oop.group4.chess.core.fen
 
 import hwr.oop.group4.chess.core.utils.Color
 
+// TODO: change to main FEN class/object to use fen object instead of string
+
 data class ReaderFEN(val notation: String) {
   val piecePlacement: List<String> =
     notation.split(" ").elementAt(0).split("/")

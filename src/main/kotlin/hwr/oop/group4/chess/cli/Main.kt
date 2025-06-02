@@ -17,9 +17,5 @@ fun main(args: Array<String>) {
     loadGamePort = fileSystemPersistenceAdapter,
     saveGamePort = fileSystemPersistenceAdapter,
   )
-  cli.handle(
-    args.toList(),
-    fileSystemPersistenceAdapter,
-    fileSystemPersistenceAdapter
-  )
+  cli.handle(args.toList())
 }

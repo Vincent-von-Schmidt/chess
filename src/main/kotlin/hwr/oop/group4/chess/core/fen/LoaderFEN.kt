@@ -7,6 +7,8 @@ import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
 
+// TODO: mapFactory() ?
+
 object LoaderFEN {
   private fun parsePiece(char: Char): Piece {
     val color = if (char.isUpperCase()) Color.WHITE else Color.BLACK

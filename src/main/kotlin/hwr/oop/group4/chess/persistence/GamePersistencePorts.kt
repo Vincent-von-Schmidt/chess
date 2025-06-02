@@ -2,6 +2,8 @@ package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.Game
 
+// TODO: combine into one
+
 interface LoadGamePort {
   fun loadGame(id: Int): Game
 }
