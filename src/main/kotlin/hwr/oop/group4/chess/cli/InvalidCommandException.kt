@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.cli
 
-class NoCommandException : Exception(
+class InvalidCommandException : Exception(
   """
         No valid command provided. Try one of the following:
         chess new_game <id>

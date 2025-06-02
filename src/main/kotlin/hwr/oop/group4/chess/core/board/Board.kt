@@ -102,7 +102,3 @@ class Board(fen: String = STARTING_POSITION) {
     removePieceFromField(move.startLocation)
   }
 }
-
-class NoFieldException(location: Location) : Exception(
-  "No field at ${location.description}"
-)

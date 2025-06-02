@@ -3,8 +3,8 @@ package hwr.oop.group4.chess.cli
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.utils.InvalidPromotionException
 import hwr.oop.group4.chess.core.utils.StringParser
-import hwr.oop.group4.chess.core.utils.WrongPromotionInputException
 import hwr.oop.group4.chess.persistence.GamePersistencePort
 
 class Cli(
@@ -12,12 +12,12 @@ class Cli(
 ) {
 
   fun handle(args: List<String>) {
-    if (args.isEmpty()) throw NoCommandException()
+    if (args.isEmpty()) throw InvalidCommandException()
 
     when (args.first()) {
       "new_game" -> {
         val id: Int
-        if (args.size < 2 || args.size > 2) throw NoCommandException()
+        if (args.size < 2 || args.size > 2) throw InvalidCommandException()
         try {
           id = args[1].toInt()
         } catch (e: NumberFormatException) {
@@ -30,7 +30,7 @@ class Cli(
 
       "game" -> {
         val id: Int
-        if (args.size < 3 || args[1] != "show" || args.size > 3) throw NoCommandException()
+        if (args.size < 3 || args[1] != "show" || args.size > 3) throw InvalidCommandException()
         try {
           id = args[2].toInt()
         } catch (e: NumberFormatException) {
@@ -44,7 +44,7 @@ class Cli(
 
       "on" -> {
         val id: Int
-        if (args.size < 6 || args[2] != "move" || args[4] != "to" || args.size > 7) throw NoCommandException()
+        if (args.size < 6 || args[2] != "move" || args[4] != "to" || args.size > 7) throw InvalidCommandException()
         try {
           id = args[1].toInt()
         } catch (e: NumberFormatException) {
@@ -53,7 +53,7 @@ class Cli(
         val from = StringParser.parseLocation(args[3])
         val to = StringParser.parseLocation(args[5])
         val move = Move(from, to)
-        if (args.size == 6 && move.isPromotion()) throw WrongPromotionInputException()
+        if (args.size == 6 && move.isPromotion()) throw InvalidPromotionException()
         val promoteTo: Piece? =
           if (args.size == 7) StringParser.parsePromotionPiece(args[6]) else null
         val game = gameStorage.loadGame(id)
@@ -67,7 +67,7 @@ class Cli(
         gameStorage.saveGame(game, newGame = false)
       }
 
-      else -> throw NoCommandException()
+      else -> throw InvalidCommandException()
     }
   }
 }

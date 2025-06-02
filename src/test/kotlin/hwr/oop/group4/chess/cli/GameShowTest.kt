@@ -25,7 +25,7 @@ class GameShowTest : AnnotationSpec() {
   @Test
   fun `user prompts -chess game show-`() {
     assertThatThrownBy { main(arrayOf("game", "show")) }
-      .isInstanceOf(NoCommandException::class.java)
+      .isInstanceOf(InvalidCommandException::class.java)
       .hasMessage(
         """
         No valid command provided. Try one of the following:
@@ -39,7 +39,7 @@ class GameShowTest : AnnotationSpec() {
   @Test
   fun `user prompts -chess game show 1 1-`() {
     assertThatThrownBy { main(arrayOf("game", "show", "1", "1")) }
-      .isInstanceOf(NoCommandException::class.java)
+      .isInstanceOf(InvalidCommandException::class.java)
       .hasMessage(
         """
         No valid command provided. Try one of the following:
@@ -53,7 +53,7 @@ class GameShowTest : AnnotationSpec() {
   @Test
   fun `user prompts -chess game sow 1-`() {
     assertThatThrownBy { main(arrayOf("game", "sow", "1")) }
-      .isInstanceOf(NoCommandException::class.java)
+      .isInstanceOf(InvalidCommandException::class.java)
       .hasMessage(
         """
         No valid command provided. Try one of the following:
