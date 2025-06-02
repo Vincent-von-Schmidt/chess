@@ -18,7 +18,7 @@ object LoaderFEN {
       'r', 'R' -> Rook(color)
       'P' -> WhitePawn()
       'p' -> BlackPawn()
-      else -> throw IllegalPieceException(char)
+      else -> throw Exception()
     }
   }
 
@@ -35,7 +35,7 @@ object LoaderFEN {
         } else {
           try {
             board.setPieceToField(location, parsePiece(char))
-          } catch (e: IllegalPieceException) {
+          } catch (e: Exception) {
             throw InvalidPiecePlacementException(piecePlacement)
           }
           val next = board.nextField(location)
@@ -45,11 +45,3 @@ object LoaderFEN {
     }
   }
 }
-
-class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(
-  "The piece placement $piecePlacement is invalid."
-)
-
-class IllegalPieceException(char: Char) : Exception(
-  "Unknown char: $char"
-)

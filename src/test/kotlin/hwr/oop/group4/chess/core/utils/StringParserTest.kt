@@ -31,7 +31,7 @@ class StringParserTest : AnnotationSpec() {
 
     // Then
     assertThatThrownBy { StringParser.parseLocation(invalidRankInput) }
-      .hasMessage("Illegal rank character: 9")
+      .hasMessage("Invalid rank character: 9")
   }
 
 }

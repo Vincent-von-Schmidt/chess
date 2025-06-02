@@ -69,7 +69,3 @@ class Game(
     return boardString
   }
 }
-
-class NonPromotionablePieceException(promoteTo: Piece) : Exception(
-  "${promoteTo.description} is not a promotionable piece."
-)

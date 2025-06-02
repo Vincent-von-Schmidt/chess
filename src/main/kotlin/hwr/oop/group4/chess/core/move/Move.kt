@@ -22,11 +22,11 @@ class Move(
     val piece = movingPiece?.description
     var capture = false
 
-    if (movingPiece == null) throw NonExistentPieceException(startLoc)
+    if (movingPiece == null) throw IllegalMoveException("$startLoc does not contain a piece")
 
     if (occupyingPiece != null) {
       if (occupyingPiece.color == movingPiece.color) {
-        throw SameColorCaptureException(endLoc, occupyingPiece)
+        throw IllegalMoveException("$endLoc is already occupied with ${occupyingPiece.description}")
       }
       capture = isCapture(movingPiece, board)
     }
@@ -37,16 +37,14 @@ class Move(
         capture
       )
     ) {
-      throw IllegalMoveException(piece!!, endLoc)
+      throw IllegalMoveException("$piece can not be moved to $endLoc")
     }
   }
 
   fun validateTurn(game: Game) {
     val movingPiece: Piece = getMovingPiece(startLocation, game.board)
-      ?: throw NonExistentPieceException(startLoc)
-    if (movingPiece.color != game.turn.colorToMove) throw WrongColorMovedException(
-      movingPiece
-    )
+      ?: throw IllegalMoveException("$startLoc does not contain a piece")
+    if (movingPiece.color != game.turn.colorToMove) throw IllegalMoveException("You can not move a ${movingPiece.color} piece")
   }
 
   fun isPromotion(): Boolean {
@@ -65,20 +63,3 @@ class Move(
     return board.getPiece(location)
   }
 }
-
-class IllegalMoveException(piece: String, endLoc: String) : Exception(
-  "$piece can not be moved to $endLoc"
-)
-
-class SameColorCaptureException(endLoc: String, occupyingPiece: Piece) :
-  Exception(
-    "$endLoc is already occupied with ${occupyingPiece.description}"
-  )
-
-class WrongColorMovedException(movingPiece: Piece) : Exception(
-  "You can not move a ${movingPiece.color} piece"
-)
-
-class NonExistentPieceException(startLoc: String) : Exception(
-  "$startLoc does not contain a piece"
-)
