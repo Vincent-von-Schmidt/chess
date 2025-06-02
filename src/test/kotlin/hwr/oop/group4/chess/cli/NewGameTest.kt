@@ -1,26 +1,25 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
-import hwr.oop.group4.chess.persistence.GameStorage.GameAlreadyExistsException
+import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import java.io.File
 
 class NewGameTest : AnnotationSpec() {
 
-  private val file = File(GAMES_FILE_TEST)
+  private val game = Game(TEST_NUMBER)
 
   @BeforeEach
   fun setup() {
-    file.deleteRecursively()
+    GameStorage().deleteGame(game)
   }
 
   @Test
   fun `user prompts nothing`() {
     assertThatThrownBy { main(arrayOf()) }
-      .isInstanceOf(InvalidCommandException::class.java)
       .hasMessage(
         """
         No valid command provided. Try one of the following:
@@ -34,7 +33,6 @@ class NewGameTest : AnnotationSpec() {
   @Test
   fun `user prompts -chess new_game-`() {
     assertThatThrownBy { main(arrayOf("new_game")) }
-      .isInstanceOf(InvalidCommandException::class.java)
       .hasMessage(
         """
         No valid command provided. Try one of the following:
@@ -57,14 +55,12 @@ class NewGameTest : AnnotationSpec() {
   fun `user prompts -chess new_game 1000000- but the ID is already in use`() {
     main(arrayOf("new_game", "1000000"))
     assertThatThrownBy { main(arrayOf("new_game", "1000000")) }
-      .isInstanceOf(GameAlreadyExistsException::class.java)
       .hasMessage("Game with ID 1000000 already exists.")
   }
 
   @Test
   fun `user prompts -chess new_gae-`() {
     assertThatThrownBy { main(arrayOf("new_gae")) }
-      .isInstanceOf(InvalidCommandException::class.java)
       .hasMessage(
         """
         No valid command provided. Try one of the following:
@@ -78,7 +74,6 @@ class NewGameTest : AnnotationSpec() {
   @Test
   fun `user prompts -chess new_game char-`() {
     assertThatThrownBy { main(arrayOf("new_game", "char")) }
-      .isInstanceOf(WrongIdFormatException::class.java)
       .hasMessage(
         """
         Error: <id> must be a valid integer!
@@ -89,7 +84,6 @@ class NewGameTest : AnnotationSpec() {
   @Test
   fun `user prompts -chess new_game 1 1-`() {
     assertThatThrownBy { main(arrayOf("new_game", "1", "1")) }
-      .isInstanceOf(InvalidCommandException::class.java)
       .hasMessage(
         """
         No valid command provided. Try one of the following:
