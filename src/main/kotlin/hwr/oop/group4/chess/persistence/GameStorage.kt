@@ -4,7 +4,6 @@ import hwr.oop.group4.chess.core.Game
 import java.io.File
 
 class GameStorage : GamePersistencePort {
-  private val gamesFolder = File("games")
 
   override fun saveGame(game: Game, newGame: Boolean) {
     val id = game.id
