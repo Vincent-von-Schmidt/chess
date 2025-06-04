@@ -11,9 +11,7 @@ import hwr.oop.group4.chess.core.utils.opposite
 class Move(
   val startLocation: Location,
   val endLocation: Location,
-) {
-}
-
+)
 class IllegalMoveException(piece: String, endLoc: String) : Exception(
   "$piece can not be moved to $endLoc"
 )
@@ -32,5 +30,9 @@ class NonExistentPieceException(startLoc: String) : Exception(
 )
 
 class NonPromotablePieceException(promoteTo: Piece) : Exception(
-  "${promoteTo.description} is not a promotable piece."
+  "You can not promote a ${promoteTo.description}."
+)
+
+class NoPromoteChoiceException(movingPiece: Piece) : Exception(
+  "${movingPiece.description} has no piece to promote to"
 )

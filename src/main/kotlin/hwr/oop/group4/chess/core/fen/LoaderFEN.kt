@@ -8,18 +8,6 @@ import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
 
 object LoaderFEN {
-  private fun parsePiece(char: Char): Piece {
-    val color = if (char.isUpperCase()) Color.WHITE else Color.BLACK
-    return when (char) {
-      'b', 'B' -> Bishop(color)
-      'k', 'K' -> King(color)
-      'q', 'Q' -> Queen(color)
-      'n', 'N' -> Knight(color)
-      'r', 'R' -> Rook(color)
-      'p', 'P' -> Pawn(color)
-      else -> throw IllegalPieceException(char)
-    }
-  }
 
   fun placePieces(piecePlacement: List<String>, board: Board) {
     var location = Location(File.A, Rank.EIGHT) // root of board
@@ -44,11 +32,3 @@ object LoaderFEN {
     }
   }
 }
-
-class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(
-  "The piece placement $piecePlacement is invalid."
-)
-
-class IllegalPieceException(char: Char) : Exception(
-  "Unknown char: $char"
-)

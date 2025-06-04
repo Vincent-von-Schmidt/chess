@@ -1,27 +1,19 @@
 package hwr.oop.group4.chess.core.board
 
-import hwr.oop.group4.chess.core.Game
-import hwr.oop.group4.chess.core.fen.LoaderFEN
-import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.*
-import hwr.oop.group4.chess.core.pieces.Piece
-import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.pieces.King
 import hwr.oop.group4.chess.core.pieces.Pawn
-import hwr.oop.group4.chess.core.player.Turn
+import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
-import hwr.oop.group4.chess.core.utils.opposite
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
 class Board(fen: String = STARTING_POSITION) {
-  private val root: Field
 
   init {
-    root = generateBoard()
-    val piecePlacement = ReaderFEN(fen).piecePlacement
-    LoaderFEN.placePieces(piecePlacement, this)
+    generateBoard()
   }
 
   private lateinit var fields: Map<Location, Field>
@@ -62,7 +54,8 @@ class Board(fen: String = STARTING_POSITION) {
     }
 
     fields = allFields.toMap()
-    return firstField ?: throw IllegalStateException("No starting field found")
+    return firstField
+      ?: throw IllegalStateException("No starting field found")
   }
 
   fun getField(location: Location): Field {
@@ -70,7 +63,7 @@ class Board(fen: String = STARTING_POSITION) {
       ?: throw NoFieldException(location)
   }
 
-  fun getPiece(location: Location): Piece? {
+  private fun getPiece(location: Location): Piece? {
     return getField(location).piece
   }
 
@@ -103,45 +96,48 @@ class Board(fen: String = STARTING_POSITION) {
     getField(location).piece = null
   }
 
-  fun setPieceToField(location: Location, piece: Piece) {
+  private fun placePieceToField(location: Location, piece: Piece) {
     getField(location).piece = piece
   }
 
-  fun movePiece(move: Move, playerAtTurnColor: Color, promoteToPiece: Piece? = null,) {
-    validateMove(move)
-    validatePromotion(move)
-    validateTurn(move, playerAtTurnColor)
-    setPieceToField(move.endLocation, getPiece(move.startLocation)!!)
+  fun movePiece(
+    move: Move,
+    playerAtTurnColor: Color,
+    promoteToPiece: Piece? = null,
+  ) {
+    val movingPiece: Piece? = getPiece(move.startLocation)
+    val occupyingPiece: Piece? = getPiece(move.endLocation)
+
+    validateMove(move, movingPiece, occupyingPiece)
+    val promotionPiece =
+      validatePromotion(move, movingPiece!!, promoteToPiece)
+    validateTurn(movingPiece, playerAtTurnColor)
+
+    val pieceToPlace = promotionPiece ?: movingPiece
+    placePieceToField(move.endLocation, pieceToPlace)
     removePieceFromField(move.startLocation)
   }
 
-  private fun validateMove(move: Move) {
-
-    val movingPiece: Piece? = getPiece(move.startLocation)
-    val occupyingPiece = getPiece(move.endLocation)
-    val piece = movingPiece?.description
-    var capture = false
-
+  private fun validateMove(
+    move: Move,
+    movingPiece: Piece? = null,
+    occupyingPiece: Piece? = null,
+  ) {
     if (movingPiece == null) throw NonExistentPieceException(move.startLocation.description)
 
-    if (occupyingPiece != null) {
-      if (occupyingPiece.color == movingPiece.color) {
-        throw SameColorCaptureException(move.endLocation.description, occupyingPiece)
-      }
-      capture = isCapture(move, movingPiece)
-    }
+    val isCapture = isCapture(move, movingPiece, occupyingPiece)
+    val legalDestinations =
+      movingPiece.allowedLocations(move.startLocation, this, isCapture)
 
-    if (move.endLocation !in movingPiece.allowedLocations(
-        move.startLocation,
-        this,
-        capture
+    if (move.endLocation !in legalDestinations) {
+      throw IllegalMoveException(
+        movingPiece.description,
+        move.endLocation.description
       )
-    ) {
-      throw IllegalMoveException(piece!!, move.endLocation.description)
     }
   }
 
-//  fun isCheck(game: Game): Boolean {
+//  private fun isCheck(game: Game): Boolean {
 //    val opponentColor = game.turn.colorToMove.opposite()
 //    val kingLocation = game.board.findKing(opponentColor)
 //      ?: throw Exception("No king found for $opponentColor")
@@ -160,7 +156,7 @@ class Board(fen: String = STARTING_POSITION) {
 //    return false
 //  }
 
-  fun isCheckMate(){
+  private fun isCheckMate() {
 
   }
 
@@ -171,33 +167,57 @@ class Board(fen: String = STARTING_POSITION) {
 
   // TODO check if capturing king, and make exception
 
-  fun validatePromotion(move: Move): Boolean {
-    val toPromotePiece = getPiece(move.startLocation)!! //TODO give movingPiece
-    val validPromotion =  ( (toPromotePiece is Pawn) && ((move.endLocation.rank == Rank.EIGHT)  || (move.endLocation.rank == Rank.ONE)) )
-    if (validPromotion) {
-      return true
-    } else { NonPromotablePieceException(toPromotePiece)
-      return false
+  private fun validatePromotion(
+    move: Move,
+    movingPiece: Piece,
+    promoteToPiece: Piece?,
+  ): Piece? {
+    val isPromotion =
+      movingPiece is Pawn && (move.endLocation.rank == Rank.EIGHT || move.endLocation.rank == Rank.ONE)
+
+    if (isPromotion) {
+      if (promoteToPiece == null) {
+        throw NoPromoteChoiceException(movingPiece)
+      }
+      return promoteToPiece
     }
+    return null
   }
 
-  fun validateTurn(move: Move, color: Color) {
-    val movingPiece: Piece = getPiece(move.startLocation)
-      ?: throw NonExistentPieceException(move.startLocation.description)
-    if (movingPiece.color != color) throw WrongColorMovedException(
+  private fun validateTurn(movingPiece: Piece, playerAtTurnColor: Color) {
+    if (movingPiece.color != playerAtTurnColor) throw WrongColorMovedException(
       movingPiece
     )
   }
 
-  private fun isCapture(move: Move, movingPiece: Piece): Boolean {
-    return move.endLocation in movingPiece.allowedLocations(
-      move.startLocation,
-      this,
-      true
-    )
+  private fun isCapture(
+    move: Move,
+    movingPiece: Piece,
+    occupyingPiece: Piece?,
+  ): Boolean {
+
+    if (occupyingPiece == null) {
+      return false
+    }
+    if (occupyingPiece.color == movingPiece.color) {
+      throw SameColorCaptureException(
+        move.endLocation.description,
+        occupyingPiece
+      )
+    }
+    return true
   }
 }
 
 class NoFieldException(location: Location) : Exception(
   "No field at ${location.description}"
+)
+
+// TODO brauche ich die?
+class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(
+  "The piece placement $piecePlacement is invalid."
+)
+
+class IllegalPieceException(char: Char) : Exception(
+  "Unknown char: $char"
 )
