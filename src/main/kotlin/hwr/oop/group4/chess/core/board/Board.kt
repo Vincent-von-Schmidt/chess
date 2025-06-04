@@ -1,15 +1,19 @@
 package hwr.oop.group4.chess.core.board
 
+import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.fen.LoaderFEN
 import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.move.*
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.pieces.King
+import hwr.oop.group4.chess.core.pieces.Pawn
+import hwr.oop.group4.chess.core.player.Turn
 import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.opposite
 
 class Board(fen: String = STARTING_POSITION) {
   private val root: Field
@@ -85,24 +89,14 @@ class Board(fen: String = STARTING_POSITION) {
     return fields[nextLocation] ?: getField(location)
   }
 
-  fun findKing(color: Color): Location? {
-    for (location in allLocations()) {
-      val piece = getPiece(location)
+  private fun findKing(color: Color): Location? {
+    for ((location, field) in fields) {
+      val piece = field.piece
       if (piece is King && piece.color == color) {
         return location
       }
     }
     return null
-  }
-
-  fun allLocations(): List<Location> {
-      val locations = mutableListOf<Location>()
-      for (rank in Rank.values()) {
-          for (file in File.values()) {
-              locations.add(Location(file, rank))
-          }
-      }
-      return locations
   }
 
   private fun removePieceFromField(location: Location) {
@@ -113,10 +107,94 @@ class Board(fen: String = STARTING_POSITION) {
     getField(location).piece = piece
   }
 
-  fun movePiece(move: Move, promoteToPiece: Piece? = null) {
-    move.validateMove(this)
+  fun movePiece(move: Move, playerAtTurnColor: Color, promoteToPiece: Piece? = null,) {
+    validateMove(move)
+    validatePromotion(move)
+    validateTurn(move, playerAtTurnColor)
     setPieceToField(move.endLocation, getPiece(move.startLocation)!!)
     removePieceFromField(move.startLocation)
+  }
+
+  private fun validateMove(move: Move) {
+
+    val movingPiece: Piece? = getPiece(move.startLocation)
+    val occupyingPiece = getPiece(move.endLocation)
+    val piece = movingPiece?.description
+    var capture = false
+
+    if (movingPiece == null) throw NonExistentPieceException(move.startLocation.description)
+
+    if (occupyingPiece != null) {
+      if (occupyingPiece.color == movingPiece.color) {
+        throw SameColorCaptureException(move.endLocation.description, occupyingPiece)
+      }
+      capture = isCapture(move, movingPiece)
+    }
+
+    if (move.endLocation !in movingPiece.allowedLocations(
+        move.startLocation,
+        this,
+        capture
+      )
+    ) {
+      throw IllegalMoveException(piece!!, move.endLocation.description)
+    }
+  }
+
+//  fun isCheck(game: Game): Boolean {
+//    val opponentColor = game.turn.colorToMove.opposite()
+//    val kingLocation = game.board.findKing(opponentColor)
+//      ?: throw Exception("No king found for $opponentColor")
+//
+//    // Überprüfen, ob eine gegnerische Figur das Königsfeld bedroht
+//    for (location in game.board.allLocations()) {
+//      val piece = game.board.getPiece(location) ?: continue
+//      if (piece.color != opponentColor) {
+//        val possibleMoves = piece.allowedLocations(location, game.board, true)
+//        if (kingLocation in possibleMoves) {
+//          return true
+//        }
+//      }
+//    }
+//
+//    return false
+//  }
+
+  fun isCheckMate(){
+
+  }
+
+//  move out of the way (though he cannot castle!)
+//  block the check with another piece or
+//  capture the piece threatening the king.
+//  else: checkmate >:)
+
+  // TODO check if capturing king, and make exception
+
+  fun validatePromotion(move: Move): Boolean {
+    val toPromotePiece = getPiece(move.startLocation)!! //TODO give movingPiece
+    val validPromotion =  ( (toPromotePiece is Pawn) && ((move.endLocation.rank == Rank.EIGHT)  || (move.endLocation.rank == Rank.ONE)) )
+    if (validPromotion) {
+      return true
+    } else { NonPromotablePieceException(toPromotePiece)
+      return false
+    }
+  }
+
+  fun validateTurn(move: Move, color: Color) {
+    val movingPiece: Piece = getPiece(move.startLocation)
+      ?: throw NonExistentPieceException(move.startLocation.description)
+    if (movingPiece.color != color) throw WrongColorMovedException(
+      movingPiece
+    )
+  }
+
+  private fun isCapture(move: Move, movingPiece: Piece): Boolean {
+    return move.endLocation in movingPiece.allowedLocations(
+      move.startLocation,
+      this,
+      true
+    )
   }
 }
 

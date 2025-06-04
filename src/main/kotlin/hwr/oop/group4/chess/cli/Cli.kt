@@ -8,10 +8,7 @@ import hwr.oop.group4.chess.core.utils.WrongPromotionInputException
 import hwr.oop.group4.chess.persistence.LoadGamePort
 import hwr.oop.group4.chess.persistence.SaveGamePort
 
-class Cli(
-  loadGamePort: LoadGamePort,
-  saveGamePort: SaveGamePort,
-) {
+class Cli{
 
   fun handle(
     args: List<String>,
@@ -60,7 +57,7 @@ class Cli(
         val to = StringParser.parseLocation(args[5])
         val move = Move(from, to)
         val game = loadGamePort.loadGame(id)
-        if (args.size == 6 && move.validatePromotion(game)) throw WrongPromotionInputException()
+        if (args.size == 6 && game.board.validatePromotion(move)) throw WrongPromotionInputException()
         val promoteTo: Piece? =
           if (args.size == 7) StringParser.parsePromotionPiece(args[6]) else null
         try {

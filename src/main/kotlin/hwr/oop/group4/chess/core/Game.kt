@@ -29,21 +29,19 @@ class Game(
   private val fullMoveNumber = 1
 
   fun movePiece(move: Move, promoteTo: Piece? = null): Boolean {
-    move.validateTurn(this)
-    if (promoteTo == null) board.movePiece(move) else {
-      move.validatePromotion(this)
+    if (promoteTo == null) board.movePiece(move, turn.colorToMove) else {
       val promoteToPiece: Piece = when (promoteTo) {
-        is Queen -> Queen(turn.colorToMove)
+        is Queen -> Queen(turn.colorToMove) //TODO parser als klasse
         is Rook -> Rook(turn.colorToMove)
         is Bishop -> Bishop(turn.colorToMove)
         is Knight -> Knight(turn.colorToMove)
         else -> throw NonPromotablePieceException(promoteTo)
       }
-      board.movePiece(move, promoteToPiece)
-//      move.isCheck()
-//      move.validateCheckMate()
+      board.movePiece(move, turn.colorToMove, promoteToPiece)
     }
+
     turn.switchTurn()
+
     this.fen = GeneratorFEN.generateFen(
       this.board,
       castle,

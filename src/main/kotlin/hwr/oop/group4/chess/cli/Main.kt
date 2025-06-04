@@ -13,10 +13,7 @@ fun main(args: Array<String>) {
   """.trimIndent()
 
   val fileSystemPersistenceAdapter = GameStorage()
-  val cli = Cli(
-    loadGamePort = fileSystemPersistenceAdapter,
-    saveGamePort = fileSystemPersistenceAdapter,
-  )
+  val cli = Cli()
   cli.handle(
     args.toList(),
     fileSystemPersistenceAdapter,
