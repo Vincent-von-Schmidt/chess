@@ -8,9 +8,8 @@ import hwr.oop.group4.chess.core.pieces.King
 import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
-import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
-class Board(fen: String = STARTING_POSITION) {
+class Board : BoardView {
 
   init {
     generateBoard()
@@ -58,13 +57,35 @@ class Board(fen: String = STARTING_POSITION) {
       ?: throw IllegalStateException("No starting field found")
   }
 
+  fun initializeWithPieces(pieces: Map<Location, Piece>) {
+    for ((location, piece) in pieces) {
+      val field = getField(location)
+      placePieceToField(field.location, piece)
+    }
+  }
+
   fun getField(location: Location): Field {
     return fields[location]
       ?: throw NoFieldException(location)
   }
 
-  private fun getPiece(location: Location): Piece? {
+  override fun getPiece(location: Location): Piece? {
     return getField(location).piece
+  }
+
+  override fun getAllPieces(): Map<Location, Piece> {
+    return fields
+      .mapValues { it.value.piece!! }
+  }
+
+  private fun findKing(color: Color): Location? {
+    for ((location, field) in fields) {
+      val piece = field.piece
+      if (piece is King && piece.color == color) {
+        return location
+      }
+    }
+    return null
   }
 
   fun nextField(location: Location): Field {
@@ -80,16 +101,6 @@ class Board(fen: String = STARTING_POSITION) {
     val finalRank = nextRank ?: location.rank
     val nextLocation = Location(finalFile, finalRank)
     return fields[nextLocation] ?: getField(location)
-  }
-
-  private fun findKing(color: Color): Location? {
-    for ((location, field) in fields) {
-      val piece = field.piece
-      if (piece is King && piece.color == color) {
-        return location
-      }
-    }
-    return null
   }
 
   private fun removePieceFromField(location: Location) {

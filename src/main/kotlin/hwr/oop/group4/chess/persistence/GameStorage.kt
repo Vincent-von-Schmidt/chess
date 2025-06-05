@@ -1,6 +1,8 @@
 package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.fen.FEN
+import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
@@ -21,7 +23,7 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
 
   override fun loadGame(id: Int): Game {
     if (id >= TEST_NUMBER) filepath = GAMES_FILE_TEST
-    val fen: String = loadGameFromFile(id, filepath)
+    val fen: FEN = loadGameFromFile(id, filepath)
       ?: throw GameDoesNotExistException(id)
     return Game(id, fen = fen)
   }
@@ -37,7 +39,7 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
 
   private fun saveGameToFile(
     id: Int,
-    fen: String,
+    fen: FEN,
     filepath: String,
     newGame: Boolean,
   ) {
@@ -56,15 +58,26 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
     }
   }
 
-  private fun loadGameFromFile(id: Int, filepath: String): String? {
-    gamesFolder.mkdirs()
-    val file = File(filepath)
-    if (!file.exists()) file.createNewFile()
-    for (line in file.readLines()) {
-      val parts = line.split(';')
-      if (parts[0] == id.toString()) return parts[1]
-    }
-    return null
+  private fun loadGameFromFile(id: Int, filepath: String): FEN? {
+      gamesFolder.mkdirs()
+      val file = File(filepath)
+      if (!file.exists()) file.createNewFile()
+      for (line in file.readLines()) {
+          val parts = line.split(';')
+          if (parts[0] == id.toString()) {
+              val fenParts = parts[1].split(" ")
+              if (fenParts.size != 6) return null
+              return FEN(
+                  piecePlacement = fenParts[0],
+                  activeColor = if (fenParts[1] == "w") Color.WHITE else Color.BLACK,
+                  castle = fenParts[2],
+                  enPassant = fenParts[3],
+                  halfMoves = fenParts[4].toIntOrNull() ?: return null,
+                  fullMoves = fenParts[5].toIntOrNull() ?: return null
+              )
+          }
+      }
+      return null
   }
 
   class GameAlreadyExistsException(id: Int) : Exception(

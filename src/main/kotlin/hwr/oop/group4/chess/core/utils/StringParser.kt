@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.core.utils
 
-import hwr.oop.group4.chess.core.fen.IllegalPieceException
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -81,4 +80,12 @@ class IllegalFileException(fileChar: Char) : Exception(
 
 class InvalidLocationFormatException : Exception(
   "Invalid location format: must be exactly 2 characters"
+)
+
+class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(
+  "The piece placement $piecePlacement is invalid."
+)
+
+class IllegalPieceException(char: Char) : Exception(
+  "Unknown char: $char"
 )

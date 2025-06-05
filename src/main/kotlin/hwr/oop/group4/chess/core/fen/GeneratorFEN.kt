@@ -1,10 +1,10 @@
 package hwr.oop.group4.chess.core.fen
 
 import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.StringParser
 
@@ -14,17 +14,19 @@ object GeneratorFEN {
     board: Board,
     castle: String,
     enPassant: String,
-    halfMoveClock: Int,
-    fullMoveNumber: Int,
-    color: Color,
-  ): String {
-    var fen = ""
-    fen += genPiecePlacement(board)
-    fen += if (color == Color.WHITE) " w" else " b"
-    fen += if (castle.isNotEmpty()) " $castle" else " -"
-    fen += if (enPassant.isNotEmpty()) " $enPassant" else " -"
-    fen += " $halfMoveClock $fullMoveNumber"
-    return fen
+    halfMoves: Int,
+    fullMoves: Int,
+    activeColor: Color,
+  ): FEN {
+    val piecePlacement = genPiecePlacement(board) // returns List<String>
+    return FEN(
+      piecePlacement = piecePlacement,
+      activeColor = activeColor,
+      castle = castle,
+      enPassant = enPassant,
+      halfMoves = halfMoves,
+      fullMoves = fullMoves
+    )
   }
 
   private fun genPiecePlacement(board: Board): String {

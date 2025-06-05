@@ -1,8 +1,9 @@
 package hwr.oop.group4.chess.core
 
 import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.fen.GeneratorFEN
-import hwr.oop.group4.chess.core.fen.ReaderFEN
+import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.fen.FEN
+import hwr.oop.group4.chess.core.fen.GeneratorFEN.generateFen
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.move.NonPromotablePieceException
 import hwr.oop.group4.chess.core.pieces.*
@@ -11,9 +12,9 @@ import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
 class Game(
   val id: Int,
-  var fen: String = STARTING_POSITION,
+  var fen: FEN = STARTING_POSITION,
 ) {
-  var board: Board = Board(fen)
+  var board: Board = BoardFactory.generateBoardWithPieces(fen)
 
   // private val players: List<Player> = listOf(
   //   Player(1, Color.WHITE),
@@ -42,7 +43,7 @@ class Game(
 
     turn.switchTurn()
 
-    this.fen = GeneratorFEN.generateFen(
+    this.fen = generateFen(
       this.board,
       castle,
       enPassant,
@@ -54,7 +55,7 @@ class Game(
   }
 
   fun boardToAscii(): String {
-    val piecePlacement = ReaderFEN(fen).piecePlacement
+    val piecePlacement = fen.piecePlacement.split("/")
     var boardString = ""
     for (rank in piecePlacement) {
       var lineString = ""

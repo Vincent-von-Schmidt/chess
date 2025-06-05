@@ -1,12 +1,11 @@
 package hwr.oop.group4.chess.core.fen
 
 import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.pieces.*
 
 object BoardFactory {
-    fun generateBoardWithPieces(toLoadFen: String): Board {
+    fun generateBoardWithPieces(toLoadFen: FEN): Board {
         val board = Board()
-        val piecePlacementMap = FEN(toLoadFen).toPieceMap()
+        val piecePlacementMap = ParserFEN.convertPiecePlacementToMap(toLoadFen)
         board.initializeWithPieces(piecePlacementMap)
         return board
     }
