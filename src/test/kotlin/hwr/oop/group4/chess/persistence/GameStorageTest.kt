@@ -5,6 +5,7 @@ import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.fen.FEN
+import hwr.oop.group4.chess.core.fen.asString
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -49,8 +50,8 @@ class GameStorageTest : AnnotationSpec() {
     // Then
     assertThat(file.readLines()).isEqualTo(
       listOf(
-        "$TEST_NUMBER;${game1.fen}",
-        "${TEST_NUMBER + 1};${game2.fen}"
+        "$TEST_NUMBER;${game1.fen.asString()}",
+        "${TEST_NUMBER + 1};${game2.fen.asString()}"
       )
     )
   }
@@ -156,7 +157,7 @@ class GameStorageTest : AnnotationSpec() {
     assertThat(file.readLines()).isEqualTo(
       listOf(
         "gibberish",
-        "${game.id};${game.fen}"
+        "${game.id};${game.fen.asString()}",
       )
     )
   }

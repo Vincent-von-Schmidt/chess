@@ -2,11 +2,14 @@ package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.fen.FEN
-import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.fen.ParserFEN
+import hwr.oop.group4.chess.core.fen.ParserFEN.parseStringToFen
+import hwr.oop.group4.chess.core.fen.asString
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import java.io.File
+import javax.swing.text.html.parser.Parser
 
 class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
   private val gamesFolder = File("games")
@@ -46,11 +49,11 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
     val file = File(filepath)
     val needsNewline = file.length() > 0 && !file.readText().endsWith("\n")
     if (needsNewline) file.appendText("\n")
-    if (newGame) file.appendText("$id;$fen\n") else {
+    if (newGame) file.appendText("$id;${fen.asString()}\n") else {
       val lines = file.readLines().toMutableList()
       for (i in lines.indices) {
         if (lines[i].startsWith(id.toString())) {
-          lines[i] = "$id;$fen"
+          lines[i] = "$id;${fen.asString()}"
           break
         }
       }
@@ -59,25 +62,15 @@ class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
   }
 
   private fun loadGameFromFile(id: Int, filepath: String): FEN? {
-      gamesFolder.mkdirs()
-      val file = File(filepath)
-      if (!file.exists()) file.createNewFile()
-      for (line in file.readLines()) {
-          val parts = line.split(';')
-          if (parts[0] == id.toString()) {
-              val fenParts = parts[1].split(" ")
-              if (fenParts.size != 6) return null
-              return FEN(
-                  piecePlacement = fenParts[0],
-                  activeColor = if (fenParts[1] == "w") Color.WHITE else Color.BLACK,
-                  castle = fenParts[2],
-                  enPassant = fenParts[3],
-                  halfMoves = fenParts[4].toIntOrNull() ?: return null,
-                  fullMoves = fenParts[5].toIntOrNull() ?: return null
-              )
-          }
-      }
-      return null
+    gamesFolder.mkdirs()
+    val file = File(filepath)
+    if (!file.exists()) file.createNewFile()
+    for (line in file.readLines()) {
+      val parts = line.split(';')
+      if (parts[0] == id.toString()) return parseStringToFen(parts[1])
+
+    }
+    return null
   }
 
   class GameAlreadyExistsException(id: Int) : Exception(
