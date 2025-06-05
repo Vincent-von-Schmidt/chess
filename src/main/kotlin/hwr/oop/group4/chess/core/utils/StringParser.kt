@@ -62,30 +62,3 @@ object StringParser {
     return if (isUppercase) char.uppercaseChar() else char
   }
 }
-
-class WrongPromotionInputException : Exception(
-  """
-  Valid Promotions are...
-  ...Queen, Rook, Bishop, Knight.  
-  """.trimIndent()
-)
-
-class IllegalRankException(rankChar: Char) : Exception(
-  "Illegal rank character: $rankChar"
-)
-
-class IllegalFileException(fileChar: Char) : Exception(
-  "Invalid file character: $fileChar"
-)
-
-class InvalidLocationFormatException : Exception(
-  "Invalid location format: must be exactly 2 characters"
-)
-
-class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(
-  "The piece placement $piecePlacement is invalid."
-)
-
-class IllegalPieceException(char: Char) : Exception(
-  "Unknown char: $char"
-)

@@ -2,6 +2,7 @@ package hwr.oop.group4.chess.core.player
 
 import hwr.oop.group4.chess.core.utils.Color
 import io.kotest.core.spec.style.AnnotationSpec
+import org.assertj.core.api.Assertions.assertThat
 
 class PlayerTest : AnnotationSpec() {
 
@@ -14,8 +15,8 @@ class PlayerTest : AnnotationSpec() {
     // When
     val player = Player(id, color)
 
-    // Then //TODO assertThat
-    assert(player.id == id)
-    assert(player.color == color)
+    // Then
+    assertThat(player.id).isEqualTo(id)
+    assertThat(player.color).isEqualTo(color)
   }
 }

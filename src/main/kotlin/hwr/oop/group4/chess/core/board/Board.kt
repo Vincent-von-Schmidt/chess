@@ -129,6 +129,7 @@ class Board : BoardView {
     }
   }
 
+  // TODO implement desired Moves, user wanted moves are already here in movePiece
 //  private fun isCheck(game: Game): Boolean {
 //    val opponentColor = game.turn.colorToMove.opposite()
 //    val kingLocation = game.board.findKing(opponentColor)
@@ -200,16 +201,3 @@ class Board : BoardView {
     return true
   }
 }
-
-class NoFieldException(location: Location) : Exception(
-  "No field at ${location.description}"
-)
-
-// TODO brauche ich die?
-class InvalidPiecePlacementException(piecePlacement: List<String>) : Exception(
-  "The piece placement $piecePlacement is invalid."
-)
-
-class IllegalPieceException(char: Char) : Exception(
-  "Unknown char: $char"
-)

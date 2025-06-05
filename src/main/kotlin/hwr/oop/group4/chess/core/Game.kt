@@ -5,7 +5,7 @@ import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.GeneratorFEN.generateFen
 import hwr.oop.group4.chess.core.move.Move
-import hwr.oop.group4.chess.core.move.NonPromotablePieceException
+import hwr.oop.group4.chess.core.board.NonPromotablePieceException
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.player.Turn
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
@@ -32,7 +32,7 @@ class Game(
   fun movePiece(move: Move, promoteTo: Piece? = null): Boolean {
     if (promoteTo == null) board.movePiece(move, turn.colorToMove) else {
       val promoteToPiece: Piece = when (promoteTo) {
-        is Queen -> Queen(turn.colorToMove) //TODO parser als klasse
+        is Queen -> Queen(turn.colorToMove)
         is Rook -> Rook(turn.colorToMove)
         is Bishop -> Bishop(turn.colorToMove)
         is Knight -> Knight(turn.colorToMove)
