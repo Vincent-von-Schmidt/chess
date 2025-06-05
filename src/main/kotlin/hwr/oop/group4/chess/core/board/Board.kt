@@ -120,9 +120,10 @@ class Board : BoardView {
     val occupyingPiece: Piece? = getPiece(move.endLocation)
 
     validateMove(move, movingPiece, occupyingPiece)
+    validateTurn(movingPiece!!, playerAtTurnColor)
     val promotionPiece =
-      validatePromotion(move, movingPiece!!, promoteToPiece)
-    validateTurn(movingPiece, playerAtTurnColor)
+      validatePromotion(move, movingPiece, promoteToPiece)
+
 
     val pieceToPlace = promotionPiece ?: movingPiece
     placePieceToField(move.endLocation, pieceToPlace)

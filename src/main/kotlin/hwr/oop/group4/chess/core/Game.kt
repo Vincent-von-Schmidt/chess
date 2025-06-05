@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.core
 
 import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.GeneratorFEN.generateFen
 import hwr.oop.group4.chess.core.move.Move

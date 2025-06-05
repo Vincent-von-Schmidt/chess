@@ -8,3 +8,8 @@ fun Color.opposite(): Color =
     Color.WHITE -> Color.BLACK
     Color.BLACK -> Color.WHITE
   }
+fun Color.toFenChar(): Char =
+  when (this) {
+    Color.WHITE -> 'w'
+    Color.BLACK -> 'b'
+  }

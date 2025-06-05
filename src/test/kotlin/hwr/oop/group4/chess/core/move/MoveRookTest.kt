@@ -1,14 +1,13 @@
 package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Rook
 import hwr.oop.group4.chess.core.utils.Color
-import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
@@ -57,7 +56,7 @@ class MoveRookTest : AnnotationSpec() {
   @Test
   fun `rook moves from h1 to h2`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/7R/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/8/7R", Color.WHITE, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.H, Rank.ONE)
     val endLocation = Location(File.H, Rank.TWO)
@@ -76,7 +75,7 @@ class MoveRookTest : AnnotationSpec() {
   @Test
   fun `rook moves from h1 to h8`() {
     // Given
-    val fen = FEN("7R/8/8/8/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/8/7R", Color.WHITE, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.H, Rank.ONE)
     val endLocation = Location(File.H, Rank.EIGHT)

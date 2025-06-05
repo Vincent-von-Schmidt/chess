@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.core.board
 
-import hwr.oop.group4.chess.core.fen.BoardFactory
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -63,7 +62,7 @@ class BoardTest : AnnotationSpec() {
   @Test
   fun `board with no fen given loads correctly`() {
     // Given
-    val board = Board()
+    val board = BoardFactory.generateBoardWithPieces()
     val location = Location(File.E, Rank.ONE)
     val pieceAtLocation = board.getField(location).piece?.description
 

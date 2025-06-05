@@ -1,17 +1,13 @@
 package hwr.oop.group4.chess.core.move
 
-import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Bishop
 import hwr.oop.group4.chess.core.utils.Color
-import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.mpp.start
-import net.bytebuddy.dynamic.DynamicType.Loaded
 import org.assertj.core.api.Assertions.assertThat
 
 class MoveBishopTest : AnnotationSpec() {

@@ -33,10 +33,10 @@ class MoveGenerator {
   fun searchJumpLocations(
     from: Location,
     board: Board,
-    jumps: List<Jump>,
+    knightJumps: List<KnightJump>,
   ): List<Location> {
     val possibleLocations = mutableListOf<Location>()
-    for (jump in jumps) {
+    for (jump in knightJumps) {
       var current = from
 
       val field = board.getField(current)

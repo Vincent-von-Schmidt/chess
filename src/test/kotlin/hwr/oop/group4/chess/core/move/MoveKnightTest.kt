@@ -1,15 +1,13 @@
 package hwr.oop.group4.chess.core.move
 
-import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.pieces.Knight
 import hwr.oop.group4.chess.core.utils.Color
-import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
@@ -20,7 +18,7 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to b5`() {
     // Given
-    val fen = FEN("8/1n6/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
@@ -40,7 +38,7 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to c6`() {
     // Given
-    val fen = FEN("8/2n5/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
@@ -60,7 +58,7 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to e6`() {
     // Given
-    val fen = FEN("8/4n3/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
@@ -80,7 +78,7 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to f5`() {
     // Given
-    val fen = FEN("8/5n2/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
@@ -100,7 +98,7 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to b3`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/1n6/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
@@ -120,7 +118,7 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to c2`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/2n5/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
@@ -140,7 +138,7 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to e2`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/4n3/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
@@ -160,7 +158,7 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to f3`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/5n2/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
     board = BoardFactory.generateBoardWithPieces(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)

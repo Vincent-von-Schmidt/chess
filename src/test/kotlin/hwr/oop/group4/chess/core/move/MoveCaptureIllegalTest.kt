@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.board.Board
-import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
@@ -9,7 +9,6 @@ import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Queen
 import hwr.oop.group4.chess.core.utils.Color
-import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
@@ -38,6 +37,6 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
       val move = Move(startLocation, endLocation)
       assertThatThrownBy {
           board.movePiece(move, fen.activeColor)
-      }.hasMessageContaining("BLACK Pawn can not be moved to D4")
+      }.hasMessage("BLACK Pawn can not be moved to D4")
   }
 }

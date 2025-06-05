@@ -49,10 +49,10 @@ object ParserFEN {
         } else {
           val piece = StringParser.parsePieceFromChar(char)
           map[Location(file, rank)] = piece
-          file = file.next() ?: error("Invalid file")
+          file = file.next() ?: break
         }
       }
-      rank = rank.previous() ?: error("Invalid rank")
+      rank = rank.previous() ?: break
     }
     return map
   }
