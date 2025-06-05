@@ -1,6 +1,8 @@
 package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -14,65 +16,60 @@ class MovePawnTest : AnnotationSpec() {
 
   private lateinit var board: Board
 
-  @BeforeEach
-  fun setup() {
-    board = Board(EMPTY_BOARD)
-  }
-
   @Test
   fun `pawn black moves from d5 to d4`() {
     // Given
-    val pawn = Pawn(Color.BLACK)
+    val fen = FEN("8/8/8/3p4/8/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.FOUR)
-    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(pawn)
+    assertThat(pieceOnEndLocation).isEqualTo(Pawn(Color.BLACK))
   }
 
   @Test
   fun `pawn white moves from d5 to d6`() {
     // Given
-    val pawn = Pawn(Color.WHITE)
+    val fen = FEN("8/8/8/3P4/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.SIX) // legal move
-    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(pawn)
+    assertThat(pieceOnEndLocation).isEqualTo(Pawn(Color.WHITE))
   }
 
   @Test
   fun `white pawn moves 2 tiles on the first move`() {
     // Given
-    val pawn = Pawn(Color.WHITE)
+    val fen = FEN("8/8/8/8/8/8/P7/8", Color.WHITE, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.FOUR)
-    board.setPieceToField(startLocation, pawn)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(pawn)
+    assertThat(pieceOnEndLocation).isEqualTo(Pawn(Color.WHITE))
   }
 }

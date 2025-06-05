@@ -3,6 +3,8 @@ package hwr.oop.group4.chess.persistence
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.fen.FEN
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -110,12 +112,20 @@ class GameStorageTest : AnnotationSpec() {
     storage.saveGame(game, newGame = true)
 
     // When
-    game.fen = "r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR w KQkq - 0 1"
+    val fen = FEN(
+      piecePlacement = "r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR",
+      activeColor = Color.WHITE,
+      castle = "KQkq",
+      enPassant = "-",
+      halfMoves = 0,
+      fullMoves = 1
+    )
+    game.fen = fen
     storage.saveGame(game, newGame = false)
 
     // Then
     val loadedGame = storage.loadGame(TEST_NUMBER)
-    assertThat(loadedGame.fen).isEqualTo("r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR w KQkq - 0 1")
+    assertThat(loadedGame.fen).isEqualTo(fen)
   }
 
   @Test
@@ -154,7 +164,14 @@ class GameStorageTest : AnnotationSpec() {
   @Test
   fun `load game that has difficult fen`() {
     // Given
-    val fen = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
+    val fen = FEN(
+      piecePlacement = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1",
+      activeColor = Color.WHITE,
+      castle = "KQkq",
+      enPassant = "c6",
+      halfMoves = 0,
+      fullMoves = 2
+    )
     val game = Game(TEST_NUMBER, fen = fen)
     storage.saveGame(game, newGame = true)
 
@@ -168,7 +185,14 @@ class GameStorageTest : AnnotationSpec() {
   @Test
   fun `get normal game`() {
     // Given
-    val fen = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w KQkq c6 0 2"
+    val fen = FEN(
+      piecePlacement = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1",
+      activeColor = Color.WHITE,
+      castle = "KQkq",
+      enPassant = "c6",
+      halfMoves = 0,
+      fullMoves = 2
+    )
     val game = Game(TEST_NUMBER, fen = fen)
     storage.saveGame(game, newGame = true)
 

@@ -1,6 +1,8 @@
 package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -14,84 +16,79 @@ class MoveRookTest : AnnotationSpec() {
 
   private lateinit var board: Board
 
-  @BeforeEach
-  fun setup() {
-    board = Board(EMPTY_BOARD)
-  }
-
   @Test
   fun `rook moves from h1 to g1`() {
     // Given
-    val rook = Rook(Color.WHITE)
+    val fen = FEN("8/8/8/8/8/8/8/7R", Color.WHITE, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.H, Rank.ONE)
     val endLocation = Location(File.G, Rank.ONE)
-    board.setPieceToField(startLocation, rook)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(rook)
+    assertThat(pieceOnEndLocation).isEqualTo(Rook(Color.WHITE))
   }
 
   @Test
   fun `rook moves from h1 to a1`() {
     // Given
-    val rook = Rook(Color.WHITE)
+    val fen = FEN("8/8/8/8/8/8/8/7R", Color.WHITE, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.H, Rank.ONE)
     val endLocation = Location(File.A, Rank.ONE)
-    board.setPieceToField(startLocation, rook)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(rook)
+    assertThat(pieceOnEndLocation).isEqualTo(Rook(Color.WHITE))
   }
 
   @Test
   fun `rook moves from h1 to h2`() {
     // Given
-    val rook = Rook(Color.WHITE)
+    val fen = FEN("8/8/8/8/8/8/7R/8", Color.WHITE, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.H, Rank.ONE)
     val endLocation = Location(File.H, Rank.TWO)
-    board.setPieceToField(startLocation, rook)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(rook)
+    assertThat(pieceOnEndLocation).isEqualTo(Rook(Color.WHITE))
   }
 
   @Test
   fun `rook moves from h1 to h8`() {
     // Given
-    val rook = Rook(Color.WHITE)
+    val fen = FEN("7R/8/8/8/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
     val startLocation = Location(File.H, Rank.ONE)
     val endLocation = Location(File.H, Rank.EIGHT)
-    board.setPieceToField(startLocation, rook)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(rook)
+    assertThat(pieceOnEndLocation).isEqualTo(Rook(Color.WHITE))
   }
 }

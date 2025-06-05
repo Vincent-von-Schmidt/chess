@@ -1,6 +1,8 @@
 package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -15,27 +17,27 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
 
   private lateinit var board: Board
 
-  @BeforeEach
-  fun setup() {
-    board = Board(EMPTY_BOARD)
-  }
-
   @Test
   fun `pawn black throw on wrong capture white queen`() {
-    // Given
-    val pawn = Pawn(Color.BLACK)
-    val queen = Queen(Color.WHITE)
-    val startLocation = Location(File.D, Rank.THREE)
-    val endLocation = Location(File.D, Rank.FOUR)
-    board.setPieceToField(startLocation, pawn)
-    board.setPieceToField(endLocation, queen)
+      // Given
+      val fen = FEN(
+        piecePlacement = "8/8/8/3p4/3Q4/8/8/8",
+        activeColor = Color.BLACK,
+        castle = "-",
+        enPassant = "-",
+        halfMoves = 0,
+        fullMoves = 1
+      )
+      val board = BoardFactory.generateBoardWithPieces(fen)
+      val pawn = Pawn(Color.BLACK)
+      val queen = Queen(Color.WHITE)
+      val startLocation = Location(File.D, Rank.FIVE)
+      val endLocation = Location(File.D, Rank.FOUR)
 
-    // When
-    val move = Move(startLocation, endLocation)
-
-    // Then
-    assertThatThrownBy {
-      board.movePiece(move)
-    }.hasMessageContaining("BLACK Pawn can not be moved to D4")
+      // When / Then
+      val move = Move(startLocation, endLocation)
+      assertThatThrownBy {
+          board.movePiece(move, fen.activeColor)
+      }.hasMessageContaining("BLACK Pawn can not be moved to D4")
   }
 }

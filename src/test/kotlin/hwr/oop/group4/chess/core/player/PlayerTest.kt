@@ -14,7 +14,7 @@ class PlayerTest : AnnotationSpec() {
     // When
     val player = Player(id, color)
 
-    // Then
+    // Then //TODO assertThat
     assert(player.id == id)
     assert(player.color == color)
   }

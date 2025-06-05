@@ -1,5 +1,8 @@
 package hwr.oop.group4.chess.core.move
 
+import hwr.oop.group4.chess.core.fen.BoardFactory
+import hwr.oop.group4.chess.core.fen.FEN
+
 import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
@@ -14,22 +17,18 @@ class MoveKnightTest : AnnotationSpec() {
 
   private lateinit var board: Board
 
-  @BeforeEach
-  fun setup() {
-    board = Board(EMPTY_BOARD)
-  }
-
   @Test
   fun `knight moves from d4 to b5`() {
     // Given
-    val knight = Knight(Color.BLACK)
+    val fen = FEN("8/1n6/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
+    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.B, Rank.FIVE)
-    board.setPieceToField(startLocation, knight)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -41,14 +40,15 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to c6`() {
     // Given
-    val knight = Knight(Color.BLACK)
+    val fen = FEN("8/2n5/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
+    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.C, Rank.SIX)
-    board.setPieceToField(startLocation, knight)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -60,14 +60,15 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to e6`() {
     // Given
-    val knight = Knight(Color.BLACK)
+    val fen = FEN("8/4n3/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
+    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.E, Rank.SIX)
-    board.setPieceToField(startLocation, knight)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -79,14 +80,15 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to f5`() {
     // Given
-    val knight = Knight(Color.BLACK)
+    val fen = FEN("8/5n2/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
+    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.F, Rank.FIVE)
-    board.setPieceToField(startLocation, knight)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -98,14 +100,15 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to b3`() {
     // Given
-    val knight = Knight(Color.BLACK)
+    val fen = FEN("8/8/8/8/3n4/1n6/8/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
+    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.B, Rank.THREE)
-    board.setPieceToField(startLocation, knight)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -117,14 +120,15 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to c2`() {
     // Given
-    val knight = Knight(Color.BLACK)
+    val fen = FEN("8/8/8/8/3n4/8/2n5/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
+    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.C, Rank.TWO)
-    board.setPieceToField(startLocation, knight)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -136,14 +140,15 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to e2`() {
     // Given
-    val knight = Knight(Color.BLACK)
+    val fen = FEN("8/8/8/8/3n4/8/4n3/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
+    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.E, Rank.TWO)
-    board.setPieceToField(startLocation, knight)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -155,14 +160,15 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to f3`() {
     // Given
-    val knight = Knight(Color.BLACK)
+    val fen = FEN("8/8/8/8/3n4/5n2/8/8", Color.BLACK, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardWithPieces(fen)
+    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.F, Rank.THREE)
-    board.setPieceToField(startLocation, knight)
 
     // When
     val move = Move(startLocation, endLocation)
-    board.movePiece(move)
+    board.movePiece(move, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
