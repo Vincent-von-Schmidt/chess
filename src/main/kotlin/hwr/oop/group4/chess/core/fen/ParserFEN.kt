@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.core.fen
 
-import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -35,7 +34,6 @@ object ParserFEN {
   50züge remis regel zähler, (halbzüge)
   zugzähler */
 
-
   fun convertPiecePlacementToMap(fen: FEN): Map<Location, Piece> {
     val map = mutableMapOf<Location, Piece>()
     var rank = Rank.EIGHT
@@ -56,5 +54,4 @@ object ParserFEN {
     }
     return map
   }
-
 }

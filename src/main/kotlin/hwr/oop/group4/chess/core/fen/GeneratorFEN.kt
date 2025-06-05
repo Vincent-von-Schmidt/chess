@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.core.fen
 
-import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
@@ -11,7 +10,7 @@ import hwr.oop.group4.chess.core.utils.StringParser
 object GeneratorFEN {
 
   fun generateFen(
-    board: Board,
+    board: BoardView,
     castle: String,
     enPassant: String,
     halfMoves: Int,
@@ -29,27 +28,37 @@ object GeneratorFEN {
     )
   }
 
-  private fun genPiecePlacement(board: Board): String {
+  private fun genPiecePlacement(board: BoardView): String {
     val fen = StringBuilder()
+    var emptyCount = 0
+    var currentRank = Rank.EIGHT
 
-    for (rank in Rank.values().reversed()) {
-      var emptyCount = 0
+    for (field in board) {
+      val location = field.location
 
-      for (file in File.values()) {
-        val location = Location(file, rank)
-        val piece = board.getField(location).piece
-
-        if (piece == null) emptyCount++ else {
-          if (emptyCount > 0) {
-            fen.append(emptyCount)
-            emptyCount = 0
-          }
-          fen.append(StringParser.parsePieceCharFromPiece(piece))
+      if (location.file == File.A && location.rank != currentRank) { //when im at first field of next rank
+        if (emptyCount > 0) {
+          fen.append(emptyCount)
+          emptyCount = 0
         }
+        fen.append("/")
+        currentRank = location.rank
       }
 
-      if (emptyCount > 0) fen.append(emptyCount)
-      if (rank != Rank.ONE) fen.append("/")
+      val piece = board.getPiece(location)
+      if (piece == null) {
+        emptyCount++
+      } else {
+        if (emptyCount > 0) {
+          fen.append(emptyCount)
+          emptyCount = 0
+        }
+        fen.append(StringParser.parsePieceCharFromPiece(piece))
+      }
+    }
+
+    if (emptyCount > 0) {
+      fen.append(emptyCount)
     }
 
     return fen.toString()

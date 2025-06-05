@@ -38,28 +38,6 @@ class BoardTest : AnnotationSpec() {
   }
 
   @Test
-  fun `next field of b4 is c4`() {
-
-    val location = Location(File.B, Rank.FOUR)
-
-    assertThat(board.nextField(location).location.description).isEqualTo("C4")
-  }
-
-  @Test
-  fun `next field of h2 is a1`() {
-    val location = Location(File.H, Rank.TWO)
-
-    assertThat(board.nextField(location).location.description).isEqualTo("A1")
-  }
-
-  @Test
-  fun `next field of h1 is h1`() {
-    val location = Location(File.H, Rank.ONE)
-
-    assertThat(board.nextField(location).location.description).isEqualTo("H1")
-  }
-
-  @Test
   fun `board with no fen given loads correctly`() {
     // Given
     val board = BoardFactory.generateBoardWithPieces()

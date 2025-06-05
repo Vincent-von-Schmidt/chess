@@ -64,18 +64,13 @@ class Board : BoardView {
     }
   }
 
-  fun getField(location: Location): Field {
+  override fun getField(location: Location): Field {
     return fields[location]
       ?: throw NoFieldException(location)
   }
 
   override fun getPiece(location: Location): Piece? {
     return getField(location).piece
-  }
-
-  override fun getAllPieces(): Map<Location, Piece> {
-    return fields
-      .mapValues { it.value.piece!! }
   }
 
   private fun findKing(color: Color): Location? {
@@ -86,21 +81,6 @@ class Board : BoardView {
       }
     }
     return null
-  }
-
-  fun nextField(location: Location): Field {
-    val nextFile = location.file.next()
-    val nextRank =
-      if (nextFile == null) location.rank.previous() else location.rank
-
-    // If no next file and no previous rank return current field (on H1)
-    if (nextFile == null && nextRank == null) {
-      return getField(location)
-    }
-    val finalFile = nextFile ?: File.A
-    val finalRank = nextRank ?: location.rank
-    val nextLocation = Location(finalFile, finalRank)
-    return fields[nextLocation] ?: getField(location)
   }
 
   private fun removePieceFromField(location: Location) {
