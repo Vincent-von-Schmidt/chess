@@ -4,9 +4,7 @@ import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.*
-import hwr.oop.group4.chess.core.pieces.King
-import hwr.oop.group4.chess.core.pieces.Pawn
-import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
 
 class Board : BoardView {
@@ -53,7 +51,7 @@ class Board : BoardView {
     }
 
     fields = allFields.toMap()
-    return firstField
+    return firstField //TODO i need?
       ?: throw IllegalStateException("No starting field found")
   }
 
@@ -102,7 +100,7 @@ class Board : BoardView {
     validateMove(move, movingPiece, occupyingPiece)
     validateTurn(movingPiece!!, playerAtTurnColor)
     val promotionPiece =
-      validatePromotion(move, movingPiece, promoteToPiece)
+      validatePromotion(move, movingPiece, promoteToPiece, playerAtTurnColor)
 
 
     val pieceToPlace = promotionPiece ?: movingPiece
@@ -164,15 +162,26 @@ class Board : BoardView {
     move: Move,
     movingPiece: Piece,
     promoteToPiece: Piece?,
+    playerAtTurnColor: Color
   ): Piece? {
     val isPromotion =
       movingPiece is Pawn && (move.endLocation.rank == Rank.EIGHT || move.endLocation.rank == Rank.ONE)
 
     if (isPromotion) {
       if (promoteToPiece == null) {
-        throw NoPromoteChoiceException(movingPiece)
+        throw WrongPromoteChoiceException(movingPiece)
       }
-      return promoteToPiece
+      if (promoteToPiece.color != playerAtTurnColor) {
+        throw WrongPromoteChoiceException(movingPiece, promoteToPiece)
+      }
+        val checkedPromoteToPiece: Piece = when (promoteToPiece) {
+          is Queen -> Queen(playerAtTurnColor)
+          is Rook -> Rook(playerAtTurnColor)
+          is Bishop -> Bishop(playerAtTurnColor)
+          is Knight -> Knight(playerAtTurnColor)
+          else -> throw WrongPromoteChoiceException(movingPiece, promoteToPiece)
+        }
+      return checkedPromoteToPiece
     }
     return null
   }
