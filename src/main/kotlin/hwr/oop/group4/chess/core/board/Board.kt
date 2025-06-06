@@ -29,14 +29,15 @@ class Board : BoardView {
 
         if (previousFile != null) {              // Set left /right neighbor
           val leftLocation = Location(previousFile, rank)
-          val leftField = allFields[leftLocation]!!
+          val leftField = allFields[leftLocation] ?: throw NoFieldException(leftLocation)
+
           field.connectLeft(leftField)
           leftField.connectRight(field)
         }
 
         if (previousRank != null) {              // Set bottom /top neighbor
           val bottomLocation = Location(file, previousRank)
-          val bottomField = allFields[bottomLocation]!!
+          val bottomField = allFields[bottomLocation] ?: throw NoFieldException(bottomLocation)
           field.connectBottom(bottomField)
           bottomField.connectTop(field)
         }
