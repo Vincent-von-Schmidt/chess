@@ -9,7 +9,7 @@ data class FEN(
   val castle: String,
   val enPassant: String,
   val halfMoves: Int,
-  val fullMoves: Int
+  val fullMoves: Int,
 )
 
 fun FEN.asString(): String =

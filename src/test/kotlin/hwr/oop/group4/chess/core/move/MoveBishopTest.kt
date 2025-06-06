@@ -13,12 +13,12 @@ import org.assertj.core.api.Assertions.assertThat
 class MoveBishopTest : AnnotationSpec() {
 
   val fen = FEN(
-  piecePlacement = "2b5/8/8/8/8/8/8/8",
-  activeColor = Color.BLACK,
-  castle = "-",
-  enPassant = "-",
-  halfMoves = 0,
-  fullMoves = 1
+    piecePlacement = "2b5/8/8/8/8/8/8/8",
+    activeColor = Color.BLACK,
+    castle = "-",
+    enPassant = "-",
+    halfMoves = 0,
+    fullMoves = 1
   )
 
   @Test

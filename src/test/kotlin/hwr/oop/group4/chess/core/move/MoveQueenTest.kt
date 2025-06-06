@@ -1,9 +1,8 @@
 package hwr.oop.group4.chess.core.move
 
+import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
-
-import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank

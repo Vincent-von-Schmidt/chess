@@ -5,7 +5,7 @@ import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.GeneratorFEN.generateFen
 import hwr.oop.group4.chess.core.move.Move
-import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.player.Turn
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 

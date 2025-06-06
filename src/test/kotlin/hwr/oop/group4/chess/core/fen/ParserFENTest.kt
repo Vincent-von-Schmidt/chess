@@ -36,7 +36,9 @@ class ParserFENTest : AnnotationSpec() {
   fun `active color throws an error on wrong color`() {
     val notationExample =
       "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR t KQkq c6 0 2"
-    assertThatThrownBy { ParserFEN.parseStringToFen(notationExample) }.hasMessage("Invalid color") // WRONG THO
+    assertThatThrownBy { ParserFEN.parseStringToFen(notationExample) }.hasMessage(
+      "Invalid color"
+    ) // WRONG THO
   }
 
   @Test

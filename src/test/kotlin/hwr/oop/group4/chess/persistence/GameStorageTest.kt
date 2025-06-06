@@ -1,10 +1,10 @@
 package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.Game
-import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
-import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.asString
+import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy

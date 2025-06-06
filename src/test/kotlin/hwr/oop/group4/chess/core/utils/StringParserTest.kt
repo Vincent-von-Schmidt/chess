@@ -11,7 +11,9 @@ class StringParserTest : AnnotationSpec() {
     val tooLongInput = "A1B"
 
     // Then
-    assertThatThrownBy { StringParser.parseLocationFromString(tooLongInput) }.hasMessage("Invalid location format: must be exactly 2 characters")
+    assertThatThrownBy { StringParser.parseLocationFromString(tooLongInput) }.hasMessage(
+      "Invalid location format: must be exactly 2 characters"
+    )
   }
 
   @Test

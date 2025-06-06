@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.core.pieces
 
-import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.KnightJump
@@ -22,9 +22,9 @@ data class Knight(override val color: Color) : Piece {
   )
   // override val value = 3
 
-  override fun allowedLocations(
+  override fun availableLocationsToMove(
     from: Location,
-    board: Board,
+    board: BoardView,
     capture: Boolean,
   ): List<Location> {
     return MoveGenerator().searchJumpLocations(from, board, knightJumps)

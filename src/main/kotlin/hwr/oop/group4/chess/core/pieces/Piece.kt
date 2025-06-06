@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.core.pieces
 
-import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.utils.Color
@@ -12,9 +12,9 @@ sealed interface Piece {
   val description: String get() = "$color $name"
   // val value: Int
 
-  fun allowedLocations(
+  fun availableLocationsToMove(
     from: Location,
-    board: Board,
+    board: BoardView,
     capture: Boolean,
   ): List<Location>
 }

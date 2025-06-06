@@ -8,20 +8,20 @@ object Constants {
   const val GAMES_FILE = "games/games.csv"
 
   val STARTING_POSITION = FEN(
-      piecePlacement = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
-      activeColor = Color.WHITE,
-      castle = "KQkq",
-      enPassant = "-",
-      halfMoves = 0,
-      fullMoves = 1
+    piecePlacement = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    activeColor = Color.WHITE,
+    castle = "KQkq",
+    enPassant = "-",
+    halfMoves = 0,
+    fullMoves = 1
   )
 
   val EMPTY_BOARD = FEN(
-      piecePlacement = "8/8/8/8/8/8/8/8",
-      activeColor = Color.WHITE,
-      castle = "KQkq",
-      enPassant = "-",
-      halfMoves = 0,
-      fullMoves = 1
+    piecePlacement = "8/8/8/8/8/8/8/8",
+    activeColor = Color.WHITE,
+    castle = "KQkq",
+    enPassant = "-",
+    halfMoves = 0,
+    fullMoves = 1
   )
 }

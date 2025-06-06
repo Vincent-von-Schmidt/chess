@@ -1,9 +1,7 @@
 package hwr.oop.group4.chess.core.utils
 
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.core.spec.style.AnnotationSpec.Test
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class ColorTest : AnnotationSpec() {
 

@@ -18,25 +18,25 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
 
   @Test
   fun `pawn black throw on wrong capture white queen`() {
-      // Given
-      val fen = FEN(
-        piecePlacement = "8/8/8/3p4/3Q4/8/8/8",
-        activeColor = Color.BLACK,
-        castle = "-",
-        enPassant = "-",
-        halfMoves = 0,
-        fullMoves = 1
-      )
-      val board = BoardFactory.generateBoardFromFen(fen)
-      val pawn = Pawn(Color.BLACK)
-      val queen = Queen(Color.WHITE)
-      val startLocation = Location(File.D, Rank.FIVE)
-      val endLocation = Location(File.D, Rank.FOUR)
+    // Given
+    val fen = FEN(
+      piecePlacement = "8/8/8/3p4/3Q4/8/8/8",
+      activeColor = Color.BLACK,
+      castle = "-",
+      enPassant = "-",
+      halfMoves = 0,
+      fullMoves = 1
+    )
+    val board = BoardFactory.generateBoardFromFen(fen)
+    val pawn = Pawn(Color.BLACK)
+    val queen = Queen(Color.WHITE)
+    val startLocation = Location(File.D, Rank.FIVE)
+    val endLocation = Location(File.D, Rank.FOUR)
 
-      // When / Then
-      val move = Move(startLocation, endLocation)
-      assertThatThrownBy {
-          board.movePiece(move, fen.activeColor)
-      }.hasMessage("BLACK Pawn can not be moved to D4")
+    // When / Then
+    val move = Move(startLocation, endLocation)
+    assertThatThrownBy {
+      board.movePiece(move, fen.activeColor)
+    }.hasMessage("BLACK Pawn can not be moved to D4")
   }
 }

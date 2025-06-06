@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.core.pieces
 
-import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.Direction
@@ -16,14 +16,16 @@ data class Pawn(override val color: Color) : Piece {
   // override val value = 1
 
   private val whitePawnDirections = listOf(Direction.TOP)
-  private val whitePawnCaptures = listOf(Direction.TOP_RIGHT, Direction.TOP_LEFT)
+  private val whitePawnCaptures =
+    listOf(Direction.TOP_RIGHT, Direction.TOP_LEFT)
 
   private val blackPawnDirections = listOf(Direction.BOTTOM)
-  private val blackPawnCaptures = listOf(Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT)
+  private val blackPawnCaptures =
+    listOf(Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT)
 
-  override fun allowedLocations(
+  override fun availableLocationsToMove(
     from: Location,
-    board: Board,
+    board: BoardView,
     capture: Boolean,
   ): List<Location> {
     if (color == Color.WHITE) {

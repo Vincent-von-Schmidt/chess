@@ -1,9 +1,9 @@
 package hwr.oop.group4.chess.core.fen
 
-import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 

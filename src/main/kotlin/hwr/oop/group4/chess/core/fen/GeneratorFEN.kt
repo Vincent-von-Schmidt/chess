@@ -2,7 +2,6 @@ package hwr.oop.group4.chess.core.fen
 
 import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.File
-import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.StringParser

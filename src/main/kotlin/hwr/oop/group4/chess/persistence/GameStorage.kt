@@ -5,7 +5,6 @@ import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.ParserFEN
 import hwr.oop.group4.chess.core.fen.asString
 import java.io.File
-import javax.swing.text.html.parser.Parser
 
 class GameStorage : GamePersistencePort {
 

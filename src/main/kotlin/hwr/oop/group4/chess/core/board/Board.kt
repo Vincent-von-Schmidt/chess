@@ -3,11 +3,11 @@ package hwr.oop.group4.chess.core.board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.move.*
+import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
 
-class Board (piecePlacementMap: Map<Location, Piece>): BoardView {
+class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
   init {
     generateBoard()
@@ -29,7 +29,7 @@ class Board (piecePlacementMap: Map<Location, Piece>): BoardView {
 
         if (previousFile != null) {              // Set left /right neighbor
           val leftLocation = Location(previousFile, rank)
-          val leftField = allFields[leftLocation] !!
+          val leftField = allFields[leftLocation]!!
 
           field.connectLeft(leftField)
           leftField.connectRight(field)
@@ -37,7 +37,7 @@ class Board (piecePlacementMap: Map<Location, Piece>): BoardView {
 
         if (previousRank != null) {              // Set bottom /top neighbor
           val bottomLocation = Location(file, previousRank)
-          val bottomField = allFields[bottomLocation] !!
+          val bottomField = allFields[bottomLocation]!!
           field.connectBottom(bottomField)
           bottomField.connectTop(field)
         }
@@ -98,7 +98,6 @@ class Board (piecePlacementMap: Map<Location, Piece>): BoardView {
     val promotionPiece =
       validatePromotion(move, movingPiece, promoteToPiece, playerAtTurnColor)
 
-
     val pieceToPlace = promotionPiece ?: movingPiece
     placePieceToField(move.endLocation, pieceToPlace)
     removePieceFromField(move.startLocation)
@@ -112,7 +111,7 @@ class Board (piecePlacementMap: Map<Location, Piece>): BoardView {
 
     val isCapture = isCapture(move, movingPiece, occupyingPiece)
     val legalDestinations =
-      movingPiece.allowedLocations(move.startLocation, this, isCapture)
+      movingPiece.availableLocationsToMove(move.startLocation, this, isCapture)
 
     if (move.endLocation !in legalDestinations) {
       throw IllegalMoveException(
@@ -157,7 +156,7 @@ class Board (piecePlacementMap: Map<Location, Piece>): BoardView {
     move: Move,
     movingPiece: Piece,
     promoteToPiece: Piece?,
-    playerAtTurnColor: Color
+    playerAtTurnColor: Color,
   ): Piece? {
     val isPromotion =
       movingPiece is Pawn && (move.endLocation.rank == Rank.EIGHT || move.endLocation.rank == Rank.ONE)
@@ -169,13 +168,13 @@ class Board (piecePlacementMap: Map<Location, Piece>): BoardView {
       if (promoteToPiece.color != playerAtTurnColor) {
         throw WrongPromoteChoiceException(movingPiece, promoteToPiece)
       }
-        val checkedPromoteToPiece: Piece = when (promoteToPiece) {
-          is Queen -> Queen(playerAtTurnColor)
-          is Rook -> Rook(playerAtTurnColor)
-          is Bishop -> Bishop(playerAtTurnColor)
-          is Knight -> Knight(playerAtTurnColor)
-          else -> throw WrongPromoteChoiceException(movingPiece, promoteToPiece)
-        }
+      val checkedPromoteToPiece: Piece = when (promoteToPiece) {
+        is Queen -> Queen(playerAtTurnColor)
+        is Rook -> Rook(playerAtTurnColor)
+        is Bishop -> Bishop(playerAtTurnColor)
+        is Knight -> Knight(playerAtTurnColor)
+        else -> throw WrongPromoteChoiceException(movingPiece, promoteToPiece)
+      }
       return checkedPromoteToPiece
     }
     return null
