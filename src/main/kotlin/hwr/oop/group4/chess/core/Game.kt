@@ -19,6 +19,7 @@ class Game(
   //   Player(2, Color.BLACK)
   // )
   val turn = Turn(fen)
+  var recentFens: MutableList<String> = mutableListOf()
 
   // TODO("update these properties after each move")
 
