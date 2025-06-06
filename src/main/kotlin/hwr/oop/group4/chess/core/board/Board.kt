@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.core.board
 
-import hwr.oop.group4.chess.core.fen.InvalidPiecePlacementException
 import hwr.oop.group4.chess.core.fen.LoaderFEN
 import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.location.File
