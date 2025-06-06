@@ -28,6 +28,7 @@ class GameStorage : GamePersistencePort {
     id: Int,
     fen: String,
   ) {
+    File("games").mkdir()
     val file = File("games/$id.csv")
     val needsNewline = file.length() > 0 && !file.readText().endsWith("\n")
     if (needsNewline) file.appendText("\n")
