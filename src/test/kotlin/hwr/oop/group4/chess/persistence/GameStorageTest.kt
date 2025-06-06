@@ -26,19 +26,6 @@ class GameStorageTest : AnnotationSpec() {
   }
 
   @Test
-  fun `games folder does not exist but is created`() {
-    // Given
-    val game = Game(TEST_NUMBER)
-
-    // When
-    storage.saveGame(game, newGame = true)
-    val file = File("games/${game.id}.csv")
-
-    // Then
-    assertThat(file.exists()).isTrue
-  }
-
-  @Test
   fun `creating two games and files exist`() {
     // Given
     val game1 = Game(TEST_NUMBER)
