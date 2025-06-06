@@ -17,7 +17,7 @@ class GameStorage : GamePersistencePort {
     else fenStrings = saveGameToFile(id, fen)
 
     val savedGame = Game(id, fen)
-    savedGame.recentFens = fenStrings.toMutableList()
+    savedGame.recentFENs = fenStrings.toMutableList()
     return savedGame
   }
 
