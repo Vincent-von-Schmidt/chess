@@ -6,7 +6,7 @@ import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 
 object StringParser {
-  fun parseLocation(input: String): Location {
+  fun parseLocationFromString(input: String): Location {
     if (input.length != 2) throw InvalidLocationException("Invalid location format: must be exactly 2 characters")
 
     val fileChar = input[0].uppercaseChar()
@@ -25,7 +25,7 @@ object StringParser {
     return Location(file, rank)
   }
 
-  fun parsePromotionPiece(inputString: String): Piece {
+  fun parsePromotionPieceFromString(inputString: String): Piece {
     // all colors white as default (will be changed along the way
     return when (inputString.lowercase()) {
       "queen" -> Queen(Color.WHITE)
@@ -34,5 +34,31 @@ object StringParser {
       "bishop" -> Bishop(Color.WHITE)
       else -> throw InvalidPromotionException()
     }
+  }
+
+  fun parsePieceFromChar(char: Char): Piece {
+    val color = if (char.isUpperCase()) Color.WHITE else Color.BLACK
+    return when (char) {
+      'b', 'B' -> Bishop(color)
+      'k', 'K' -> King(color)
+      'q', 'Q' -> Queen(color)
+      'n', 'N' -> Knight(color)
+      'r', 'R' -> Rook(color)
+      'p', 'P' -> Pawn(color)
+      else -> throw IllegalPieceException(char)
+    }
+  }
+
+  fun parsePieceCharFromPiece(piece: Piece): Char {
+    val isUppercase: Boolean = piece.color == Color.WHITE
+    val char = when (piece) {
+      is Bishop -> 'b'
+      is King -> 'k'
+      is Queen -> 'q'
+      is Knight -> 'n'
+      is Rook -> 'r'
+      is Pawn -> 'p'
+    }
+    return if (isUppercase) char.uppercaseChar() else char
   }
 }

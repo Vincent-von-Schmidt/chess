@@ -11,7 +11,9 @@ class StringParserTest : AnnotationSpec() {
     val tooLongInput = "A1B"
 
     // Then
-    assertThatThrownBy { StringParser.parseLocation(tooLongInput) }.hasMessage("Invalid location format: must be exactly 2 characters")
+    assertThatThrownBy { StringParser.parseLocationFromString(tooLongInput) }.hasMessage(
+      "Invalid location format: must be exactly 2 characters"
+    )
   }
 
   @Test
@@ -20,7 +22,7 @@ class StringParserTest : AnnotationSpec() {
     val invalidFileInput = "Z1"
 
     // Then
-    assertThatThrownBy { StringParser.parseLocation(invalidFileInput) }
+    assertThatThrownBy { StringParser.parseLocationFromString(invalidFileInput) }
       .hasMessage("Invalid file character: Z")
   }
 
@@ -30,8 +32,17 @@ class StringParserTest : AnnotationSpec() {
     val invalidRankInput = "A9"
 
     // Then
-    assertThatThrownBy { StringParser.parseLocation(invalidRankInput) }
+    assertThatThrownBy { StringParser.parseLocationFromString(invalidRankInput) }
       .hasMessage("Invalid rank character: 9")
   }
 
+  @Test
+  fun `parse illegal char into piece throws`() {
+    // Given
+    val invalidCharInput = 'z'
+
+    // Then
+    assertThatThrownBy { StringParser.parsePieceFromChar(invalidCharInput) }
+      .hasMessage("Unknown char: $invalidCharInput")
+  }
 }

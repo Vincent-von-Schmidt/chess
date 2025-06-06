@@ -13,7 +13,7 @@ class BoardTest : AnnotationSpec() {
 
   @BeforeEach
   fun setUp() {
-    board = Board()
+    board = BoardFactory.generateBoardFromFen(EMPTY_BOARD)
   }
 
   @Test
@@ -38,31 +38,9 @@ class BoardTest : AnnotationSpec() {
   }
 
   @Test
-  fun `next field of b4 is c4`() {
-
-    val location = Location(File.B, Rank.FOUR)
-
-    assertThat(board.nextField(location).location.description).isEqualTo("C4")
-  }
-
-  @Test
-  fun `next field of h2 is a1`() {
-    val location = Location(File.H, Rank.TWO)
-
-    assertThat(board.nextField(location).location.description).isEqualTo("A1")
-  }
-
-  @Test
-  fun `next field of h1 is h1`() {
-    val location = Location(File.H, Rank.ONE)
-
-    assertThat(board.nextField(location).location.description).isEqualTo("H1")
-  }
-
-  @Test
   fun `board with no fen given loads correctly`() {
     // Given
-    val board = Board()
+    val board = BoardFactory.generateBoardFromFen()
     val location = Location(File.E, Rank.ONE)
     val pieceAtLocation = board.getField(location).piece?.description
 
@@ -73,7 +51,7 @@ class BoardTest : AnnotationSpec() {
   @Test
   fun `board with empty_fen given is empty`() {
     // Given
-    val board = Board(EMPTY_BOARD)
+    val board = BoardFactory.generateBoardFromFen(EMPTY_BOARD)
     val location = Location(File.E, Rank.ONE)
     val pieceAtLocation = board.getField(location).piece?.description
 

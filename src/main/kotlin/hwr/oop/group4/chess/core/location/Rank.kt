@@ -6,6 +6,4 @@ enum class Rank(val number: Int) {
 
   fun next(): Rank? = values().getOrNull(this.ordinal + 1)
   fun previous(): Rank? = values().getOrNull(this.ordinal - 1)
-
-  // TODO use this to cycle through files
 }

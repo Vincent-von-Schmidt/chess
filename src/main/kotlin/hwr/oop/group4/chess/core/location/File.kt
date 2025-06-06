@@ -6,4 +6,4 @@ enum class File {
   fun next(): File? = File.values().getOrNull(this.ordinal + 1)
   fun previous(): File? = File.values().getOrNull(this.ordinal - 1)
 
-} // TODO use this to cycle through files
+}

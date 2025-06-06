@@ -2,7 +2,7 @@ package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.board.Field
 
-enum class Jump(val move: (Field) -> Field?) {
+enum class KnightJump(val move: (Field) -> Field?) {
   TOP_LEFT_LEFT({ it.top?.left?.left }),
   TOP_TOP_LEFT({ it.top?.top?.left }),
   TOP_TOP_RIGHT({ it.top?.top?.right }),

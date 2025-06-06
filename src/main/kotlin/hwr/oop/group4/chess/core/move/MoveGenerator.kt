@@ -1,15 +1,15 @@
 package hwr.oop.group4.chess.core.move
 
-import hwr.oop.group4.chess.core.board.Board
+import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 
 class MoveGenerator {
 
   fun searchAllowedLocations(
     from: Location,
-    board: Board,
+    board: BoardView,
     directions: List<Direction>,
-    maxSteps: Int = 8,
+    maxSteps: Int,
   ): List<Location> {
     val possibleLocations = mutableListOf<Location>()
 
@@ -32,11 +32,11 @@ class MoveGenerator {
 
   fun searchJumpLocations(
     from: Location,
-    board: Board,
-    jumps: List<Jump>,
+    board: BoardView,
+    knightJumps: List<KnightJump>,
   ): List<Location> {
     val possibleLocations = mutableListOf<Location>()
-    for (jump in jumps) {
+    for (jump in knightJumps) {
       var current = from
 
       val field = board.getField(current)

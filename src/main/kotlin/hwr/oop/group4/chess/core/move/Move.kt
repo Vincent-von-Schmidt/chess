@@ -1,65 +1,8 @@
 package hwr.oop.group4.chess.core.move
 
-import hwr.oop.group4.chess.core.Game
-import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.pieces.Piece
 
 class Move(
   val startLocation: Location,
   val endLocation: Location,
-) {
-  private val startLoc = startLocation.description
-  private val endLoc = endLocation.description
-
-  fun validateMove(
-    board: Board,
-  ) {
-
-    val movingPiece: Piece? = getMovingPiece(startLocation, board)
-    val occupyingPiece = board.getPiece(endLocation)
-    val piece = movingPiece?.description
-    var capture = false
-
-    if (movingPiece == null) throw IllegalMoveException("$startLoc does not contain a piece")
-
-    if (occupyingPiece != null) {
-      if (occupyingPiece.color == movingPiece.color) {
-        throw IllegalMoveException("$endLoc is already occupied with ${occupyingPiece.description}")
-      }
-      capture = isCapture(movingPiece, board)
-    }
-
-    if (endLocation !in movingPiece.allowedLocations(
-        startLocation,
-        board,
-        capture
-      )
-    ) {
-      throw IllegalMoveException("$piece can not be moved to $endLoc")
-    }
-  }
-
-  fun validateTurn(game: Game) {
-    val movingPiece: Piece = getMovingPiece(startLocation, game.board)
-      ?: throw IllegalMoveException("$startLoc does not contain a piece")
-    if (movingPiece.color != game.turn.colorToMove) throw IllegalMoveException("You can not move a ${movingPiece.color} piece")
-  }
-
-  fun isPromotion(): Boolean {
-    return (this.startLocation.rank == Rank.SEVEN && this.endLocation.rank == Rank.EIGHT) || (this.startLocation.rank == Rank.TWO && this.endLocation.rank == Rank.ONE)
-  }
-
-  private fun isCapture(movingPiece: Piece, board: Board): Boolean {
-    return endLocation in movingPiece.allowedLocations(
-      startLocation,
-      board,
-      true
-    )
-  }
-
-  private fun getMovingPiece(location: Location, board: Board): Piece? {
-    return board.getPiece(location)
-  }
-}
+)
