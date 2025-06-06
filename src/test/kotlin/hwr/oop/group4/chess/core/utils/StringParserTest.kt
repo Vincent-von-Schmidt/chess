@@ -34,4 +34,14 @@ class StringParserTest : AnnotationSpec() {
       .hasMessage("Illegal rank character: 9")
   }
 
+  @Test
+  fun `parse illigal`() {
+    // Given
+    val invalidRankInput = "A9"
+
+    // Then
+    assertThatThrownBy { StringParser.parseLocationFromString(invalidRankInput) }
+      .hasMessage("Illegal rank character: 9")
+  }
+
 }
