@@ -10,11 +10,11 @@ class GameStorage : GamePersistencePort {
 
   override fun saveGame(game: Game, newGame: Boolean): Game {
     val id = game.id
-    val fen = game.fen.asString()
+    val fen = game.fen
     val fenStrings: List<String>
     if (newGame && File("games/$id.csv").exists())
       throw GameExistenceException("Game with ID $id already exists.")
-    else fenStrings = saveGameToFile(id, fen)
+    else fenStrings = saveGameToFile(id, fen.asString())
 
     val savedGame = Game(id, fen)
     savedGame.recentFens = fenStrings.toMutableList()
