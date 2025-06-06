@@ -1,5 +1,6 @@
 package hwr.oop.group4.chess.core.board
 
+import hwr.oop.group4.chess.core.fen.InvalidPiecePlacementException
 import hwr.oop.group4.chess.core.fen.LoaderFEN
 import hwr.oop.group4.chess.core.fen.ReaderFEN
 import hwr.oop.group4.chess.core.location.File
@@ -34,14 +35,15 @@ class Board(fen: String = STARTING_POSITION) {
 
         if (previousFile != null) {              // Set left /right neighbor
           val leftLocation = Location(previousFile, rank)
-          val leftField = allFields[leftLocation]!!
+          val leftField = allFields[leftLocation] ?: throw NoFieldException(leftLocation)
+
           field.connectLeft(leftField)
           leftField.connectRight(field)
         }
 
         if (previousRank != null) {              // Set bottom /top neighbor
           val bottomLocation = Location(file, previousRank)
-          val bottomField = allFields[bottomLocation]!!
+          val bottomField = allFields[bottomLocation] ?: throw NoFieldException(bottomLocation)
           field.connectBottom(bottomField)
           bottomField.connectTop(field)
         }
@@ -93,12 +95,13 @@ class Board(fen: String = STARTING_POSITION) {
 
   fun movePiece(move: Move, promoteToPiece: Piece? = null) {
     move.validateMove(this)
+    val piece: Piece = getPiece(move.startLocation) ?: throw IllegalStateException()
     if (promoteToPiece is Piece && move.isPromotion()) {
       setPieceToField(
         move.endLocation,
         promoteToPiece
       )
-    } else setPieceToField(move.endLocation, getPiece(move.startLocation)!!)
+    } else setPieceToField(move.endLocation, piece)
     removePieceFromField(move.startLocation)
   }
 }
