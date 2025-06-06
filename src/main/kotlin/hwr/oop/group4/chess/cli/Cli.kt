@@ -3,7 +3,6 @@ package hwr.oop.group4.chess.cli
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
-import hwr.oop.group4.chess.core.utils.InvalidPromotionException
 import hwr.oop.group4.chess.core.utils.StringParser
 import hwr.oop.group4.chess.persistence.GamePersistencePort
 

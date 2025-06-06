@@ -1,20 +1,24 @@
 package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.fen.FEN
+import hwr.oop.group4.chess.core.fen.ParserFEN
+import hwr.oop.group4.chess.core.fen.asString
 import java.io.File
+import javax.swing.text.html.parser.Parser
 
 class GameStorage : GamePersistencePort {
 
   override fun saveGame(game: Game, newGame: Boolean) {
     val id = game.id
-    val fen = game.fen
+    val fen = game.fen.asString()
     if (newGame && File("games/$id.csv").exists())
       throw GameExistenceException("Game with ID $id already exists.")
     else saveGameToFile(id, fen)
   }
 
   override fun loadGame(id: Int): Game {
-    val fen: String = loadGameFromFile(id)
+    val fen: FEN = loadGameFromFile(id)
     return Game(id, fen = fen)
   }
 
@@ -34,9 +38,9 @@ class GameStorage : GamePersistencePort {
     file.appendText("$fen\n")
   }
 
-  private fun loadGameFromFile(id: Int): String {
+  private fun loadGameFromFile(id: Int): FEN {
     val file = File("games/$id.csv")
     if (!file.exists()) throw GameExistenceException("Game with ID $id does not exist.")
-    return file.readLines().last()
+    return ParserFEN.parseStringToFen(file.readLines().last())
   }
 }
