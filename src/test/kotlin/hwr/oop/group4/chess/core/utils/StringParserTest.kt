@@ -35,12 +35,12 @@ class StringParserTest : AnnotationSpec() {
   }
 
   @Test
-  fun `parse illigal`() {
+  fun `parse illegal char into piece throws`() {
     // Given
-    val invalidRankInput = "A9"
+    val invalidCharInput = 'z'
 
     // Then
-    assertThatThrownBy { StringParser.parseLocationFromString(invalidRankInput) }
-      .hasMessage("Invalid rank character: 9")
+    assertThatThrownBy { StringParser.parsePieceFromChar(invalidCharInput) }
+      .hasMessage("Unknown char: $invalidCharInput")
   }
 }
