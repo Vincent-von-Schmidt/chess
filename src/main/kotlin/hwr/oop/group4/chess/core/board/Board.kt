@@ -6,6 +6,7 @@ import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.opposite
 
 class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
@@ -65,15 +66,15 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     return getField(location).piece
   }
 
-//  private fun findKing(color: Color): Location? {
-//    for ((location, field) in fields) {
-//      val piece = field.piece
-//      if (piece is King && piece.color == color) {
-//        return location
-//      }
-//    }
-//    return null
-//  }
+  private fun findKing(color: Color): Location? {
+    for ((location, field) in fields) {
+      val piece = field.piece
+      if (piece is King && piece.color == color) {
+        return location
+      }
+    }
+    return null
+  }
 
   private fun removePieceFromField(location: Location) {
     getField(location).piece = null
@@ -121,30 +122,22 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     }
   }
 
-  // TODO implement desired Moves, user wanted moves are already here in movePiece
-//  private fun isCheck(game: Game): Boolean {
-//    val opponentColor = game.turn.colorToMove.opposite()
-//    val kingLocation = game.board.findKing(opponentColor)
-//      ?: throw Exception("No king found for $opponentColor")
-//
-//    // Überprüfen, ob eine gegnerische Figur das Königsfeld bedroht
-//    for (location in game.board.allLocations()) {
-//      val piece = game.board.getPiece(location) ?: continue
-//      if (piece.color != opponentColor) {
-//        val possibleMoves = piece.allowedLocations(location, game.board, true)
-//        if (kingLocation in possibleMoves) {
-//          return true
-//        }
-//      }
-//    }
-//
-//    return false
-//  }
+  private fun isCheck(playerAtTurnColor: Color): Boolean {
+    val opponentColor = playerAtTurnColor.opposite()
+    val kingLocation = findKing(opponentColor)
 
-//  private fun isCheckMate() {
-//
-//  }
-
+    // Überprüfen, ob eine gegnerische Figur das Königsfeld bedroht
+    for ((location) in fields) {
+      val piece = getPiece(location) ?: continue
+      if (piece.color != opponentColor) {
+        val possibleMoves = piece.availableLocationsToMove(location, this, true)
+        if (kingLocation in possibleMoves) {
+          return true
+        }
+      }
+    }
+    return false
+  }
 //  move out of the way (though he cannot castle!)
 //  block the check with another piece or
 //  capture the piece threatening the king.
