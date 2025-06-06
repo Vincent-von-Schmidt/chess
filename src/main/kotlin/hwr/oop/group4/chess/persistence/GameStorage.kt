@@ -1,83 +1,42 @@
 package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.Game
-import hwr.oop.group4.chess.core.fen.FEN
-import hwr.oop.group4.chess.core.fen.ParserFEN
-import hwr.oop.group4.chess.core.fen.ParserFEN.parseStringToFen
-import hwr.oop.group4.chess.core.fen.asString
-import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE
-import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
-import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import java.io.File
-import javax.swing.text.html.parser.Parser
 
-class GameStorage : SaveGamePort, LoadGamePort, DeleteGamePort {
-  private val gamesFolder = File("games")
-  private var filepath = GAMES_FILE
+class GameStorage : GamePersistencePort {
 
   override fun saveGame(game: Game, newGame: Boolean) {
     val id = game.id
     val fen = game.fen
-    if (id >= TEST_NUMBER) filepath = GAMES_FILE_TEST
-    if (newGame && loadGameFromFile(id, filepath) != null)
-      throw GameAlreadyExistsException(id)
-    else saveGameToFile(id, fen, filepath, newGame = newGame)
+    if (newGame && File("games/$id.csv").exists())
+      throw GameExistenceException("Game with ID $id already exists.")
+    else saveGameToFile(id, fen)
   }
 
   override fun loadGame(id: Int): Game {
-    if (id >= TEST_NUMBER) filepath = GAMES_FILE_TEST
-    val fen: FEN = loadGameFromFile(id, filepath)
-      ?: throw GameDoesNotExistException(id)
+    val fen: String = loadGameFromFile(id)
     return Game(id, fen = fen)
   }
 
   override fun deleteGame(game: Game) {
     val id = game.id
-    if (id >= TEST_NUMBER) filepath = GAMES_FILE_TEST
-    val file = File(filepath)
-    if (!file.exists()) return
-    val lines = file.readLines().filter { !it.startsWith(id.toString()) }
-    file.writeText(lines.joinToString("\n"))
+    val file = File("games/$id.csv")
+    if (file.exists()) file.delete()
   }
 
   private fun saveGameToFile(
     id: Int,
-    fen: FEN,
-    filepath: String,
-    newGame: Boolean,
+    fen: String,
   ) {
-    val file = File(filepath)
+    val file = File("games/$id.csv")
     val needsNewline = file.length() > 0 && !file.readText().endsWith("\n")
     if (needsNewline) file.appendText("\n")
-    if (newGame) file.appendText("$id;${fen.asString()}\n") else {
-      val lines = file.readLines().toMutableList()
-      for (i in lines.indices) {
-        if (lines[i].startsWith(id.toString())) {
-          lines[i] = "$id;${fen.asString()}"
-          break
-        }
-      }
-      file.writeText(lines.joinToString("\n"))
-    }
+    file.appendText("$fen\n")
   }
 
-  private fun loadGameFromFile(id: Int, filepath: String): FEN? {
-    gamesFolder.mkdirs()
-    val file = File(filepath)
-    if (!file.exists()) file.createNewFile()
-    for (line in file.readLines()) {
-      val parts = line.split(';')
-      if (parts[0] == id.toString()) return parseStringToFen(parts[1])
-
-    }
-    return null
+  private fun loadGameFromFile(id: Int): String {
+    val file = File("games/$id.csv")
+    if (!file.exists()) throw GameExistenceException("Game with ID $id does not exist.")
+    return file.readLines().last()
   }
-
-  class GameAlreadyExistsException(id: Int) : Exception(
-    "Game with ID $id already exists."
-  )
-
-  class GameDoesNotExistException(id: Int) : Exception(
-    "Game with ID $id does not exist."
-  )
 }

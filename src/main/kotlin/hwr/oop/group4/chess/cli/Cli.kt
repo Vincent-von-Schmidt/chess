@@ -3,43 +3,40 @@ package hwr.oop.group4.chess.cli
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.utils.InvalidPromotionException
 import hwr.oop.group4.chess.core.utils.StringParser
-import hwr.oop.group4.chess.core.utils.WrongPromotionInputException
-import hwr.oop.group4.chess.persistence.LoadGamePort
-import hwr.oop.group4.chess.persistence.SaveGamePort
+import hwr.oop.group4.chess.persistence.GamePersistencePort
 
-class Cli{
+class Cli(
+  private val gameStorage: GamePersistencePort,
+) {
 
-  fun handle(
-    args: List<String>,
-    loadGamePort: LoadGamePort,
-    saveGamePort: SaveGamePort,
-  ) {
-    if (args.isEmpty()) throw NoCommandException()
+  fun handle(args: List<String>) {
+    if (args.isEmpty()) throw InvalidCommandException()
 
     when (args.first()) {
       "new_game" -> {
         val id: Int
-        if (args.size < 2 || args.size > 2) throw NoCommandException()
+        if (args.size < 2 || args.size > 2) throw InvalidCommandException()
         try {
           id = args[1].toInt()
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
         val game = Game(id)
-        saveGamePort.saveGame(game, newGame = true)
+        gameStorage.saveGame(game, newGame = true)
         println("New game $id created.")
       }
 
       "game" -> {
         val id: Int
-        if (args.size < 3 || args[1] != "show" || args.size > 3) throw NoCommandException()
+        if (args.size < 3 || args[1] != "show" || args.size > 3) throw InvalidCommandException()
         try {
           id = args[2].toInt()
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val game = loadGamePort.loadGame(id)
+        val game = gameStorage.loadGame(id)
         val gameString = game.boardToAscii()
         print(gameString)
         println("${game.turn.colorToMove} to move.")
@@ -47,7 +44,7 @@ class Cli{
 
       "on" -> {
         val id: Int
-        if (args.size < 6 || args[2] != "move" || args[4] != "to" || args.size > 7) throw NoCommandException()
+        if (args.size < 6 || args[2] != "move" || args[4] != "to" || args.size > 7) throw InvalidCommandException()
         try {
           id = args[1].toInt()
         } catch (e: NumberFormatException) {
@@ -56,7 +53,7 @@ class Cli{
         val from = StringParser.parseLocationFromString(args[3])
         val to = StringParser.parseLocationFromString(args[5])
         val move = Move(from, to)
-        val game = loadGamePort.loadGame(id)
+        val game = gameStorage.loadGame(id)
 
         val promoteTo: Piece? =
           if (args.size == 7) StringParser.parsePromotionPieceFromString(args[6]) else null
@@ -67,25 +64,10 @@ class Cli{
           return
         }
         println("Move from ${from.description} to ${to.description} executed.")
-        saveGamePort.saveGame(game, newGame = false)
+        gameStorage.saveGame(game, newGame = false)
       }
 
-      else -> throw NoCommandException()
+      else -> throw InvalidCommandException()
     }
   }
 }
-
-class WrongIdFormatException : Exception(
-  """
-        Error: <id> must be a valid integer!
-        """.trimIndent()
-)
-
-class NoCommandException : Exception(
-  """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-)

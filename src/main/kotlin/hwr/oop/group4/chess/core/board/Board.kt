@@ -51,8 +51,7 @@ class Board : BoardView {
     }
 
     fields = allFields.toMap()
-    return firstField //TODO i need?
-      ?: throw IllegalStateException("No starting field found")
+    return firstField ?: throw IllegalStateException("No starting field found")
   }
 
   fun initializeWithPieces(pieces: Map<Location, Piece>) {

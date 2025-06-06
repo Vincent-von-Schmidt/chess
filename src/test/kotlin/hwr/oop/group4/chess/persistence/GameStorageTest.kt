@@ -1,7 +1,6 @@
 package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.Game
-import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.fen.FEN
@@ -9,20 +8,21 @@ import hwr.oop.group4.chess.core.fen.asString
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import java.io.File
 
 class GameStorageTest : AnnotationSpec() {
 
   private val storage = GameStorage()
-  private val file = java.io.File(GAMES_FILE_TEST)
 
   @BeforeEach
-  fun setup() {
-    file.deleteRecursively()
-  }
-
-  @AfterEach
-  fun tearDown() {
-    file.deleteRecursively()
+  fun cleanUpTestGameFiles() {
+    val directory = File("games")
+    if (!directory.exists() || !directory.isDirectory) return
+    directory.listFiles()?.forEach { file ->
+      val match = Regex("""(\d+)\.csv""").matchEntire(file.name)
+      val id = match?.groupValues?.get(1)?.toIntOrNull()
+      if (id != null && id >= TEST_NUMBER) file.delete()
+    }
   }
 
   @Test
@@ -32,13 +32,14 @@ class GameStorageTest : AnnotationSpec() {
 
     // When
     storage.saveGame(game, newGame = true)
+    val file = File("games/${game.id}.csv")
 
     // Then
     assertThat(file.exists()).isTrue
   }
 
   @Test
-  fun `creating two games`() {
+  fun `creating two games and files exist`() {
     // Given
     val game1 = Game(TEST_NUMBER)
     val game2 = Game(TEST_NUMBER + 1)
@@ -46,14 +47,14 @@ class GameStorageTest : AnnotationSpec() {
     // When
     storage.saveGame(game1, newGame = true)
     storage.saveGame(game2, newGame = true)
+    val file1 = File("games/${game1.id}.csv")
+    val file2 = File("games/${game2.id}.csv")
 
     // Then
-    assertThat(file.readLines()).isEqualTo(
-      listOf(
-        "$TEST_NUMBER;${game1.fen.asString()}",
-        "${TEST_NUMBER + 1};${game2.fen.asString()}"
-      )
-    )
+    assertThat(file1.exists()).isTrue
+    assertThat(file2.exists()).isTrue
+    assertThat(file1.readText()).isEqualTo("${game1.fen}\n")
+    assertThat(file2.readText()).isEqualTo("${game2.fen}\n")
   }
 
   @Test
@@ -142,24 +143,6 @@ class GameStorageTest : AnnotationSpec() {
 
     // Then
     assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \n")
-  }
-
-  @Test
-  fun `save game to file that contains gibberish`() {
-    // Given
-    val game = Game(TEST_NUMBER)
-    file.writeText("gibberish")
-
-    // When
-    storage.saveGame(game, newGame = true)
-
-    // Then
-    assertThat(file.readLines()).isEqualTo(
-      listOf(
-        "gibberish",
-        "${game.id};${game.fen.asString()}",
-      )
-    )
   }
 
   @Test

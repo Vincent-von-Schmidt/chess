@@ -1,20 +1,20 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.utils.Constants.GAMES_FILE_TEST
-import hwr.oop.group4.chess.persistence.GameStorage.GameAlreadyExistsException
+import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import java.io.File
 
 class NewGameTest : AnnotationSpec() {
 
-  private val file = File(GAMES_FILE_TEST)
+  private val game = Game(TEST_NUMBER)
 
   @BeforeEach
   fun setup() {
-    file.deleteRecursively()
+    GameStorage().deleteGame(game)
   }
 
   @Test
