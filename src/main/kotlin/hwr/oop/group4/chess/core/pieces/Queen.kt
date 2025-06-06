@@ -25,6 +25,6 @@ data class Queen(override val color: Color) : Piece {
     board: Board,
     capture: Boolean,
   ): List<Location> {
-    return MoveGenerator().searchAllowedLocations(from, board, directions)
+    return MoveGenerator().searchAllowedLocations(from, board, directions, 8)
   }
 }

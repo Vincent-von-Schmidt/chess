@@ -7,17 +7,17 @@ import hwr.oop.group4.chess.core.move.*
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
 
-class Board : BoardView {
+class Board (piecePlacementMap: Map<Location, Piece>): BoardView {
 
   init {
     generateBoard()
+    this.initializeWithPieces(piecePlacementMap)
   }
 
   private lateinit var fields: Map<Location, Field>
 
-  private fun generateBoard(): Field {
+  private fun generateBoard(): Map<Location, Field> {
     val allFields = mutableMapOf<Location, Field>()
-    var firstField: Field? = null
     var previousRank: Rank? = null
 
     for (rank in Rank.values()) {
@@ -29,7 +29,7 @@ class Board : BoardView {
 
         if (previousFile != null) {              // Set left /right neighbor
           val leftLocation = Location(previousFile, rank)
-          val leftField = allFields[leftLocation] ?: throw NoFieldException(leftLocation)
+          val leftField = allFields[leftLocation] !!
 
           field.connectLeft(leftField)
           leftField.connectRight(field)
@@ -37,25 +37,20 @@ class Board : BoardView {
 
         if (previousRank != null) {              // Set bottom /top neighbor
           val bottomLocation = Location(file, previousRank)
-          val bottomField = allFields[bottomLocation] ?: throw NoFieldException(bottomLocation)
+          val bottomField = allFields[bottomLocation] !!
           field.connectBottom(bottomField)
           bottomField.connectTop(field)
-        }
-
-        if (file == File.A && rank == Rank.ONE) {
-          firstField = field
         }
 
         previousFile = file
       }
       previousRank = rank
     }
-
     fields = allFields.toMap()
-    return firstField ?: throw IllegalStateException("No starting field found")
+    return fields
   }
 
-  fun initializeWithPieces(pieces: Map<Location, Piece>) {
+  private fun initializeWithPieces(pieces: Map<Location, Piece>) {
     for ((location, piece) in pieces) {
       val field = getField(location)
       placePieceToField(field.location, piece)
@@ -63,23 +58,22 @@ class Board : BoardView {
   }
 
   override fun getField(location: Location): Field {
-    return fields[location]
-      ?: throw NoFieldException(location)
+    return fields[location]!!
   }
 
   override fun getPiece(location: Location): Piece? {
     return getField(location).piece
   }
 
-  private fun findKing(color: Color): Location? {
-    for ((location, field) in fields) {
-      val piece = field.piece
-      if (piece is King && piece.color == color) {
-        return location
-      }
-    }
-    return null
-  }
+//  private fun findKing(color: Color): Location? {
+//    for ((location, field) in fields) {
+//      val piece = field.piece
+//      if (piece is King && piece.color == color) {
+//        return location
+//      }
+//    }
+//    return null
+//  }
 
   private fun removePieceFromField(location: Location) {
     getField(location).piece = null
@@ -97,8 +91,10 @@ class Board : BoardView {
     val movingPiece: Piece? = getPiece(move.startLocation)
     val occupyingPiece: Piece? = getPiece(move.endLocation)
 
+    if (movingPiece == null) throw NonExistentPieceException(move.startLocation.description)
+
     validateMove(move, movingPiece, occupyingPiece)
-    validateTurn(movingPiece!!, playerAtTurnColor)
+    validateTurn(movingPiece, playerAtTurnColor)
     val promotionPiece =
       validatePromotion(move, movingPiece, promoteToPiece, playerAtTurnColor)
 
@@ -110,10 +106,9 @@ class Board : BoardView {
 
   private fun validateMove(
     move: Move,
-    movingPiece: Piece? = null,
-    occupyingPiece: Piece? = null,
+    movingPiece: Piece,
+    occupyingPiece: Piece?,
   ) {
-    if (movingPiece == null) throw NonExistentPieceException(move.startLocation.description)
 
     val isCapture = isCapture(move, movingPiece, occupyingPiece)
     val legalDestinations =
@@ -147,9 +142,9 @@ class Board : BoardView {
 //    return false
 //  }
 
-  private fun isCheckMate() {
-
-  }
+//  private fun isCheckMate() {
+//
+//  }
 
 //  move out of the way (though he cannot castle!)
 //  block the check with another piece or

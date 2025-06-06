@@ -19,7 +19,7 @@ class MovePawnTest : AnnotationSpec() {
   fun `pawn black moves from d5 to d4`() {
     // Given
     val fen = FEN("8/8/8/3p4/8/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.FOUR)
 
@@ -38,7 +38,7 @@ class MovePawnTest : AnnotationSpec() {
   fun `pawn white moves from d5 to d6`() {
     // Given
     val fen = FEN("8/8/8/3P4/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.SIX) // legal move
 
@@ -57,7 +57,7 @@ class MovePawnTest : AnnotationSpec() {
   fun `white pawn moves 2 tiles on the first move`() {
     // Given
     val fen = FEN("8/8/8/8/8/8/P7/8", Color.WHITE, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.FOUR)
 

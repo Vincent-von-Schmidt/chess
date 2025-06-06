@@ -13,7 +13,7 @@ class Game(
   val id: Int,
   var fen: FEN = STARTING_POSITION,
 ) {
-  var board: Board = BoardFactory.generateBoardWithPieces(fen)
+  var board: Board = BoardFactory.generateBoardFromFen(fen)
 
   // private val players: List<Player> = listOf(
   //   Player(1, Color.WHITE),

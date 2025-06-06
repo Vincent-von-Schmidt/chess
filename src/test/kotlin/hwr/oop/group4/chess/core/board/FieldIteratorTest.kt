@@ -10,7 +10,7 @@ import org.assertj.core.api.Assertions.assertThat
 class FieldIteratorTest : AnnotationSpec() {
 
   val board =
-    BoardFactory.generateBoardWithPieces(EMPTY_BOARD)
+    BoardFactory.generateBoardFromFen(EMPTY_BOARD)
 
   @Test
   fun `iterator starts at A8`() {

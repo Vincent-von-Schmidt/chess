@@ -19,7 +19,7 @@ class MoveKingTest : AnnotationSpec() {
   fun `king moves from e1 to d1`() {
     // Given
     val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
     val endLocation = Location(File.D, Rank.ONE)
@@ -39,7 +39,7 @@ class MoveKingTest : AnnotationSpec() {
   fun `king moves from e1 to d2`() {
     // Given
     val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
     val endLocation = Location(File.D, Rank.TWO)
@@ -59,7 +59,7 @@ class MoveKingTest : AnnotationSpec() {
   fun `king moves from e1 to e2`() {
     // Given
     val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
     val endLocation = Location(File.E, Rank.TWO)
@@ -79,7 +79,7 @@ class MoveKingTest : AnnotationSpec() {
   fun `king moves from e1 to f2`() {
     // Given
     val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
     val endLocation = Location(File.F, Rank.TWO)
@@ -99,7 +99,7 @@ class MoveKingTest : AnnotationSpec() {
   fun `king moves from e1 to f1`() {
     // Given
     val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
     val endLocation = Location(File.F, Rank.ONE)

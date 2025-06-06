@@ -36,7 +36,7 @@ data class Pawn(override val color: Color) : Piece {
 
     return if (capture) {
       MoveGenerator().searchAllowedLocations(from, board, captureDirections, 1)
-    } else if (from.rank == Rank.TWO) {
+    } else if ((from.rank == Rank.TWO && color == Color.WHITE) || (from.rank == Rank.SEVEN && color == Color.BLACK)) {
       MoveGenerator().searchAllowedLocations(from, board, directions, 2)
     } else {
       MoveGenerator().searchAllowedLocations(from, board, directions, 1)

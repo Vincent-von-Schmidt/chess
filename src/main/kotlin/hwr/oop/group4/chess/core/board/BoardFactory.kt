@@ -5,10 +5,9 @@ import hwr.oop.group4.chess.core.fen.ParserFEN
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 
 object BoardFactory {
-    fun generateBoardWithPieces(toLoadFen: FEN = STARTING_POSITION): Board {
-        val board = Board() // TODO BoardView?
+    fun generateBoardFromFen(toLoadFen: FEN = STARTING_POSITION): Board {
         val piecePlacementMap = ParserFEN.convertPiecePlacementToMap(toLoadFen)
-        board.initializeWithPieces(piecePlacementMap)
+        val board = Board(piecePlacementMap) // TODO BoardView?
         return board
     }
 }

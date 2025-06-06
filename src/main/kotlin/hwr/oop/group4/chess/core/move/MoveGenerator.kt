@@ -9,7 +9,7 @@ class MoveGenerator {
     from: Location,
     board: Board,
     directions: List<Direction>,
-    maxSteps: Int = 8,
+    maxSteps: Int,
   ): List<Location> {
     val possibleLocations = mutableListOf<Location>()
 

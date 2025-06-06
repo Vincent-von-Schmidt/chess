@@ -19,7 +19,7 @@ class MoveKnightTest : AnnotationSpec() {
   fun `knight moves from d4 to b5`() {
     // Given
     val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.B, Rank.FIVE)
@@ -39,7 +39,7 @@ class MoveKnightTest : AnnotationSpec() {
   fun `knight moves from d4 to c6`() {
     // Given
     val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.C, Rank.SIX)
@@ -59,7 +59,7 @@ class MoveKnightTest : AnnotationSpec() {
   fun `knight moves from d4 to e6`() {
     // Given
     val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.E, Rank.SIX)
@@ -79,7 +79,7 @@ class MoveKnightTest : AnnotationSpec() {
   fun `knight moves from d4 to f5`() {
     // Given
     val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.F, Rank.FIVE)
@@ -99,7 +99,7 @@ class MoveKnightTest : AnnotationSpec() {
   fun `knight moves from d4 to b3`() {
     // Given
     val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.B, Rank.THREE)
@@ -119,7 +119,7 @@ class MoveKnightTest : AnnotationSpec() {
   fun `knight moves from d4 to c2`() {
     // Given
     val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.C, Rank.TWO)
@@ -139,7 +139,7 @@ class MoveKnightTest : AnnotationSpec() {
   fun `knight moves from d4 to e2`() {
     // Given
     val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.E, Rank.TWO)
@@ -159,7 +159,7 @@ class MoveKnightTest : AnnotationSpec() {
   fun `knight moves from d4 to f3`() {
     // Given
     val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
     val knight = board.getField(Location(File.D, Rank.FOUR)).piece
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.F, Rank.THREE)

@@ -24,7 +24,7 @@ class MoveBishopTest : AnnotationSpec() {
   @Test
   fun `bishop moves from c8 to b7`() {
     // Given
-    val board = BoardFactory.generateBoardWithPieces(fen)
+    val board = BoardFactory.generateBoardFromFen(fen)
     val bishop = Bishop(Color.BLACK)
     val startLocation = Location(File.C, Rank.EIGHT)
     val endLocation = Location(File.B, Rank.SEVEN)
@@ -44,7 +44,7 @@ class MoveBishopTest : AnnotationSpec() {
   @Test
   fun `bishop moves from c8 to a6`() {
     // Given
-    val board = BoardFactory.generateBoardWithPieces(fen)
+    val board = BoardFactory.generateBoardFromFen(fen)
     val bishop = Bishop(Color.BLACK)
     val startLocation = Location(File.C, Rank.EIGHT)
     val endLocation = Location(File.A, Rank.SIX)
@@ -63,7 +63,7 @@ class MoveBishopTest : AnnotationSpec() {
   @Test
   fun `bishop moves from c8 to d7`() {
     // Given
-    val board = BoardFactory.generateBoardWithPieces(fen)
+    val board = BoardFactory.generateBoardFromFen(fen)
     val bishop = Bishop(Color.BLACK)
     val startLocation = Location(File.C, Rank.EIGHT)
     val endLocation = Location(File.D, Rank.SEVEN)
@@ -82,7 +82,7 @@ class MoveBishopTest : AnnotationSpec() {
   @Test
   fun `bishop moves from c8 to h3`() {
     // Given
-    val board = BoardFactory.generateBoardWithPieces(fen)
+    val board = BoardFactory.generateBoardFromFen(fen)
     val bishop = Bishop(Color.BLACK)
     val startLocation = Location(File.C, Rank.EIGHT)
     val endLocation = Location(File.H, Rank.THREE)

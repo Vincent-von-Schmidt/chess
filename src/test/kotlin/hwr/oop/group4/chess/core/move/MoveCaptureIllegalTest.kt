@@ -27,7 +27,7 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
         halfMoves = 0,
         fullMoves = 1
       )
-      val board = BoardFactory.generateBoardWithPieces(fen)
+      val board = BoardFactory.generateBoardFromFen(fen)
       val pawn = Pawn(Color.BLACK)
       val queen = Queen(Color.WHITE)
       val startLocation = Location(File.D, Rank.FIVE)

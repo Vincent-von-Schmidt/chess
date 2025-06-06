@@ -13,7 +13,7 @@ class BoardTest : AnnotationSpec() {
 
   @BeforeEach
   fun setUp() {
-    board = Board()
+    board = BoardFactory.generateBoardFromFen(EMPTY_BOARD)
   }
 
   @Test
@@ -40,7 +40,7 @@ class BoardTest : AnnotationSpec() {
   @Test
   fun `board with no fen given loads correctly`() {
     // Given
-    val board = BoardFactory.generateBoardWithPieces()
+    val board = BoardFactory.generateBoardFromFen()
     val location = Location(File.E, Rank.ONE)
     val pieceAtLocation = board.getField(location).piece?.description
 
@@ -51,7 +51,7 @@ class BoardTest : AnnotationSpec() {
   @Test
   fun `board with empty_fen given is empty`() {
     // Given
-    val board = BoardFactory.generateBoardWithPieces(EMPTY_BOARD)
+    val board = BoardFactory.generateBoardFromFen(EMPTY_BOARD)
     val location = Location(File.E, Rank.ONE)
     val pieceAtLocation = board.getField(location).piece?.description
 

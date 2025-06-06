@@ -23,7 +23,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to c1`() {
     // Given
     val endLocation = Location(File.C, Rank.ONE)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -40,7 +40,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to a1`() {
     // Given
     val endLocation = Location(File.A, Rank.ONE)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -57,7 +57,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to e1`() {
     // Given
     val endLocation = Location(File.E, Rank.ONE)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -74,7 +74,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to h1`() {
     // Given
     val endLocation = Location(File.H, Rank.ONE)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -91,7 +91,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to d2`() {
     // Given
     val endLocation = Location(File.D, Rank.TWO)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -108,7 +108,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to d8`() {
     // Given
     val endLocation = Location(File.D, Rank.EIGHT)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -125,7 +125,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to a4`() {
     // Given
     val endLocation = Location(File.A, Rank.FOUR)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -142,7 +142,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to e2`() {
     // Given
     val endLocation = Location(File.E, Rank.TWO)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -159,7 +159,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to h5`() {
     // Given
     val endLocation = Location(File.H, Rank.FIVE)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)
@@ -176,7 +176,7 @@ class MoveQueenTest : AnnotationSpec() {
   fun `queen moves from d1 to c2`() {
     // Given
     val endLocation = Location(File.C, Rank.TWO)
-    board = BoardFactory.generateBoardWithPieces(fen)
+    board = BoardFactory.generateBoardFromFen(fen)
 
     // When
     val move = Move(startLocation, endLocation)

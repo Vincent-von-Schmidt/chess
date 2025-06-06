@@ -12,7 +12,7 @@ class GeneratorFENTest : AnnotationSpec() {
   @Test
   fun `generate fen from board`() {
     // Given
-    val board = BoardFactory.generateBoardWithPieces(STARTING_POSITION)
+    val board = BoardFactory.generateBoardFromFen(STARTING_POSITION)
 
     // When
     val fen = GeneratorFEN.generateFen(board, "", "", 0, 1, Color.WHITE)
@@ -24,7 +24,7 @@ class GeneratorFENTest : AnnotationSpec() {
   @Test
   fun `generate fen from empty board`() {
     // Given
-    val board = BoardFactory.generateBoardWithPieces(EMPTY_BOARD)
+    val board = BoardFactory.generateBoardFromFen(EMPTY_BOARD)
 
     // When
     val fen = GeneratorFEN.generateFen(board, "", "", 0, 1, Color.WHITE)
