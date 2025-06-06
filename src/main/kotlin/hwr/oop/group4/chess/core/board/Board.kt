@@ -138,10 +138,6 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     }
     return false
   }
-//  move out of the way (though he cannot castle!)
-//  block the check with another piece or
-//  capture the piece threatening the king.
-//  else: checkmate >:)
 
   // TODO check if capturing king, and make exception
 
