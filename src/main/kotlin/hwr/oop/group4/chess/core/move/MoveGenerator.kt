@@ -15,16 +15,19 @@ class MoveGenerator {
 
     for (direction in directions) {
       var current = from
-      for (step in 1..maxSteps) {
+      var steps = 0
+
+      while (steps < maxSteps) {
         val field = board.getField(current)
+        // use of direction constructor, that gives the next field after direction back
         val nextField = direction.move(field) ?: break
-        if (nextField.piece != null) { //interrupt path if piece in the way
-          current = nextField.location
-          possibleLocations.add(current)
-          break
-        }
         current = nextField.location
         possibleLocations.add(current)
+
+        if (nextField.piece != null) {
+          break
+        }
+        steps++
       }
     }
     return possibleLocations
@@ -35,14 +38,15 @@ class MoveGenerator {
     board: BoardView,
     knightJumps: List<KnightJump>,
   ): List<Location> {
+    val fromField = board.getField(from)
     val possibleLocations = mutableListOf<Location>()
-    for (jump in knightJumps) {
-      var current = from
 
-      val field = board.getField(current)
-      val nextField = jump.move(field) ?: continue
-      current = nextField.location
-      possibleLocations.add(current)
+    for (jump in knightJumps) {
+      val targetField = jump.move(fromField)
+      val targetLocation = targetField?.location
+      if (targetLocation != null) {
+        possibleLocations.add(targetLocation)
+      }
     }
     return possibleLocations
   }
