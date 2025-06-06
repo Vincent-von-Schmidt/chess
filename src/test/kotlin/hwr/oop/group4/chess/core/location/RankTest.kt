@@ -5,11 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 
 class RankTest : AnnotationSpec() {
 
-  @Test
-  fun `next rank of 1 is 2`() {
-    val rank = Rank.ONE
-    assertThat(rank.next()).isEqualTo(Rank.TWO)
-  }
 
   @Test
   fun `next rank of 8 is null`() {
@@ -21,5 +16,30 @@ class RankTest : AnnotationSpec() {
   fun `previous rank of 8 is 7`() {
     val rank = Rank.EIGHT
     assertThat(rank.previous()).isEqualTo(Rank.SEVEN)
+  }
+
+  @Test
+  fun `all next ranks from ONE are correctly read`() {
+    // Given
+    var rank: Rank? = Rank.ONE
+    val ranks = mutableListOf<Rank?>()
+
+    // When
+    while (rank != null) {
+      ranks.add(rank)
+      rank = rank.next()
+    }
+
+    // Then
+    assertThat(ranks).containsExactly(
+      Rank.ONE,
+     Rank.TWO,
+     Rank.THREE,
+     Rank.FOUR,
+     Rank.FIVE,
+     Rank.SIX,
+     Rank.SEVEN,
+     Rank.EIGHT
+    )
   }
 }
