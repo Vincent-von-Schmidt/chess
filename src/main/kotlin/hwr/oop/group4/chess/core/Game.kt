@@ -20,7 +20,7 @@ class Game(
   //   Player(2, Color.BLACK)
   // )
   val turn = Turn(fen)
-  var recentFens: MutableList<FEN> = mutableListOf()
+  var recentFENs: MutableList<FEN> = mutableListOf()
 
   // TODO("update these properties after each move")
 
@@ -43,6 +43,11 @@ class Game(
       fullMoveNumber,
       turn.colorToMove
     )
+    recentFENs.add(fen)
+
+    if (checkForDraw(recentFENs)) {
+      //TODO("End game with draw")
+    }
     return true
   }
 
@@ -61,5 +66,18 @@ class Game(
       boardString += "$lineString\n"
     }
     return boardString
+  }
+
+  private fun checkForDraw(recentFENs: MutableList<FEN>): Boolean {
+    // Threefold Repetition Rule
+    return recentFENs.groupingBy { it }
+      .eachCount()
+      .any { it.value >= 3 }
+
+    // Stalemate Rule
+
+    // 50-Move Rule
+
+    // Insufficient Material Rule
   }
 }
