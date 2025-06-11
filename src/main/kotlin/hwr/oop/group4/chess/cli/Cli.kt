@@ -1,5 +1,6 @@
 package hwr.oop.group4.chess.cli
 
+import hwr.oop.group4.chess.core.DrawException
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
@@ -58,6 +59,9 @@ class Cli(
           if (args.size == 7) StringParser.parsePromotionPieceFromString(args[6]) else null
         try {
           game.movePiece(move, promoteTo)
+        } catch (e: DrawException) {
+          println(e.message)
+          gameStorage.deleteGame(game)
         } catch (e: Exception) {
           println("Invalid move from ${from.description} to ${to.description}.")
           return

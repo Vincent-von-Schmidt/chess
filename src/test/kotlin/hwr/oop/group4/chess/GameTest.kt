@@ -11,6 +11,7 @@ import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class GameTest : AnnotationSpec() {
 
@@ -90,6 +91,28 @@ class GameTest : AnnotationSpec() {
 
     // Then
     assertThat(game.boardToAscii()).isEqualTo("r n b q k b n r \np p p p - p p p \n- - - - p - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R \n")
+  }
+
+  @Test
+  fun `moves makes draw`() {
+    // Given
+    val game = Game(TEST_NUMBER)
+
+    // When
+    game.recentFENs.add(STARTING_POSITION)
+    game.recentFENs.add(STARTING_POSITION)
+    game.recentFENs.add(STARTING_POSITION)
+
+    // Then
+    assertThatThrownBy {
+      game.movePiece(
+        Move(
+          Location(File.E, Rank.TWO),
+          Location(File.E, Rank.THREE)
+        )
+      )
+    }
+      .hasMessage("The game ended in a draw.")
   }
 
 }

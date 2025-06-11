@@ -45,9 +45,8 @@ class Game(
     )
     recentFENs.add(fen)
 
-    if (checkForDraw(recentFENs)) {
-      //TODO("End game with draw")
-    }
+    if (checkForDraw(recentFENs)) throw DrawException()
+
     return true
   }
 

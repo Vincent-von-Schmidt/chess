@@ -1,6 +1,7 @@
 package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.fen.ParserFEN
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
@@ -15,7 +16,7 @@ class CliMoveTest : AnnotationSpec() {
 
   @BeforeEach
   fun setup() {
-    GameStorage().deleteGame(game)
+    GameStorage.deleteGame(game)
   }
 
   @Test
@@ -228,6 +229,33 @@ class CliMoveTest : AnnotationSpec() {
     ...Queen, Rook, Bishop, Knight.  
     """.trimIndent()
       )
+  }
+
+  @Ignore
+  @Test
+  fun `user makes draw move`() {
+    // Given
+    val game = Game(
+      TEST_NUMBER,
+      ParserFEN.parseStringToFen("8/8/8/8/8/8/r7/R7 w - - 0 1")
+    )
+    GameStorage.saveGame(game)
+
+    // When
+    main(arrayOf("on", TEST_NUMBER.toString(), "move", "a1", "to", "b1"))
+    main(arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "b2"))
+    main(arrayOf("on", TEST_NUMBER.toString(), "move", "b1", "to", "a1"))
+    main(arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2"))
+
+    main(arrayOf("on", TEST_NUMBER.toString(), "move", "a1", "to", "b1"))
+    main(arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "b2"))
+    main(arrayOf("on", TEST_NUMBER.toString(), "move", "b1", "to", "a1"))
+
+    // Then
+    assertThatThrownBy {
+      main(arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2"))
+    }
+      .hasMessage("The game ended in a draw.")
   }
 
 }

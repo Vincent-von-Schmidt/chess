@@ -21,7 +21,7 @@ object ParserFEN {
       castle = parts[2],
       enPassant = parts[3],
       halfMoves = parts[4].toInt(),
-      fullMoves = parts[5].toInt()
+      fullMoves = parts[5].toInt(),
     )
   }
 
