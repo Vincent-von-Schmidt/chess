@@ -8,6 +8,7 @@ import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.player.Turn
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
+import hwr.oop.group4.chess.persistence.GameStorage
 
 class Game(
   val id: Int,
@@ -43,9 +44,9 @@ class Game(
       fullMoveNumber,
       turn.colorToMove
     )
-    recentFENs.add(fen)
+    val updatedGame = GameStorage.saveGame(this, newGame = false)
 
-    if (checkForDraw(recentFENs)) throw DrawException()
+    if (checkForDraw(updatedGame.recentFENs)) throw DrawException()
 
     return true
   }

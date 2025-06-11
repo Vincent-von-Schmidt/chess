@@ -2,6 +2,10 @@ package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.Game
 import hwr.oop.group4.chess.core.fen.ParserFEN
+import hwr.oop.group4.chess.core.location.File
+import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.location.Rank
+import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
@@ -231,7 +235,6 @@ class CliMoveTest : AnnotationSpec() {
       )
   }
 
-  @Ignore
   @Test
   fun `user makes draw move`() {
     // Given
@@ -242,20 +245,25 @@ class CliMoveTest : AnnotationSpec() {
     GameStorage.saveGame(game)
 
     // When
-    main(arrayOf("on", TEST_NUMBER.toString(), "move", "a1", "to", "b1"))
-    main(arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "b2"))
-    main(arrayOf("on", TEST_NUMBER.toString(), "move", "b1", "to", "a1"))
-    main(arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2"))
+    val a1 = Location(File.A, Rank.ONE)
+    val a2 = Location(File.A, Rank.TWO)
+    val b1 = Location(File.B, Rank.ONE)
+    val b2 = Location(File.B, Rank.TWO)
+    game.movePiece(Move(a1, b1))
+    game.movePiece(Move(a2, b2))
+    game.movePiece(Move(b1, a1))
+    game.movePiece(Move(b2, a2))
 
-    main(arrayOf("on", TEST_NUMBER.toString(), "move", "a1", "to", "b1"))
-    main(arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "b2"))
-    main(arrayOf("on", TEST_NUMBER.toString(), "move", "b1", "to", "a1"))
+    game.movePiece(Move(a1, b1))
+    game.movePiece(Move(a2, b2))
+    game.movePiece(Move(b1, a1))
+
+    val output = captureStandardOut {
+      main(arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2"))
+    }.trim()
 
     // Then
-    assertThatThrownBy {
-      main(arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2"))
-    }
-      .hasMessage("The game ended in a draw.")
+    assertThat(output).isEqualTo("The game ended in a draw.")
   }
 
 }

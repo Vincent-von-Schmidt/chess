@@ -62,12 +62,12 @@ class Cli(
         } catch (e: DrawException) {
           println(e.message)
           gameStorage.deleteGame(game)
+          return
         } catch (e: Exception) {
           println("Invalid move from ${from.description} to ${to.description}.")
           return
         }
         println("Move from ${from.description} to ${to.description} executed.")
-        gameStorage.saveGame(game, newGame = false)
       }
 
       else -> throw InvalidCommandException()

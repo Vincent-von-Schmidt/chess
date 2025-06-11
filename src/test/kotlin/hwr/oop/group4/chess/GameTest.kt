@@ -9,6 +9,7 @@ import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -56,6 +57,7 @@ class GameTest : AnnotationSpec() {
 
   @Test
   fun `game move piece`() {
+    GameStorage.deleteGame(Game(TEST_NUMBER))
     // Given
     val game = Game(TEST_NUMBER)
     val move = Move(Location(File.E, Rank.TWO), Location(File.E, Rank.THREE))
@@ -78,6 +80,7 @@ class GameTest : AnnotationSpec() {
 
   @Test
   fun `both players make turns`() {
+    GameStorage.deleteGame(Game(TEST_NUMBER))
     // Given
     val game = Game(TEST_NUMBER)
     val moveWhite =
@@ -92,27 +95,4 @@ class GameTest : AnnotationSpec() {
     // Then
     assertThat(game.boardToAscii()).isEqualTo("r n b q k b n r \np p p p - p p p \n- - - - p - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R \n")
   }
-
-  @Test
-  fun `moves makes draw`() {
-    // Given
-    val game = Game(TEST_NUMBER)
-
-    // When
-    game.recentFENs.add(STARTING_POSITION)
-    game.recentFENs.add(STARTING_POSITION)
-    game.recentFENs.add(STARTING_POSITION)
-
-    // Then
-    assertThatThrownBy {
-      game.movePiece(
-        Move(
-          Location(File.E, Rank.TWO),
-          Location(File.E, Rank.THREE)
-        )
-      )
-    }
-      .hasMessage("The game ended in a draw.")
-  }
-
 }
