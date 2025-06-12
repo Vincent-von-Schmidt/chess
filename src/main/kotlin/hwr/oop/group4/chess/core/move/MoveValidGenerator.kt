@@ -3,7 +3,7 @@ package hwr.oop.group4.chess.core.move
 import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 
-class MoveGenerator {
+class MoveValidGenerator {
 
   fun searchAllowedLocations(
     from: Location,

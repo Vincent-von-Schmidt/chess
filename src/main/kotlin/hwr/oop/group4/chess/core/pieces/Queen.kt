@@ -3,7 +3,7 @@ package hwr.oop.group4.chess.core.pieces
 import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
-import hwr.oop.group4.chess.core.move.MoveGenerator
+import hwr.oop.group4.chess.core.move.MoveValidGenerator
 import hwr.oop.group4.chess.core.utils.Color
 
 data class Queen(override val color: Color) : Piece {
@@ -25,6 +25,6 @@ data class Queen(override val color: Color) : Piece {
     board: BoardView,
     capture: Boolean,
   ): List<Location> {
-    return MoveGenerator().searchAllowedLocations(from, board, directions, 8)
+    return MoveValidGenerator().searchAllowedLocations(from, board, directions, 8)
   }
 }

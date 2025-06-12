@@ -54,7 +54,7 @@ class PromotePawnTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       board.movePiece(move, fen.activeColor, promoteToPiece)
-    }.hasMessage("BLACK Pawn can not promote to WHITE Bishop")
+    }.hasMessage("BLACK Pawn cannot promote to WHITE Bishop")
   }
 
   @Test
@@ -109,6 +109,6 @@ class PromotePawnTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       board.movePiece(move, fen.activeColor, promoteToPiece)
-    }.hasMessage("WHITE Pawn can not promote to WHITE King")
+    }.hasMessage("WHITE Pawn cannot promote to WHITE King")
   }
 }
