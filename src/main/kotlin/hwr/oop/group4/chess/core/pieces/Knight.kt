@@ -7,9 +7,9 @@ import hwr.oop.group4.chess.core.move.KnightJump
 import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.searchJumpLocations
 import hwr.oop.group4.chess.core.utils.Color
 
-data class Knight(override val color: Color) : Piece {
-  override val name = "Knight"
-  override val directions = emptyList<Direction>()
+data class Knight(private val color: Color) : Piece {
+  private val name = "Knight"
+  private val value = 3
   private val knightJumps = listOf(
     KnightJump.TOP_LEFT_LEFT,
     KnightJump.TOP_TOP_LEFT,
@@ -20,9 +20,20 @@ data class Knight(override val color: Color) : Piece {
     KnightJump.BOTTOM_BOTTOM_LEFT,
     KnightJump.BOTTOM_LEFT_LEFT
   )
-  // override val value = 3
 
-  override fun availableLocationsToMove(
+  override fun getColor(): Color {
+    return color
+  }
+
+  override fun getName(): String {
+    return name
+  }
+
+  override fun getValue(): Int {
+    return value
+  }
+
+  override fun getPossibleLocationsToMove(
     from: Location,
     board: BoardView,
     capture: Boolean,

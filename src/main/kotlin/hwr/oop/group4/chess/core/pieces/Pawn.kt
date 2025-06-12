@@ -7,23 +7,31 @@ import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.searchAllowedLocations
 import hwr.oop.group4.chess.core.utils.Color
 
-data class Pawn(override val color: Color) : Piece {
-  override val name = "Pawn"
-  override var directions = emptyList<Direction>(
-  )
-  private var captureDirections = emptyList<Direction>(
-  )
-  // override val value = 1
+data class Pawn(private val color: Color) : Piece {
+  private val name = "Pawn"
+  private val value = 1
+  private var directions = emptyList<Direction>()
+  private var captureDirections = emptyList<Direction>()
 
   private val whitePawnDirections = listOf(Direction.TOP)
-  private val whitePawnCaptures =
-    listOf(Direction.TOP_RIGHT, Direction.TOP_LEFT)
+  private val whitePawnCaptures = listOf(Direction.TOP_RIGHT, Direction.TOP_LEFT)
 
   private val blackPawnDirections = listOf(Direction.BOTTOM)
-  private val blackPawnCaptures =
-    listOf(Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT)
+  private val blackPawnCaptures = listOf(Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT)
 
-  override fun availableLocationsToMove(
+  override fun getColor(): Color {
+    return color
+  }
+
+  override fun getName(): String {
+    return name
+  }
+
+  override fun getValue(): Int {
+    return value
+  }
+
+  override fun getPossibleLocationsToMove(
     from: Location,
     board: BoardView,
     capture: Boolean,

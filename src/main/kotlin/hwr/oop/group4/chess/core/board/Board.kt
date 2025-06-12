@@ -71,7 +71,7 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     val king = King(color)
     for ((location, field) in fields) {
       val piece = field.piece
-      if (piece is King && piece.color == color) {
+      if (piece is King && piece.getColor() == color) {
         return location
       }
     }
@@ -110,8 +110,8 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
   private fun isSquareUnderAttack(target: Location, attackerColor: Color): Boolean {
     for ((location) in fields) {
       val piece = getPiece(location) ?: continue
-      if (piece.color == attackerColor) {
-        val possibleMoves = piece.availableLocationsToMove(location, this, true)
+      if (piece.getColor() == attackerColor) {
+        val possibleMoves = piece.getPossibleLocationsToMove(location, this, true)
         if (target in possibleMoves) {
           return true
         }

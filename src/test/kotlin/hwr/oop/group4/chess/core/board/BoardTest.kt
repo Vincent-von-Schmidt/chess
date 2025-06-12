@@ -42,7 +42,7 @@ class BoardTest : AnnotationSpec() {
     // Given
     val board = BoardFactory.generateBoardFromFen()
     val location = Location(File.E, Rank.ONE)
-    val pieceAtLocation = board.getField(location).piece?.description
+    val pieceAtLocation = board.getField(location).piece?.getDescription()
 
     // Then
     assertThat(pieceAtLocation).isEqualTo("WHITE King")
@@ -53,7 +53,7 @@ class BoardTest : AnnotationSpec() {
     // Given
     val board = BoardFactory.generateBoardFromFen(EMPTY_BOARD)
     val location = Location(File.E, Rank.ONE)
-    val pieceAtLocation = board.getField(location).piece?.description
+    val pieceAtLocation = board.getField(location).piece?.getDescription()
 
     // Then
     assertThat(pieceAtLocation).isNull()

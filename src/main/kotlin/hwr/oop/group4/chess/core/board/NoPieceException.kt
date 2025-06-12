@@ -12,7 +12,7 @@ class NoPieceException(
 ) : Exception(
   when {
     piece != null && startLoc != null && color == null ->
-      "${startLoc.description} does not contain a {${piece.description}}"
+      "${startLoc.description} does not contain a {${piece.getDescription()}}"
 
     startLoc == null && color != null && piece is King ->
       "No king found for $color player"
