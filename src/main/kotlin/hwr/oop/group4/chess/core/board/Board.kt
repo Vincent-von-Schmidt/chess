@@ -90,6 +90,7 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     playerAtTurnColor: Color,
     promoteToPiece: Piece? = null,
   ) {
+    isCheck(playerAtTurnColor)
     val movingPiece: Piece? = getPiece(move.startLocation)
     val occupyingPiece: Piece? = getPiece(move.endLocation)
 
@@ -127,8 +128,6 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     val opponentColor = playerAtTurnColor.opposite()
     val kingLocation = findKing(opponentColor)
     return isSquareUnderAttack(kingLocation, playerAtTurnColor)
-    // Überprüfen, ob eine gegnerische Figur das Königsfeld bedroht
-
   }
 
   private fun isSquareUnderAttack(target: Location, attackerColor: Color): Boolean {

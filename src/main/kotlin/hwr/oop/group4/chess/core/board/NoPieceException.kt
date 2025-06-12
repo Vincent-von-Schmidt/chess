@@ -11,10 +11,10 @@ class NoPieceException(
   color: Color? = null
 ) : Exception(
   when {
-    piece != null && startLoc != null ->
+    piece != null && startLoc != null && color == null ->
       "${startLoc.description} does not contain a {${piece.description}}"
 
-    color != null && piece is King ->
+    startLoc == null && color != null && piece is King ->
       "No king found for $color player"
 
     startLoc != null ->

@@ -16,9 +16,6 @@ class InvalidMoveException(
     movingPiece != null && endLoc == null && occupyingPiece == null ->
       "You cannot move a ${movingPiece.description}"
 
-    endLoc != null && occupyingPiece != null ->
-      "${endLoc.description} is already occupied with ${occupyingPiece.description}"
-
     else -> "Invalid move"
   }
 )
