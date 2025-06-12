@@ -51,7 +51,7 @@ object StringParser {
   }
 
   fun parsePieceCharFromPiece(piece: Piece): Char {
-    val isUppercase: Boolean = piece.color == Color.WHITE
+    val isUppercase: Boolean = piece.getColor() == Color.WHITE
     val char = when (piece) {
       is Bishop -> 'b'
       is King -> 'k'

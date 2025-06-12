@@ -11,10 +11,10 @@ class InvalidMoveException(
   when {
 
     movingPiece != null && endLoc != null && occupyingPiece == null ->
-      "${movingPiece.description} can not be moved to ${endLoc.description}"
+      "${movingPiece.getDescription()} can not be moved to ${endLoc.description}"
 
     movingPiece != null && endLoc == null && occupyingPiece == null ->
-      "You cannot move a ${movingPiece.description}"
+      "You cannot move a ${movingPiece.getDescription()}"
 
     else -> "Invalid move"
   }

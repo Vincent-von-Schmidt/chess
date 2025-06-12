@@ -22,13 +22,13 @@ object MoveDesiredValidator {
   }
 
   private fun validateMoveColor(movingPiece: Piece, playerAtTurnColor: Color) {
-    if (movingPiece.color != playerAtTurnColor) throw InvalidMoveException(movingPiece)
+    if (movingPiece.getColor() != playerAtTurnColor) throw InvalidMoveException(movingPiece)
   }
 
   private fun validateMoveRules(moveDesired: MoveDesired, movingPiece: Piece, occupyingPiece: Piece?, board: BoardView) {
     val isCapture = isCapture(moveDesired, movingPiece, occupyingPiece)
 
-    val legalDestinations = movingPiece.availableLocationsToMove(moveDesired.startLocation, board, isCapture)
+    val legalDestinations = movingPiece.getPossibleLocationsToMove(moveDesired.startLocation, board, isCapture)
 
     if (moveDesired.endLocation !in legalDestinations) {
       throw InvalidMoveException(
@@ -46,7 +46,7 @@ object MoveDesiredValidator {
       if (promoteToPiece == null) {
         throw InvalidPromotionException(movingPiece)
       }
-      if (promoteToPiece.color != playerAtTurnColor) {
+      if (promoteToPiece.getColor() != playerAtTurnColor) {
         throw InvalidPromotionException(movingPiece, promoteToPiece)
       }
       val checkedPromoteToPiece: Piece = when (promoteToPiece) { // TODO this into parser?
@@ -70,7 +70,7 @@ object MoveDesiredValidator {
     if (occupyingPiece == null) {
       return false
     }
-    if (occupyingPiece.color == movingPiece.color) {
+    if (occupyingPiece.getColor() == movingPiece.getColor()) {
       throw InvalidMoveException(
         movingPiece,
         moveDesired.endLocation

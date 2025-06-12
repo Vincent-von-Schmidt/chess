@@ -8,10 +8,10 @@ class InvalidPromotionException(
 ) : Exception(
   when {
     movingPiece != null && promoteToPiece == null ->
-      "${movingPiece.description} has no Piece to promote to"
+      "${movingPiece.getDescription()} has no Piece to promote to"
 
     movingPiece != null && promoteToPiece != null ->
-      "${movingPiece.description} cannot promote to ${promoteToPiece.description}"
+      "${movingPiece.getDescription()} cannot promote to ${promoteToPiece.getDescription()}"
 
     else ->
       """
