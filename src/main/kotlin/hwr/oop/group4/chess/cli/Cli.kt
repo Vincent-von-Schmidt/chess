@@ -39,7 +39,7 @@ class Cli(
         val game = gameStorage.loadGame(id)
         val gameString = game.boardToAscii()
         print(gameString)
-        println("${game.turn.colorToMove} to move.")
+        println("${game.current.color} to move.")
       }
 
       "on" -> {

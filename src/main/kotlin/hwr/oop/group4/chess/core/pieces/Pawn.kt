@@ -4,7 +4,7 @@ import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.Direction
-import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.searchAllowedLocations
+import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.calculatePossibleLocationsToMove
 import hwr.oop.group4.chess.core.utils.Color
 
 data class Pawn(private val color: Color) : Piece {
@@ -19,17 +19,11 @@ data class Pawn(private val color: Color) : Piece {
   private val blackPawnDirections = listOf(Direction.BOTTOM)
   private val blackPawnCaptures = listOf(Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT)
 
-  override fun getColor(): Color {
-    return color
-  }
+  override fun getColor(): Color = color
 
-  override fun getName(): String {
-    return name
-  }
+  override fun getName(): String = name
 
-  override fun getValue(): Int {
-    return value
-  }
+  override fun getValue(): Int = value
 
   override fun getPossibleLocationsToMove(
     from: Location,
@@ -45,11 +39,11 @@ data class Pawn(private val color: Color) : Piece {
     }
 
     return if (capture) {
-      searchAllowedLocations(from, board, captureDirections, 1)
+      calculatePossibleLocationsToMove(from, board, captureDirections, 1)
     } else if ((from.rank == Rank.TWO && color == Color.WHITE) || (from.rank == Rank.SEVEN && color == Color.BLACK)) {
-      searchAllowedLocations(from, board, directions, 2)
+      calculatePossibleLocationsToMove(from, board, directions, 2)
     } else {
-      searchAllowedLocations(from, board, directions, 1)
+      calculatePossibleLocationsToMove(from, board, directions, 1)
     }
   }
 }

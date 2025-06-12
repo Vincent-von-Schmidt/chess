@@ -3,7 +3,7 @@ package hwr.oop.group4.chess.core.pieces
 import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
-import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.searchAllowedLocations
+import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.calculatePossibleLocationsToMove
 import hwr.oop.group4.chess.core.utils.Color
 
 data class Bishop(private val color: Color) : Piece {
@@ -16,23 +16,17 @@ data class Bishop(private val color: Color) : Piece {
     Direction.BOTTOM_RIGHT
   )
 
-  override fun getColor(): Color {
-    return color
-  }
+  override fun getColor(): Color = color
 
-  override fun getName(): String {
-    return name
-  }
+  override fun getName(): String = name
 
-  override fun getValue(): Int {
-    return value
-  }
+  override fun getValue(): Int = value
 
   override fun getPossibleLocationsToMove(
     from: Location,
     board: BoardView,
     capture: Boolean,
   ): List<Location> {
-    return searchAllowedLocations(from, board, directions, 8)
+    return calculatePossibleLocationsToMove(from, board, directions, 8)
   }
 }

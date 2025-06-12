@@ -6,7 +6,9 @@ import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.GeneratorFEN.generateFen
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.pieces.Piece
-import hwr.oop.group4.chess.core.player.Turn
+import hwr.oop.group4.chess.core.player.Player
+import hwr.oop.group4.chess.core.player.PlayerToMove
+import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.persistence.GameStorage
 
@@ -14,13 +16,13 @@ class Game(
   val id: Int,
   var fen: FEN = STARTING_POSITION,
 ) {
-  var board: Board = BoardFactory.generateBoardFromFen(fen)
+  val board: Board = BoardFactory.generateBoardFromFen(fen)
 
-  // private val players: List<Player> = listOf(
-  //   Player(1, Color.WHITE),
-  //   Player(2, Color.BLACK)
-  // )
-  val turn = Turn(fen)
+  private val white = Player(1, Color.WHITE)
+  private val black = Player(2, Color.BLACK)
+  val current = if (fen.activeColor == Color.WHITE) white else black
+  private val players = PlayerToMove(white, black, current)
+
   var recentFENs: MutableList<FEN> = mutableListOf()
 
   // TODO("update these properties after each move")
@@ -32,9 +34,9 @@ class Game(
 
   fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean {
 
-    board.movePiece(moveDesired, turn.colorToMove, promoteTo)
+    board.movePiece(moveDesired, players.getCurrentColor(), promoteTo)
 
-    turn.switchTurn()
+    players.switchTurn()
 
     this.fen = generateFen(
       this.board,
@@ -42,7 +44,7 @@ class Game(
       enPassant,
       halfMoveClock,
       fullMoveNumber,
-      turn.colorToMove
+      players.getCurrentColor()
     )
     val updatedGame = GameStorage.saveGame(this, newGame = false)
 
