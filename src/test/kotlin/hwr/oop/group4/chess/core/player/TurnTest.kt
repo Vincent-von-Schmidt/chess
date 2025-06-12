@@ -10,25 +10,27 @@ class TurnTest : AnnotationSpec() {
   @Test
   fun `test get turn`() {
     // Given
-    val fen = STARTING_POSITION
+    val white = Player(1, Color.WHITE)
+    val black = Player(2, Color.BLACK)
 
     // When
-    val turn = Turn(fen)
+    val playerToMove = PlayerToMove(white, black, white)
 
     // Then
-    assertThat(turn.colorToMove).isEqualTo(Color.WHITE)
+    assertThat(playerToMove.getCurrentColor()).isEqualTo(Color.WHITE)
   }
 
   @Test
   fun `test switch turn`() {
     // Given
-    val fen = STARTING_POSITION
-    val turn = Turn(fen)
+    val white = Player(1, Color.WHITE)
+    val black = Player(2, Color.BLACK)
 
     // When
-    turn.switchTurn()
+    val playerToMove = PlayerToMove(white, black, white)
+    playerToMove.switchTurn()
 
     // Then
-    assertThat(turn.colorToMove == Color.BLACK)
+    assertThat(playerToMove.getCurrentColor() == Color.BLACK)
   }
 }

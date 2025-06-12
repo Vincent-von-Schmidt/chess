@@ -2,9 +2,8 @@ package hwr.oop.group4.chess.core.pieces
 
 import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.KnightJump
-import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.searchJumpLocations
+import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.calculatePossibleLocationsToJump
 import hwr.oop.group4.chess.core.utils.Color
 
 data class Knight(private val color: Color) : Piece {
@@ -21,23 +20,17 @@ data class Knight(private val color: Color) : Piece {
     KnightJump.BOTTOM_LEFT_LEFT
   )
 
-  override fun getColor(): Color {
-    return color
-  }
+  override fun getColor(): Color = color
 
-  override fun getName(): String {
-    return name
-  }
+  override fun getName(): String = name
 
-  override fun getValue(): Int {
-    return value
-  }
+  override fun getValue(): Int = value
 
   override fun getPossibleLocationsToMove(
     from: Location,
     board: BoardView,
     capture: Boolean,
   ): List<Location> {
-    return searchJumpLocations(from, board, knightJumps)
+    return calculatePossibleLocationsToJump(from, board, knightJumps)
   }
 }
