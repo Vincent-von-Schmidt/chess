@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.core.location
 
-import hwr.oop.group4.chess.core.board.FieldIterator
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 

@@ -5,7 +5,7 @@ import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.ParserFEN
 import java.io.File
 
-class GameStorage : GamePersistencePort {
+object GameStorage : GamePersistencePort {
 
   override fun saveGame(game: Game, newGame: Boolean): Game {
     val id = game.id
@@ -17,7 +17,7 @@ class GameStorage : GamePersistencePort {
     else fenStrings = saveGameToFile(id, fen)
 
     val savedGame = Game(id, fen)
-    savedGame.recentFens = fenStrings.toMutableList()
+    savedGame.recentFENs = fenStrings.toMutableList()
     return savedGame
   }
 

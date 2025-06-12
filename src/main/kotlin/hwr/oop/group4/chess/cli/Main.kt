@@ -12,6 +12,6 @@ fun main(args: Array<String>) {
   
   """.trimIndent()
 
-  val cli = Cli(gameStorage = GameStorage())
+  val cli = Cli(gameStorage = GameStorage)
   cli.handle(args.toList())
 }

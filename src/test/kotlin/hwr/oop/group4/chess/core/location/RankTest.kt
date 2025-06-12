@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 
 class RankTest : AnnotationSpec() {
 
-
   @Test
   fun `next rank of 8 is null`() {
     val rank = Rank.EIGHT
@@ -33,13 +32,13 @@ class RankTest : AnnotationSpec() {
     // Then
     assertThat(ranks).containsExactly(
       Rank.ONE,
-     Rank.TWO,
-     Rank.THREE,
-     Rank.FOUR,
-     Rank.FIVE,
-     Rank.SIX,
-     Rank.SEVEN,
-     Rank.EIGHT
+      Rank.TWO,
+      Rank.THREE,
+      Rank.FOUR,
+      Rank.FIVE,
+      Rank.SIX,
+      Rank.SEVEN,
+      Rank.EIGHT
     )
   }
 }

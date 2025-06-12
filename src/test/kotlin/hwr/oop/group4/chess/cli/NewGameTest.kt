@@ -14,7 +14,7 @@ class NewGameTest : AnnotationSpec() {
 
   @BeforeEach
   fun setup() {
-    GameStorage().deleteGame(game)
+    GameStorage.deleteGame(game)
   }
 
   @Test

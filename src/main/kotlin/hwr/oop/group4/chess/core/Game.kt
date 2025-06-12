@@ -8,6 +8,7 @@ import hwr.oop.group4.chess.core.move.Move
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.player.Turn
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
+import hwr.oop.group4.chess.persistence.GameStorage
 
 class Game(
   val id: Int,
@@ -20,7 +21,7 @@ class Game(
   //   Player(2, Color.BLACK)
   // )
   val turn = Turn(fen)
-  var recentFens: MutableList<FEN> = mutableListOf()
+  var recentFENs: MutableList<FEN> = mutableListOf()
 
   // TODO("update these properties after each move")
 
@@ -43,6 +44,10 @@ class Game(
       fullMoveNumber,
       turn.colorToMove
     )
+    val updatedGame = GameStorage.saveGame(this, newGame = false)
+
+    if (checkForDraw(updatedGame.recentFENs)) throw DrawException()
+
     return true
   }
 
@@ -61,5 +66,18 @@ class Game(
       boardString += "$lineString\n"
     }
     return boardString
+  }
+
+  private fun checkForDraw(recentFENs: MutableList<FEN>): Boolean {
+    // Threefold Repetition Rule
+    return recentFENs.groupingBy { it }
+      .eachCount()
+      .any { it.value >= 3 }
+
+    // Stalemate Rule
+
+    // 50-Move Rule
+
+    // Insufficient Material Rule
   }
 }
