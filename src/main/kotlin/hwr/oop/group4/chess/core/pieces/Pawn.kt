@@ -4,7 +4,7 @@ import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.Direction
-import hwr.oop.group4.chess.core.move.MoveValidGenerator
+import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.searchAllowedLocations
 import hwr.oop.group4.chess.core.utils.Color
 
 data class Pawn(override val color: Color) : Piece {
@@ -37,11 +37,11 @@ data class Pawn(override val color: Color) : Piece {
     }
 
     return if (capture) {
-      MoveValidGenerator().searchAllowedLocations(from, board, captureDirections, 1)
+      searchAllowedLocations(from, board, captureDirections, 1)
     } else if ((from.rank == Rank.TWO && color == Color.WHITE) || (from.rank == Rank.SEVEN && color == Color.BLACK)) {
-      MoveValidGenerator().searchAllowedLocations(from, board, directions, 2)
+      searchAllowedLocations(from, board, directions, 2)
     } else {
-      MoveValidGenerator().searchAllowedLocations(from, board, directions, 1)
+      searchAllowedLocations(from, board, directions, 1)
     }
   }
 }

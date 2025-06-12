@@ -24,8 +24,8 @@ class MoveKnightTest : AnnotationSpec() {
     val endLocation = Location(File.B, Rank.FIVE)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -44,8 +44,8 @@ class MoveKnightTest : AnnotationSpec() {
     val endLocation = Location(File.C, Rank.SIX)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -64,8 +64,8 @@ class MoveKnightTest : AnnotationSpec() {
     val endLocation = Location(File.E, Rank.SIX)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -84,8 +84,8 @@ class MoveKnightTest : AnnotationSpec() {
     val endLocation = Location(File.F, Rank.FIVE)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -104,8 +104,8 @@ class MoveKnightTest : AnnotationSpec() {
     val endLocation = Location(File.B, Rank.THREE)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -124,8 +124,8 @@ class MoveKnightTest : AnnotationSpec() {
     val endLocation = Location(File.C, Rank.TWO)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -144,8 +144,8 @@ class MoveKnightTest : AnnotationSpec() {
     val endLocation = Location(File.E, Rank.TWO)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -164,8 +164,8 @@ class MoveKnightTest : AnnotationSpec() {
     val endLocation = Location(File.F, Rank.THREE)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 

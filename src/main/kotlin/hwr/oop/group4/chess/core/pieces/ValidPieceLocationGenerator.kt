@@ -1,9 +1,11 @@
-package hwr.oop.group4.chess.core.move
+package hwr.oop.group4.chess.core.pieces
 
 import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
+import hwr.oop.group4.chess.core.move.Direction
+import hwr.oop.group4.chess.core.move.KnightJump
 
-class MoveValidGenerator {
+object ValidPieceLocationGenerator {
 
   fun searchAllowedLocations(
     from: Location,

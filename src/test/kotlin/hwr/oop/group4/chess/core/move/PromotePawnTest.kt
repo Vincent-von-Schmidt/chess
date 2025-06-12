@@ -28,8 +28,8 @@ class PromotePawnTest : AnnotationSpec() {
 
     // When
     val promoteToPiece = Bishop(Color.BLACK)
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor, promoteToPiece)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor, promoteToPiece)
     val pieceOnStartLocation = board.getPiece(startLocation)
     val pieceOnEndLocation =
       board.getPiece(endLocation) // TODO change everywhere to getPiece
@@ -49,11 +49,11 @@ class PromotePawnTest : AnnotationSpec() {
 
     // When
     val promoteToPiece = Bishop(Color.WHITE)
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor, promoteToPiece)
+      board.movePiece(moveDesired, fen.activeColor, promoteToPiece)
     }.hasMessage("BLACK Pawn cannot promote to WHITE Bishop")
   }
 
@@ -67,8 +67,8 @@ class PromotePawnTest : AnnotationSpec() {
 
     // When
     val promoteToPiece = Rook(Color.WHITE)
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor, promoteToPiece)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor, promoteToPiece)
     val pieceOnStartLocation = board.getPiece(startLocation)
     val pieceOnEndLocation = board.getPiece(endLocation)
 
@@ -86,11 +86,11 @@ class PromotePawnTest : AnnotationSpec() {
     val endLocation = Location(File.D, Rank.EIGHT)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("WHITE Pawn has no Piece to promote to")
   }
 
@@ -104,11 +104,11 @@ class PromotePawnTest : AnnotationSpec() {
 
     // When
     val promoteToPiece = King(Color.WHITE)
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor, promoteToPiece)
+      board.movePiece(moveDesired, fen.activeColor, promoteToPiece)
     }.hasMessage("WHITE Pawn cannot promote to WHITE King")
   }
 }

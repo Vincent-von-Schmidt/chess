@@ -3,7 +3,8 @@ package hwr.oop.group4.chess.core.board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.move.MoveDesired
+import hwr.oop.group4.chess.core.move.MoveDesiredValidator.validateMove
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
@@ -86,42 +87,18 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
   }
 
   fun movePiece(
-    move: Move,
+    moveDesired: MoveDesired,
     playerAtTurnColor: Color,
     promoteToPiece: Piece? = null,
   ) {
-    isCheck(playerAtTurnColor)
-    val movingPiece: Piece? = getPiece(move.startLocation)
-    val occupyingPiece: Piece? = getPiece(move.endLocation)
 
-    if (movingPiece == null) throw NoPieceException(move.startLocation)
+//    isCheck(playerAtTurnColor)
 
-    validateMove(move, movingPiece, occupyingPiece)
-    validateTurn(movingPiece, playerAtTurnColor)
-    val promotionPiece =
-      validatePromotion(move, movingPiece, promoteToPiece, playerAtTurnColor)
+    validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
 
-    val pieceToPlace = promotionPiece ?: movingPiece
-    placePieceToField(move.endLocation, pieceToPlace)
-    removePieceFromField(move.startLocation)
-  }
-
-  private fun validateMove(
-    move: Move,
-    movingPiece: Piece,
-    occupyingPiece: Piece?,
-  ) {
-
-    val isCapture = isCapture(move, movingPiece, occupyingPiece)
-    val legalDestinations =
-      movingPiece.availableLocationsToMove(move.startLocation, this, isCapture)
-
-    if (move.endLocation !in legalDestinations) {
-      throw InvalidMoveException(
-        movingPiece,
-        move.endLocation
-      )
-    }
+    val validatedMove = validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
+    placePieceToField(validatedMove.endLocation, validatedMove.toPlacePiece)
+    removePieceFromField(validatedMove.startLocation)
   }
 
   private fun isCheck(playerAtTurnColor: Color): Boolean {
@@ -141,57 +118,5 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
       }
     }
     return false
-  }
-
-  // TODO check if capturing king, and make exception
-
-  private fun validatePromotion(
-    move: Move,
-    movingPiece: Piece,
-    promoteToPiece: Piece?,
-    playerAtTurnColor: Color,
-  ): Piece? {
-    val isPromotion =
-      movingPiece is Pawn && (move.endLocation.rank == Rank.EIGHT || move.endLocation.rank == Rank.ONE)
-
-    if (isPromotion) {
-      if (promoteToPiece == null) {
-        throw InvalidPromotionException(movingPiece)
-      }
-      if (promoteToPiece.color != playerAtTurnColor) {
-        throw InvalidPromotionException(movingPiece, promoteToPiece)
-      }
-      val checkedPromoteToPiece: Piece = when (promoteToPiece) { // TODO this into parser?
-        is Queen -> Queen(playerAtTurnColor)
-        is Rook -> Rook(playerAtTurnColor)
-        is Bishop -> Bishop(playerAtTurnColor)
-        is Knight -> Knight(playerAtTurnColor)
-        else -> throw InvalidPromotionException(movingPiece, promoteToPiece)
-      }
-      return checkedPromoteToPiece
-    }
-    return null
-  }
-
-  private fun validateTurn(movingPiece: Piece, playerAtTurnColor: Color) {
-    if (movingPiece.color != playerAtTurnColor) throw InvalidMoveException(movingPiece)
-  }
-
-  private fun isCapture(
-    move: Move,
-    movingPiece: Piece,
-    occupyingPiece: Piece?,
-  ): Boolean {
-
-    if (occupyingPiece == null) {
-      return false
-    }
-    if (occupyingPiece.color == movingPiece.color) {
-      throw InvalidMoveException(
-        movingPiece,
-        move.endLocation
-      )
-    }
-    return true
   }
 }

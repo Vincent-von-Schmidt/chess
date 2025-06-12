@@ -34,9 +34,9 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.D, Rank.FOUR)
 
     // When / Then
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Pawn can not be moved to D4")
   }
 }

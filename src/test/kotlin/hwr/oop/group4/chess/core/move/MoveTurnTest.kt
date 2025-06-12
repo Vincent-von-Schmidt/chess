@@ -23,11 +23,11 @@ class MoveTurnTest : AnnotationSpec() {
     val endLocation = Location(File.A, Rank.ONE)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      game.movePiece(move)
+      game.movePiece(moveDesired)
     }.hasMessageContaining("You cannot move a BLACK Pawn")
   }
 
@@ -40,11 +40,11 @@ class MoveTurnTest : AnnotationSpec() {
     val endLocation = Location(File.A, Rank.ONE)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      game.movePiece(move)
+      game.movePiece(moveDesired)
     }.hasMessageContaining("You cannot move a WHITE Queen")
   }
 }
