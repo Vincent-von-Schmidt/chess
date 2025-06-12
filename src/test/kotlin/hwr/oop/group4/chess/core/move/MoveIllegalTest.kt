@@ -62,7 +62,7 @@ class MoveIllegalTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       board.movePiece(move, fen.activeColor)
-    }.hasMessage("D4 is already occupied with WHITE Queen")
+    }.hasMessage("WHITE Pawn can not be moved to D4")
   }
 
   @Test
@@ -79,7 +79,7 @@ class MoveIllegalTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       board.movePiece(move, fen.activeColor)
-    }.hasMessage("E4 is already occupied with WHITE Queen")
+    }.hasMessage("WHITE Pawn can not be moved to E4")
   }
 
   @Test

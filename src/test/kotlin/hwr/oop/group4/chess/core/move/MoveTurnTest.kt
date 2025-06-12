@@ -28,7 +28,7 @@ class MoveTurnTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       game.movePiece(move)
-    }.hasMessageContaining("You can not move a BLACK piece")
+    }.hasMessageContaining("You cannot move a BLACK Pawn")
   }
 
   @Test
@@ -45,6 +45,6 @@ class MoveTurnTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       game.movePiece(move)
-    }.hasMessageContaining("You can not move a WHITE piece")
+    }.hasMessageContaining("You cannot move a WHITE Queen")
   }
 }

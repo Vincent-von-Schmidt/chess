@@ -1,5 +1,6 @@
 package hwr.oop.group4.chess.core.utils
 
+import hwr.oop.group4.chess.core.board.InvalidPromotionException
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -45,7 +46,7 @@ object StringParser {
       'n', 'N' -> Knight(color)
       'r', 'R' -> Rook(color)
       'p', 'P' -> Pawn(color)
-      else -> throw IllegalPieceException(char)
+      else -> throw InvalidPieceException(char)
     }
   }
 

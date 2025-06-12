@@ -66,14 +66,15 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     return getField(location).piece
   }
 
-  private fun findKing(color: Color): Location? {
+  private fun findKing(color: Color): Location {
+    val king = King(color)
     for ((location, field) in fields) {
       val piece = field.piece
       if (piece is King && piece.color == color) {
         return location
       }
     }
-    return null
+    throw NoPieceException(piece = king)
   }
 
   private fun removePieceFromField(location: Location) {
@@ -92,7 +93,7 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     val movingPiece: Piece? = getPiece(move.startLocation)
     val occupyingPiece: Piece? = getPiece(move.endLocation)
 
-    if (movingPiece == null) throw NonExistentPieceException(move.startLocation.description)
+    if (movingPiece == null) throw NoPieceException(move.startLocation)
 
     validateMove(move, movingPiece, occupyingPiece)
     validateTurn(movingPiece, playerAtTurnColor)
@@ -115,9 +116,9 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
       movingPiece.availableLocationsToMove(move.startLocation, this, isCapture)
 
     if (move.endLocation !in legalDestinations) {
-      throw IllegalMoveException(
-        movingPiece.description,
-        move.endLocation.description
+      throw InvalidMoveException(
+        movingPiece,
+        move.endLocation
       )
     }
   }
@@ -125,13 +126,17 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
   private fun isCheck(playerAtTurnColor: Color): Boolean {
     val opponentColor = playerAtTurnColor.opposite()
     val kingLocation = findKing(opponentColor)
-
+    return isSquareUnderAttack(kingLocation, playerAtTurnColor)
     // Überprüfen, ob eine gegnerische Figur das Königsfeld bedroht
+
+  }
+
+  private fun isSquareUnderAttack(target: Location, attackerColor: Color): Boolean {
     for ((location) in fields) {
       val piece = getPiece(location) ?: continue
-      if (piece.color != opponentColor) {
+      if (piece.color == attackerColor) {
         val possibleMoves = piece.availableLocationsToMove(location, this, true)
-        if (kingLocation in possibleMoves) {
+        if (target in possibleMoves) {
           return true
         }
       }
@@ -152,17 +157,17 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
     if (isPromotion) {
       if (promoteToPiece == null) {
-        throw WrongPromoteChoiceException(movingPiece)
+        throw InvalidPromotionException(movingPiece)
       }
       if (promoteToPiece.color != playerAtTurnColor) {
-        throw WrongPromoteChoiceException(movingPiece, promoteToPiece)
+        throw InvalidPromotionException(movingPiece, promoteToPiece)
       }
-      val checkedPromoteToPiece: Piece = when (promoteToPiece) {
+      val checkedPromoteToPiece: Piece = when (promoteToPiece) { // TODO this into parser?
         is Queen -> Queen(playerAtTurnColor)
         is Rook -> Rook(playerAtTurnColor)
         is Bishop -> Bishop(playerAtTurnColor)
         is Knight -> Knight(playerAtTurnColor)
-        else -> throw WrongPromoteChoiceException(movingPiece, promoteToPiece)
+        else -> throw InvalidPromotionException(movingPiece, promoteToPiece)
       }
       return checkedPromoteToPiece
     }
@@ -170,9 +175,7 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
   }
 
   private fun validateTurn(movingPiece: Piece, playerAtTurnColor: Color) {
-    if (movingPiece.color != playerAtTurnColor) throw WrongColorMovedException(
-      movingPiece
-    )
+    if (movingPiece.color != playerAtTurnColor) throw InvalidMoveException(movingPiece)
   }
 
   private fun isCapture(
@@ -185,9 +188,9 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
       return false
     }
     if (occupyingPiece.color == movingPiece.color) {
-      throw SameColorCaptureException(
-        move.endLocation.description,
-        occupyingPiece
+      throw InvalidMoveException(
+        movingPiece,
+        move.endLocation
       )
     }
     return true
