@@ -104,6 +104,11 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <jvmTarget>1.8</jvmTarget>
+          <apiVersion>1.9</apiVersion>
+          <languageVersion>1.9</languageVersion>
+        </configuration>
         <!--
         <configuration>
           <compilerPlugins>

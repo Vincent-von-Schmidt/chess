@@ -22,9 +22,9 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     val allFields = mutableMapOf<Location, Field>()
     var previousRank: Rank? = null
 
-    for (rank in Rank.values()) {
+    for (rank in Rank.entries) {
       var previousFile: File? = null
-      for (file in File.values()) {
+      for (file in File.entries) {
         val location = Location(file, rank)
         val field = Field(location)
         allFields[location] = field
