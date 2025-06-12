@@ -3,7 +3,7 @@ package hwr.oop.group4.chess.core.pieces
 import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
-import hwr.oop.group4.chess.core.move.MoveValidGenerator
+import hwr.oop.group4.chess.core.pieces.ValidPieceLocationGenerator.searchAllowedLocations
 import hwr.oop.group4.chess.core.utils.Color
 
 data class Bishop(override val color: Color) : Piece {
@@ -21,6 +21,6 @@ data class Bishop(override val color: Color) : Piece {
     board: BoardView,
     capture: Boolean,
   ): List<Location> {
-    return MoveValidGenerator().searchAllowedLocations(from, board, directions, 8)
+    return searchAllowedLocations(from, board, directions, 8)
   }
 }

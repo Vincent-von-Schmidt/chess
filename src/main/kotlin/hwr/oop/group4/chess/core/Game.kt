@@ -4,7 +4,7 @@ import hwr.oop.group4.chess.core.board.Board
 import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.GeneratorFEN.generateFen
-import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.player.Turn
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
@@ -30,9 +30,9 @@ class Game(
   private val halfMoveClock = 0
   private val fullMoveNumber = 1
 
-  fun movePiece(move: Move, promoteTo: Piece? = null): Boolean {
+  fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean {
 
-    board.movePiece(move, turn.colorToMove, promoteTo)
+    board.movePiece(moveDesired, turn.colorToMove, promoteTo)
 
     turn.switchTurn()
 

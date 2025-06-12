@@ -24,8 +24,8 @@ class MoveRookTest : AnnotationSpec() {
     val endLocation = Location(File.G, Rank.ONE)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -43,8 +43,8 @@ class MoveRookTest : AnnotationSpec() {
     val endLocation = Location(File.A, Rank.ONE)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -62,8 +62,8 @@ class MoveRookTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.TWO)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -81,8 +81,8 @@ class MoveRookTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.EIGHT)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 

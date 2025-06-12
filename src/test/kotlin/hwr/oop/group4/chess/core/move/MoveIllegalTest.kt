@@ -23,11 +23,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.SEVEN)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("A2 does not contain a piece")
   }
 
@@ -40,11 +40,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.SEVEN)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("WHITE Queen can not be moved to H7")
   }
 
@@ -57,11 +57,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.D, Rank.FOUR)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("WHITE Pawn can not be moved to D4")
   }
 
@@ -74,11 +74,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.E, Rank.FOUR)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("WHITE Pawn can not be moved to E4")
   }
 
@@ -91,11 +91,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.D, Rank.SIX)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Pawn can not be moved to D6")
   }
 
@@ -108,11 +108,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.EIGHT)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Pawn can not be moved to H8")
   }
 
@@ -125,11 +125,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.D, Rank.FOUR)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("WHITE Pawn can not be moved to D4")
   }
 
@@ -142,11 +142,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.EIGHT)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("WHITE Pawn can not be moved to H8")
   }
 
@@ -159,11 +159,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.EIGHT)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("WHITE King can not be moved to H8")
   }
 
@@ -176,11 +176,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.EIGHT)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Knight can not be moved to H8")
   }
 
@@ -193,11 +193,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.ONE)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("WHITE Queen can not be moved to H1")
   }
 
@@ -210,11 +210,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val interruptedLocation = Location(File.A, Rank.SIX)
 
     // When
-    val move = Move(startLocation, interruptedLocation)
+    val moveDesired = MoveDesired(startLocation, interruptedLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Bishop can not be moved to A6")
   }
 
@@ -227,11 +227,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.ONE)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Bishop can not be moved to H1")
   }
 
@@ -244,11 +244,11 @@ class MoveIllegalTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.EIGHT)
 
     // When
-    val move = Move(startLocation, endLocation)
+    val moveDesired = MoveDesired(startLocation, endLocation)
 
     // Then
     assertThatThrownBy {
-      board.movePiece(move, fen.activeColor)
+      board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Rook can not be moved to H8")
   }
 }

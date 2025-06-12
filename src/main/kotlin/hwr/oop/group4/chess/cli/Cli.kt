@@ -2,7 +2,7 @@ package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.DrawException
 import hwr.oop.group4.chess.core.Game
-import hwr.oop.group4.chess.core.move.Move
+import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.StringParser
 import hwr.oop.group4.chess.persistence.GamePersistencePort
@@ -52,13 +52,13 @@ class Cli(
         }
         val from = StringParser.parseLocationFromString(args[3])
         val to = StringParser.parseLocationFromString(args[5])
-        val move = Move(from, to)
+        val moveDesired = MoveDesired(from, to)
         val game = gameStorage.loadGame(id)
 
         val promoteTo: Piece? =
           if (args.size == 7) StringParser.parsePromotionPieceFromString(args[6]) else null
         try {
-          game.movePiece(move, promoteTo)
+          game.movePiece(moveDesired, promoteTo)
         } catch (e: DrawException) {
           println(e.message)
           gameStorage.deleteGame(game)

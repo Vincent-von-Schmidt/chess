@@ -30,8 +30,8 @@ class MoveBishopTest : AnnotationSpec() {
     val endLocation = Location(File.B, Rank.SEVEN)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
 
     // Then
     val pieceOnStartLocation = board.getField(startLocation).piece
@@ -50,8 +50,8 @@ class MoveBishopTest : AnnotationSpec() {
     val endLocation = Location(File.A, Rank.SIX)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -69,8 +69,8 @@ class MoveBishopTest : AnnotationSpec() {
     val endLocation = Location(File.D, Rank.SEVEN)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -88,8 +88,8 @@ class MoveBishopTest : AnnotationSpec() {
     val endLocation = Location(File.H, Rank.THREE)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 

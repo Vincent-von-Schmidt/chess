@@ -24,8 +24,8 @@ class MovePawnTest : AnnotationSpec() {
     val endLocation = Location(File.D, Rank.FOUR)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -43,8 +43,8 @@ class MovePawnTest : AnnotationSpec() {
     val endLocation = Location(File.D, Rank.SIX) // legal move
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 
@@ -62,8 +62,8 @@ class MovePawnTest : AnnotationSpec() {
     val endLocation = Location(File.A, Rank.FOUR)
 
     // When
-    val move = Move(startLocation, endLocation)
-    board.movePiece(move, fen.activeColor)
+    val moveDesired = MoveDesired(startLocation, endLocation)
+    board.movePiece(moveDesired, fen.activeColor)
     val pieceOnStartLocation = board.getField(startLocation).piece
     val pieceOnEndLocation = board.getField(endLocation).piece
 

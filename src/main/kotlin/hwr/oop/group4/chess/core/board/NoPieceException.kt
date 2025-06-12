@@ -17,7 +17,7 @@ class NoPieceException(
     startLoc == null && color != null && piece is King ->
       "No king found for $color player"
 
-    startLoc != null ->
+    startLoc != null && piece == null && color == null ->
       "${startLoc.description} does not contain a piece"
 
     else -> "Required piece not found"
