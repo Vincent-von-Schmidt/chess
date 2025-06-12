@@ -11,7 +11,7 @@ import java.io.File
 
 class GameStorageTest : AnnotationSpec() {
 
-  private val storage = GameStorage()
+  private val storage = GameStorage
 
   @BeforeEach
   fun cleanUpTestGameFiles() {
