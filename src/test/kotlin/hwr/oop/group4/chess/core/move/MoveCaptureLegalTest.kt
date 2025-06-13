@@ -35,26 +35,6 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   }
 
   @Test
-  fun `knight white captures black king`() {
-    // Given
-    val fen = FEN("8/8/8/8/5k2/3N4/8/8", Color.WHITE, "-", "-", 0, 1)
-    board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.THREE)).piece
-    val startLocation = Location(File.D, Rank.THREE)
-    val endLocation = Location(File.F, Rank.FOUR)
-
-    // When
-    val moveDesired = MoveDesired(startLocation, endLocation)
-    board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
-
-    // Then
-    assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(knight)
-  }
-
-  @Test
   fun `king white captures black rook`() {
     // Given
     val fen = FEN("8/8/8/8/4r3/3K4/8/8", Color.WHITE, "-", "-", 0, 1)

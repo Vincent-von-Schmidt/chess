@@ -5,6 +5,7 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.move.MoveDesiredValidator.validateMove
+import hwr.oop.group4.chess.core.move.MoveResult
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
@@ -90,21 +91,41 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     moveDesired: MoveDesired,
     playerAtTurnColor: Color,
     promoteToPiece: Piece? = null,
-  ) {
-
-//    isCheck(playerAtTurnColor)
+  ): MoveResult {
 
     validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
-
     val validatedMove = validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
+
+    // temporary move (Check-Prüfung)
     placePieceToField(validatedMove.endLocation, validatedMove.toPlacePiece)
     removePieceFromField(validatedMove.startLocation)
+
+    if (isCheck(playerAtTurnColor)) {
+      // undo Move
+      removePieceFromField(validatedMove.endLocation)
+      placePieceToField(validatedMove.startLocation, validatedMove.toPlacePiece)
+      throw CheckException(playerAtTurnColor)
+    }
+
+    val opponentInCheck = isCheck(playerAtTurnColor.opposite())
+
+    // val isCheckmate = opponentInCheck && isCheckmate(playerAtTurnColor.opposite())
+
+    return MoveResult(
+      move = validatedMove,
+      opponentInCheck = opponentInCheck,
+      isCheckmate = false // isCheckmate
+    )
   }
 
-  private fun isCheck(playerAtTurnColor: Color): Boolean {
-    val opponentColor = playerAtTurnColor.opposite()
-    val kingLocation = findKing(opponentColor)
-    return isSquareUnderAttack(kingLocation, playerAtTurnColor)
+  private fun isCheck(color: Color): Boolean {
+    try {
+      val opponentColor = color.opposite()
+      val kingLocation = findKing(color)
+      return isSquareUnderAttack(kingLocation, opponentColor)
+    } catch (e: NoPieceException) {
+      return false // Skip check validation if kings aren't on board
+    }
   }
 
   private fun isSquareUnderAttack(target: Location, attackerColor: Color): Boolean {
@@ -119,4 +140,6 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     }
     return false
   }
+
+  // private fun isCheckmate(playerAtTurnColor: Color): Boolean {return false}
 }
