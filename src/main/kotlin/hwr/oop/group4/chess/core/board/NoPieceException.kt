@@ -8,17 +8,12 @@ import hwr.oop.group4.chess.core.utils.Color
 class NoPieceException(
   startLoc: Location? = null,
   piece: Piece? = null,
-  color: Color? = null
 ) : Exception(
   when {
-    piece != null && startLoc != null && color == null ->
-      "${startLoc.description} does not contain a {${piece.getDescription()}}"
-
-    startLoc == null && color != null && piece is King ->
-      "No king found for $color player"
-
-    startLoc != null && piece == null && color == null ->
+    startLoc != null  ->
       "${startLoc.description} does not contain a piece"
+    piece != null  ->
+      "${piece.getDescription()} could not be found"
 
     else -> "Required piece not found"
   }

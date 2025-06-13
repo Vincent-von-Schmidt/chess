@@ -10,6 +10,7 @@ import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Queen
 import hwr.oop.group4.chess.core.utils.Color
 import io.kotest.core.spec.style.AnnotationSpec
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class MoveCaptureIllegalTest : AnnotationSpec() {
@@ -38,5 +39,23 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
     assertThatThrownBy {
       board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Pawn can not be moved to D4")
+  }
+
+  @Test
+  fun `knight white throw on capture black king`() {
+    // Given
+    val fen = FEN("8/8/8/8/5k2/3N4/8/8", Color.WHITE, "-", "-", 0, 1)
+    board = BoardFactory.generateBoardFromFen(fen)
+    val knight = board.getField(Location(File.D, Rank.THREE)).piece
+    val startLocation = Location(File.D, Rank.THREE)
+    val endLocation = Location(File.F, Rank.FOUR)
+
+    // When
+    val moveDesired = MoveDesired(startLocation, endLocation)
+
+    // Then
+    assertThatThrownBy {
+      board.movePiece(moveDesired, fen.activeColor)
+    }.hasMessage("WHITE Knight can not be moved to F4")
   }
 }
