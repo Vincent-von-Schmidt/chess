@@ -24,26 +24,26 @@ class Game(
   val current = if (fen.activeColor == Color.WHITE) white else black
   private val players = PlayerToMove(white, black, current)
 
-  var recentFENs: MutableList<FEN> = mutableListOf()
+  var recentFENs: MutableList<FEN> = mutableListOf() // TODO make secure
+  // public var recent fens is cheatable loadGame should pass the list on load of a
+  // game, then inside the actuall game there will be updates to set list
+  // which then should be able to bo saved...
 
   // TODO("update these properties after each move")
 
-  private val castle = ""
-  private val enPassant = ""
-  private val halfMoveClock = 0
-  private val fullMoveNumber = 1
+  private var castle = ""
+  private var enPassant = ""
+  private var halfMoveClock = 0
+  private var fullMoveNumber = 0
 
   fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean {
 
     val moveResult = board.movePiece(moveDesired, players.getCurrentColor(), promoteTo)
-
+    fullMoveNumber ++
     players.switchTurn()
-
     this.fen = updateFen()
     val updatedGame = GameStorage.saveGame(this, newGame = false)
-
     updateGameState(updatedGame.recentFENs, moveResult)
-
     return true
   }
 
@@ -92,7 +92,7 @@ class Game(
         val state = GameState.CHECKMATE
         val winner = players.getCurrentColor()
         GameStorage.saveGame(this, false)
-        throw GameOverException(null, state, winner) // Sofortiges Spielende
+        throw GameOverException(null, state, winner)
       }
 
       moveResult.opponentInCheck -> { GameState.CHECK }
@@ -100,6 +100,8 @@ class Game(
       isThreefoldRepetition(recentFENs) -> {
         val state = GameState.DRAW
         GameStorage.saveGame(this, false)
+        // TODO safe the game state as well to determine either the game can be loaded as playable back
+        // saveGame(this, false, state)?
         throw GameOverException(DrawReason.THREEFOLD_REPETITION, state, null)
       }
 
