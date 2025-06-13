@@ -20,19 +20,19 @@ object StringParser {
     }
 
     val rank =
-      Rank.values().firstOrNull { it.number.toString() == rankChar.toString() }
+      Rank.entries.firstOrNull { it.number.toString() == rankChar.toString() }
         ?: throw InvalidLocationException("Invalid rank character: $rankChar")
 
     return Location(file, rank)
   }
 
-  fun parsePromotionPieceFromString(inputString: String): Piece {
+  fun parsePromotionPieceFromString(inputString: String, color: Color): Piece {
     // all colors white as default (will be changed along the way
     return when (inputString.lowercase()) {
-      "queen" -> Queen(Color.WHITE)
-      "knight" -> Knight(Color.WHITE)
-      "rook" -> Rook(Color.WHITE)
-      "bishop" -> Bishop(Color.WHITE)
+      "queen" -> Queen(color)
+      "knight" -> Knight(color)
+      "rook" -> Rook(color)
+      "bishop" -> Bishop(color)
       else -> throw InvalidPromotionException()
     }
   }

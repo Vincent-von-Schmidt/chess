@@ -185,7 +185,7 @@ class CliMoveTest : AnnotationSpec() {
   }
 
   @Test
-  fun `user prompts right promotion-title`() {
+  fun `user prompts right promotion-title queen`() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
 
@@ -200,6 +200,78 @@ class CliMoveTest : AnnotationSpec() {
           "to",
           "a4",
           "queen"
+        )
+      )
+    }.trim()
+
+    // Then
+    assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
+  }
+
+  @Test
+  fun `user prompts right promotion-title rook`() {
+    // Given
+    main(arrayOf("new_game", TEST_NUMBER.toString()))
+
+    // When
+    val outputMove = captureStandardOut {
+      main(
+        arrayOf(
+          "on",
+          TEST_NUMBER.toString(),
+          "move",
+          "a2",
+          "to",
+          "a4",
+          "rook"
+        )
+      )
+    }.trim()
+
+    // Then
+    assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
+  }
+
+  @Test
+  fun `user prompts right promotion-title bishop`() {
+    // Given
+    main(arrayOf("new_game", TEST_NUMBER.toString()))
+
+    // When
+    val outputMove = captureStandardOut {
+      main(
+        arrayOf(
+          "on",
+          TEST_NUMBER.toString(),
+          "move",
+          "a2",
+          "to",
+          "a4",
+          "bishop"
+        )
+      )
+    }.trim()
+
+    // Then
+    assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
+  }
+
+  @Test
+  fun `user prompts right promotion-title knight`() {
+    // Given
+    main(arrayOf("new_game", TEST_NUMBER.toString()))
+
+    // When
+    val outputMove = captureStandardOut {
+      main(
+        arrayOf(
+          "on",
+          TEST_NUMBER.toString(),
+          "move",
+          "a2",
+          "to",
+          "a4",
+          "knight"
         )
       )
     }.trim()
