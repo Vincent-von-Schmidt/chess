@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.core.move
 
-import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location

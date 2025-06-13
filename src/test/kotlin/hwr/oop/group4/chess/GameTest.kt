@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess
 
-import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank

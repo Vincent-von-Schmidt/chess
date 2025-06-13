@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.DrawException
-import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.game.Game
+import hwr.oop.group4.chess.core.game.GameOverException
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.StringParser
@@ -60,7 +60,7 @@ class Cli(
           if (args.size == 7) StringParser.parsePromotionPieceFromString(args[6], color = playerToMove) else null
         try {
           game.movePiece(moveDesired, promoteTo)
-        } catch (e: DrawException) {
+        } catch (e: GameOverException) {
           println(e.message)
           gameStorage.deleteGame(game)
           return

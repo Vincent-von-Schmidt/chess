@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.fen.ParserFEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
@@ -312,7 +312,7 @@ class CliMoveTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      ParserFEN.parseStringToFen("8/8/8/8/8/8/r7/R7 w - - 0 1")
+      ParserFEN.parseStringToFen("8/8/8/8/8/8/r7/R7 w - - 0 0")
     )
     GameStorage.saveGame(game)
 
@@ -335,7 +335,7 @@ class CliMoveTest : AnnotationSpec() {
     }.trim()
 
     // Then
-    assertThat(output).isEqualTo("The game ended in a draw.")
+    assertThat(output).isEqualTo("The game ended in a DRAW")
   }
 
 }

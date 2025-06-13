@@ -13,7 +13,7 @@ object Constants {
     castle = "KQkq",
     enPassant = "-",
     halfMoves = 0,
-    fullMoves = 1
+    fullMoves = 0
   )
 
   val EMPTY_BOARD = FEN(
@@ -22,6 +22,6 @@ object Constants {
     castle = "KQkq",
     enPassant = "-",
     halfMoves = 0,
-    fullMoves = 1
+    fullMoves = 0
   )
 }
