@@ -5,6 +5,7 @@ import hwr.oop.group4.chess.core.board.BoardFactory
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.GeneratorFEN.generateFen
 import hwr.oop.group4.chess.core.move.MoveDesired
+import hwr.oop.group4.chess.core.move.MoveResult
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.player.Player
 import hwr.oop.group4.chess.core.player.PlayerToMove
@@ -34,21 +35,14 @@ class Game(
 
   fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean {
 
-    board.movePiece(moveDesired, players.getCurrentColor(), promoteTo)
+    val moveResult = board.movePiece(moveDesired, players.getCurrentColor(), promoteTo)
 
     players.switchTurn()
 
-    this.fen = generateFen(
-      this.board,
-      castle,
-      enPassant,
-      halfMoveClock,
-      fullMoveNumber,
-      players.getCurrentColor()
-    )
+    this.fen = updateFen()
     val updatedGame = GameStorage.saveGame(this, newGame = false)
 
-    if (checkForDraw(updatedGame.recentFENs)) throw DrawException()
+    updateGameState(updatedGame.recentFENs, moveResult)
 
     return true
   }
@@ -70,16 +64,52 @@ class Game(
     return boardString
   }
 
-  private fun checkForDraw(recentFENs: MutableList<FEN>): Boolean {
-    // Threefold Repetition Rule
-    return recentFENs.groupingBy { it }
+  private fun isThreefoldRepetition(recentFENs: MutableList<FEN>) : Boolean {
+    val result = recentFENs.groupingBy { it }
       .eachCount()
       .any { it.value >= 3 }
+    return result
+  }
 
-    // Stalemate Rule
+  private fun isFiftyMoveRule() : Boolean {
+    return false
+  }
 
-    // 50-Move Rule
+  private fun updateFen(): FEN {
+    return generateFen(
+      this.board,
+      castle,
+      enPassant,
+      halfMoveClock,
+      fullMoveNumber,
+      players.getCurrentColor()
+    )
+  }
 
-    // Insufficient Material Rule
+  private fun updateGameState(recentFENs: MutableList<FEN>, moveResult: MoveResult): GameState {
+    return when {
+      moveResult.isCheckmate -> {
+        val state = GameState.CHECKMATE
+        val winner = players.getCurrentColor()
+        GameStorage.saveGame(this, false)
+        throw GameOverException(null, state, winner) // Sofortiges Spielende
+      }
+
+      moveResult.opponentInCheck -> { GameState.CHECK }
+
+      isThreefoldRepetition(recentFENs) -> {
+        val state = GameState.DRAW
+        GameStorage.saveGame(this, false)
+        throw GameOverException(DrawReason.THREEFOLD_REPETITION, state, null)
+      }
+
+      isFiftyMoveRule() -> {
+        val state = GameState.DRAW
+        GameStorage.saveGame(this, false)
+        throw GameOverException(DrawReason.FIFTY_MOVE_RULE, state, null)
+      }
+
+      else -> GameState.NORMAL
+    }
   }
 }
