@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.persistence
 
-import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.ParserFEN
 import java.io.File

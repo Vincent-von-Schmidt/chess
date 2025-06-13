@@ -1,6 +1,6 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.fen.ParserFEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location

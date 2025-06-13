@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.DrawException
-import hwr.oop.group4.chess.core.Game
+import hwr.oop.group4.chess.core.game.DrawException
+import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.StringParser
