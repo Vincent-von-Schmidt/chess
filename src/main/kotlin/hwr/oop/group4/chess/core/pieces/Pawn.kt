@@ -14,10 +14,12 @@ data class Pawn(private val color: Color) : Piece {
   private var captureDirections = emptyList<Direction>()
 
   private val whitePawnDirections = listOf(Direction.TOP)
-  private val whitePawnCaptures = listOf(Direction.TOP_RIGHT, Direction.TOP_LEFT)
+  private val whitePawnCaptures =
+    listOf(Direction.TOP_RIGHT, Direction.TOP_LEFT)
 
   private val blackPawnDirections = listOf(Direction.BOTTOM)
-  private val blackPawnCaptures = listOf(Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT)
+  private val blackPawnCaptures =
+    listOf(Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT)
 
   override fun getColor(): Color = color
 

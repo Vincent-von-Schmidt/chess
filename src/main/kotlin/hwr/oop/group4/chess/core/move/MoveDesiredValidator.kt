@@ -10,26 +10,57 @@ import hwr.oop.group4.chess.core.utils.Color
 
 object MoveDesiredValidator {
 
-  fun validateMove(board: BoardView, moveDesired: MoveDesired, playerAtTurnColor: Color, promoteToPiece: Piece? = null) :MoveValidated {
-    val movingPiece = board.getPiece(moveDesired.startLocation) ?: throw NoPieceException(moveDesired.startLocation)
+  fun validateMove(
+    board: BoardView,
+    moveDesired: MoveDesired,
+    playerAtTurnColor: Color,
+    promoteToPiece: Piece? = null,
+  ): MoveValidated {
+    val movingPiece =
+      board.getPiece(moveDesired.startLocation) ?: throw NoPieceException(
+        moveDesired.startLocation
+      )
     val occupyingPiece = board.getPiece(moveDesired.endLocation)
 
     validateMoveColor(movingPiece, playerAtTurnColor)
     validateMoveRules(moveDesired, movingPiece, occupyingPiece, board)
-    val toPlacePiece = validatePromotion(moveDesired, movingPiece, promoteToPiece, playerAtTurnColor) ?: movingPiece
+    val toPlacePiece = validatePromotion(
+      moveDesired,
+      movingPiece,
+      promoteToPiece,
+      playerAtTurnColor
+    ) ?: movingPiece
 
-    return MoveValidated(moveDesired.startLocation, moveDesired.endLocation, toPlacePiece)
+    return MoveValidated(
+      startLocation =  moveDesired.startLocation,
+      endLocation =  moveDesired.endLocation,
+      pieceCaptured = occupyingPiece,
+      toPlacePiece =  toPlacePiece
+    )
   }
 
   private fun validateMoveColor(movingPiece: Piece, playerAtTurnColor: Color) {
-    if (movingPiece.getColor() != playerAtTurnColor) throw InvalidMoveException(movingPiece)
+    if (movingPiece.getColor() != playerAtTurnColor) throw InvalidMoveException(
+      movingPiece
+    )
   }
 
-  private fun validateMoveRules(moveDesired: MoveDesired, movingPiece: Piece, occupyingPiece: Piece?, board: BoardView) {
+  private fun validateMoveRules(
+    moveDesired: MoveDesired,
+    movingPiece: Piece,
+    occupyingPiece: Piece?,
+    board: BoardView,
+  ) {
     val isCapture = isCapture(moveDesired, movingPiece, occupyingPiece)
-    if (isCapture && occupyingPiece is King) {throw InvalidMoveException(movingPiece, moveDesired.endLocation)}
+    if (isCapture && occupyingPiece is King) {
+      throw InvalidMoveException(movingPiece, moveDesired.endLocation)
+    }
 
-    val legalDestinations = movingPiece.getPossibleLocationsToMove(moveDesired.startLocation, board, isCapture)
+    val legalDestinations = movingPiece.getPossibleLocationsToMove(
+      moveDesired.startLocation,
+      board,
+      isCapture
+    )
     if (moveDesired.endLocation !in legalDestinations) {
       throw InvalidMoveException(
         movingPiece,
@@ -38,7 +69,12 @@ object MoveDesiredValidator {
     }
   }
 
-  private fun validatePromotion(moveDesired: MoveDesired, movingPiece: Piece, promoteToPiece: Piece?, playerAtTurnColor: Color): Piece? {
+  private fun validatePromotion(
+    moveDesired: MoveDesired,
+    movingPiece: Piece,
+    promoteToPiece: Piece?,
+    playerAtTurnColor: Color,
+  ): Piece? {
     val isPromotion =
       movingPiece is Pawn && (moveDesired.endLocation.rank == Rank.EIGHT || moveDesired.endLocation.rank == Rank.ONE)
 
@@ -49,13 +85,14 @@ object MoveDesiredValidator {
       if (promoteToPiece.getColor() != playerAtTurnColor) {
         throw InvalidPromotionException(movingPiece, promoteToPiece)
       }
-      val checkedPromoteToPiece: Piece = when (promoteToPiece) { // TODO this into parser?
-        is Queen -> Queen(playerAtTurnColor)
-        is Rook -> Rook(playerAtTurnColor)
-        is Bishop -> Bishop(playerAtTurnColor)
-        is Knight -> Knight(playerAtTurnColor)
-        else -> throw InvalidPromotionException(movingPiece, promoteToPiece)
-      }
+      val checkedPromoteToPiece: Piece =
+        when (promoteToPiece) { // TODO this into parser?
+          is Queen -> Queen(playerAtTurnColor)
+          is Rook -> Rook(playerAtTurnColor)
+          is Bishop -> Bishop(playerAtTurnColor)
+          is Knight -> Knight(playerAtTurnColor)
+          else -> throw InvalidPromotionException(movingPiece, promoteToPiece)
+        }
       return checkedPromoteToPiece
     }
     return null

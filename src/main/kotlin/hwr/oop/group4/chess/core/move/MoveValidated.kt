@@ -7,4 +7,5 @@ class MoveValidated(
   val startLocation: Location,
   val endLocation: Location,
   val toPlacePiece: Piece,
+  val pieceCaptured: Piece?,
 )

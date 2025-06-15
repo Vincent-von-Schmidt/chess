@@ -16,7 +16,7 @@ class PlayerTest : AnnotationSpec() {
     val player = Player(id, color)
 
     // Then
-    assertThat(player.id).isEqualTo(id)
-    assertThat(player.color).isEqualTo(color)
+    assertThat(player.getId()).isEqualTo(id)
+    assertThat(player.getColor()).isEqualTo(color)
   }
 }
