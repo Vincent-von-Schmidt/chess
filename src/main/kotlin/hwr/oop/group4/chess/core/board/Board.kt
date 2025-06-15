@@ -111,7 +111,8 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
     val opponentInCheck = isCheck(playerAtTurnColor.opposite())
 
-    val isCheckmate = opponentInCheck && isCheckmate(playerAtTurnColor.opposite())
+    val isCheckmate =
+      opponentInCheck && isCheckmate(playerAtTurnColor.opposite())
 
     return MoveResult(
       move = validatedMove,
@@ -147,5 +148,7 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     return false
   }
 
-   private fun isCheckmate(playerAtTurnColor: Color): Boolean {return false}
+  private fun isCheckmate(playerAtTurnColor: Color): Boolean {
+    return false
+  }
 }

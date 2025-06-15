@@ -18,7 +18,7 @@ class CheckTest : AnnotationSpec() {
   @Test
   fun `knight black throw from e4 to c5 on self check`() {
     // Given
-    val fen = FEN("K7/4R3/8/8/4n3/8/8/4k3", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("K7/4R3/8/8/4n3/8/8/4k3", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.E, Rank.FOUR)
     val endLocation = Location(File.C, Rank.FIVE)
@@ -32,23 +32,21 @@ class CheckTest : AnnotationSpec() {
     }.hasMessage("Move would leave BLACK King in check")
   }
 
-  @Test // TODO make test work
+  @Test
   fun `knight black moves from d4 to c6 checks the opposite player`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("3K4/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.C, Rank.SIX)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
-    board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val moveValidatedCheckStatus =
+      board.movePiece(moveDesired, fen.activeColor).opponentInCheck
 
     // Then
-    assertThat(pieceOnStartLocation).isNull()
-    assertThat(pieceOnEndLocation).isEqualTo(knight)
+    assertThat(moveValidatedCheckStatus).isTrue()
   }
 }

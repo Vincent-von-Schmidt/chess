@@ -6,6 +6,7 @@ import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.GeneratorFEN.generateFen
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.move.MoveResult
+import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.player.Player
 import hwr.oop.group4.chess.core.utils.Color
@@ -20,18 +21,19 @@ class Game(
 
   private val whitePlayer = Player(1, Color.WHITE)
   private val blackPlayer = Player(2, Color.BLACK)
-  private var currentPlayer = if (fen.activeColor == Color.WHITE) whitePlayer else blackPlayer
+  private var currentPlayer =
+    if (fen.activeColor == Color.WHITE) whitePlayer else blackPlayer
   private val playerScores = mutableMapOf(
     whitePlayer to 0,
     blackPlayer to 0
   )
 
-  // TODO("update these properties after each move")
+  // TODO update these properties after each move
 
   private var castle = fen.castle
   private var enPassant = fen.enPassant
-  private var halfMoveClock = fen.halfMoves
-  private var fullMoveNumber = fen.fullMoves
+  private var halfMoves = fen.halfMoves
+  private var fullMoves = fen.fullMoves
 
   var recentFENs: MutableList<FEN> = mutableListOf() // TODO make secure
   // public var recent fens is cheatable loadGame should pass the list on load of a
@@ -43,9 +45,14 @@ class Game(
 
     val moveResult =
       board.movePiece(moveDesired, currentPlayer.getColor(), promoteTo)
-    updatePlayersAfterMove(moveResult.move.pieceCaptured)
+    updateHalfMoves(moveResult.move.pieceCaptured, moveResult.move.toPlacePiece)
+    updateFullMoves()
+    updatePlayers(moveResult.move.pieceCaptured)
     this.fen = updateFen()
-    val saveGame = saveGame(this, newGame = false) // TODO save GameState (down at gameEnd) and PlayerScore
+    val saveGame = saveGame(
+      this,
+      newGame = false
+    ) // TODO save GameState (at gameEnd) and PlayerScore
     updateGameState(saveGame.recentFENs, moveResult)
     return true
   }
@@ -75,7 +82,21 @@ class Game(
   }
 
   private fun isFiftyMoveRule(): Boolean {
-    return halfMoveClock >= 50
+    return halfMoves >= 50
+  }
+
+  private fun updateFullMoves() {
+    if (currentPlayer.getColor() == Color.BLACK) {
+      fullMoves++
+    }
+  }
+
+  private fun updateHalfMoves(pieceCaptured: Piece?, movedPiece: Piece?) {
+    halfMoves = if (pieceCaptured != null || movedPiece is Pawn) {
+      0
+    } else {
+      halfMoves + 1
+    }
   }
 
   private fun updateFen(): FEN {
@@ -83,31 +104,35 @@ class Game(
       this.board,
       castle,
       enPassant,
-      halfMoveClock,
-      fullMoveNumber,
+      halfMoves,
+      fullMoves,
       currentPlayer.getColor(),
     )
   }
 
-  private fun updatePlayersAfterMove(pieceCaptured: Piece?) {
+  private fun updatePlayers(pieceCaptured: Piece?) {
     if (pieceCaptured != null) {
       val currentScore = playerScores[currentPlayer] ?: 0
       playerScores[currentPlayer] = currentScore + pieceCaptured.getValue()
-    }
-
-    if (currentPlayer == blackPlayer) {
-      fullMoveNumber++
     }
 
     switchTurn()
   }
 
   private fun switchTurn() {
-    currentPlayer = if (currentPlayer.getColor() == Color.WHITE) blackPlayer else whitePlayer
+    currentPlayer =
+      if (currentPlayer.getColor() == Color.WHITE) blackPlayer else whitePlayer
   }
 
   fun getCurrentPlayerColor(): Color {
     return currentPlayer.getColor()
+  }
+
+  fun getPlayerScore(color: Color): Int {
+    val player = if (color == Color.WHITE) {
+      whitePlayer
+    } else blackPlayer
+    return playerScores[player]!!
   }
 
   private fun updateGameState(
