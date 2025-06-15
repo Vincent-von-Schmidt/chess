@@ -6,7 +6,8 @@ import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.move.MoveDesiredValidator.validateMove
 import hwr.oop.group4.chess.core.move.MoveResult
-import hwr.oop.group4.chess.core.pieces.*
+import hwr.oop.group4.chess.core.pieces.King
+import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
 
@@ -94,9 +95,10 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
   ): MoveResult {
 
     validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
-    val validatedMove = validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
+    val validatedMove =
+      validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
 
-    // temporary move (Check-Prüfung)
+    // temporary move (Check-test)
     placePieceToField(validatedMove.endLocation, validatedMove.toPlacePiece)
     removePieceFromField(validatedMove.startLocation)
 
@@ -109,12 +111,12 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
     val opponentInCheck = isCheck(playerAtTurnColor.opposite())
 
-    // val isCheckmate = opponentInCheck && isCheckmate(playerAtTurnColor.opposite())
+    val isCheckmate = opponentInCheck && isCheckmate(playerAtTurnColor.opposite())
 
     return MoveResult(
       move = validatedMove,
       opponentInCheck = opponentInCheck,
-      isCheckmate = false // isCheckmate
+      isCheckmate = isCheckmate
     )
   }
 
@@ -128,11 +130,15 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     }
   }
 
-  private fun isSquareUnderAttack(target: Location, attackerColor: Color): Boolean {
+  private fun isSquareUnderAttack(
+    target: Location,
+    attackerColor: Color,
+  ): Boolean {
     for ((location) in fields) {
       val piece = getPiece(location) ?: continue
       if (piece.getColor() == attackerColor) {
-        val possibleMoves = piece.getPossibleLocationsToMove(location, this, true)
+        val possibleMoves =
+          piece.getPossibleLocationsToMove(location, this, true)
         if (target in possibleMoves) {
           return true
         }
@@ -141,5 +147,5 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     return false
   }
 
-  // private fun isCheckmate(playerAtTurnColor: Color): Boolean {return false}
+   private fun isCheckmate(playerAtTurnColor: Color): Boolean {return false}
 }

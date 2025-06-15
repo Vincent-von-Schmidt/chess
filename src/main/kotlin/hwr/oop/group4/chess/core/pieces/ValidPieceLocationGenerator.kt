@@ -16,15 +16,15 @@ object ValidPieceLocationGenerator {
     val possibleLocations = mutableListOf<Location>()
 
     for (direction in directions) {
-      var current = from
+      var currentLocation = from
       var steps = 0
 
       while (steps < maxSteps) {
-        val field = board.getField(current)
+        val field = board.getField(currentLocation)
         // use of direction constructor, that gives the next field after direction back
         val nextField = direction.move(field) ?: break
-        current = nextField.location
-        possibleLocations.add(current)
+        currentLocation = nextField.location
+        possibleLocations.add(currentLocation)
 
         if (nextField.piece != null) {
           break

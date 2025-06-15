@@ -6,7 +6,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 class InvalidMoveException(
   movingPiece: Piece? = null,
   endLoc: Location? = null,
-  occupyingPiece: Piece? = null
+  occupyingPiece: Piece? = null,
 ) : Exception(
   when {
 

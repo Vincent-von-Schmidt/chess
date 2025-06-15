@@ -39,7 +39,7 @@ class Cli(
         val game = gameStorage.loadGame(id)
         val gameString = game.boardToAscii()
         print(gameString)
-        println("${game.current.color} to move.")
+        println("${game.getCurrentPlayerColor()} to move.")
       }
 
       "on" -> {
@@ -54,10 +54,13 @@ class Cli(
         val to = StringParser.parseLocationFromString(args[5])
         val moveDesired = MoveDesired(from, to)
         val game = gameStorage.loadGame(id)
-        val playerToMove = game.current.color
+        val playerToMove = game.getCurrentPlayerColor()
 
         val promoteTo: Piece? =
-          if (args.size == 7) StringParser.parsePromotionPieceFromString(args[6], color = playerToMove) else null
+          if (args.size == 7) StringParser.parsePromotionPieceFromString(
+            args[6],
+            color = playerToMove
+          ) else null
         try {
           game.movePiece(moveDesired, promoteTo)
         } catch (e: GameOverException) {

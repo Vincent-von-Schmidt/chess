@@ -8,7 +8,7 @@ import hwr.oop.group4.chess.core.utils.Color
 
 data class King(private val color: Color) : Piece {
   private val name = "King"
-  private val value = 10
+  private val value = 0
   private val directions = listOf(
     Direction.TOP_LEFT,
     Direction.TOP,
