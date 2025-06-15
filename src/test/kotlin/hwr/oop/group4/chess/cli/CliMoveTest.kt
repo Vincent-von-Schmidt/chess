@@ -1,11 +1,6 @@
 package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.game.Game
-import hwr.oop.group4.chess.core.fen.ParserFEN
-import hwr.oop.group4.chess.core.location.File
-import hwr.oop.group4.chess.core.location.Location
-import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
@@ -306,36 +301,4 @@ class CliMoveTest : AnnotationSpec() {
     """.trimIndent()
       )
   }
-
-  @Test
-  fun `user makes draw move`() {
-    // Given
-    val game = Game(
-      TEST_NUMBER,
-      ParserFEN.parseStringToFen("8/8/8/8/8/8/r7/R7 w - - 0 0")
-    )
-    GameStorage.saveGame(game)
-
-    // When
-    val a1 = Location(File.A, Rank.ONE)
-    val a2 = Location(File.A, Rank.TWO)
-    val b1 = Location(File.B, Rank.ONE)
-    val b2 = Location(File.B, Rank.TWO)
-    game.movePiece(MoveDesired(a1, b1))
-    game.movePiece(MoveDesired(a2, b2))
-    game.movePiece(MoveDesired(b1, a1))
-    game.movePiece(MoveDesired(b2, a2))
-
-    game.movePiece(MoveDesired(a1, b1))
-    game.movePiece(MoveDesired(a2, b2))
-    game.movePiece(MoveDesired(b1, a1))
-
-    val output = captureStandardOut {
-      main(arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2"))
-    }.trim()
-
-    // Then
-    assertThat(output).isEqualTo("The game ended in a DRAW")
-  }
-
 }

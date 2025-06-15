@@ -32,10 +32,10 @@ object MoveDesiredValidator {
     ) ?: movingPiece
 
     return MoveValidated(
-      startLocation =  moveDesired.startLocation,
-      endLocation =  moveDesired.endLocation,
+      startLocation = moveDesired.startLocation,
+      endLocation = moveDesired.endLocation,
       pieceCaptured = occupyingPiece,
-      toPlacePiece =  toPlacePiece
+      toPlacePiece = toPlacePiece
     )
   }
 

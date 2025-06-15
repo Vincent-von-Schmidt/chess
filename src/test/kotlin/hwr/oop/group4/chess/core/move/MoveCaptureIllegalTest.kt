@@ -10,7 +10,6 @@ import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Queen
 import hwr.oop.group4.chess.core.utils.Color
 import io.kotest.core.spec.style.AnnotationSpec
-import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class MoveCaptureIllegalTest : AnnotationSpec() {

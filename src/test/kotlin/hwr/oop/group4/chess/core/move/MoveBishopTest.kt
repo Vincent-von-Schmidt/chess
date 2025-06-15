@@ -18,7 +18,7 @@ class MoveBishopTest : AnnotationSpec() {
     castle = "-",
     enPassant = "-",
     halfMoves = 0,
-    fullMoves = 1
+    fullMoves = 0
   )
 
   @Test
