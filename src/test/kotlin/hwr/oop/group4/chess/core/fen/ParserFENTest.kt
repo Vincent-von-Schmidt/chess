@@ -8,68 +8,89 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class ParserFENTest : AnnotationSpec() {
 
+  val fen ="rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
+
   @Test
   fun `piece placement list is created correctly`() {
-    val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
-    val parsedFen = ParserFEN.parseStringToFen(notationExample)
-    assertThat(parsedFen.piecePlacement).isEqualTo("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR")
+    // Given
+    val expectedPiecePlacement = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR"
+
+    // When
+    val parsedFenPiecePlacement = ParserFEN.parseStringToFen(fen).piecePlacement
+
+    // Then
+    assertThat(parsedFenPiecePlacement).isEqualTo(expectedPiecePlacement)
   }
 
   @Test
   fun `active color is read as white`() {
-    val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
-    val parsedFen = ParserFEN.parseStringToFen(notationExample)
-    assertThat(parsedFen.activeColor).isEqualTo(Color.WHITE)
+    // Given
+    val expectedColor = Color.WHITE
+
+    // When
+    val parsedFenColor = ParserFEN.parseStringToFen(fen).activeColor
+
+    // Then
+    assertThat(parsedFenColor).isEqualTo(expectedColor)
   }
 
   @Test
   fun `active color is read as black`() {
-    val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR b KQkq c6 0 2"
-    val parsedFen = ParserFEN.parseStringToFen(notationExample)
-    assertThat(parsedFen.activeColor).isEqualTo(Color.BLACK)
+    //Given
+    val fen ="rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR b KQkq c6 0 2"
+    val expectedColor = Color.BLACK
+
+    //When
+    val parsedFenColor = ParserFEN.parseStringToFen(fen).activeColor
+
+    //Then
+    assertThat(parsedFenColor).isEqualTo(expectedColor)
   }
 
   @Test
-  fun `active color throws an error on wrong color`() {
-    val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR t KQkq c6 0 2"
-    assertThatThrownBy { ParserFEN.parseStringToFen(notationExample) }.hasMessage(
+  fun `throw on wrong color`() {
+    //Given
+    val fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR o KQkq c6 0 2"
+
+    // Then
+    assertThatThrownBy { ParserFEN.parseStringToFen(fen) }.hasMessage(
       "Invalid color"
-    ) // WRONG THO
+    )
   }
 
   @Test
   fun `castle is read correctly`() {
-    val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
-    val parsedFen = ParserFEN.parseStringToFen(notationExample)
-    assertThat(parsedFen.castle).isEqualTo("KQkq")
+    // When
+    val parsedFenCastle = ParserFEN.parseStringToFen(fen).castle
+
+    // Then
+    assertThat(parsedFenCastle).isEqualTo("KQkq")
   }
 
   @Test
   fun `en passant is read correctly`() {
-    val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
-    val parsedFen = ParserFEN.parseStringToFen(notationExample)
-    assertThat(parsedFen.enPassant).isEqualTo("c6")
+    //When
+    val parsedFenEnPassant = ParserFEN.parseStringToFen(fen).enPassant
+
+    // Then
+    assertThat(parsedFenEnPassant).isEqualTo("c6")
   }
 
   @Test
-  fun `halfmoves are read correctly`() {
-    val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
-    val parsedFen = ParserFEN.parseStringToFen(notationExample)
-    assertThat(parsedFen.halfMoves).isEqualTo(0)
+  fun `halfMoves are read correctly`() {
+    // When
+    val parsedFenHalfMoves = ParserFEN.parseStringToFen(fen).halfMoves
+
+    // Then
+    assertThat(parsedFenHalfMoves).isEqualTo(0)
   }
 
   @Test
-  fun `fullmove are read correctly`() {
-    val notationExample =
-      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
-    val parsedFen = ParserFEN.parseStringToFen(notationExample)
-    assertThat(parsedFen.fullMoves).isEqualTo(2)
+  fun `fullMoves are read correctly`() {
+    // When
+    val parsedFenFullMoves = ParserFEN.parseStringToFen(fen).fullMoves
+
+    //Then
+    assertThat(parsedFenFullMoves).isEqualTo(2)
   }
 }

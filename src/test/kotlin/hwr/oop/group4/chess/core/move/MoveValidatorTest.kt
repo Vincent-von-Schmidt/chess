@@ -20,9 +20,9 @@ class MoveValidatorTest : AnnotationSpec() {
     // When
     val move = MoveDesired(startLocation, endLocation)
     val result = MoveDesiredValidator.validateMove(
-      board = board,
-      moveDesired = move,
-      playerAtTurnColor = Color.WHITE
+      board,
+      move,
+      Color.WHITE
     )
     val validatedEndLocation = result.endLocation
     val validatedStartLocation = result.startLocation

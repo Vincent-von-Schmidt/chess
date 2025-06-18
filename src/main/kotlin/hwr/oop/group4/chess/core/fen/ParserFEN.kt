@@ -5,6 +5,7 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.InvalidColorException
 import hwr.oop.group4.chess.core.utils.StringParser
 
 object ParserFEN {
@@ -16,7 +17,7 @@ object ParserFEN {
       activeColor = when (parts[1]) {
         "w" -> Color.WHITE
         "b" -> Color.BLACK
-        else -> throw IllegalArgumentException("Invalid color")
+        else -> throw InvalidColorException()
       },
       castle = parts[2],
       enPassant = parts[3],

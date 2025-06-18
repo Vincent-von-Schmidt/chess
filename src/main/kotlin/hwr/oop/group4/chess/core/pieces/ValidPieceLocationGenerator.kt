@@ -26,7 +26,7 @@ object ValidPieceLocationGenerator {
         currentLocation = nextField.location
         possibleLocations.add(currentLocation)
 
-        if (nextField.piece != null) {
+        if (nextField.getPiece() != null) {
           break
         }
         steps++

@@ -12,14 +12,7 @@ import org.assertj.core.api.Assertions.assertThat
 
 class MoveBishopTest : AnnotationSpec() {
 
-  val fen = FEN(
-    piecePlacement = "2b5/8/8/8/8/8/8/8",
-    activeColor = Color.BLACK,
-    castle = "-",
-    enPassant = "-",
-    halfMoves = 0,
-    fullMoves = 0
-  )
+  val fen = FEN("2b5/8/8/8/8/8/8/8", Color.BLACK, "-", "-", 0, 0)
 
   @Test
   fun `bishop moves from c8 to b7`() {
@@ -34,8 +27,8 @@ class MoveBishopTest : AnnotationSpec() {
     board.movePiece(moveDesired, fen.activeColor)
 
     // Then
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     assertThat(pieceOnStartLocation).isNull()
     assertThat(pieceOnEndLocation).isEqualTo(bishop)
@@ -52,8 +45,8 @@ class MoveBishopTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -71,8 +64,8 @@ class MoveBishopTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -90,8 +83,8 @@ class MoveBishopTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()

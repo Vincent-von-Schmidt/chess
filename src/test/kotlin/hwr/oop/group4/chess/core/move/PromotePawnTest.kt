@@ -21,7 +21,7 @@ class PromotePawnTest : AnnotationSpec() {
   @Test
   fun `pawn black promotes from d2 to d1 to Bishop`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/3p4/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/3p4/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.D, Rank.TWO)
     val endLocation = Location(File.D, Rank.ONE)
@@ -42,7 +42,7 @@ class PromotePawnTest : AnnotationSpec() {
   @Test
   fun `pawn black throw on promote from d2 to d1 to white bishop`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/3p4/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/3p4/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.D, Rank.TWO)
     val endLocation = Location(File.D, Rank.ONE)
@@ -60,7 +60,7 @@ class PromotePawnTest : AnnotationSpec() {
   @Test
   fun `pawn white promotes from d7 to d8 to Rook`() {
     // Given
-    val fen = FEN("8/3P4/8/8/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/3P4/8/8/8/8/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.D, Rank.SEVEN)
     val endLocation = Location(File.D, Rank.EIGHT) // legal move
@@ -80,7 +80,7 @@ class PromotePawnTest : AnnotationSpec() {
   @Test
   fun `pawn white throw on on reaching Rank without piece to promote to`() {
     // Given
-    val fen = FEN("8/3P4/8/8/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/3P4/8/8/8/8/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.D, Rank.SEVEN)
     val endLocation = Location(File.D, Rank.EIGHT)
@@ -97,7 +97,7 @@ class PromotePawnTest : AnnotationSpec() {
   @Test
   fun `pawn white throw on on reaching Rank with wrong piece to promote to selected`() {
     // Given
-    val fen = FEN("8/3P4/8/8/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/3P4/8/8/8/8/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.D, Rank.SEVEN)
     val endLocation = Location(File.D, Rank.EIGHT)

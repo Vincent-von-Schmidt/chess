@@ -17,7 +17,7 @@ class MoveTurnTest : AnnotationSpec() {
   @Test
   fun `white player cant move black pawn`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/p7/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/p7/8", Color.WHITE, "-", "-", 0, 0)
     game = Game(TEST_NUMBER, fen)
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.ONE)
@@ -34,7 +34,7 @@ class MoveTurnTest : AnnotationSpec() {
   @Test
   fun `black player cant move white queen`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/Q7/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/Q7/8", Color.BLACK, "-", "-", 0, 0)
     game = Game(TEST_NUMBER, fen)
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.ONE)

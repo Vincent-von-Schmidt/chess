@@ -4,11 +4,11 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Piece
 
 class Field(val location: Location) {
-  var top: Field? = null
+  var top: Field? = null // TODO public var directions as well as placePiece.. what should i do bout it?
   var bottom: Field? = null
   var left: Field? = null
   var right: Field? = null
-  var piece: Piece? = null
+  private var piece: Piece? = null
 
   fun connectTop(field: Field) {
     this.top = field
@@ -24,5 +24,13 @@ class Field(val location: Location) {
 
   fun connectRight(field: Field) {
     this.right = field
+  }
+
+  fun getPiece(): Piece? {
+    return this.piece
+  }
+
+  fun placePiece(piece: Piece?) {
+    this.piece = piece
   }
 }

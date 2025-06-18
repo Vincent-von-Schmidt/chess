@@ -17,45 +17,46 @@ class BoardTest : AnnotationSpec() {
   }
 
   @Test
-  fun `field d4 is accessible via pointers`() {
+  fun `field d4 is accessible via field map`() {
+    // Given
     val location = Location(File.D, Rank.FOUR)
 
-    assertThat(board.getField(location).location.description).isEqualTo("D4")
-  }
+    // When
+    val d4Location = board.getField(location).location.description
 
-  @Test
-  fun `field h1 is accessible via pointers`() {
-    val location = Location(File.H, Rank.ONE)
-
-    assertThat(board.getField(location).location.description).isEqualTo("H1")
-  }
-
-  @Test
-  fun `field a8 is accessible via pointers`() {
-    val location = Location(File.A, Rank.EIGHT)
-
-    assertThat(board.getField(location).location.description).isEqualTo("A8")
+    // Then
+    assertThat(d4Location).isEqualTo("D4")
   }
 
   @Test
   fun `board with no fen given loads correctly`() {
     // Given
     val board = BoardFactory.generateBoardFromFen()
-    val location = Location(File.E, Rank.ONE)
-    val pieceAtLocation = board.getField(location).piece?.getDescription()
+    val e1Location = Location(File.E, Rank.ONE)
+    val g7Location = Location(File.G, Rank.SEVEN)
+
+    // When
+    val pieceAtLocationE1 = board.getPiece(e1Location)?.getDescription()
+    val pieceAtLocationG7 = board.getPiece(g7Location)?.getDescription()
 
     // Then
-    assertThat(pieceAtLocation).isEqualTo("WHITE King")
+    assertThat(pieceAtLocationE1).isEqualTo("WHITE King")
+    assertThat(pieceAtLocationG7).isEqualTo("BLACK Pawn")
   }
 
   @Test
   fun `board with empty_fen given is empty`() {
     // Given
     val board = BoardFactory.generateBoardFromFen(EMPTY_BOARD)
-    val location = Location(File.E, Rank.ONE)
-    val pieceAtLocation = board.getField(location).piece?.getDescription()
+    val e1Location = Location(File.E, Rank.ONE)
+    val g7Location = Location(File.G, Rank.SEVEN)
+
+    // When
+    val pieceAtLocationE1 = board.getPiece(e1Location)?.getDescription()
+    val pieceAtLocationG7 = board.getPiece(g7Location)?.getDescription()
 
     // Then
-    assertThat(pieceAtLocation).isNull()
+    assertThat(pieceAtLocationE1).isNull()
+    assertThat(pieceAtLocationG7).isNull()
   }
 }

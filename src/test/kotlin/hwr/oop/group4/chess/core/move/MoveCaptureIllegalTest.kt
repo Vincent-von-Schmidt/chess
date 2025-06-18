@@ -19,17 +19,8 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
   @Test
   fun `pawn black throw on wrong capture white queen`() {
     // Given
-    val fen = FEN(
-      piecePlacement = "8/8/8/3p4/3Q4/8/8/8",
-      activeColor = Color.BLACK,
-      castle = "-",
-      enPassant = "-",
-      halfMoves = 0,
-      fullMoves = 1
-    )
+    val fen = FEN("8/8/8/3p4/3Q4/8/8/8", Color.BLACK,"-","-",0,0)
     val board = BoardFactory.generateBoardFromFen(fen)
-    val pawn = Pawn(Color.BLACK)
-    val queen = Queen(Color.WHITE)
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.FOUR)
 
@@ -43,9 +34,8 @@ class MoveCaptureIllegalTest : AnnotationSpec() {
   @Test
   fun `knight white throw on capture black king`() {
     // Given
-    val fen = FEN("8/8/8/8/5k2/3N4/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/5k2/3N4/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.THREE)).piece
     val startLocation = Location(File.D, Rank.THREE)
     val endLocation = Location(File.F, Rank.FOUR)
 

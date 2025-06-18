@@ -17,17 +17,17 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `pawn white captures black queen`() {
     // Given
-    val fen = FEN("8/8/8/8/4q3/3P4/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/4q3/3P4/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val pawn = board.getField(Location(File.D, Rank.THREE)).piece
+    val pawn = board.getPiece(Location(File.D, Rank.THREE))
     val startLocation = Location(File.D, Rank.THREE)
     val endLocation = Location(File.E, Rank.FOUR)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -37,17 +37,17 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `king white captures black rook`() {
     // Given
-    val fen = FEN("8/8/8/8/4r3/3K4/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/4r3/3K4/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val king = board.getField(Location(File.D, Rank.THREE)).piece
+    val king = board.getPiece(Location(File.D, Rank.THREE))
     val startLocation = Location(File.D, Rank.THREE)
     val endLocation = Location(File.E, Rank.FOUR)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -57,17 +57,17 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `queen white captures black rook`() {
     // Given
-    val fen = FEN("6r1/8/8/3Q4/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("6r1/8/8/3Q4/8/8/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val queen = board.getField(Location(File.D, Rank.FIVE)).piece
+    val queen = board.getPiece(Location(File.D, Rank.FIVE))
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.G, Rank.EIGHT)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -77,17 +77,17 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `bishop white captures black rook`() {
     // Given
-    val fen = FEN("6r1/8/8/3B4/8/8/8/8", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("6r1/8/8/3B4/8/8/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val bishop = board.getField(Location(File.D, Rank.FIVE)).piece
+    val bishop = board.getPiece(Location(File.D, Rank.FIVE))
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.G, Rank.EIGHT)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -97,17 +97,17 @@ class MoveCaptureLegalTest : AnnotationSpec() {
   @Test
   fun `rook white captures black bishop`() {
     // Given
-    val fen = FEN("8/8/8/3R4/8/8/8/3b4", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/3R4/8/8/8/3b4", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val rook = board.getField(Location(File.D, Rank.FIVE)).piece
+    val rook = board.getPiece(Location(File.D, Rank.FIVE))
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.D, Rank.ONE)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()

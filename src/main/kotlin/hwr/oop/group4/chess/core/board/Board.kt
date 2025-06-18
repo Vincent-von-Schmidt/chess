@@ -66,13 +66,13 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
   }
 
   override fun getPiece(location: Location): Piece? {
-    return getField(location).piece
+    return getField(location).getPiece()
   }
 
   private fun findKing(color: Color): Location {
     val king = King(color)
     for ((location, field) in fields) {
-      val piece = field.piece
+      val piece = field.getPiece()
       if (piece is King && piece.getColor() == color) {
         return location
       }
@@ -81,11 +81,11 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
   }
 
   private fun removePieceFromField(location: Location) {
-    getField(location).piece = null
+    getField(location).placePiece(null)
   }
 
   private fun placePieceToField(location: Location, piece: Piece) {
-    getField(location).piece = piece
+    getField(location).placePiece(piece)
   }
 
   fun movePiece(
