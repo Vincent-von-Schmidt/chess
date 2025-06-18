@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.core.fen
 
 import hwr.oop.group4.chess.core.utils.Color
-import hwr.oop.group4.chess.core.utils.toFenChar
+import hwr.oop.group4.chess.core.utils.toChar
 
 class FEN(
   val piecePlacement: String,
@@ -13,7 +13,7 @@ class FEN(
 ) {
 
   override fun toString(): String {
-    return "$piecePlacement ${activeColor.toFenChar()} ${castle.ifEmpty { "-" }} ${enPassant.ifEmpty { "-" }} $halfMoves $fullMoves"
+    return "$piecePlacement ${activeColor.toChar()} ${castle.ifEmpty { "-" }} ${enPassant.ifEmpty { "-" }} $halfMoves $fullMoves"
   }
 
   override fun equals(other: Any?): Boolean {

@@ -10,7 +10,7 @@ fun Color.opposite(): Color =
     Color.BLACK -> Color.WHITE
   }
 
-fun Color.toFenChar(): Char =
+fun Color.toChar(): Char =
   when (this) {
     Color.WHITE -> 'w'
     Color.BLACK -> 'b'
