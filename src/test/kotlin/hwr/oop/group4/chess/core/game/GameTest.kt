@@ -14,8 +14,13 @@ import org.assertj.core.api.Assertions.assertThat
 
 class GameTest : AnnotationSpec() {
 
+  @BeforeEach
+  fun setup() {
+    GameStorage.deleteGame(Game(TEST_NUMBER))
+  }
+
   @Test
-  fun `init game`() {
+  fun `create game`() {
     // Given
     val id = TEST_NUMBER
 
@@ -32,13 +37,13 @@ class GameTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     val outputAsciiExpected = """
-    r n b q k b n r 
-    p p p p p p p p 
-    - - - - - - - - 
-    - - - - - - - - 
-    - - - - - - - - 
-    - - - - - - - - 
-    P P P P P P P P 
+    r n b q k b n r
+    p p p p p p p p
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    P P P P P P P P
     R N B Q K B N R""".trimIndent()
 
     // When
@@ -51,19 +56,18 @@ class GameTest : AnnotationSpec() {
   @Test
   fun `board to string after move asciiArt`() {
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER))
     val game = Game(TEST_NUMBER)
     val moveDesired =
       MoveDesired(Location(File.E, Rank.TWO), Location(File.E, Rank.THREE))
     game.movePiece(moveDesired, promoteTo = null)
     val outputAsciiExpected = """
-    r n b q k b n r 
-    p p p p p p p p 
-    - - - - - - - - 
-    - - - - - - - - 
-    - - - - - - - - 
-    - - - - P - - - 
-    P P P P - P P P 
+    r n b q k b n r
+    p p p p p p p p
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    - - - - P - - -
+    P P P P - P P P
     R N B Q K B N R""".trimIndent()
 
     // When
@@ -77,7 +81,6 @@ class GameTest : AnnotationSpec() {
   fun `game move piece`() {
 
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER)) // TODO when deleting this DRAW exception?? other dont delete the safe, and ist okay?
     val game = Game(TEST_NUMBER)
     val board = game.board
     val startLocation = Location(File.E, Rank.TWO)
@@ -87,8 +90,8 @@ class GameTest : AnnotationSpec() {
 
     // When
     game.movePiece(moveDesired)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(game.fen).isNotEqualTo(STARTING_POSITION)
@@ -99,20 +102,19 @@ class GameTest : AnnotationSpec() {
   @Test
   fun `both players make turns asciiArt`() {
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER))
     val game = Game(TEST_NUMBER)
     val moveDesiredWhite =
       MoveDesired(Location(File.E, Rank.TWO), Location(File.E, Rank.THREE))
     val moveDesiredBlack =
       MoveDesired(Location(File.E, Rank.SEVEN), Location(File.E, Rank.SIX))
     val outputAsciiExpected = """
-    r n b q k b n r 
-    p p p p - p p p 
-    - - - - p - - - 
-    - - - - - - - - 
-    - - - - - - - - 
-    - - - - P - - - 
-    P P P P - P P P 
+    r n b q k b n r
+    p p p p - p p p
+    - - - - p - - -
+    - - - - - - - -
+    - - - - - - - -
+    - - - - P - - -
+    P P P P - P P P
     R N B Q K B N R""".trimIndent()
 
     // When
@@ -127,7 +129,6 @@ class GameTest : AnnotationSpec() {
   @Test
   fun `player get score on capture`() {
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER))
     val game = Game(TEST_NUMBER)
 
     // Moves to free up diagonals and lines for captures
@@ -175,7 +176,7 @@ class GameTest : AnnotationSpec() {
       MoveDesired(
         Location(File.H, Rank.THREE),
         Location(File.G, Rank.FOUR)
-      ), // white pawn takse bishop
+      ), // white pawn takes bishop
       MoveDesired(
         Location(File.D, Rank.SEVEN),
         Location(File.D, Rank.EIGHT)
@@ -191,7 +192,7 @@ class GameTest : AnnotationSpec() {
     )
 
     // When
-    moves.forEach { game.movePiece(it) } // TODO rewrite big move sets like this.. kinda genius
+    moves.forEach { game.movePiece(it) }
 
     // Then
     val blackPlayerScore = game.getPlayerScore(Color.BLACK)

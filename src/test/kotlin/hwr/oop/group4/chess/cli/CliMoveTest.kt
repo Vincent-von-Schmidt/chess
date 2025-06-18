@@ -19,9 +19,20 @@ class CliMoveTest : AnnotationSpec() {
   }
 
   @Test
-  fun `user prompts valid move`() {
+  fun `valid move prompt creates AsciiArt`() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
+    val expectedAsciiArt = """
+    r n b q k b n r
+    p p p p p p p p
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    - - - - P - - -
+    P P P P - P P P
+    R N B Q K B N R
+    BLACK to move.
+    """.trimIndent()
 
     // When
     val outputMove = captureStandardOut {
@@ -34,13 +45,24 @@ class CliMoveTest : AnnotationSpec() {
 
     // Then
     assertThat(outputMove).isEqualTo("Move from E2 to E3 executed.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - P - - - \nP P P P - P P P \nR N B Q K B N R \nBLACK to move.")
+    assertThat(outputShow).isEqualTo(expectedAsciiArt)
   }
 
   @Test
-  fun `user prompts invalid move`() {
+  fun `invalid move prompt creates AsciiArt`() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
+    val expectedAsciiArt = """
+    r n b q k b n r
+    p p p p p p p p
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    P P P P P P P P
+    R N B Q K B N R
+    WHITE to move.
+    """.trimIndent()
 
     // When
     val outputMove = captureStandardOut {
@@ -53,252 +75,173 @@ class CliMoveTest : AnnotationSpec() {
 
     // Then
     assertThat(outputMove).isEqualTo("Invalid move from E2 to E5.")
-    assertThat(outputShow).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \nWHITE to move.")
+    assertThat(outputShow).isEqualTo(expectedAsciiArt)
   }
 
   @Test
-  fun `user prompts less than 6 args`() {
+  fun `throw on prompt with less than 6 arguments`() {
+    // Given
+    val arguments = arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to")
+    val errorMessage = """
+    No valid command provided. Try one of the following:
+    chess new_game <id>
+    chess game show <id>
+    chess on <id> move <from> to <to> <promotion-title>
+    """.trimIndent()
+
     // Then
-    assertThatThrownBy {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "move",
-          "e2",
-          "to"
-        )
-      )
-    }
-      .hasMessage(
-        """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-      )
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts more than 7 args`() {
+  fun `throw on prompts with more than 7 arguments`() {
+    // Given
+    val arguments = arrayOf(
+      "on",
+      TEST_NUMBER.toString(),
+      "move",
+      "e2",
+      "to",
+      "e4",
+      "queen",
+      "extra"
+    )
+    val errorMessage = """
+    No valid command provided. Try one of the following:
+    chess new_game <id>
+    chess game show <id>
+    chess on <id> move <from> to <to> <promotion-title>
+    """.trimIndent()
+
     // Then
-    assertThatThrownBy {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "move",
-          "e2",
-          "to",
-          "e4",
-          "queen",
-          "extra"
-        )
-      )
-    }
-      .hasMessage(
-        """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-      )
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts invalid id format`() {
+  fun `throw on prompt with invalid id`() {
+    // Given
+    val arguments = arrayOf("on", "invalid_id", "move", "e2", "to", "e4")
+    val errorMessage = """
+    Error: <id> must be a valid integer!
+    """.trimIndent()
+
     // Then
-    assertThatThrownBy {
-      main(
-        arrayOf(
-          "on",
-          "invalid_id",
-          "move",
-          "e2",
-          "to",
-          "e4"
-        )
-      )
-    }
-      .hasMessage(
-        """
-        Error: <id> must be a valid integer!
-        """.trimIndent()
-      )
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts invalid keyword move`() {
+  fun `throw on prompt with invalid move keyword`() {
+    // Given
+    val arguments =
+      arrayOf("on", TEST_NUMBER.toString(), "invalid_keyword", "e2", "to", "e4")
+    val errorMessage = """
+    No valid command provided. Try one of the following:
+    chess new_game <id>
+    chess game show <id>
+    chess on <id> move <from> to <to> <promotion-title>
+    """.trimIndent()
+
     // Then
-    assertThatThrownBy {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "invalid_keyword",
-          "e2",
-          "to",
-          "e4"
-        )
-      )
-    }
-      .hasMessage(
-        """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-      )
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts invalid keyword to`() {
+  fun `throw on prompt with invalid to keyword`() {
+    // Given
+    val arguments =
+      arrayOf(
+        "on",
+        TEST_NUMBER.toString(),
+        "move",
+        "e2",
+        "invalid_keyword",
+        "e4"
+      )
+    val errorMessage = """
+    No valid command provided. Try one of the following:
+    chess new_game <id>
+    chess game show <id>
+    chess on <id> move <from> to <to> <promotion-title>
+    """.trimIndent()
+
     // Then
-    assertThatThrownBy {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "move",
-          "e2",
-          "invalid_keyword",
-          "e4"
-        )
-      )
-    }
-      .hasMessage(
-        """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-      )
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts right promotion-title queen`() {
+  fun `prompt with promotion to queen`() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
+    val arguments =
+      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "queen")
 
     // When
-    val outputMove = captureStandardOut {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "move",
-          "a2",
-          "to",
-          "a4",
-          "queen"
-        )
-      )
-    }.trim()
+    val outputMove = captureStandardOut { main(arguments) }.trim()
 
     // Then
     assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
   }
 
   @Test
-  fun `user prompts right promotion-title rook`() {
+  fun `prompt with promotion to rook`() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
+    val arguments =
+      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "rook")
 
     // When
-    val outputMove = captureStandardOut {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "move",
-          "a2",
-          "to",
-          "a4",
-          "rook"
-        )
-      )
-    }.trim()
+    val outputMove = captureStandardOut { main(arguments) }.trim()
 
     // Then
     assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
   }
 
   @Test
-  fun `user prompts right promotion-title bishop`() {
+  fun `prompt with promotion to bishop`() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
+    val arguments =
+      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4")
 
     // When
-    val outputMove = captureStandardOut {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "move",
-          "a2",
-          "to",
-          "a4",
-          "bishop"
-        )
-      )
-    }.trim()
+    val outputMove = captureStandardOut { main(arguments) }.trim()
 
     // Then
     assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
   }
 
   @Test
-  fun `user prompts right promotion-title knight`() {
+  fun `prompt with promotion to knight`() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
+    val arguments =
+      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "knight")
 
     // When
-    val outputMove = captureStandardOut {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "move",
-          "a2",
-          "to",
-          "a4",
-          "knight"
-        )
-      )
-    }.trim()
+    val outputMove = captureStandardOut { main(arguments) }.trim()
 
     // Then
     assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
   }
 
   @Test
-  fun `user prompts wrong promotion-title`() {
+  fun `throw on prompt with wrong promotion argument`() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
-
-    // Then
-    assertThatThrownBy {
-      main(
-        arrayOf(
-          "on",
-          TEST_NUMBER.toString(),
-          "move",
-          "a2",
-          "to",
-          "a4",
-          "wrong"
-        )
-      )
-    }
-      .hasMessage(
-        """
+    val arguments =
+      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "wrong")
+    val errorMessage = """
     Valid Promotions are...
     ...Queen, Rook, Bishop, Knight.  
     """.trimIndent()
-      )
+
+    // Then
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 }

@@ -8,6 +8,7 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.utils.Color
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.mpp.start
 import org.assertj.core.api.Assertions.assertThat
 
 class MoveKnightTest : AnnotationSpec() {
@@ -17,17 +18,17 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to b5`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+    val knight = board.getPiece(Location(File.D, Rank.FOUR))
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.B, Rank.FIVE)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -37,17 +38,17 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to c6`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+    val knight = board.getPiece(Location(File.D, Rank.FOUR))
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.C, Rank.SIX)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -57,17 +58,17 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to e6`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+    val knight = board.getPiece(Location(File.D, Rank.FOUR))
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.E, Rank.SIX)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -77,17 +78,17 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to f5`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+    val knight = board.getPiece(Location(File.D, Rank.FOUR))
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.F, Rank.FIVE)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -97,17 +98,17 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to b3`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+    val knight = board.getPiece(Location(File.D, Rank.FOUR))
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.B, Rank.THREE)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -117,17 +118,17 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to c2`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+    val knight = board.getPiece(Location(File.D, Rank.FOUR))
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.C, Rank.TWO)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -137,17 +138,17 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to e2`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+    val knight = board.getPiece(Location(File.D, Rank.FOUR))
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.E, Rank.TWO)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -157,17 +158,17 @@ class MoveKnightTest : AnnotationSpec() {
   @Test
   fun `knight moves from d4 to f3`() {
     // Given
-    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/3n4/8/8/8", Color.BLACK, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
-    val knight = board.getField(Location(File.D, Rank.FOUR)).piece
+    val knight = board.getPiece(Location(File.D, Rank.FOUR))
     val startLocation = Location(File.D, Rank.FOUR)
     val endLocation = Location(File.F, Rank.THREE)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()

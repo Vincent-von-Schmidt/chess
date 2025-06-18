@@ -15,7 +15,7 @@ class MoveQueenTest : AnnotationSpec() {
 
   private lateinit var board: Board
   private val queen = Queen(Color.WHITE)
-  private val fen = FEN("8/8/8/8/8/8/8/3Q4", Color.WHITE, "-", "-", 0, 1)
+  private val fen = FEN("8/8/8/8/8/8/8/3Q4", Color.WHITE, "-", "-", 0, 0)
   val startLocation = Location(File.D, Rank.ONE)
 
   @Test
@@ -27,8 +27,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -44,8 +44,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -61,8 +61,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -78,8 +78,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -95,8 +95,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -112,8 +112,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -129,8 +129,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -146,8 +146,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -163,8 +163,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -180,8 +180,8 @@ class MoveQueenTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()

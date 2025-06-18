@@ -59,19 +59,20 @@ class Game(
 
   fun boardToAscii(): String {
     val piecePlacement = fen.piecePlacement.split("/")
-    var boardString = ""
+    val boardLines = mutableListOf<String>()
+
     for (rank in piecePlacement) {
-      var lineString = ""
+      val lineBuilder = StringBuilder()
       for (field in rank) {
         if (field in '1'..'8') {
-          repeat(field.digitToInt()) { lineString += "- " }
+          repeat(field.digitToInt()) { lineBuilder.append("- ") }
         } else {
-          lineString += "$field "
+          lineBuilder.append("$field ")
         }
       }
-      boardString += "$lineString\n"
+      boardLines.add(lineBuilder.toString().trimEnd())
     }
-    return boardString
+    return boardLines.joinToString("\n") + "\n"
   }
 
   private fun isThreefoldRepetition(recentFENs: MutableList<FEN>): Boolean {

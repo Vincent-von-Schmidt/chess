@@ -18,7 +18,7 @@ class MoveKingTest : AnnotationSpec() {
   @Test
   fun `king moves from e1 to d1`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
@@ -27,8 +27,8 @@ class MoveKingTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -38,7 +38,7 @@ class MoveKingTest : AnnotationSpec() {
   @Test
   fun `king moves from e1 to d2`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
@@ -47,8 +47,8 @@ class MoveKingTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -58,7 +58,7 @@ class MoveKingTest : AnnotationSpec() {
   @Test
   fun `king moves from e1 to e2`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
@@ -67,8 +67,8 @@ class MoveKingTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -78,7 +78,7 @@ class MoveKingTest : AnnotationSpec() {
   @Test
   fun `king moves from e1 to f2`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
@@ -87,8 +87,8 @@ class MoveKingTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
@@ -98,7 +98,7 @@ class MoveKingTest : AnnotationSpec() {
   @Test
   fun `king moves from e1 to f1`() {
     // Given
-    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 1)
+    val fen = FEN("8/8/8/8/8/8/8/4K3", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val king = King(Color.WHITE)
     val startLocation = Location(File.E, Rank.ONE)
@@ -107,8 +107,8 @@ class MoveKingTest : AnnotationSpec() {
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
     board.movePiece(moveDesired, fen.activeColor)
-    val pieceOnStartLocation = board.getField(startLocation).piece
-    val pieceOnEndLocation = board.getField(endLocation).piece
+    val pieceOnStartLocation = board.getPiece(startLocation)
+    val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()

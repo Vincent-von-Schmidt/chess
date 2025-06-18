@@ -18,66 +18,97 @@ class GameShowTest : AnnotationSpec() {
   }
 
   @Test
-  fun `user prompts -chess game show-`() {
-    assertThatThrownBy { main(arrayOf("game", "show")) }
-      .hasMessage(
-        """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-      )
+  fun `throw on prompt -chess game show-`() {
+    // Given
+    val arguments = arrayOf("game", "show")
+    val errorMessage = """
+    No valid command provided. Try one of the following:
+    chess new_game <id>
+    chess game show <id>
+    chess on <id> move <from> to <to> <promotion-title>
+    """.trimIndent()
+
+    // Then
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts -chess game show 1 1-`() {
-    assertThatThrownBy { main(arrayOf("game", "show", "1", "1")) }
-      .hasMessage(
-        """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-      )
+  fun `throw on prompt -chess game show 1 1-`() {
+    // Given
+    val arguments = arrayOf("game", "show", "1", "1")
+    val errorMessage = """
+    No valid command provided. Try one of the following:
+    chess new_game <id>
+    chess game show <id>
+    chess on <id> move <from> to <to> <promotion-title>
+    """.trimIndent()
+
+    // Then
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts -chess game sow 1-`() {
-    assertThatThrownBy { main(arrayOf("game", "sow", "1")) }
-      .hasMessage(
-        """
-        No valid command provided. Try one of the following:
-        chess new_game <id>
-        chess game show <id>
-        chess on <id> move <from> to <to> <promotion-title>
-        """.trimIndent()
-      )
+  fun `throw on prompt -chess game sow 1-`() {
+    // Given
+    val arguments = arrayOf("game", "sow", "1")
+    val errorMessage = """
+    No valid command provided. Try one of the following:
+    chess new_game <id>
+    chess game show <id>
+    chess on <id> move <from> to <to> <promotion-title>
+    """.trimIndent()
+
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts -chess game show char-`() {
-    assertThatThrownBy { main(arrayOf("game", "show", "char")) }
-      .hasMessage(
-        """
-        Error: <id> must be a valid integer!
-        """.trimIndent()
-      )
+  fun `throw on prompt -chess game show char-`() {
+    // Given
+    val arguments = arrayOf("game", "show", "char")
+    val errorMessage = """
+    Error: <id> must be a valid integer!
+    """.trimIndent()
+
+    // Then
+    assertThatThrownBy { main(arguments) }
+      .hasMessage(errorMessage)
   }
 
   @Test
-  fun `user prompts -chess game show 1000000-`() {
+  fun `prompt -chess game show 1000000-`() {
+    //Given
+    val expectedAsciiArt = """
+    r n b q k b n r
+    p p p p p p p p
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    P P P P P P P P
+    R N B Q K B N R
+    WHITE to move.
+    """.trimIndent()
     main(arrayOf("new_game", "1000000"))
+
+    // When
     val output = captureStandardOut {
       main(arrayOf("game", "show", "1000000"))
     }.trim()
-    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \nWHITE to move.")
+
+    // Then
+    assertThat(output).isEqualTo(expectedAsciiArt)
   }
 
   @Test
-  fun `user prompts -chess game show 1000000- but ID is not created yet`() {
-    assertThatThrownBy { main(arrayOf("game", "show", "1000000")) }
+  fun `prompt -chess game show 1000000- but ID is not created yet`() {
+    // Given
+    val arguments = arrayOf("game", "show", "1000000")
+
+    // Then
+    assertThatThrownBy { main(arguments) }
       .hasMessage("Game with ID 1000000 does not exist.")
   }
 }

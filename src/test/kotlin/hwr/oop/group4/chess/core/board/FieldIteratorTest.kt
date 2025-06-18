@@ -16,12 +16,13 @@ class FieldIteratorTest : AnnotationSpec() {
   fun `iterator starts at A8`() {
     // Given
     val iterator = FieldIterator(board)
+    val expectedLocation = Location(File.A, Rank.EIGHT)
 
     // When
-    val first = iterator.next()
+    val first = iterator.next().location
 
     // Then
-    assertThat(first.location).isEqualTo(Location(File.A, Rank.EIGHT))
+    assertThat(first).isEqualTo(expectedLocation)
   }
 
   @Test
@@ -30,14 +31,14 @@ class FieldIteratorTest : AnnotationSpec() {
     val iterator = FieldIterator(board)
 
     // When
-    val locs = listOf(
+    val locations = listOf(
       iterator.next(),
       iterator.next(),
       iterator.next()
     ).map { it.location }
 
     // Then
-    assertThat(locs).containsExactly(
+    assertThat(locations).containsExactly(
       Location(File.A, Rank.EIGHT),
       Location(File.B, Rank.EIGHT),
       Location(File.C, Rank.EIGHT)
@@ -53,21 +54,26 @@ class FieldIteratorTest : AnnotationSpec() {
 
     // When
     while (iterator.hasNext()) {
-      println()
       fields.add(iterator.next())
     }
+
     // Then
     assertThat(fields).hasSize(64)
   }
 
   @Test
   fun `iterator ends at H1`() {
+    // Given
     val iterator = FieldIterator(board)
-    var lastField = iterator.next()
+    val expectedLocation = Location(File.H, Rank.ONE)
+
+    // When
     while (iterator.hasNext()) {
       iterator.next()
     }
-    lastField = iterator.next() // last field when hasNext was false
-    assertThat(lastField.location).isEqualTo(Location(File.H, Rank.ONE))
+    val lastField  = iterator.next().location // field after H1 when hasNext was false
+
+    // Then
+    assertThat(lastField).isEqualTo(expectedLocation)
   }
 }

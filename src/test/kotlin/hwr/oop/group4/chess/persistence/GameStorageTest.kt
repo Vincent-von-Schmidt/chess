@@ -71,12 +71,23 @@ class GameStorageTest : AnnotationSpec() {
     // Given
     val game = Game(TEST_NUMBER)
     storage.saveGame(game, newGame = true)
+    val expectedAsciiArt = """
+    r n b q k b n r
+    p p p p p p p p
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    P P P P P P P P
+    R N B Q K B N R
+    
+    """.trimIndent()
 
     // When
     val output = game.boardToAscii()
 
     // Then
-    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \n")
+    assertThat(output).isEqualTo(expectedAsciiArt)
   }
 
   @Test
@@ -121,6 +132,17 @@ class GameStorageTest : AnnotationSpec() {
     // Given
     val game1 = Game(TEST_NUMBER)
     val game2 = Game(TEST_NUMBER + 1)
+    val expectedAsciiArt = """
+    r n b q k b n r
+    p p p p p p p p
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    - - - - - - - -
+    P P P P P P P P
+    R N B Q K B N R
+    
+    """.trimIndent()
 
     // When
     storage.saveGame(game1, newGame = true)
@@ -128,7 +150,7 @@ class GameStorageTest : AnnotationSpec() {
     val output = game1.boardToAscii()
 
     // Then
-    assertThat(output).isEqualTo("r n b q k b n r \np p p p p p p p \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \n- - - - - - - - \nP P P P P P P P \nR N B Q K B N R \n")
+    assertThat(output).isEqualTo(expectedAsciiArt)
   }
 
   @Test
@@ -144,12 +166,23 @@ class GameStorageTest : AnnotationSpec() {
     )
     val game = Game(TEST_NUMBER, fen = fen)
     storage.saveGame(game, newGame = true)
+    val expectedAsciiArt = """
+    r - b k - - - r
+    p - - p B p N p
+    n - - - - n - -
+    - p - N P - - P
+    - - - - - - P -
+    - - - P - - - -
+    P - P - K - - -
+    q - - - - - b -
+    
+    """.trimIndent()
 
     // When
     val output = game.boardToAscii()
 
     // Then
-    assertThat(output).isEqualTo("r - b k - - - r \np - - p B p N p \nn - - - - n - - \n- p - N P - - P \n- - - - - - P - \n- - - P - - - - \nP - P - K - - - \nq - - - - - b - \n")
+    assertThat(output).isEqualTo(expectedAsciiArt)
   }
 
   @Test

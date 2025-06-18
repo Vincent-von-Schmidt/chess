@@ -13,23 +13,25 @@ class GeneratorFENTest : AnnotationSpec() {
   fun `generate fen from board`() {
     // Given
     val board = BoardFactory.generateBoardFromFen(STARTING_POSITION)
+    val expectedFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 0"
 
     // When
-    val fen = GeneratorFEN.generateFen(board, "", "", 0, 1, Color.WHITE)
+    val fen = GeneratorFEN.generateFen(board, "", "", 0, 0, Color.WHITE).toString()
 
     // Then
-    assertThat(fen.toString()).isEqualTo("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1")
+    assertThat(fen).isEqualTo(expectedFen)
   }
 
   @Test
   fun `generate fen from empty board`() {
     // Given
     val board = BoardFactory.generateBoardFromFen(EMPTY_BOARD)
+    val expectedFen = "8/8/8/8/8/8/8/8 w - - 0 0"
 
     // When
-    val fen = GeneratorFEN.generateFen(board, "", "", 0, 1, Color.WHITE)
+    val fen = GeneratorFEN.generateFen(board, "", "", 0, 0, Color.WHITE).toString()
 
     // Then
-    assertThat(fen.toString()).isEqualTo("8/8/8/8/8/8/8/8 w - - 0 1")
+    assertThat(fen).isEqualTo(expectedFen)
   }
 }

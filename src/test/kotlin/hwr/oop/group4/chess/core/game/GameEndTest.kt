@@ -1,6 +1,7 @@
 package hwr.oop.group4.chess.core.game
 
 import hwr.oop.group4.chess.cli.main
+import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.fen.ParserFEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
@@ -18,13 +19,17 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class GameEndTest : AnnotationSpec() {
 
+  @BeforeEach
+  fun setup() {
+    GameStorage.deleteGame(Game(TEST_NUMBER))
+  }
+
   @Test
   fun `halfMove draw`() {
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER))
     val game = Game(
       TEST_NUMBER,
-      fen = ParserFEN.parseStringToFen("8/8/8/1P1r4/8/8/8/8 b - - 49 0")
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "", "" ,49,0)
     )
 
     // When
@@ -40,10 +45,9 @@ class GameEndTest : AnnotationSpec() {
   @Test
   fun `halfMove reset on capture`() {
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER))
     val game = Game(
       TEST_NUMBER,
-      fen = ParserFEN.parseStringToFen("8/8/8/1P1r4/8/8/8/8 b - - 49 0")
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "", "" ,49,0)
     )
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.B, Rank.FIVE)
@@ -62,10 +66,9 @@ class GameEndTest : AnnotationSpec() {
   @Test
   fun `halfMove reset on pawnMove`() {
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER))
     val game = Game(
       TEST_NUMBER,
-      fen = ParserFEN.parseStringToFen("8/8/8/1P1r4/8/8/8/8 w - - 49 0")
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.WHITE, "", "" ,49,0)
     )
     val startLocation = Location(File.B, Rank.FIVE)
     val endLocation = Location(File.B, Rank.SIX)
@@ -84,10 +87,9 @@ class GameEndTest : AnnotationSpec() {
   @Test
   fun `checkmate gameEnd`() {
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER))
     val game = Game(
       TEST_NUMBER,
-      ParserFEN.parseStringToFen("8/8/8/8/8/1r6/r7/5K2 b - - 0 0") // TODO make all fens in tests with parsers
+      fen = FEN("8/8/8/8/8/1r6/r7/5K2", Color.BLACK, "", "" ,0,0)
     )
 
     // When
@@ -103,30 +105,32 @@ class GameEndTest : AnnotationSpec() {
   @Test
   fun `user makes draw move`() {
     // Given
-    GameStorage.deleteGame(Game(TEST_NUMBER))
     val game = Game(
       TEST_NUMBER,
-      ParserFEN.parseStringToFen("8/8/8/8/8/8/r7/R7 w - - 0 0")
+      fen = FEN("8/8/8/8/8/8/r7/R7", Color.WHITE, "", "" ,0,0)
     )
     GameStorage.saveGame(game) // TODO why have to manually save in order to work?
 
-    // When
     val a1 = Location(File.A, Rank.ONE)
     val a2 = Location(File.A, Rank.TWO)
     val b1 = Location(File.B, Rank.ONE)
     val b2 = Location(File.B, Rank.TWO)
-    game.movePiece(MoveDesired(a1, b1))
-    game.movePiece(MoveDesired(a2, b2))
-    game.movePiece(MoveDesired(b1, a1))
-    game.movePiece(MoveDesired(b2, a2))
 
-    game.movePiece(MoveDesired(a1, b1))
-    game.movePiece(MoveDesired(a2, b2))
-    game.movePiece(MoveDesired(b1, a1))
+    val moves = listOf(
+      MoveDesired(a1, b1),
+      MoveDesired(a2, b2),
+      MoveDesired(b1, a1),
+      MoveDesired(b2, a2),
+      MoveDesired(a1, b1),
+      MoveDesired(a2, b2),
+      MoveDesired(b1, a1)
+    )
+    moves.forEach { game.movePiece(it) }
 
-    val output = captureStandardOut {
-      main(arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2"))
-    }.trim()
+    val arguments = arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2")
+
+    //When
+    val output = captureStandardOut { main(arguments) }.trim()
 
     // Then
     assertThat(output).isEqualTo("The game ended in a DRAW, because of THREEFOLD_REPETITION")
