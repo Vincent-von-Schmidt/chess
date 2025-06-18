@@ -3,6 +3,7 @@ package hwr.oop.group4.chess.core.board
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
+import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.move.MoveDesiredValidator.validateMove
 import hwr.oop.group4.chess.core.move.MoveResult
@@ -13,45 +14,30 @@ import hwr.oop.group4.chess.core.utils.opposite
 
 class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
+  private val fields: Map<Location, Field> = generateBoard()
+
   init {
-    generateBoard()
     this.initializeWithPieces(piecePlacementMap)
   }
 
-  private lateinit var fields: Map<Location, Field>
-
   private fun generateBoard(): Map<Location, Field> {
-    val allFields = mutableMapOf<Location, Field>()
-    var previousRank: Rank? = null
+    val fieldMap = mutableMapOf<Location, Field>()
 
-    for (rank in Rank.entries) {
-      var previousFile: File? = null
-      for (file in File.entries) {
-        val location = Location(file, rank)
-        val field = Field(location)
-        allFields[location] = field
-
-        if (previousFile != null) {              // Set left /right neighbor
-          val leftLocation = Location(previousFile, rank)
-          val leftField = allFields[leftLocation]!!
-
-          field.connectLeft(leftField)
-          leftField.connectRight(field)
+    // create fields with lazy providers
+    Rank.entries.forEach { rank ->
+      File.entries.forEach { file ->
+        val loc = Location(file, rank)
+        fieldMap[loc] = Field(loc) {
+          mapOf(
+            Direction.TOP to fieldMap[rank.next()?.let { Location(file, it) }],
+            Direction.BOTTOM to fieldMap[rank.previous()?.let { Location(file, it) }],
+            Direction.LEFT to fieldMap[file.previous()?.let { Location(it, rank) }],
+            Direction.RIGHT to fieldMap[file.next()?.let { Location(it, rank) }]
+          )
         }
-
-        if (previousRank != null) {              // Set bottom /top neighbor
-          val bottomLocation = Location(file, previousRank)
-          val bottomField = allFields[bottomLocation]!!
-          field.connectBottom(bottomField)
-          bottomField.connectTop(field)
-        }
-
-        previousFile = file
       }
-      previousRank = rank
     }
-    fields = allFields.toMap()
-    return fields
+    return fieldMap.toMap()
   }
 
   private fun initializeWithPieces(pieces: Map<Location, Piece>) {

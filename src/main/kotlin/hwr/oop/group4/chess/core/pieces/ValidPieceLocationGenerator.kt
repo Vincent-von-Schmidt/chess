@@ -22,7 +22,7 @@ object ValidPieceLocationGenerator {
       while (steps < maxSteps) {
         val field = board.getField(currentLocation)
         // use of direction constructor, that gives the next field after direction back
-        val nextField = direction.move(field) ?: break
+        val nextField = direction.moveFrom(field) ?: break
         currentLocation = nextField.location
         possibleLocations.add(currentLocation)
 
@@ -44,7 +44,7 @@ object ValidPieceLocationGenerator {
     val possibleLocations = mutableListOf<Location>()
 
     for (jump in knightJumps) {
-      val targetField = jump.move(fromField)
+      val targetField = jump.moveFrom(fromField)
       val targetLocation = targetField?.location
       if (targetLocation != null) {
         possibleLocations.add(targetLocation)
