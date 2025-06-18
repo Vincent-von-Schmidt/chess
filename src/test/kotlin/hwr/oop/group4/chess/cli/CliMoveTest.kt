@@ -206,7 +206,7 @@ class CliMoveTest : AnnotationSpec() {
     // Given
     main(arrayOf("new_game", TEST_NUMBER.toString()))
     val arguments =
-      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4")
+      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "bishop")
 
     // When
     val outputMove = captureStandardOut { main(arguments) }.trim()

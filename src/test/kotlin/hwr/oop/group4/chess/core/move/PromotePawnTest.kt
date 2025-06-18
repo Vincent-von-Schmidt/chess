@@ -32,7 +32,7 @@ class PromotePawnTest : AnnotationSpec() {
     board.movePiece(moveDesired, fen.activeColor, promoteToPiece)
     val pieceOnStartLocation = board.getPiece(startLocation)
     val pieceOnEndLocation =
-      board.getPiece(endLocation) // TODO change everywhere to getPiece
+      board.getPiece(endLocation)
 
     // Then
     assertThat(pieceOnStartLocation).isNull()
