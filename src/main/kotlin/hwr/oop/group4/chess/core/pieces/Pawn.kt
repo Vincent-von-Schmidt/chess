@@ -10,16 +10,12 @@ import hwr.oop.group4.chess.core.utils.Color
 data class Pawn(private val color: Color) : Piece {
   private val name = "Pawn"
   private val value = 1
-  private var directions = emptyList<Direction>()
-  private var captureDirections = emptyList<Direction>()
-
-  private val whitePawnDirections = listOf(Direction.TOP)
-  private val whitePawnCaptures =
-    listOf(Direction.TOP_RIGHT, Direction.TOP_LEFT)
-
-  private val blackPawnDirections = listOf(Direction.BOTTOM)
-  private val blackPawnCaptures =
-    listOf(Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT)
+  private val directions =
+    if (color == Color.WHITE) listOf(Direction.TOP) else listOf(Direction.BOTTOM)
+  private val captureDirections = if (color == Color.WHITE)
+    listOf(Direction.TOP_LEFT, Direction.TOP_RIGHT)
+  else
+    listOf(Direction.BOTTOM_LEFT, Direction.BOTTOM_RIGHT)
 
   override fun getColor(): Color = color
 
@@ -32,13 +28,6 @@ data class Pawn(private val color: Color) : Piece {
     board: BoardView,
     capture: Boolean,
   ): List<Location> {
-    if (color == Color.WHITE) {
-      directions = whitePawnDirections
-      captureDirections = whitePawnCaptures
-    } else if (color == Color.BLACK) {
-      directions = blackPawnDirections
-      captureDirections = blackPawnCaptures
-    }
 
     return if (capture) {
       calculatePossibleLocationsToMove(from, board, captureDirections, 1)

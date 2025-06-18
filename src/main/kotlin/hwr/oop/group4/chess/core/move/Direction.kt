@@ -2,14 +2,18 @@ package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.board.Field
 
-enum class Direction(val move: (Field) -> Field?) {
-  TOP({ it.top }),
-  BOTTOM({ it.bottom }),
-  RIGHT({ it.right }),
-  LEFT({ it.left }),
+enum class Direction {
+  TOP, BOTTOM, RIGHT, LEFT,
+  TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT;
 
-  TOP_RIGHT({ it.top?.right }),
-  TOP_LEFT({ it.top?.left }),
-  BOTTOM_RIGHT({ it.bottom?.right }),
-  BOTTOM_LEFT({ it.bottom?.left }),
+  fun moveFrom(field: Field): Field? = when (this) {
+    TOP -> field.top
+    BOTTOM -> field.bottom
+    LEFT -> field.left
+    RIGHT -> field.right
+    TOP_LEFT -> field.top?.left
+    TOP_RIGHT -> field.top?.right
+    BOTTOM_LEFT -> field.bottom?.left
+    BOTTOM_RIGHT -> field.bottom?.right
+  }
 }
