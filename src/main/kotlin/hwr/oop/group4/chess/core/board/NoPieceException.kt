@@ -11,9 +11,6 @@ class NoPieceException(
     startLoc != null ->
       "${startLoc.description} does not contain a piece"
 
-    piece != null ->
-      "${piece.getDescription()} could not be found"
-
     else -> "Required piece not found"
   }
 )

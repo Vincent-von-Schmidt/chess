@@ -86,7 +86,7 @@ object MoveDesiredValidator {
         throw InvalidPromotionException(movingPiece, promoteToPiece)
       }
       val checkedPromoteToPiece: Piece =
-        when (promoteToPiece) { // TODO this into parser?
+        when (promoteToPiece) {
           is Queen -> Queen(playerAtTurnColor)
           is Rook -> Rook(playerAtTurnColor)
           is Bishop -> Bishop(playerAtTurnColor)

@@ -99,7 +99,7 @@ class GameEndTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       game.movePiece(MoveDesired(startLocation, endLocation))
-    }.hasMessage("The game ended in a CHECKMATE, the winner is BLACK")
+    }.hasMessage("The game ended in a CHECKMATE. The winner is BLACK")
   }
 
   @Test

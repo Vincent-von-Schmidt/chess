@@ -8,7 +8,7 @@ import hwr.oop.group4.chess.core.pieces.*
 
 object StringParser {
   fun parseLocationFromString(input: String): Location {
-    if (input.length != 2) throw InvalidLocationException("Invalid location format: must be exactly 2 characters") // TODO rewrite the exception
+    if (input.length != 2) throw InvalidLocationException()
 
     val fileChar = input[0].uppercaseChar()
     val rankChar = input[1]
@@ -16,13 +16,12 @@ object StringParser {
     val file = try {
       File.valueOf(fileChar.toString())
     } catch (e: IllegalArgumentException) {
-      throw InvalidLocationException("Invalid file character: $fileChar")
+      throw InvalidLocationException(fileChar)
     }
 
     val rank =
-      Rank.entries.firstOrNull { it.number.toString() == rankChar.toString() } // TODO weird entries shenanigans
-        ?: throw InvalidLocationException("Invalid rank character: $rankChar")
-
+      Rank.entries.firstOrNull { it.number.toString() == rankChar.toString() }
+        ?: throw InvalidLocationException(rankChar)
     return Location(file, rank)
   }
 
