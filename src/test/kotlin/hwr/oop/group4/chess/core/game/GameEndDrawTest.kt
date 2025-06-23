@@ -2,7 +2,6 @@ package hwr.oop.group4.chess.core.game
 
 import hwr.oop.group4.chess.cli.main
 import hwr.oop.group4.chess.core.fen.FEN
-import hwr.oop.group4.chess.core.fen.ParserFEN
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -17,7 +16,7 @@ import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 
-class GameEndTest : AnnotationSpec() {
+class GameEndDrawTest : AnnotationSpec() {
 
   @BeforeEach
   fun setup() {
@@ -82,24 +81,6 @@ class GameEndTest : AnnotationSpec() {
     //Then
     assertThat(pieceOnStartLocation).isNull()
     assertThat(pieceOnEndLocation).isEqualTo(pawn)
-  }
-
-  @Test
-  fun `checkmate gameEnd`() {
-    // Given
-    val game = Game(
-      TEST_NUMBER,
-      fen = FEN("8/8/8/8/8/1r6/r7/5K2", Color.BLACK, "", "" ,0,0)
-    )
-
-    // When
-    val startLocation = Location(File.B, Rank.THREE)
-    val endLocation = Location(File.B, Rank.ONE)
-
-    // Then
-    assertThatThrownBy {
-      game.movePiece(MoveDesired(startLocation, endLocation))
-    }.hasMessage("The game ended in a CHECKMATE. The winner is BLACK")
   }
 
   @Test
