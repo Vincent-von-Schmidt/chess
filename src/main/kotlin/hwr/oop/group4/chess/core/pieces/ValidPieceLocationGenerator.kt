@@ -7,7 +7,7 @@ import hwr.oop.group4.chess.core.move.KnightJump
 
 object ValidPieceLocationGenerator {
 
-  fun calculatePossibleLocationsToMove(
+    fun calculatePossibleLocationsToMove(
     from: Location,
     board: BoardView,
     directions: List<Direction>,

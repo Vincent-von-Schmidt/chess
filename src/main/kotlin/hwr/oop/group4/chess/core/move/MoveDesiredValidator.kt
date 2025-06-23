@@ -56,6 +56,8 @@ object MoveDesiredValidator {
       throw InvalidMoveException(movingPiece, moveDesired.endLocation)
     }
 
+    // TODO king cant move towards kind too close
+
     val legalDestinations = movingPiece.getPossibleLocationsToMove(
       moveDesired.startLocation,
       board,

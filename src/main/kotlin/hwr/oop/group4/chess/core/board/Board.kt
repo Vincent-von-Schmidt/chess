@@ -7,7 +7,10 @@ import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.move.MoveDesiredValidator.validateMove
 import hwr.oop.group4.chess.core.move.MoveResult
+import hwr.oop.group4.chess.core.move.MoveValidated
 import hwr.oop.group4.chess.core.pieces.King
+import hwr.oop.group4.chess.core.pieces.Knight
+import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
@@ -79,21 +82,13 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     promoteToPiece: Piece? = null,
   ): MoveResult {
 
-    validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
     val validatedMove =
       validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
 
-    // temporary move (Check-test)
+    // temporary move
     placePieceToField(validatedMove.endLocation, validatedMove.toPlacePiece)
     removePieceFromField(validatedMove.startLocation)
-
-    if (isCheck(playerAtTurnColor)) {
-      // undo Move
-      removePieceFromField(validatedMove.endLocation)
-      placePieceToField(validatedMove.startLocation, validatedMove.toPlacePiece)
-      throw CheckException(playerAtTurnColor)
-    }
-
+    testSelfCheck(validatedMove, playerAtTurnColor)
     val opponentInCheck = isCheck(playerAtTurnColor.opposite())
 
     val isCheckmate =
@@ -107,27 +102,41 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
   }
 
   private fun isCheck(playerColor: Color): Boolean {
-      val opponentColor = playerColor.opposite()
-      val kingLocation = findKing(playerColor) ?: return false // Skip check validation if kings aren't on board
-      return isSquareUnderAttack(kingLocation, opponentColor)
+    val opponentColor = playerColor.opposite()
+    val kingLocation = findKing(playerColor)
+      ?: return false // Skip check validation if kings aren't on board
+    return isFieldUnderAttack(kingLocation, opponentColor)
   }
 
-  private fun isSquareUnderAttack(
+  private fun testSelfCheck(validatedMove: MoveValidated, playerAtTurnColor: Color) {
+    if (isCheck(playerAtTurnColor)) {
+      // undo Move
+      removePieceFromField(validatedMove.endLocation)
+      placePieceToField(validatedMove.startLocation, validatedMove.toPlacePiece)
+      throw CheckException(playerAtTurnColor)
+    }
+  }
+
+  private fun isFieldUnderAttack(
     target: Location,
     attackerColor: Color,
   ): Boolean {
-    return getCheckingPieces(target, attackerColor).isNotEmpty()
+    return getPiecesAttackingField(target, attackerColor).isNotEmpty()
   }
 
-  private fun getCheckingPieces(target: Location, attackerColor: Color): List<Piece> {
-    val attackers = mutableListOf<Piece>()
+  private fun getPiecesAttackingField(
+    target: Location,
+    attackerColor: Color,
+  ): Map<Piece, Location> {
+    val attackers = mutableMapOf<Piece, Location>()
 
     for ((location, field) in fields) {
       val piece = field.getPiece() ?: continue
       if (piece.getColor() == attackerColor) {
-        val possibleMoves = piece.getPossibleLocationsToMove(location, this, true)
+        val possibleMoves =
+          piece.getPossibleLocationsToMove(location, this, true)
         if (target in possibleMoves) {
-          attackers.add(piece)
+          attackers[piece] = location
         }
       }
     }
@@ -139,73 +148,84 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     if (!isCheck(playerColor)) return false
     if (canKingMoveAway(kingLocation)) return false
     if (canAnyPieceCapture(kingLocation, playerColor)) return false
-    if (canAnyPieceBlock(kingLocation, checkingPiece, playerColor)) return false
+    if (canAnyPieceBlock(kingLocation, playerColor)) return false
     return true
   }
 
-  private fun canKingMoveAway(kingLocation: Location) : Boolean { // TODO single Tests
+  private fun canKingMoveAway(kingLocation: Location): Boolean { // TODO single Tests
     val king = getPiece(kingLocation) ?: return false
     val kingMoves = king.getPossibleLocationsToMove(kingLocation, this, false)
-    return kingMoves.any { move ->
+    return kingMoves.any {
       !isCheck(king.getColor())
     }
   }
 
-  private fun canAnyPieceCapture(kingLocation: Location, playerColor: Color): Boolean {
-    val checkingPieces = getCheckingPieces(kingLocation, playerColor)
+  private fun canAnyPieceCapture(
+    kingLocation: Location,
+    playerColor: Color,
+  ): Boolean {
+    val checkingPieces =
+      getPiecesAttackingField(kingLocation, playerColor.opposite())
     if (checkingPieces.size > 1) return false // Double check can't be resolved by capturing
 
-//    return checkingPieces.any { checkingPiece ->
-//      fields.values.any { field ->
-//        val piece = field.getPiece()
-//        piece != null && piece.getColor() == playerColor &&
-//            piece.getPossibleLocationsToMove(field.location, this, true)
-//              .contains(checkingPiece.location)
-//      }
-//    }
-
-    // Pseudocode
-//    for (checkingPiece in checkingPieces) {
-//      for (field in board) {
-//        val piece = field.getPiece()
-//        if (piece is mine && piece can capture checkingPiece) {
-//          return true
-//        }
-//      }
-//    }
-//    return false
-//  }
+    for (checkingPiece in checkingPieces) {
+      for ((location) in fields) {
+        val piece = getPiece(location)
+        if (piece != null && piece.getColor() == playerColor &&
+          checkingPiece.value in piece.getPossibleLocationsToMove(location, this, true)) {
+          return true
+        }
+      }
+    }
+    return false
   }
 
-  private fun canAnyPieceBlock(kingLocation: Location, attacker: Piece, playerColor: Color): Boolean {
+  private fun canAnyPieceBlock(
+    kingLocation: Location,
+    playerColor: Color,
+  ): Boolean {
 
-//    val path = calculateAttackPath(kingLocation, attacker.location)
-//    return path.any { blockSquare ->
-//      fields.values.any { field ->
-//        val piece = field.getPiece()
-//        piece != null && piece.getColor() == playerColor &&
-//            piece.getPossibleLocationsToMove(field.location, this, false)
-//              .contains(blockSquare)
-//      }
-//    }
+    val checkingPieces =
+      getPiecesAttackingField(kingLocation, playerColor.opposite())
+    if (checkingPieces.size > 1) return false // Double check can't be blocked
+
+    val (checkingPiece, attackerLocation) = checkingPieces.entries.first()
+    if (checkingPiece is Knight || checkingPiece is Pawn) return false // can’t block these
+
+    val targetSquares =
+      checkingPiece.getPossibleLocationsToMove(attackerLocation, this, false)
+    val ownPieces =
+      fields.filterValues { it.getPiece()?.getColor() == playerColor }
+
+    for (target in targetSquares) {
+      for ((location, field) in ownPieces) {
+        val piece = field.getPiece() ?: continue
+        if (target !in piece.getPossibleLocationsToMove(
+            location,
+            this,
+            false
+          )
+        ) continue
+
+        // simulate the move
+        val originalPieceAtTarget = getPiece(target)
+        removePieceFromField(location)
+        placePieceToField(target, piece)
+
+        val stillCheck = isCheck(playerColor)
+
+        // undo the move
+        removePieceFromField(target)
+        placePieceToField(location, piece)
+        if (originalPieceAtTarget != null) placePieceToField(
+          target,
+          originalPieceAtTarget
+        )
+
+        if (!stillCheck) return true
+      }
+    }
+
+    return false
   }
-
-//  FUNKTION canAnyPieceBlock(kingLocation, attacker, playerColor):
-//  // 1. Berechne den Angriffsweg zwischen König und angreifender Figur
-//  path = calculateAttackPath(kingLocation, attacker.location)
-//
-//  // 2. Für jedes Feld auf dem Angriffsweg:
-//  FÜR JEDES blockSquare IN path:
-//  // 3. Durchsuche alle Felder des Bretts
-//  FÜR JEDES field IM Spielfeld:
-//  piece = Feld.getPiece()
-//
-//  // 4. Prüfe ob eine eigene Figur das blockSquare erreichen kann
-//  WENN piece != null UND piece.color == playerColor:
-//  possibleMoves = piece.getPossibleMoves(field.location, capture=false)
-//  WENN blockSquare IN possibleMoves:
-//  RÜCKGABE true  // Blockade möglich!
-//
-//  // 5. Falls keine Figur blockieren kann
-//  RÜCKGABE false
 }
