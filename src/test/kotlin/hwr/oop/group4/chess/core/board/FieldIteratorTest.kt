@@ -71,7 +71,8 @@ class FieldIteratorTest : AnnotationSpec() {
     while (iterator.hasNext()) {
       iterator.next()
     }
-    val lastField  = iterator.next().location // field after H1 when hasNext was false
+    val lastField =
+      iterator.next().location // field after H1 when hasNext was false
 
     // Then
     assertThat(lastField).isEqualTo(expectedLocation)

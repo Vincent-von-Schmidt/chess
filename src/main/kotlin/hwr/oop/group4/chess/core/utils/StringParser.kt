@@ -8,7 +8,7 @@ import hwr.oop.group4.chess.core.pieces.*
 
 object StringParser {
   fun parseLocationFromString(input: String): Location {
-    if (input.length != 2) throw InvalidLocationException()
+    if (input.length != 2) throw InvalidLocationException("Invalid field format: must be exactly 2 characters")
 
     val fileChar = input[0].uppercaseChar()
     val rankChar = input[1]
@@ -26,7 +26,6 @@ object StringParser {
   }
 
   fun parsePromotionPieceFromString(inputString: String, color: Color): Piece {
-    // all colors white as default (will be changed along the way
     return when (inputString.lowercase()) {
       "queen" -> Queen(color)
       "knight" -> Knight(color)

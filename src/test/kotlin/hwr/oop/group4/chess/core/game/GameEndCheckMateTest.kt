@@ -26,7 +26,7 @@ class GameEndCheckMateTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8//8/1r6/r7/5K2", Color.BLACK, "-", "-" ,0,0)
+      fen = FEN("8/8/8//8/1r6/r7/5K2", Color.BLACK, "-", "-", 0, 0)
     )
 
     // When
@@ -44,14 +44,15 @@ class GameEndCheckMateTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/3PPPr1/3PK3/3PPP1P/8/8", Color.BLACK, "-", "-" ,0,0)
+      fen = FEN("8/8/8/3PPPr1/3PK3/3PPP1P/8/8", Color.BLACK, "-", "-", 0, 0)
     )
     val startLocation = Location(File.H, Rank.THREE)
     val endLocation = Location(File.G, Rank.FOUR)
     val pawn = Pawn(Color.WHITE)
 
     // When
-    val moveDesiredBlack = MoveDesired(Location(File.G, Rank.FIVE), Location(File.G, Rank.FOUR))
+    val moveDesiredBlack =
+      MoveDesired(Location(File.G, Rank.FIVE), Location(File.G, Rank.FOUR))
     val moveDesiredWhite = MoveDesired(startLocation, endLocation)
     game.movePiece(moveDesiredBlack)
     game.movePiece(moveDesiredWhite)

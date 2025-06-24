@@ -12,7 +12,7 @@ class StringParserTest : AnnotationSpec() {
 
     // Then
     assertThatThrownBy { StringParser.parseLocationFromString(tooLongInput) }.hasMessage(
-      "Invalid location"
+      "Invalid field format: must be exactly 2 characters"
     )
   }
 

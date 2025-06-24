@@ -29,7 +29,7 @@ class GameEndDrawTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-" ,49,0)
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-", 49, 0)
     )
 
     // When
@@ -39,7 +39,7 @@ class GameEndDrawTest : AnnotationSpec() {
     //Then
     assertThatThrownBy {
       game.movePiece(moveDesired)
-    }.hasMessage("The game ended in a DRAW, because of FIFTY_MOVE_RULE")
+    }.hasMessage("The game ended in a DRAW, due to FIFTY_MOVE_RULE.")
   }
 
   @Test
@@ -47,7 +47,7 @@ class GameEndDrawTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-" ,49,0)
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-", 49, 0)
     )
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.B, Rank.FIVE)
@@ -68,7 +68,7 @@ class GameEndDrawTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.WHITE, "-", "-" ,49,0)
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.WHITE, "-", "-", 49, 0)
     )
     val startLocation = Location(File.B, Rank.FIVE)
     val endLocation = Location(File.B, Rank.SIX)
@@ -89,9 +89,9 @@ class GameEndDrawTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/8/8/8/r7/R7", Color.WHITE, "-", "-" ,0,0)
+      fen = FEN("8/8/8/8/8/8/r7/R7", Color.WHITE, "-", "-", 0, 0)
     )
-    GameStorage.saveGame(game) // TODO why have to manually save in order to work?
+    GameStorage.saveGame(game)
 
     val a1 = Location(File.A, Rank.ONE)
     val a2 = Location(File.A, Rank.TWO)
@@ -115,6 +115,6 @@ class GameEndDrawTest : AnnotationSpec() {
     val output = captureStandardOut { main(arguments) }.trim()
 
     // Then
-    assertThat(output).isEqualTo("The game ended in a DRAW, because of THREEFOLD_REPETITION")
+    assertThat(output).isEqualTo("The game ended in a DRAW, due to THREEFOLD_REPETITION.")
   }
 }

@@ -21,7 +21,7 @@ class NewGameTest : AnnotationSpec() {
   fun `throw on empty prompt`() {
     // Given
     val arguments = emptyArray<String>()
-    val errorMessage ="""
+    val errorMessage = """
     No valid command provided. Try one of the following:
     chess new_game <id>
     chess game show <id>
@@ -37,7 +37,7 @@ class NewGameTest : AnnotationSpec() {
   fun `throw on prompt -chess new_game-`() {
     // Given
     val arguments = arrayOf("new_game")
-    val errorMessage =         """
+    val errorMessage = """
     No valid command provided. Try one of the following:
     chess new_game <id>
     chess game show <id>
@@ -94,13 +94,13 @@ class NewGameTest : AnnotationSpec() {
   fun `throw on prompt -chess new_game char-`() {
     // Given
     val arguments = arrayOf("new_game", "char")
-    val errorMessage ="""
+    val errorMessage = """
     Error: <id> must be a valid integer!
     """.trimIndent()
 
     // Then
     assertThatThrownBy { main(arguments) }
-      .hasMessage( errorMessage)
+      .hasMessage(errorMessage)
   }
 
   @Test
@@ -115,6 +115,6 @@ class NewGameTest : AnnotationSpec() {
     """.trimIndent()
 
     // Then
-    assertThatThrownBy { main(arguments) } .hasMessage(errorMessage)
+    assertThatThrownBy { main(arguments) }.hasMessage(errorMessage)
   }
 }
