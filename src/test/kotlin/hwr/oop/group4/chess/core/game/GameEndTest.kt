@@ -108,7 +108,7 @@ class GameEndTest : AnnotationSpec() {
       TEST_NUMBER,
       fen = FEN("8/8/8/8/8/8/r7/R7", Color.WHITE, "", "", 0, 0)
     )
-    GameStorage.saveGame(game) // TODO why have to manually save in order to work?
+    GameStorage.saveGame(game)
 
     val a1 = Location(File.A, Rank.ONE)
     val a2 = Location(File.A, Rank.TWO)
