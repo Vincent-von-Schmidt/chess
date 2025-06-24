@@ -9,7 +9,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
 
-class BoardStateCalculator(private val board: BoardView) { // TODO rewrite long ones for better readability
+class BoardStateEvaluator(private val board: BoardView) {
 
   fun isCheck(playerColor: Color): Boolean {
     val opponentColor = playerColor.opposite()
@@ -60,53 +60,56 @@ class BoardStateCalculator(private val board: BoardView) { // TODO rewrite long 
     attackerColor: Color,
   ): Map<Piece, Location> {
     val attackers = mutableMapOf<Piece, Location>()
+
     for (field in board) {
-      val piece = field.getPiece() ?: continue
-      if (piece.getColor() == attackerColor) {
-        val possibleMoves =
-          piece.getPossibleLocationsToMove(field.location, board, true)
-        if (target in possibleMoves) {
-          attackers[piece] = field.location
-        }
+      val piece = field.getPiece()
+      if (piece == null || piece.getColor() != attackerColor) continue
+
+      val possibleMoves =
+        piece.getPossibleLocationsToMove(field.location, board, true)
+      if (target in possibleMoves) {
+        attackers[piece] = field.location
       }
     }
+
     return attackers
   }
 
   private fun canKingMoveAway(kingLocation: Location): Boolean {
     val king = board.getPiece(kingLocation) ?: return false
-    val kingMoves = king.getPossibleLocationsToMove(kingLocation, board, false)
-    return kingMoves.any { dest ->
-      board.simulateMoveAndCheck(
-        kingLocation,
-        dest,
-        king
-      ) { !isCheck(king.getColor()) }
-    }
+    return king
+      .getPossibleLocationsToMove(kingLocation, board, capture = false)
+      .any { endLocation ->
+        board.simulateMoveAndCheck(kingLocation, endLocation, king) {
+          !isCheck(king.getColor())
+        }
+      }
   }
 
   private fun canAnyPieceCapture(
     kingLocation: Location,
     playerColor: Color,
   ): Boolean {
-    val checkingPieces =
+    val attackers =
       getPiecesAttackingField(kingLocation, playerColor.opposite())
-    if (checkingPieces.size > 1) return false
+    if (attackers.size > 1) return false // double check can't be captured
 
-    for (attackerLoc in checkingPieces.values) {
-      for (field in board) {
-        val piece = field.getPiece() ?: continue
-        if (piece.getColor() != playerColor) continue
-        val possible =
-          piece.getPossibleLocationsToMove(field.location, board, true)
-        if (attackerLoc in possible) {
-          if (board.simulateMoveAndCheck(field.location, attackerLoc, piece) {
-              !isCheck(playerColor)
-            }) {
-            return true
-          }
+    val attackerLocation = attackers.values.firstOrNull() ?: return false
+
+    for (field in board) {
+      val piece = field.getPiece() ?: continue
+      if (piece.getColor() != playerColor) continue
+
+      val captureMoves =
+        piece.getPossibleLocationsToMove(field.location, board, true)
+      if (attackerLocation !in captureMoves) continue
+
+      val moveIsSafe =
+        board.simulateMoveAndCheck(field.location, attackerLocation, piece) {
+          !isCheck(playerColor)
         }
-      }
+
+      if (moveIsSafe) return true
     }
 
     return false
@@ -120,30 +123,36 @@ class BoardStateCalculator(private val board: BoardView) { // TODO rewrite long 
       getPiecesAttackingField(kingLocation, playerColor.opposite())
     if (checkingPieces.size > 1) return false
 
-    val (checkingPiece, attackerLocation) = checkingPieces.entries.first()
-    if (checkingPiece is Knight || checkingPiece is Pawn) return false
+    val (attacker, attackerLocation) = checkingPieces.entries.first()
+    if (attacker is Knight || attacker is Pawn) return false
 
-    val targetSquares =
-      checkingPiece.getPossibleLocationsToMove(attackerLocation, board, false)
+    val toBlockFields = attacker.getPossibleLocationsToMove(
+      attackerLocation,
+      board,
+      capture = false
+    )
 
-    for (target in targetSquares) {
+    for (toBlockField in toBlockFields) {
       for (field in board) {
         val piece = field.getPiece() ?: continue
         if (piece.getColor() != playerColor) continue
-        if (target !in piece.getPossibleLocationsToMove(
-            field.location,
-            board,
-            false
-          )
-        ) continue
 
-        if (board.simulateMoveAndCheck(field.location, target, piece) {
+        val possibleMoves = piece.getPossibleLocationsToMove(
+          field.location,
+          board,
+          capture = false
+        )
+        if (toBlockField !in possibleMoves) continue
+
+        val moveIsSafe =
+          board.simulateMoveAndCheck(field.location, toBlockField, piece) {
             !isCheck(playerColor)
-          }) {
-          return true
-        }
+          }
+
+        if (moveIsSafe) return true
       }
     }
+
     return false
   }
 }

@@ -10,6 +10,7 @@ import hwr.oop.group4.chess.core.pieces.Pawn
 import hwr.oop.group4.chess.core.pieces.Rook
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER_STRING
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
@@ -28,7 +29,7 @@ class GameEndDrawTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "", "" ,49,0)
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-" ,49,0)
     )
 
     // When
@@ -46,7 +47,7 @@ class GameEndDrawTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "", "" ,49,0)
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-" ,49,0)
     )
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.B, Rank.FIVE)
@@ -67,7 +68,7 @@ class GameEndDrawTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.WHITE, "", "" ,49,0)
+      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.WHITE, "-", "-" ,49,0)
     )
     val startLocation = Location(File.B, Rank.FIVE)
     val endLocation = Location(File.B, Rank.SIX)
@@ -88,7 +89,7 @@ class GameEndDrawTest : AnnotationSpec() {
     // Given
     val game = Game(
       TEST_NUMBER,
-      fen = FEN("8/8/8/8/8/8/r7/R7", Color.WHITE, "", "" ,0,0)
+      fen = FEN("8/8/8/8/8/8/r7/R7", Color.WHITE, "-", "-" ,0,0)
     )
     GameStorage.saveGame(game) // TODO why have to manually save in order to work?
 
@@ -108,7 +109,7 @@ class GameEndDrawTest : AnnotationSpec() {
     )
     moves.forEach { game.movePiece(it) }
 
-    val arguments = arrayOf("on", TEST_NUMBER.toString(), "move", "b2", "to", "a2")
+    val arguments = arrayOf("on", TEST_NUMBER_STRING, "move", "b2", "to", "a2")
 
     //When
     val output = captureStandardOut { main(arguments) }.trim()

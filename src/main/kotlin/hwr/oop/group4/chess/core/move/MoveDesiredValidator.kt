@@ -1,6 +1,7 @@
 package hwr.oop.group4.chess.core.move
 
-import hwr.oop.group4.chess.core.board.*
+import hwr.oop.group4.chess.core.board.BoardStateEvaluator
+import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
@@ -67,9 +68,19 @@ object MoveDesiredValidator {
     }
     // king cant move towards kind too close
     if (movingPiece is King) {
-      val tooCloseToOpponentKing = board.simulateMoveAndCheck(moveDesired.startLocation, moveDesired.endLocation, movingPiece) {
-        val opponentKing = BoardStateCalculator(board).findKing(movingPiece.getColor().opposite())
-        opponentKing != null && opponentKing in movingPiece.getPossibleLocationsToMove(moveDesired.endLocation, board, true)
+      val tooCloseToOpponentKing = board.simulateMoveAndCheck(
+        moveDesired.startLocation,
+        moveDesired.endLocation,
+        movingPiece
+      ) {
+        val opponentKing = BoardStateEvaluator(board).findKing(
+          movingPiece.getColor().opposite()
+        )
+        opponentKing != null && opponentKing in movingPiece.getPossibleLocationsToMove(
+          moveDesired.endLocation,
+          board,
+          true
+        )
       }
 
       if (tooCloseToOpponentKing) {

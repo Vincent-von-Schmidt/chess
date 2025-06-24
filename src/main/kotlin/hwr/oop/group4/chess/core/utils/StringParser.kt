@@ -1,9 +1,9 @@
 package hwr.oop.group4.chess.core.utils
 
-import hwr.oop.group4.chess.core.move.InvalidPromotionException
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
+import hwr.oop.group4.chess.core.move.InvalidPromotionException
 import hwr.oop.group4.chess.core.pieces.*
 
 object StringParser {

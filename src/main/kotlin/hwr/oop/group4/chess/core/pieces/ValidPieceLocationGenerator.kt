@@ -1,14 +1,14 @@
 package hwr.oop.group4.chess.core.pieces
 
 import hwr.oop.group4.chess.core.board.BoardView
-import hwr.oop.group4.chess.core.move.NoPieceException
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.KnightJump
+import hwr.oop.group4.chess.core.move.NoPieceException
 
 object ValidPieceLocationGenerator {
 
-    fun calculatePossibleLocationsToMove(
+  fun calculatePossibleLocationsToMove(
     from: Location,
     board: BoardView,
     directions: List<Direction>,
@@ -28,9 +28,10 @@ object ValidPieceLocationGenerator {
         currentLocation = nextField.location
 
         if (nextField.getPiece() != null) {
-          val movingPieceColor = board.getField(from).getPiece()?.getColor() ?: throw NoPieceException(from)
+          val movingPieceColor = board.getField(from).getPiece()?.getColor()
+            ?: throw NoPieceException(from)
           val occupyingPieceColor = nextField.getPiece()!!.getColor()
-          if (capture &&  movingPieceColor != occupyingPieceColor){
+          if (capture && movingPieceColor != occupyingPieceColor) {
             possibleLocations.add(currentLocation)
           }
           break
@@ -46,19 +47,22 @@ object ValidPieceLocationGenerator {
     from: Location,
     board: BoardView,
     knightJumps: List<KnightJump>,
-    capture: Boolean
+    capture: Boolean,
   ): List<Location> {
     val fromField = board.getField(from)
     val possibleLocations = mutableListOf<Location>()
 
     for (jump in knightJumps) {
-      val targetField = jump.moveFrom(fromField)?: continue
+      val targetField = jump.moveFrom(fromField) ?: continue
       val targetLocation = targetField.location
       if (targetField.getPiece() != null) {
 
-        val movingPieceColor = board.getField(from).getPiece()?.getColor() ?: throw NoPieceException(from)
+        val movingPieceColor =
+          board.getField(from).getPiece()?.getColor() ?: throw NoPieceException(
+            from
+          )
         val occupyingPieceColor = targetField.getPiece()!!.getColor()
-        if (capture &&  movingPieceColor != occupyingPieceColor) {
+        if (capture && movingPieceColor != occupyingPieceColor) {
           possibleLocations.add(targetLocation)
         }
         continue

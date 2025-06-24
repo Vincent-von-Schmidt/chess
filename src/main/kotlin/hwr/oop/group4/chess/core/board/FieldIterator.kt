@@ -10,7 +10,7 @@ class FieldIterator(private val board: BoardView) : Iterator<Field> {
   private var hasReturnedLastField = false
 
   override fun hasNext(): Boolean {
-    return !hasReturnedLastField
+    return !(currentFile == File.H && currentRank == Rank.ONE && hasReturnedLastField)
   }
 
   override fun next(): Field {

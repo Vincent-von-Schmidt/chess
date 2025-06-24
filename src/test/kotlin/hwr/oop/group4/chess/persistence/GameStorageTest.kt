@@ -111,13 +111,7 @@ class GameStorageTest : AnnotationSpec() {
     storage.saveGame(game, newGame = true)
 
     // When
-    val fen = FEN(
-      piecePlacement = "r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR",
-      activeColor = Color.WHITE,
-      castle = "KQkq",
-      enPassant = "-",
-      halfMoves = 0,
-      fullMoves = 1
+    val fen = FEN("r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR", Color.WHITE, "-", "-", 0, 1
     )
     game.fen = fen
     storage.saveGame(game, newGame = false)
@@ -157,12 +151,7 @@ class GameStorageTest : AnnotationSpec() {
   fun `load game that has difficult fen`() {
     // Given
     val fen = FEN(
-      piecePlacement = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1",
-      activeColor = Color.WHITE,
-      castle = "KQkq",
-      enPassant = "c6",
-      halfMoves = 0,
-      fullMoves = 2
+      "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1", Color.WHITE, "-", "-", 0, 2
     )
     val game = Game(TEST_NUMBER, fen = fen)
     storage.saveGame(game, newGame = true)
@@ -188,14 +177,7 @@ class GameStorageTest : AnnotationSpec() {
   @Test
   fun `get normal game`() {
     // Given
-    val fen = FEN(
-      piecePlacement = "r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1",
-      activeColor = Color.WHITE,
-      castle = "KQkq",
-      enPassant = "c6",
-      halfMoves = 0,
-      fullMoves = 2
-    )
+    val fen = FEN("r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1", Color.WHITE, "-", "-", 0, 2)
     val game = Game(TEST_NUMBER, fen = fen)
     storage.saveGame(game, newGame = true)
 

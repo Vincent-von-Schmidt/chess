@@ -1,5 +1,14 @@
 package hwr.oop.group4.chess.core.fen
 
+/* "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
+groß weiß, klein schwarz,
+zahl:freie felder,
+w oder b für wessen zug es ist,
+castle-züge KQkq
+c6 ein en passant ziel feld
+50züge remis regel zähler, (halbzüge)
+zugzähler */
+
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -25,15 +34,6 @@ object ParserFEN {
       fullMoves = parts[5].toInt(),
     )
   }
-
-  /* "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq c6 0 2"
-  groß weiß, klein schwarz,
-  zahl:freie felder,
-  w oder b für wessen zug es ist,
-  castle-züge KQkq
-  c6 ein en passant ziel feld
-  50züge remis regel zähler, (halbzüge)
-  zugzähler */
 
   fun convertPiecePlacementToMap(fen: FEN): Map<Location, Piece> {
     val map = mutableMapOf<Location, Piece>()

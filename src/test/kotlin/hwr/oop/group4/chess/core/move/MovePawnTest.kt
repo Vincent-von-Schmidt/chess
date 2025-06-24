@@ -41,7 +41,7 @@ class MovePawnTest : AnnotationSpec() {
     val fen = FEN("8/8/8/3P4/8/8/8/8", Color.WHITE, "-", "-", 0, 0)
     board = BoardFactory.generateBoardFromFen(fen)
     val startLocation = Location(File.D, Rank.FIVE)
-    val endLocation = Location(File.D, Rank.SIX) // legal move
+    val endLocation = Location(File.D, Rank.SIX)
 
     // When
     val moveDesired = MoveDesired(startLocation, endLocation)
