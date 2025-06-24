@@ -2,6 +2,7 @@ package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER_STRING
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
@@ -21,7 +22,7 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `valid move prompt creates AsciiArt`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", TEST_NUMBER_STRING))
     val expectedAsciiArt = """
     r n b q k b n r
     p p p p p p p p
@@ -36,11 +37,11 @@ class CliMoveTest : AnnotationSpec() {
 
     // When
     val outputMove = captureStandardOut {
-      main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to", "e3"))
+      main(arrayOf("on", TEST_NUMBER_STRING, "move", "e2", "to", "e3"))
     }.trim()
 
     val outputShow = captureStandardOut {
-      main(arrayOf("game", "show", TEST_NUMBER.toString()))
+      main(arrayOf("game", "show", TEST_NUMBER_STRING))
     }.trim()
 
     // Then
@@ -51,7 +52,7 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `invalid move prompt creates AsciiArt`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", TEST_NUMBER_STRING))
     val expectedAsciiArt = """
     r n b q k b n r
     p p p p p p p p
@@ -66,11 +67,11 @@ class CliMoveTest : AnnotationSpec() {
 
     // When
     val outputMove = captureStandardOut {
-      main(arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to", "e5"))
+      main(arrayOf("on", TEST_NUMBER_STRING, "move", "e2", "to", "e5"))
     }.trim()
 
     val outputShow = captureStandardOut {
-      main(arrayOf("game", "show", TEST_NUMBER.toString()))
+      main(arrayOf("game", "show", TEST_NUMBER_STRING))
     }.trim()
 
     // Then
@@ -81,7 +82,7 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `throw on prompt with less than 6 arguments`() {
     // Given
-    val arguments = arrayOf("on", TEST_NUMBER.toString(), "move", "e2", "to")
+    val arguments = arrayOf("on", TEST_NUMBER_STRING, "move", "e2", "to")
     val errorMessage = """
     No valid command provided. Try one of the following:
     chess new_game <id>
@@ -99,7 +100,7 @@ class CliMoveTest : AnnotationSpec() {
     // Given
     val arguments = arrayOf(
       "on",
-      TEST_NUMBER.toString(),
+      TEST_NUMBER_STRING,
       "move",
       "e2",
       "to",
@@ -136,7 +137,7 @@ class CliMoveTest : AnnotationSpec() {
   fun `throw on prompt with invalid move keyword`() {
     // Given
     val arguments =
-      arrayOf("on", TEST_NUMBER.toString(), "invalid_keyword", "e2", "to", "e4")
+      arrayOf("on", TEST_NUMBER_STRING, "invalid_keyword", "e2", "to", "e4")
     val errorMessage = """
     No valid command provided. Try one of the following:
     chess new_game <id>
@@ -155,7 +156,7 @@ class CliMoveTest : AnnotationSpec() {
     val arguments =
       arrayOf(
         "on",
-        TEST_NUMBER.toString(),
+        TEST_NUMBER_STRING,
         "move",
         "e2",
         "invalid_keyword",
@@ -176,9 +177,9 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `prompt with promotion to queen`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", TEST_NUMBER_STRING))
     val arguments =
-      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "queen")
+      arrayOf("on", TEST_NUMBER_STRING, "move", "a2", "to", "a4", "queen")
 
     // When
     val outputMove = captureStandardOut { main(arguments) }.trim()
@@ -190,9 +191,9 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `prompt with promotion to rook`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", TEST_NUMBER_STRING))
     val arguments =
-      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "rook")
+      arrayOf("on", TEST_NUMBER_STRING, "move", "a2", "to", "a4", "rook")
 
     // When
     val outputMove = captureStandardOut { main(arguments) }.trim()
@@ -204,9 +205,9 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `prompt with promotion to bishop`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", TEST_NUMBER_STRING))
     val arguments =
-      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "bishop")
+      arrayOf("on", TEST_NUMBER_STRING, "move", "a2", "to", "a4", "bishop")
 
     // When
     val outputMove = captureStandardOut { main(arguments) }.trim()
@@ -218,9 +219,9 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `prompt with promotion to knight`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", TEST_NUMBER_STRING))
     val arguments =
-      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "knight")
+      arrayOf("on", TEST_NUMBER_STRING, "move", "a2", "to", "a4", "knight")
 
     // When
     val outputMove = captureStandardOut { main(arguments) }.trim()
@@ -232,9 +233,9 @@ class CliMoveTest : AnnotationSpec() {
   @Test
   fun `throw on prompt with wrong promotion argument`() {
     // Given
-    main(arrayOf("new_game", TEST_NUMBER.toString()))
+    main(arrayOf("new_game", TEST_NUMBER_STRING))
     val arguments =
-      arrayOf("on", TEST_NUMBER.toString(), "move", "a2", "to", "a4", "wrong")
+      arrayOf("on", TEST_NUMBER_STRING, "move", "a2", "to", "a4", "wrong")
     val errorMessage = """
     Valid Promotions are...
     ...Queen, Rook, Bishop, Knight.  

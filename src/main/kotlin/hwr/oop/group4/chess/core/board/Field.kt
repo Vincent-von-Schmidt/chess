@@ -6,7 +6,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 
 class Field(
   val location: Location,
-  private val neighborProvider: () -> Map<Direction, Field?>  // Lazy provider
+  private val neighborProvider: () -> Map<Direction, Field?>,  // Lazy provider
 ) {
   val top: Field? by lazy { neighborProvider()[Direction.TOP] }
   val bottom: Field? by lazy { neighborProvider()[Direction.BOTTOM] }
@@ -16,5 +16,7 @@ class Field(
   private var piece: Piece? = null
 
   fun getPiece() = piece
-  fun placePiece(piece: Piece?) { this.piece = piece }
+  internal fun placePiece(piece: Piece?) {
+    this.piece = piece
+  }
 }

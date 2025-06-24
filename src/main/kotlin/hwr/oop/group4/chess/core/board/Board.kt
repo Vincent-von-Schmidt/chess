@@ -7,7 +7,6 @@ import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.move.MoveDesiredValidator.validateMove
 import hwr.oop.group4.chess.core.move.MoveResult
-import hwr.oop.group4.chess.core.pieces.King
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
@@ -30,8 +29,10 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
         fieldMap[loc] = Field(loc) {
           mapOf(
             Direction.TOP to fieldMap[rank.next()?.let { Location(file, it) }],
-            Direction.BOTTOM to fieldMap[rank.previous()?.let { Location(file, it) }],
-            Direction.LEFT to fieldMap[file.previous()?.let { Location(it, rank) }],
+            Direction.BOTTOM to fieldMap[rank.previous()
+              ?.let { Location(file, it) }],
+            Direction.LEFT to fieldMap[file.previous()
+              ?.let { Location(it, rank) }],
             Direction.RIGHT to fieldMap[file.next()?.let { Location(it, rank) }]
           )
         }
@@ -55,17 +56,6 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     return getField(location).getPiece()
   }
 
-  private fun findKing(color: Color): Location {
-    val king = King(color)
-    for ((location, field) in fields) {
-      val piece = field.getPiece()
-      if (piece is King && piece.getColor() == color) {
-        return location
-      }
-    }
-    throw NoPieceException(piece = king)
-  }
-
   private fun removePieceFromField(location: Location) {
     getField(location).placePiece(null)
   }
@@ -80,25 +70,18 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     promoteToPiece: Piece? = null,
   ): MoveResult {
 
-    validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
     val validatedMove =
       validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
+    val boardState = BoardStateEvaluator(this)
 
-    // temporary move (Check-test)
+    boardState.testSelfCheck(validatedMove, playerAtTurnColor)
+
     placePieceToField(validatedMove.endLocation, validatedMove.toPlacePiece)
     removePieceFromField(validatedMove.startLocation)
 
-    if (isCheck(playerAtTurnColor)) {
-      // undo Move
-      removePieceFromField(validatedMove.endLocation)
-      placePieceToField(validatedMove.startLocation, validatedMove.toPlacePiece)
-      throw CheckException(playerAtTurnColor)
-    }
+    val opponentInCheck = boardState.isCheck(playerAtTurnColor.opposite())
 
-    val opponentInCheck = isCheck(playerAtTurnColor.opposite())
-
-    val isCheckmate =
-      opponentInCheck && isCheckmate(playerAtTurnColor.opposite())
+    val isCheckmate = boardState.isCheckmate(playerAtTurnColor.opposite())
 
     return MoveResult(
       move = validatedMove,
@@ -107,34 +90,33 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     )
   }
 
-  private fun isCheck(color: Color): Boolean {
-    try {
-      val opponentColor = color.opposite()
-      val kingLocation = findKing(color)
-      return isSquareUnderAttack(kingLocation, opponentColor)
-    } catch (e: NoPieceException) {
-      return false // Skip check validation if kings aren't on board
-    }
-  }
-
-  private fun isSquareUnderAttack(
-    target: Location,
-    attackerColor: Color,
+  override fun simulateMoveAndCheck(
+    from: Location,
+    to: Location,
+    piece: Piece,
+    condition: () -> Boolean,
   ): Boolean {
-    for ((location) in fields) {
-      val piece = getPiece(location) ?: continue
-      if (piece.getColor() == attackerColor) {
-        val possibleMoves =
-          piece.getPossibleLocationsToMove(location, this, true)
-        if (target in possibleMoves) {
-          return true
-        }
-      }
-    }
-    return false
-  }
+    val fieldFrom = getField(from)
+    val fieldTo = getField(to)
 
-  private fun isCheckmate(playerAtTurnColor: Color): Boolean {
-    return false
+    val originalFrom = fieldFrom.getPiece()
+    val originalTo = fieldTo.getPiece()
+
+    // Simulate move
+    removePieceFromField(fieldFrom.location)
+    placePieceToField(fieldTo.location, piece)
+
+    val result = condition()
+
+    // Revert move
+    removePieceFromField(to)
+    if (originalFrom != null) {
+      placePieceToField(from, originalFrom)
+    }
+    if (originalTo != null) {
+      placePieceToField(to, originalTo)
+    }
+
+    return result
   }
 }

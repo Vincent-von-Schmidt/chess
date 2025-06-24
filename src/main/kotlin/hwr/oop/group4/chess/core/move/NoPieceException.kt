@@ -1,4 +1,4 @@
-package hwr.oop.group4.chess.core.board
+package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.pieces.Piece
@@ -10,9 +10,6 @@ class NoPieceException(
   when {
     startLoc != null ->
       "${startLoc.description} does not contain a piece"
-
-    piece != null ->
-      "${piece.getDescription()} could not be found"
 
     else -> "Required piece not found"
   }
