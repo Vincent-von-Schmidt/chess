@@ -16,5 +16,5 @@ class Field(
   private var piece: Piece? = null
 
   fun getPiece() = piece
-  fun placePiece(piece: Piece?) { this.piece = piece }
+  internal fun placePiece(piece: Piece?) { this.piece = piece }
 }

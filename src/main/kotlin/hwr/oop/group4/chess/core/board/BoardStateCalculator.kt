@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.core.board
 
-import hwr.oop.group4.chess.core.game.GameState
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.MoveValidated
 import hwr.oop.group4.chess.core.pieces.King
@@ -10,7 +9,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
 
-class BoardStateCalculator(private val board: BoardView) {
+class BoardStateCalculator(private val board: BoardView) { // TODO rewrite long ones for better readability
 
   fun isCheck(playerColor: Color): Boolean {
     val opponentColor = playerColor.opposite()
@@ -22,7 +21,7 @@ class BoardStateCalculator(private val board: BoardView) {
     val from = validatedMove.startLocation
     val to = validatedMove.endLocation
     val piece = validatedMove.toPlacePiece
-    val causesCheck = simulateMoveAndCheck(from, to, piece) {
+    val causesCheck = board.simulateMoveAndCheck(from, to, piece) {
       isCheck(playerColor)
     }
     if (causesCheck) {
@@ -77,9 +76,8 @@ class BoardStateCalculator(private val board: BoardView) {
   private fun canKingMoveAway(kingLocation: Location): Boolean {
     val king = board.getPiece(kingLocation) ?: return false
     val kingMoves = king.getPossibleLocationsToMove(kingLocation, board, false)
-    println(kingMoves)
     return kingMoves.any { dest ->
-      simulateMoveAndCheck(
+      board.simulateMoveAndCheck(
         kingLocation,
         dest,
         king
@@ -102,7 +100,7 @@ class BoardStateCalculator(private val board: BoardView) {
         val possible =
           piece.getPossibleLocationsToMove(field.location, board, true)
         if (attackerLoc in possible) {
-          if (simulateMoveAndCheck(field.location, attackerLoc, piece) {
+          if (board.simulateMoveAndCheck(field.location, attackerLoc, piece) {
               !isCheck(playerColor)
             }) {
             return true
@@ -139,39 +137,13 @@ class BoardStateCalculator(private val board: BoardView) {
           )
         ) continue
 
-        if (simulateMoveAndCheck(field.location, target, piece) {
+        if (board.simulateMoveAndCheck(field.location, target, piece) {
             !isCheck(playerColor)
           }) {
           return true
         }
       }
     }
-
     return false
-  }
-
-  private fun simulateMoveAndCheck( // TODO make secure placePiece Field
-    from: Location,
-    to: Location,
-    piece: Piece,
-    condition: () -> Boolean,
-  ): Boolean {
-    val fieldFrom = board.getField(from)
-    val fieldTo = board.getField(to)
-
-    val originalFrom = fieldFrom.getPiece()
-    val originalTo = fieldTo.getPiece()
-
-    // Simulate move
-    fieldFrom.placePiece(null)
-    fieldTo.placePiece(piece)
-
-    val result = condition()
-
-    // Revert move
-    fieldTo.placePiece(originalTo)
-    fieldFrom.placePiece(originalFrom)
-
-    return result
   }
 }
