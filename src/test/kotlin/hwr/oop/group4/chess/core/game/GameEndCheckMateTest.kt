@@ -43,7 +43,7 @@ class GameEndCheckMateTest : AnnotationSpec() {
   }
 
   @Test
-  fun `checkmate gameEnd gets prevented by capture`() { // TODO Doesnt work right
+  fun `checkmate gameEnd gets prevented by capture`() {
     // Given
     val game = Game(
       TEST_NUMBER,
@@ -68,7 +68,7 @@ class GameEndCheckMateTest : AnnotationSpec() {
   }
 
   @Test
-  fun `checkmate gameEnd gets prevented by block`() { // TODO Doesnt work right
+  fun `checkmate gameEnd gets prevented by block`() {
     // Given
     val game = Game(
       TEST_NUMBER,

@@ -1,12 +1,10 @@
 package hwr.oop.group4.chess.core.move
 
-import hwr.oop.group4.chess.core.board.BoardView
-import hwr.oop.group4.chess.core.board.InvalidMoveException
-import hwr.oop.group4.chess.core.board.InvalidPromotionException
-import hwr.oop.group4.chess.core.board.NoPieceException
+import hwr.oop.group4.chess.core.board.*
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.opposite
 
 object MoveDesiredValidator {
 
@@ -56,8 +54,6 @@ object MoveDesiredValidator {
       throw InvalidMoveException(movingPiece, moveDesired.endLocation)
     }
 
-    // TODO king cant move towards kind too close
-
     val legalDestinations = movingPiece.getPossibleLocationsToMove(
       moveDesired.startLocation,
       board,
@@ -68,6 +64,17 @@ object MoveDesiredValidator {
         movingPiece,
         moveDesired.endLocation
       )
+    }
+    // king cant move towards kind too close
+    if (movingPiece is King) {
+      val tooCloseToOpponentKing = board.simulateMoveAndCheck(moveDesired.startLocation, moveDesired.endLocation, movingPiece) {
+        val opponentKing = BoardStateCalculator(board).findKing(movingPiece.getColor().opposite())
+        opponentKing != null && opponentKing in movingPiece.getPossibleLocationsToMove(moveDesired.endLocation, board, true)
+      }
+
+      if (tooCloseToOpponentKing) {
+        throw KingTooCloseException(moveDesired.endLocation)
+      }
     }
   }
 

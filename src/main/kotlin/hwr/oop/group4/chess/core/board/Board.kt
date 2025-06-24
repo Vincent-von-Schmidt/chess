@@ -70,15 +70,16 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
     val validatedMove =
       validateMove(this, moveDesired, playerAtTurnColor, promoteToPiece)
-    val gameState = BoardStateCalculator(this)
+    val boardState = BoardStateCalculator(this)
 
-    placePieceToField(validatedMove.endLocation, validatedMove.toPlacePiece) // TODO is correct?
+    boardState.testSelfCheck(validatedMove, playerAtTurnColor)
+
+    placePieceToField(validatedMove.endLocation, validatedMove.toPlacePiece)
     removePieceFromField(validatedMove.startLocation)
-    gameState.testSelfCheck(validatedMove, playerAtTurnColor)
-    val opponentInCheck = gameState.isCheck(playerAtTurnColor.opposite())
 
-    val isCheckmate =
-      opponentInCheck && gameState.isCheckmate(playerAtTurnColor.opposite())
+    val opponentInCheck = boardState.isCheck(playerAtTurnColor.opposite())
+
+    val isCheckmate = boardState.isCheckmate(playerAtTurnColor.opposite())
 
     return MoveResult(
       move = validatedMove,
@@ -106,8 +107,13 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
     val result = condition()
 
     // Revert move
-    fieldTo.placePiece(originalTo)
-    fieldFrom.placePiece(originalFrom)
+    removePieceFromField(to)
+    if (originalFrom != null) {
+      placePieceToField(from, originalFrom)
+    }
+    if (originalTo != null) {
+      placePieceToField(to, originalTo)
+    }
 
     return result
   }

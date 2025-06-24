@@ -38,7 +38,7 @@ class BoardStateCalculator(private val board: BoardView) { // TODO rewrite long 
     return true
   }
 
-  private fun findKing(color: Color): Location? {
+  fun findKing(color: Color): Location? {
     for (field in board) {
       val piece = field.getPiece()
       if (piece is King && piece.getColor() == color) {
@@ -93,7 +93,7 @@ class BoardStateCalculator(private val board: BoardView) { // TODO rewrite long 
       getPiecesAttackingField(kingLocation, playerColor.opposite())
     if (checkingPieces.size > 1) return false
 
-    for ((attacker, attackerLoc) in checkingPieces) {
+    for (attackerLoc in checkingPieces.values) {
       for (field in board) {
         val piece = field.getPiece() ?: continue
         if (piece.getColor() != playerColor) continue

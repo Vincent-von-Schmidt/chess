@@ -251,4 +251,22 @@ class MoveIllegalTest : AnnotationSpec() {
       board.movePiece(moveDesired, fen.activeColor)
     }.hasMessage("BLACK Rook can not be moved to H8")
   }
+
+  @Test
+  fun `king throw on getting too close to other king`() {
+    val fen = FEN("8/8/2k1K3/8/8/8/8/8", Color.BLACK, "-", "-", 0, 0)
+    board = BoardFactory.generateBoardFromFen(fen)
+    // Given
+    val startLocation = Location(File.C, Rank.SIX)
+    val endLocation = Location(File.D, Rank.FIVE)
+
+    // When
+    val moveDesired = MoveDesired(startLocation, endLocation)
+
+    // Then
+    assertThatThrownBy {
+      board.movePiece(moveDesired, fen.activeColor)
+    }.hasMessage("King of the opponent is too close to move to D5")
+  }
+
 }

@@ -84,7 +84,7 @@ class GameEndDrawTest : AnnotationSpec() {
   }
 
   @Test
-  fun `user makes draw move`() {
+  fun `threefold repetition draw`() {
     // Given
     val game = Game(
       TEST_NUMBER,

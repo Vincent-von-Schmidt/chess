@@ -1,6 +1,7 @@
 package hwr.oop.group4.chess.core.pieces
 
 import hwr.oop.group4.chess.core.board.BoardView
+import hwr.oop.group4.chess.core.move.NoPieceException
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.KnightJump
@@ -26,9 +27,10 @@ object ValidPieceLocationGenerator {
         val nextField = direction.moveFrom(field) ?: break
         currentLocation = nextField.location
 
-
         if (nextField.getPiece() != null) {
-          if (capture){
+          val movingPieceColor = board.getField(from).getPiece()?.getColor() ?: throw NoPieceException(from)
+          val occupyingPieceColor = nextField.getPiece()!!.getColor()
+          if (capture &&  movingPieceColor != occupyingPieceColor){
             possibleLocations.add(currentLocation)
           }
           break
@@ -53,7 +55,10 @@ object ValidPieceLocationGenerator {
       val targetField = jump.moveFrom(fromField)?: continue
       val targetLocation = targetField.location
       if (targetField.getPiece() != null) {
-        if (capture){
+
+        val movingPieceColor = board.getField(from).getPiece()?.getColor() ?: throw NoPieceException(from)
+        val occupyingPieceColor = targetField.getPiece()!!.getColor()
+        if (capture &&  movingPieceColor != occupyingPieceColor) {
           possibleLocations.add(targetLocation)
         }
         continue
