@@ -31,6 +31,6 @@ data class Knight(private val color: Color) : Piece {
     board: BoardView,
     capture: Boolean,
   ): List<Location> {
-    return calculatePossibleLocationsToJump(from, board, knightJumps)
+    return calculatePossibleLocationsToJump(from, board, knightJumps, capture)
   }
 }

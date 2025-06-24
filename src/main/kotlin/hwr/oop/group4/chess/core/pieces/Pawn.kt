@@ -30,11 +30,11 @@ data class Pawn(private val color: Color) : Piece {
   ): List<Location> {
 
     return if (capture) {
-      calculatePossibleLocationsToMove(from, board, captureDirections, 1)
+      calculatePossibleLocationsToMove(from, board, captureDirections, true, 1)
     } else if ((from.rank == Rank.TWO && color == Color.WHITE) || (from.rank == Rank.SEVEN && color == Color.BLACK)) {
-      calculatePossibleLocationsToMove(from, board, directions, 2)
+      calculatePossibleLocationsToMove(from, board, directions, false, 2)
     } else {
-      calculatePossibleLocationsToMove(from, board, directions, 1)
+      calculatePossibleLocationsToMove(from, board, directions, false, 1)
     }
   }
 }

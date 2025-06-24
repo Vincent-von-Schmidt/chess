@@ -31,6 +31,6 @@ data class Queen(private val color: Color) : Piece {
     board: BoardView,
     capture: Boolean,
   ): List<Location> {
-    return calculatePossibleLocationsToMove(from, board, directions, 8)
+    return calculatePossibleLocationsToMove(from, board, directions, capture, 8)
   }
 }

@@ -1,5 +1,6 @@
 package hwr.oop.group4.chess.core.board
 
+import hwr.oop.group4.chess.core.game.GameState
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.MoveValidated
 import hwr.oop.group4.chess.core.pieces.King
@@ -76,6 +77,7 @@ class BoardStateCalculator(private val board: BoardView) {
   private fun canKingMoveAway(kingLocation: Location): Boolean {
     val king = board.getPiece(kingLocation) ?: return false
     val kingMoves = king.getPossibleLocationsToMove(kingLocation, board, false)
+    println(kingMoves)
     return kingMoves.any { dest ->
       simulateMoveAndCheck(
         kingLocation,
