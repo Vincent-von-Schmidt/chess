@@ -38,7 +38,7 @@ class GameEndTest : AnnotationSpec() {
     //Then
     assertThatThrownBy {
       game.movePiece(moveDesired)
-    }.hasMessage("The game ended in a DRAW, because of FIFTY_MOVE_RULE")
+    }.hasMessage("The game ended in a DRAW, due to FIFTY_MOVE_RULE.")
   }
 
   @Test
@@ -98,7 +98,7 @@ class GameEndTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       game.movePiece(MoveDesired(startLocation, endLocation))
-    }.hasMessage("The game ended in a CHECKMATE, the winner is BLACK")
+    }.hasMessage("Player BLACK won the game!")
   }
 
   @Test
@@ -133,6 +133,6 @@ class GameEndTest : AnnotationSpec() {
     val output = captureStandardOut { main(arguments) }.trim()
 
     // Then
-    assertThat(output).isEqualTo("The game ended in a DRAW, because of THREEFOLD_REPETITION")
+    assertThat(output).isEqualTo("The game ended in a DRAW, due to THREEFOLD_REPETITION.")
   }
 }

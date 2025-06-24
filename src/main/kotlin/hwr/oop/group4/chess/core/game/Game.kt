@@ -11,6 +11,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.player.Player
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
+import hwr.oop.group4.chess.persistence.GameStorage
 import hwr.oop.group4.chess.persistence.GameStorage.saveGame
 
 class Game(
@@ -28,10 +29,10 @@ class Game(
     blackPlayer to 0
   )
 
-  // TODO("update these properties after each move")
-
+  // TODO("update castle and enPassant after each move")
   private var castle = fen.castle
   private var enPassant = fen.enPassant
+
   private var halfMoves = fen.halfMoves
   private var fullMoves = fen.fullMoves
 
@@ -52,7 +53,7 @@ class Game(
     val saveGame = saveGame(
       this,
       newGame = false
-    ) // TODO save GameState (at gameEnd) and PlayerScore
+    )
     updateGameState(saveGame.recentFENs, moveResult)
     return true
   }
@@ -73,6 +74,17 @@ class Game(
       boardLines.add(lineBuilder.toString().trimEnd())
     }
     return boardLines.joinToString("\n") + "\n"
+  }
+
+  fun getCurrentPlayerColor(): Color {
+    return currentPlayer.getColor()
+  }
+
+  fun getPlayerScore(color: Color): Int {
+    val player = if (color == Color.WHITE) {
+      whitePlayer
+    } else blackPlayer
+    return playerScores[player]!!
   }
 
   private fun isThreefoldRepetition(recentFENs: MutableList<FEN>): Boolean {
@@ -125,27 +137,15 @@ class Game(
       if (currentPlayer.getColor() == Color.WHITE) blackPlayer else whitePlayer
   }
 
-  fun getCurrentPlayerColor(): Color {
-    return currentPlayer.getColor()
-  }
-
-  fun getPlayerScore(color: Color): Int {
-    val player = if (color == Color.WHITE) {
-      whitePlayer
-    } else blackPlayer
-    return playerScores[player]!!
-  }
-
   private fun updateGameState(
     recentFENs: MutableList<FEN>,
     moveResult: MoveResult,
   ): GameState {
     return when {
       moveResult.isCheckmate -> {
-        val state = GameState.CHECKMATE
         val winnerColor = currentPlayer.getColor()
-        saveGame(this, false)
-        throw GameOverException(null, state, winnerColor)
+        GameStorage.deleteGame(this)
+        throw GameWinningException(winnerColor)
       }
 
       moveResult.opponentInCheck -> {
@@ -153,17 +153,13 @@ class Game(
       }
 
       isThreefoldRepetition(recentFENs) -> {
-        val state = GameState.DRAW
-        saveGame(this, false)
-        // TODO("safe the game state as well to determine either the game can be loaded back as playable")
-        // saveGame(this, false, state)?
-        throw GameOverException(DrawReason.THREEFOLD_REPETITION, state, null)
+        GameStorage.deleteGame(this)
+        throw GameOverException(DrawReason.THREEFOLD_REPETITION)
       }
 
       isFiftyMoveRule() -> {
-        val state = GameState.DRAW
-        saveGame(this, false)
-        throw GameOverException(DrawReason.FIFTY_MOVE_RULE, state, null)
+        GameStorage.deleteGame(this)
+        throw GameOverException(DrawReason.FIFTY_MOVE_RULE)
       }
 
       else -> GameState.NORMAL
