@@ -1,12 +1,11 @@
 package hwr.oop.group4.chess.core.move
 
+import hwr.oop.group4.chess.core.board.BoardStateEvaluator
 import hwr.oop.group4.chess.core.board.BoardView
-import hwr.oop.group4.chess.core.board.InvalidMoveException
-import hwr.oop.group4.chess.core.board.InvalidPromotionException
-import hwr.oop.group4.chess.core.board.NoPieceException
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.pieces.*
 import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.opposite
 
 object MoveDesiredValidator {
 
@@ -67,6 +66,27 @@ object MoveDesiredValidator {
         moveDesired.endLocation
       )
     }
+    // king cant move towards kind too close
+    if (movingPiece is King) {
+      val tooCloseToOpponentKing = board.simulateMoveAndCheck(
+        moveDesired.startLocation,
+        moveDesired.endLocation,
+        movingPiece
+      ) {
+        val opponentKing = BoardStateEvaluator(board).findKing(
+          movingPiece.getColor().opposite()
+        )
+        opponentKing != null && opponentKing in movingPiece.getPossibleLocationsToMove(
+          moveDesired.endLocation,
+          board,
+          true
+        )
+      }
+
+      if (tooCloseToOpponentKing) {
+        throw KingTooCloseException(moveDesired.endLocation)
+      }
+    }
   }
 
   private fun validatePromotion(
@@ -86,7 +106,7 @@ object MoveDesiredValidator {
         throw InvalidPromotionException(movingPiece, promoteToPiece)
       }
       val checkedPromoteToPiece: Piece =
-        when (promoteToPiece) { // TODO this into parser?
+        when (promoteToPiece) {
           is Queen -> Queen(playerAtTurnColor)
           is Rook -> Rook(playerAtTurnColor)
           is Bishop -> Bishop(playerAtTurnColor)

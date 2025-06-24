@@ -31,6 +31,6 @@ data class King(private val color: Color) : Piece {
     board: BoardView,
     capture: Boolean,
   ): List<Location> {
-    return calculatePossibleLocationsToMove(from, board, directions, 1)
+    return calculatePossibleLocationsToMove(from, board, directions, capture, 1)
   }
 }

@@ -23,7 +23,7 @@ class StringParserTest : AnnotationSpec() {
 
     // Then
     assertThatThrownBy { StringParser.parseLocationFromString(invalidFileInput) }
-      .hasMessage("Invalid file character: Z")
+      .hasMessage("Invalid character: Z")
   }
 
   @Test
@@ -33,7 +33,7 @@ class StringParserTest : AnnotationSpec() {
 
     // Then
     assertThatThrownBy { StringParser.parseLocationFromString(invalidRankInput) }
-      .hasMessage("Invalid rank character: 9")
+      .hasMessage("Invalid character: 9")
   }
 
   @Test

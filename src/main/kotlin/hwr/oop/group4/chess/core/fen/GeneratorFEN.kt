@@ -18,12 +18,12 @@ object GeneratorFEN {
   ): FEN {
     val piecePlacement = genPiecePlacement(board) // returns List<String>
     return FEN(
-      piecePlacement = piecePlacement,
-      activeColor = activeColor,
-      castle = castle,
-      enPassant = enPassant,
-      halfMoves = halfMoves,
-      fullMoves = fullMoves
+      piecePlacement,
+      activeColor,
+      castle,
+      enPassant,
+      halfMoves,
+      fullMoves
     )
   }
 

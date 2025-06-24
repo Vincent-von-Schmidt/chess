@@ -24,6 +24,7 @@ class Game(
   private val blackPlayer = Player(2, Color.BLACK)
   private var currentPlayer =
     if (fen.activeColor == Color.WHITE) whitePlayer else blackPlayer
+  private var lastPlayer = currentPlayer
   private val playerScores = mutableMapOf(
     whitePlayer to 0,
     blackPlayer to 0
@@ -43,7 +44,6 @@ class Game(
   // similar with playerScores etc.
 
   fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean {
-
     val moveResult =
       board.movePiece(moveDesired, currentPlayer.getColor(), promoteTo)
     updateHalfMoves(moveResult.move.pieceCaptured, moveResult.move.toPlacePiece)
@@ -124,6 +124,7 @@ class Game(
   }
 
   private fun updatePlayers(pieceCaptured: Piece?) {
+    lastPlayer = currentPlayer
     if (pieceCaptured != null) {
       val currentScore = playerScores[currentPlayer] ?: 0
       playerScores[currentPlayer] = currentScore + pieceCaptured.getValue()
@@ -149,7 +150,7 @@ class Game(
       }
 
       moveResult.opponentInCheck -> {
-        GameState.CHECK
+        GameState.CHECK // TODO cli gets a message to screen
       }
 
       isThreefoldRepetition(recentFENs) -> {

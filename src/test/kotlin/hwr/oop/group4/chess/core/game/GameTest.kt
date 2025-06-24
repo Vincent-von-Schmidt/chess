@@ -192,7 +192,10 @@ class GameTest : AnnotationSpec() {
     )
 
     // When
-    moves.forEach { game.movePiece(it) }
+    for (move in moves) {
+      game.boardToAscii()
+      game.movePiece(move)
+    }
 
     // Then
     val blackPlayerScore = game.getPlayerScore(Color.BLACK)

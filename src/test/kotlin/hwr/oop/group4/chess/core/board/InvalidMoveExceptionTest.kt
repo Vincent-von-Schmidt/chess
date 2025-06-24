@@ -1,5 +1,6 @@
 package hwr.oop.group4.chess.core.board
 
+import hwr.oop.group4.chess.core.move.InvalidMoveException
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThatThrownBy
 

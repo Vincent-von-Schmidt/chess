@@ -2,6 +2,7 @@ package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
+import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER_STRING
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
@@ -91,11 +92,11 @@ class GameShowTest : AnnotationSpec() {
     R N B Q K B N R
     WHITE to move.
     """.trimIndent()
-    main(arrayOf("new_game", "1000000"))
+    main(arrayOf("new_game", TEST_NUMBER_STRING))
 
     // When
     val output = captureStandardOut {
-      main(arrayOf("game", "show", "1000000"))
+      main(arrayOf("game", "show", TEST_NUMBER_STRING))
     }.trim()
 
     // Then
@@ -105,7 +106,7 @@ class GameShowTest : AnnotationSpec() {
   @Test
   fun `prompt -chess game show 1000000- but ID is not created yet`() {
     // Given
-    val arguments = arrayOf("game", "show", "1000000")
+    val arguments = arrayOf("game", "show", TEST_NUMBER_STRING)
 
     // Then
     assertThatThrownBy { main(arguments) }
