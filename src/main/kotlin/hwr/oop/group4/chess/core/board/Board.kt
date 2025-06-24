@@ -30,8 +30,10 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
         fieldMap[loc] = Field(loc) {
           mapOf(
             Direction.TOP to fieldMap[rank.next()?.let { Location(file, it) }],
-            Direction.BOTTOM to fieldMap[rank.previous()?.let { Location(file, it) }],
-            Direction.LEFT to fieldMap[file.previous()?.let { Location(it, rank) }],
+            Direction.BOTTOM to fieldMap[rank.previous()
+              ?.let { Location(file, it) }],
+            Direction.LEFT to fieldMap[file.previous()
+              ?.let { Location(it, rank) }],
             Direction.RIGHT to fieldMap[file.next()?.let { Location(it, rank) }]
           )
         }

@@ -8,12 +8,13 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class ParserFENTest : AnnotationSpec() {
 
-  val fen ="rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
+  val fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2"
 
   @Test
   fun `piece placement list is created correctly`() {
     // Given
-    val expectedPiecePlacement = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR"
+    val expectedPiecePlacement =
+      "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR"
 
     // When
     val parsedFenPiecePlacement = ParserFEN.parseStringToFen(fen).piecePlacement
@@ -37,7 +38,7 @@ class ParserFENTest : AnnotationSpec() {
   @Test
   fun `active color is read as black`() {
     //Given
-    val fen ="rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR b KQkq c6 0 2"
+    val fen = "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR b KQkq c6 0 2"
     val expectedColor = Color.BLACK
 
     //When

@@ -8,7 +8,6 @@ import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.utils.Color
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.mpp.start
 import org.assertj.core.api.Assertions.assertThat
 
 class MoveKnightTest : AnnotationSpec() {

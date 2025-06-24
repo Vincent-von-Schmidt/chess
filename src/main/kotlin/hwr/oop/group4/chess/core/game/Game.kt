@@ -28,14 +28,14 @@ class Game(
     blackPlayer to 0
   )
 
-  // TODO update these properties after each move
+  // TODO("update these properties after each move")
 
   private var castle = fen.castle
   private var enPassant = fen.enPassant
   private var halfMoves = fen.halfMoves
   private var fullMoves = fen.fullMoves
 
-  var recentFENs: MutableList<FEN> = mutableListOf() // TODO make secure
+  var recentFENs: MutableList<FEN> = mutableListOf() // TODO("make secure")
   // public var recent fens is cheatable loadGame should pass the list on load of a
   // game, then inside the actual game there will be updates to set list
   // which then should be able to bo saved...
@@ -155,7 +155,7 @@ class Game(
       isThreefoldRepetition(recentFENs) -> {
         val state = GameState.DRAW
         saveGame(this, false)
-        // TODO safe the game state as well to determine either the game can be loaded back as playable
+        // TODO("safe the game state as well to determine either the game can be loaded back as playable")
         // saveGame(this, false, state)?
         throw GameOverException(DrawReason.THREEFOLD_REPETITION, state, null)
       }

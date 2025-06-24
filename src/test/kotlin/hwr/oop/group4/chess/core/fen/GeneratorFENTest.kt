@@ -16,7 +16,8 @@ class GeneratorFENTest : AnnotationSpec() {
     val expectedFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 0"
 
     // When
-    val fen = GeneratorFEN.generateFen(board, "", "", 0, 0, Color.WHITE).toString()
+    val fen =
+      GeneratorFEN.generateFen(board, "", "", 0, 0, Color.WHITE).toString()
 
     // Then
     assertThat(fen).isEqualTo(expectedFen)
@@ -29,7 +30,8 @@ class GeneratorFENTest : AnnotationSpec() {
     val expectedFen = "8/8/8/8/8/8/8/8 w - - 0 0"
 
     // When
-    val fen = GeneratorFEN.generateFen(board, "", "", 0, 0, Color.WHITE).toString()
+    val fen =
+      GeneratorFEN.generateFen(board, "", "", 0, 0, Color.WHITE).toString()
 
     // Then
     assertThat(fen).isEqualTo(expectedFen)
