@@ -8,7 +8,7 @@ import hwr.oop.group4.chess.core.pieces.*
 
 object StringParser {
   fun parseLocationFromString(input: String): Location {
-    if (input.length != 2) throw InvalidLocationException("Invalid field format: must be exactly 2 characters")
+    if (input.length != 2) throw InvalidLocationException()
 
     val fileChar = input[0].uppercaseChar()
     val rankChar = input[1]
