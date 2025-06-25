@@ -8,10 +8,11 @@ import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.move.MoveDesiredValidator.validateMove
 import hwr.oop.group4.chess.core.move.MoveResult
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.utils.StringParser.parsePieceCharFromPiece
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
 
-class Board(piecePlacementMap: Map<Location, Piece>) : BoardView { // TODO game wie hier ohne null generieren
+class Board(private val piecePlacementMap: Map<Location, Piece>) : BoardView {
 
   private val fields: Map<Location, Field> = generateBoard()
 
@@ -63,12 +64,10 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView { // TODO game 
       val lineBuilder = StringBuilder()
       for (file in File.entries) {
         val location = Location(file, rank)
-        val piece = getPiece(location)
-        if (piece == null) {
-          lineBuilder.append("- ")
-        } else {
-          lineBuilder.append("${piece.toString().first()} ")
-        }
+        val piece = piecePlacementMap[location]
+        lineBuilder.append(
+          piece?.let { "${parsePieceCharFromPiece(piece)} " } ?: "- "
+        )
       }
       boardLines.add(lineBuilder.toString().trimEnd())
     }

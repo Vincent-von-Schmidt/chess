@@ -46,7 +46,7 @@ class GameStorageTest : AnnotationSpec() {
   }
 
   @Test
-  fun `saving a game with only gameState`() {
+  fun `saving a game with only gameState`() { // TODO tests überhaupt correct?
     // Given
     val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     val gameState = GameState.CHECK

@@ -21,7 +21,7 @@ object ParserSaveEntry {
       val blackRaw = if (extraParts.size > 1) extraParts[1] else null
       val stateRaw = if (extraParts.size > 2) extraParts[2] else null
 
-      whitePoints = if (whiteRaw == null || whiteRaw == "-") null else whiteRaw.toIntOrNull()
+      whitePoints = if (whiteRaw == null || whiteRaw == "0") null else whiteRaw.toIntOrNull()
       blackPoints = if (blackRaw == null || blackRaw == "-") null else blackRaw.toIntOrNull()
       gameState = if (stateRaw == null || stateRaw == "-") null else GameState.valueOf(stateRaw)
     } else {
