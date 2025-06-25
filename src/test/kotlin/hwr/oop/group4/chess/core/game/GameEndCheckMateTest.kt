@@ -18,15 +18,15 @@ class GameEndCheckMateTest : AnnotationSpec() {
 
   @BeforeEach
   fun setup() {
-    GameStorage.deleteGame(Game(TEST_NUMBER))
+    GameStorage.deleteGame(TEST_NUMBER)
   }
 
   @Test
   fun `checkmate gameEnd`() {
     // Given
-    val game = Game(
+    val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      fen = FEN("8/8/8//8/1r6/r7/5K2", Color.BLACK, "-", "-", 0, 0)
+      toLoadFen = FEN("8/8/8//8/1r6/r7/5K2", Color.BLACK, "-", "-", 0, 0)
     )
 
     // When
@@ -42,9 +42,9 @@ class GameEndCheckMateTest : AnnotationSpec() {
   @Test
   fun `checkmate gameEnd gets prevented by capture`() {
     // Given
-    val game = Game(
+    val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      fen = FEN("8/8/8/3PPPr1/3PK3/3PPP1P/8/8", Color.BLACK, "-", "-", 0, 0)
+      toLoadFen = FEN("8/8/8/3PPPr1/3PK3/3PPP1P/8/8", Color.BLACK, "-", "-", 0, 0)
     )
     val startLocation = Location(File.H, Rank.THREE)
     val endLocation = Location(File.G, Rank.FOUR)
@@ -68,9 +68,9 @@ class GameEndCheckMateTest : AnnotationSpec() {
   @Test
   fun `checkmate gameEnd gets prevented by block`() {
     // Given
-    val game = Game(
+    val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      fen = FEN("8/8/8/3PPPr1/3PK3/3PPR2/8/8", Color.BLACK, "-", "-", 0, 0)
+      toLoadFen = FEN("8/8/8/3PPPr1/3PK3/3PPR2/8/8", Color.BLACK, "-", "-", 0, 0)
     )
     val startLocation = Location(File.F, Rank.THREE)
     val endLocation = Location(File.F, Rank.FOUR)

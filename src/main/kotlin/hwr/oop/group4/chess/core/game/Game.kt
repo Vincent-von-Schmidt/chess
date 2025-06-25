@@ -12,22 +12,22 @@ import hwr.oop.group4.chess.core.player.Player
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.persistence.GameStorage.saveGame
+import hwr.oop.group4.chess.persistence.SaveEntry
 
 class Game(
   val id: Int,
-  private var fen: FEN = STARTING_POSITION,
+  gameSave : List<SaveEntry>,
 ) {
+  private var fen: FEN = gameSave.lastOrNull()?.getFen() ?: STARTING_POSITION
   val board: Board = BoardFactory.generateBoardFromFen(fen)
 
-  private val whitePlayer = Player(1, Color.WHITE)
-  private val blackPlayer = Player(2, Color.BLACK)
-  private var currentPlayer =
-    if (fen.activeColor == Color.WHITE) whitePlayer else blackPlayer
-  private var lastPlayer = currentPlayer
-  private val playerScores = mutableMapOf(
-    whitePlayer to 0,
-    blackPlayer to 0
+  private val players = mapOf(
+    Color.WHITE to Player(1, Color.WHITE),
+    Color.BLACK to Player(2, Color.BLACK)
   )
+  private var currentPlayer = players[fen.activeColor]!!
+  private var lastPlayer = currentPlayer
+  private val playerScores = players.values.associateWith { 0 }.toMutableMap()
 
   // TODO("update castle and enPassant after each move")
   private var castle = fen.castle
@@ -36,47 +36,29 @@ class Game(
   private var halfMoves = fen.halfMoves
   private var fullMoves = fen.fullMoves
 
-  var recentFENs: MutableList<FEN> = mutableListOf() // TODO("make secure")
-  // public var recent fens is cheatable loadGame should pass the list on load of a
-  // game, then inside the actual game there will be updates to set list
-  // which then should be able to bo saved...
-  // similar with playerScores etc.
+  private var saveEntries: MutableList<SaveEntry> = if (gameSave.isNotEmpty()) {
+    gameSave.toMutableList()
+  } else {
+    mutableListOf(SaveEntry(fen, 0, 0, null))
+  }
+
+  private var recentFENs: MutableList<FEN> = saveEntries.map { it.getFen() }.toMutableList()
 
   fun getFen(): FEN{
     return fen
   }
 
-  fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean {
-    val moveResult =
-      board.movePiece(moveDesired, currentPlayer.getColor(), promoteTo)
+  fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean { // TODO looks crowded
+    val moveResult = board.movePiece(moveDesired, currentPlayer.getColor(), promoteTo)
     updateHalfMoves(moveResult.move.pieceCaptured, moveResult.move.toPlacePiece)
     updateFullMoves()
     updatePlayers(moveResult.move.pieceCaptured)
     this.fen = updateFen()
-    val saveGame = saveGame(
-      this,
-      newGame = false
-    )
-    updateGameState(saveGame.recentFENs, moveResult)
+    updateSaveEntries()
+    val state = updateGameState(moveResult).first
+    saveGame(this, false, state)
+    updateGameEnd(state)
     return true
-  }
-
-  fun boardToAscii(): String {
-    val piecePlacement = fen.piecePlacement.split("/")
-    val boardLines = mutableListOf<String>()
-
-    for (rank in piecePlacement) {
-      val lineBuilder = StringBuilder()
-      for (field in rank) {
-        if (field in '1'..'8') {
-          repeat(field.digitToInt()) { lineBuilder.append("- ") }
-        } else {
-          lineBuilder.append("$field ")
-        }
-      }
-      boardLines.add(lineBuilder.toString().trimEnd())
-    }
-    return boardLines.joinToString("\n") + "\n"
   }
 
   fun getCurrentPlayerColor(): Color {
@@ -84,17 +66,14 @@ class Game(
   }
 
   fun getPlayerScore(color: Color): Int {
-    val player = if (color == Color.WHITE) {
-      whitePlayer
-    } else blackPlayer
+    val player = players[color]!!
     return playerScores[player]!!
   }
 
-  private fun isThreefoldRepetition(recentFENs: MutableList<FEN>): Boolean {
-    val result = recentFENs.groupingBy { it }
+  private fun isThreefoldRepetition(): Boolean {
+    return recentFENs.groupingBy { it }
       .eachCount()
       .any { it.value >= 3 }
-    return result
   }
 
   private fun isFiftyMoveRule(): Boolean {
@@ -126,50 +105,57 @@ class Game(
     )
   }
 
+  private fun updateSaveEntries() {
+    if (saveEntries.lastOrNull()?.getFen() != fen) {
+      saveEntries.add(
+        SaveEntry(
+          fen,
+          getPlayerScore(Color.WHITE),
+          getPlayerScore(Color.BLACK),
+          null
+        )
+      )
+    }
+    recentFENs = saveEntries.map { it.getFen() }.toMutableList()
+  }
+
+  fun getSaveEntries(): List<SaveEntry> = saveEntries
+
   private fun updatePlayers(pieceCaptured: Piece?) {
     lastPlayer = currentPlayer
     if (pieceCaptured != null) {
       val currentScore = playerScores[currentPlayer] ?: 0
       playerScores[currentPlayer] = currentScore + pieceCaptured.getValue()
     }
-
     switchTurn()
   }
 
   private fun switchTurn() {
     currentPlayer =
-      if (currentPlayer.getColor() == Color.WHITE) blackPlayer else whitePlayer
+      if (currentPlayer.getColor() == Color.WHITE) players[Color.BLACK]!! else players[Color.WHITE]!!
   }
 
-  private fun updateGameState(
-    recentFENs: MutableList<FEN>,
-    moveResult: MoveResult,
-  ): GameState {
+  private fun updateGameState(moveResult: MoveResult): Pair<GameState, DrawReason?> {
     return when {
-      moveResult.isCheckmate -> {
-        val state = GameState.CHECKMATE
+      moveResult.isCheckmate -> GameState.CHECKMATE to null
+      moveResult.opponentInCheck -> GameState.CHECK to null
+      isThreefoldRepetition() -> GameState.DRAW to DrawReason.THREEFOLD_REPETITION
+      isFiftyMoveRule() -> GameState.DRAW to DrawReason.FIFTY_MOVE_RULE
+      else -> GameState.NORMAL to null
+    }
+  }
+
+  private fun updateGameEnd(state: GameState, reason: DrawReason? = null) {
+    when (state) {
+      GameState.CHECKMATE -> {
         val winnerColor = lastPlayer.getColor()
-        saveGame(this, false, getPlayerScore(Color.WHITE), getPlayerScore(Color.BLACK), state)
         throw CheckMateException(state, winnerColor)
       }
-
-      moveResult.opponentInCheck -> {
-        GameState.CHECK // TODO cli gets a message to screen
+      GameState.DRAW -> {
+        throw DrawException(state, reason)
       }
-
-      isThreefoldRepetition(recentFENs) -> {
-        val state = GameState.DRAW
-        saveGame(this, false, getPlayerScore(Color.WHITE), getPlayerScore(Color.BLACK), state)
-        throw DrawException(state, DrawReason.THREEFOLD_REPETITION)
+      else -> {  // Do nothing for NORMAL or CHECK
       }
-
-      isFiftyMoveRule() -> {
-        val state = GameState.DRAW
-        saveGame(this, false, getPlayerScore(Color.WHITE), getPlayerScore(Color.BLACK), state)
-        throw DrawException(state, DrawReason.FIFTY_MOVE_RULE)
-      }
-
-      else -> GameState.NORMAL
     }
   }
 }

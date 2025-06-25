@@ -11,7 +11,7 @@ import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.opposite
 
-class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
+class Board(piecePlacementMap: Map<Location, Piece>) : BoardView { // TODO game wie hier ohne null generieren
 
   private val fields: Map<Location, Field> = generateBoard()
 
@@ -54,6 +54,26 @@ class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
   override fun getPiece(location: Location): Piece? {
     return getField(location).getPiece()
+  }
+
+  fun boardToAscii(): String {
+    val boardLines = mutableListOf<String>()
+
+    for (rank in Rank.entries.reversed()) {
+      val lineBuilder = StringBuilder()
+      for (file in File.entries) {
+        val location = Location(file, rank)
+        val piece = getPiece(location)
+        if (piece == null) {
+          lineBuilder.append("- ")
+        } else {
+          lineBuilder.append("${piece.toString().first()} ")
+        }
+      }
+      boardLines.add(lineBuilder.toString().trimEnd())
+    }
+
+    return boardLines.joinToString("\n") + "\n"
   }
 
   private fun removePieceFromField(location: Location) {

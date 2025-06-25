@@ -1,6 +1,8 @@
 package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.game.Game
+import hwr.oop.group4.chess.core.game.GameFactory
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import hwr.oop.group4.chess.persistence.GameStorage
 import io.kotest.core.spec.style.AnnotationSpec
@@ -10,11 +12,11 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class NewGameTest : AnnotationSpec() {
 
-  private val game = Game(TEST_NUMBER)
+  private val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
 
   @BeforeEach
   fun setup() {
-    GameStorage.deleteGame(game)
+    GameStorage.deleteGame(game.id)
   }
 
   @Test

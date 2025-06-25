@@ -28,8 +28,7 @@ object ValidPieceLocationGenerator {
         currentLocation = nextField.location
 
         if (nextField.getPiece() != null) {
-          val movingPieceColor = board.getField(from).getPiece()?.getColor()
-            ?: throw NoPieceException(from)
+          val movingPieceColor = board.getField(from).getPiece()?.getColor()!!
           val occupyingPieceColor = nextField.getPiece()!!.getColor()
           if (capture && movingPieceColor != occupyingPieceColor) {
             possibleLocations.add(currentLocation)
@@ -58,9 +57,7 @@ object ValidPieceLocationGenerator {
       if (targetField.getPiece() != null) {
 
         val movingPieceColor =
-          board.getField(from).getPiece()?.getColor() ?: throw NoPieceException(
-            from
-          )
+          board.getField(from).getPiece()?.getColor()!!
         val occupyingPieceColor = targetField.getPiece()!!.getColor()
         if (capture && movingPieceColor != occupyingPieceColor) {
           possibleLocations.add(targetLocation)

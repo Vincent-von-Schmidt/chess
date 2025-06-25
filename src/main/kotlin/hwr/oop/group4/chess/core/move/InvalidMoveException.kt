@@ -9,7 +9,6 @@ class InvalidMoveException(
   occupyingPiece: Piece? = null,
 ) : Exception(
   when {
-
     movingPiece != null && endLoc != null && occupyingPiece == null ->
       "${movingPiece.getDescription()} can not be moved to ${endLoc.description}"
 

@@ -21,15 +21,15 @@ class GameEndDrawTest : AnnotationSpec() {
 
   @BeforeEach
   fun setup() {
-    GameStorage.deleteGame(Game(TEST_NUMBER))
+    GameStorage.deleteGame(TEST_NUMBER)
   }
 
   @Test
   fun `halfMove draw`() {
     // Given
-    val game = Game(
+    val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-", 49, 0)
+      toLoadFen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-", 49, 0)
     )
 
     // When
@@ -45,9 +45,9 @@ class GameEndDrawTest : AnnotationSpec() {
   @Test
   fun `halfMove reset on capture`() {
     // Given
-    val game = Game(
+    val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-", 49, 0)
+      toLoadFen = FEN("8/8/8/1P1r4/8/8/8/8", Color.BLACK, "-", "-", 49, 0)
     )
     val startLocation = Location(File.D, Rank.FIVE)
     val endLocation = Location(File.B, Rank.FIVE)
@@ -66,9 +66,9 @@ class GameEndDrawTest : AnnotationSpec() {
   @Test
   fun `halfMove reset on pawnMove`() {
     // Given
-    val game = Game(
+    val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      fen = FEN("8/8/8/1P1r4/8/8/8/8", Color.WHITE, "-", "-", 49, 0)
+      toLoadFen = FEN("8/8/8/1P1r4/8/8/8/8", Color.WHITE, "-", "-", 49, 0)
     )
     val startLocation = Location(File.B, Rank.FIVE)
     val endLocation = Location(File.B, Rank.SIX)
@@ -87,9 +87,9 @@ class GameEndDrawTest : AnnotationSpec() {
   @Test
   fun `threefold repetition draw`() {
     // Given
-    val game = Game(
+    val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      fen = FEN("8/8/8/8/8/8/r7/R7", Color.WHITE, "-", "-", 0, 0)
+      toLoadFen = FEN("8/8/8/8/8/8/r7/R7", Color.WHITE, "-", "-", 0, 0)
     )
     GameStorage.saveGame(game)
 

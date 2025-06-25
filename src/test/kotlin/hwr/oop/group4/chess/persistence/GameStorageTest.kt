@@ -1,9 +1,10 @@
 package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.fen.FEN
-import hwr.oop.group4.chess.core.game.Game
+import hwr.oop.group4.chess.core.game.GameFactory
 import hwr.oop.group4.chess.core.game.GameState
 import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
@@ -28,8 +29,8 @@ class GameStorageTest : AnnotationSpec() {
   @Test
   fun `creating two games and files exist`() {
     // Given
-    val game1 = Game(TEST_NUMBER)
-    val game2 = Game(TEST_NUMBER + 1)
+    val game1 = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
+    val game2 = GameFactory.generateGameFromFen(TEST_NUMBER + 1, STARTING_POSITION)
 
     // When
     storage.saveGame(game1, newGame = true)
@@ -45,26 +46,42 @@ class GameStorageTest : AnnotationSpec() {
   }
 
   @Test
-  fun `saving a game with player data and gameState`() {
+  fun `saving a game with only gameState`() {
     // Given
-    val game = Game(TEST_NUMBER + 2)
-    val whitePlayerScore = 23
-    val blackPlayerScore = 12
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     val gameState = GameState.CHECK
 
     // When
-    storage.saveGame(game, newGame = true, whitePlayerScore, blackPlayerScore, gameState)
+    storage.saveGame(game, newGame = true, gameState = gameState)
+    val file = File("games/${game.id}.csv")
+    println(file.readText())
+    println(game.getSaveEntries().last())
+    // Then
+    assertThat(file.exists()).isTrue
+    assertThat(file.readText()).isEqualTo("${game.getSaveEntries().last()}\n")
+  }
+
+  @Test
+  fun `saving a game with player data and gameState`() {
+    // Given
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
+    val whitePlayerScore = 23 // TODO wie teste ich das ?
+    val blackPlayerScore = 12
+    val gameState = GameState.NORMAL
+
+    // When
+    storage.saveGame(game, newGame = true, gameState)
     val file = File("games/${game.id}.csv")
 
     // Then
     assertThat(file.exists()).isTrue
-    assertThat(file.readText()).isEqualTo("${game.getFen()}\n")
+    assertThat(file.readText()).isEqualTo("${game.getSaveEntries().last()}\n")
   }
 
   @Test
   fun `creating a game with existing ID`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
 
     // When
     storage.saveGame(game, newGame = true)
@@ -77,7 +94,7 @@ class GameStorageTest : AnnotationSpec() {
   @Test
   fun `loading game that doesn't exist`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
 
     // Then
     assertThatThrownBy { storage.loadGame(game.id) }
@@ -87,7 +104,7 @@ class GameStorageTest : AnnotationSpec() {
   @Test
   fun `loading game that exists`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     storage.saveGame(game, newGame = true)
     val expectedAsciiArt = """
     r n b q k b n r
@@ -102,7 +119,7 @@ class GameStorageTest : AnnotationSpec() {
     """.trimIndent()
 
     // When
-    val output = game.boardToAscii()
+    val output = game.board.boardToAscii()
 
     // Then
     assertThat(output).isEqualTo(expectedAsciiArt)
@@ -111,11 +128,11 @@ class GameStorageTest : AnnotationSpec() {
   @Test
   fun `deleting a game`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     storage.saveGame(game, newGame = true)
 
     // When
-    storage.deleteGame(game)
+    storage.deleteGame(TEST_NUMBER)
 
     // Then
     assertThatThrownBy { storage.loadGame(TEST_NUMBER) }
@@ -125,8 +142,8 @@ class GameStorageTest : AnnotationSpec() {
   @Test
   fun `create two games and load the first`() {
     // Given
-    val game1 = Game(TEST_NUMBER)
-    val game2 = Game(TEST_NUMBER + 1)
+    val game1 = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
+    val game2 = GameFactory.generateGameFromFen(TEST_NUMBER + 1, STARTING_POSITION)
     val expectedAsciiArt = """
     r n b q k b n r
     p p p p p p p p
@@ -142,7 +159,7 @@ class GameStorageTest : AnnotationSpec() {
     // When
     storage.saveGame(game1, newGame = true)
     storage.saveGame(game2, newGame = true)
-    val output = game1.boardToAscii()
+    val output = game1.board.boardToAscii()
 
     // Then
     assertThat(output).isEqualTo(expectedAsciiArt)
@@ -159,7 +176,7 @@ class GameStorageTest : AnnotationSpec() {
       0,
       2
     )
-    val game = Game(TEST_NUMBER, fen = fen)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, fen)
     storage.saveGame(game, newGame = true)
     val expectedAsciiArt = """
     r - b k - - - r
@@ -174,7 +191,7 @@ class GameStorageTest : AnnotationSpec() {
     """.trimIndent()
 
     // When
-    val output = game.boardToAscii()
+    val output = game.board.boardToAscii()
 
     // Then
     assertThat(output).isEqualTo(expectedAsciiArt)
@@ -191,7 +208,7 @@ class GameStorageTest : AnnotationSpec() {
       0,
       2
     )
-    val game = Game(TEST_NUMBER, fen = fen)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, fen)
     storage.saveGame(game, newGame = true)
 
     // When

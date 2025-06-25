@@ -4,6 +4,7 @@ import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
 import hwr.oop.group4.chess.core.utils.Constants.EMPTY_BOARD
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
@@ -31,7 +32,7 @@ class BoardTest : AnnotationSpec() {
   @Test
   fun `board with no fen given loads correctly`() {
     // Given
-    val board = BoardFactory.generateBoardFromFen()
+    val board = BoardFactory.generateBoardFromFen(STARTING_POSITION)
     val e1Location = Location(File.E, Rank.ONE)
     val g7Location = Location(File.G, Rank.SEVEN)
 

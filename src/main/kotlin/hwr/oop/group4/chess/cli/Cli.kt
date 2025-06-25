@@ -1,9 +1,10 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.game.DrawException
+import hwr.oop.group4.chess.core.game.GameFactory
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.pieces.Piece
+import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.utils.StringParser
 import hwr.oop.group4.chess.persistence.GamePersistencePort
 
@@ -23,8 +24,8 @@ class Cli(
         } catch (e: NumberFormatException) {
           throw WrongIdFormatException()
         }
-        val game = Game(id)
-        gameStorage.saveGame(game, newGame = true)
+        val game = GameFactory.generateGameFromFen(id, STARTING_POSITION)
+        gameStorage.saveGame(game, true)
         println("New game $id created.")
       }
 
@@ -37,7 +38,7 @@ class Cli(
           throw WrongIdFormatException()
         }
         val game = gameStorage.loadGame(id)
-        val gameString = game.boardToAscii()
+        val gameString = game.board.boardToAscii()
         print(gameString)
         println("${game.getCurrentPlayerColor()} to move.")
       }
