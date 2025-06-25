@@ -58,21 +58,18 @@ class Board(private val piecePlacementMap: Map<Location, Piece>) : BoardView {
   }
 
   fun boardToAscii(): String {
-    val boardLines = mutableListOf<String>()
-
-    for (rank in Rank.entries.reversed()) {
-      val lineBuilder = StringBuilder()
-      for (file in File.entries) {
-        val location = Location(file, rank)
-        val piece = piecePlacementMap[location]
-        lineBuilder.append(
-          piece?.let { "${parsePieceCharFromPiece(piece)} " } ?: "- "
-        )
+      val boardLines = mutableListOf<String>()
+      for (rank in Rank.entries.reversed()) {
+          val line = buildString {
+              for (file in File.entries) {
+                  val location = Location(file, rank)
+                  val piece = getPiece(location)
+                  append((piece?.let { parsePieceCharFromPiece(it) } ?: '-') + " ")
+              }
+          }.trimEnd()
+          boardLines.add(line)
       }
-      boardLines.add(lineBuilder.toString().trimEnd())
-    }
-
-    return boardLines.joinToString("\n") + "\n"
+      return boardLines.joinToString("\n")
   }
 
   private fun removePieceFromField(location: Location) {

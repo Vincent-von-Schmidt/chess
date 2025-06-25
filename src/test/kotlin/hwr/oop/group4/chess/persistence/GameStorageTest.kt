@@ -114,9 +114,7 @@ class GameStorageTest : AnnotationSpec() {
     - - - - - - - -
     - - - - - - - -
     P P P P P P P P
-    R N B Q K B N R
-    
-    """.trimIndent()
+    R N B Q K B N R""".trimIndent()
 
     // When
     val output = game.board.boardToAscii()
@@ -152,9 +150,7 @@ class GameStorageTest : AnnotationSpec() {
     - - - - - - - -
     - - - - - - - -
     P P P P P P P P
-    R N B Q K B N R
-    
-    """.trimIndent()
+    R N B Q K B N R""".trimIndent()
 
     // When
     storage.saveGame(game1, newGame = true)
@@ -186,9 +182,7 @@ class GameStorageTest : AnnotationSpec() {
     - - - - - - P -
     - - - P - - - -
     P - P - K - - -
-    q - - - - - b -
-    
-    """.trimIndent()
+    q - - - - - b -""".trimIndent()
 
     // When
     val output = game.board.boardToAscii()

@@ -56,8 +56,9 @@ class Game(
     this.fen = updateFen()
     updateSaveEntries()
     val state = updateGameState(moveResult).first
+    val drawReason = updateGameState(moveResult).second
     saveGame(this, false, state)
-    updateGameEnd(state)
+    updateGameEnd(state, drawReason)
     return true
   }
 
