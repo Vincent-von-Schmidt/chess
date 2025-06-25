@@ -1,7 +1,7 @@
 package hwr.oop.group4.chess.cli
 
 import hwr.oop.group4.chess.core.game.Game
-import hwr.oop.group4.chess.core.game.GameOverException
+import hwr.oop.group4.chess.core.game.DrawException
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.utils.StringParser
@@ -63,9 +63,8 @@ class Cli(
           ) else null
         try {
           game.movePiece(moveDesired, promoteTo)
-        } catch (e: GameOverException) {
+        } catch (e: DrawException) {
           println(e.message)
-          gameStorage.deleteGame(game)
           return
         } catch (e: Exception) {
           println("Invalid move from ${from.description} to ${to.description}.")

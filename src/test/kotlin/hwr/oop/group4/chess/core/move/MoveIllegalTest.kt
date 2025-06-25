@@ -266,7 +266,7 @@ class MoveIllegalTest : AnnotationSpec() {
     // Then
     assertThatThrownBy {
       board.movePiece(moveDesired, fen.activeColor)
-    }.hasMessage("King of the opponent is too close to move to D5")
+    }.hasMessage("WHITE King of the opponent is too close to move to D5")
   }
 
 }

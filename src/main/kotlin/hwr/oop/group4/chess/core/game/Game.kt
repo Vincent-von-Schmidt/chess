@@ -11,7 +11,6 @@ import hwr.oop.group4.chess.core.pieces.Piece
 import hwr.oop.group4.chess.core.player.Player
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
-import hwr.oop.group4.chess.persistence.GameStorage
 import hwr.oop.group4.chess.persistence.GameStorage.saveGame
 
 class Game(
@@ -144,9 +143,10 @@ class Game(
   ): GameState {
     return when {
       moveResult.isCheckmate -> {
-        val winnerColor = currentPlayer.getColor()
-        GameStorage.deleteGame(this)
-        throw GameWinningException(winnerColor)
+        val state = GameState.CHECKMATE
+        val winnerColor = lastPlayer.getColor()
+        saveGame(this, false)
+        throw CheckMateException(state, winnerColor)
       }
 
       moveResult.opponentInCheck -> {
@@ -154,13 +154,17 @@ class Game(
       }
 
       isThreefoldRepetition(recentFENs) -> {
-        GameStorage.deleteGame(this)
-        throw GameOverException(DrawReason.THREEFOLD_REPETITION)
+        val state = GameState.DRAW
+        saveGame(this, false)
+        // TODO("safe the game state as well to determine either the game can be loaded back as playable")
+        // saveGame(this, false, state)?
+        throw DrawException(state, DrawReason.THREEFOLD_REPETITION)
       }
 
       isFiftyMoveRule() -> {
-        GameStorage.deleteGame(this)
-        throw GameOverException(DrawReason.FIFTY_MOVE_RULE)
+        val state = GameState.DRAW
+        saveGame(this, false)
+        throw DrawException(state, DrawReason.FIFTY_MOVE_RULE)
       }
 
       else -> GameState.NORMAL
