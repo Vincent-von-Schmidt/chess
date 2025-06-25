@@ -15,7 +15,7 @@ import hwr.oop.group4.chess.persistence.GameStorage.saveGame
 
 class Game(
   val id: Int,
-  var fen: FEN = STARTING_POSITION,
+  private var fen: FEN = STARTING_POSITION,
 ) {
   val board: Board = BoardFactory.generateBoardFromFen(fen)
 
@@ -41,6 +41,10 @@ class Game(
   // game, then inside the actual game there will be updates to set list
   // which then should be able to bo saved...
   // similar with playerScores etc.
+
+  fun getFen(): FEN{
+    return fen
+  }
 
   fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean {
     val moveResult =
@@ -145,7 +149,7 @@ class Game(
       moveResult.isCheckmate -> {
         val state = GameState.CHECKMATE
         val winnerColor = lastPlayer.getColor()
-        saveGame(this, false)
+        saveGame(this, false, getPlayerScore(Color.WHITE), getPlayerScore(Color.BLACK), state)
         throw CheckMateException(state, winnerColor)
       }
 
@@ -155,15 +159,13 @@ class Game(
 
       isThreefoldRepetition(recentFENs) -> {
         val state = GameState.DRAW
-        saveGame(this, false)
-        // TODO("safe the game state as well to determine either the game can be loaded back as playable")
-        // saveGame(this, false, state)?
+        saveGame(this, false, getPlayerScore(Color.WHITE), getPlayerScore(Color.BLACK), state)
         throw DrawException(state, DrawReason.THREEFOLD_REPETITION)
       }
 
       isFiftyMoveRule() -> {
         val state = GameState.DRAW
-        saveGame(this, false)
+        saveGame(this, false, getPlayerScore(Color.WHITE), getPlayerScore(Color.BLACK), state)
         throw DrawException(state, DrawReason.FIFTY_MOVE_RULE)
       }
 

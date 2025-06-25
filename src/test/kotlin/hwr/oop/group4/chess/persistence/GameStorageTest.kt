@@ -2,6 +2,7 @@ package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.game.Game
+import hwr.oop.group4.chess.core.game.GameState
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
 import io.kotest.core.spec.style.AnnotationSpec
@@ -39,8 +40,25 @@ class GameStorageTest : AnnotationSpec() {
     // Then
     assertThat(file1.exists()).isTrue
     assertThat(file2.exists()).isTrue
-    assertThat(file1.readText()).isEqualTo("${game1.fen}\n")
-    assertThat(file2.readText()).isEqualTo("${game2.fen}\n")
+    assertThat(file1.readText()).isEqualTo("${game1.getFen()}\n")
+    assertThat(file2.readText()).isEqualTo("${game2.getFen()}\n")
+  }
+
+  @Test
+  fun `saving a game with player data and gameState`() {
+    // Given
+    val game = Game(TEST_NUMBER + 2)
+    val whitePlayerScore = 23
+    val blackPlayerScore = 12
+    val gameState = GameState.CHECK
+
+    // When
+    storage.saveGame(game, newGame = true, whitePlayerScore, blackPlayerScore, gameState)
+    val file = File("games/${game.id}.csv")
+
+    // Then
+    assertThat(file.exists()).isTrue
+    assertThat(file.readText()).isEqualTo("${game.getFen()}\n")
   }
 
   @Test
@@ -102,24 +120,6 @@ class GameStorageTest : AnnotationSpec() {
     // Then
     assertThatThrownBy { storage.loadGame(TEST_NUMBER) }
       .hasMessage("Game with ID $TEST_NUMBER does not exist.")
-  }
-
-  @Test
-  fun `override game with new fen`() {
-    // Given
-    val game = Game(TEST_NUMBER)
-    storage.saveGame(game, newGame = true)
-
-    // When
-    val fen = FEN(
-      "r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R1BQKBNR", Color.WHITE, "-", "-", 0, 1
-    )
-    game.fen = fen
-    storage.saveGame(game, newGame = false)
-
-    // Then
-    val loadedGame = storage.loadGame(TEST_NUMBER)
-    assertThat(loadedGame.fen).isEqualTo(fen)
   }
 
   @Test
@@ -199,7 +199,7 @@ class GameStorageTest : AnnotationSpec() {
 
     // Then
     assertThat(gameLoaded.id).isEqualTo(game.id)
-    assertThat(gameLoaded.fen).isEqualTo(fen)
+    assertThat(gameLoaded.getFen()).isEqualTo(fen)
   }
 
 }

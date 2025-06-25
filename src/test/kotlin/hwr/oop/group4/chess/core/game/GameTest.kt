@@ -29,7 +29,7 @@ class GameTest : AnnotationSpec() {
 
     // Then
     assertThat(game.id).isEqualTo(id)
-    assertThat(game.fen).isEqualTo(STARTING_POSITION)
+    assertThat(game.getFen()).isEqualTo(STARTING_POSITION)
   }
 
   @Test
@@ -94,7 +94,7 @@ class GameTest : AnnotationSpec() {
     val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
-    assertThat(game.fen).isNotEqualTo(STARTING_POSITION)
+    assertThat(game.getFen()).isNotEqualTo(STARTING_POSITION)
     assertThat(pieceOnStartLocation).isNull()
     assertThat(pieceOnEndLocation).isEqualTo(Pawn(Color.WHITE))
   }
