@@ -57,7 +57,7 @@ class Board(private val piecePlacementMap: Map<Location, Piece>) : BoardView {
     return getField(location).getPiece()
   }
 
-  fun boardToAscii(): String {
+  fun boardToAscii(): String { // TODO iterator?
       val boardLines = mutableListOf<String>()
       for (rank in Rank.entries.reversed()) {
           val line = buildString {
@@ -69,7 +69,7 @@ class Board(private val piecePlacementMap: Map<Location, Piece>) : BoardView {
           }.trimEnd()
           boardLines.add(line)
       }
-      return boardLines.joinToString("\n")
+      return boardLines.joinToString("\n") + "\n"
   }
 
   private fun removePieceFromField(location: Location) {

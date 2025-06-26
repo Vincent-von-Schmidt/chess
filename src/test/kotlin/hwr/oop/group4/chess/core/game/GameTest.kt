@@ -44,7 +44,9 @@ class GameTest : AnnotationSpec() {
     - - - - - - - -
     - - - - - - - -
     P P P P P P P P
-    R N B Q K B N R""".trimIndent()
+    R N B Q K B N R
+    
+    """.trimIndent()
 
     // When
     val boardString = game.board.boardToAscii()
@@ -68,7 +70,9 @@ class GameTest : AnnotationSpec() {
     - - - - - - - -
     - - - - P - - -
     P P P P - P P P
-    R N B Q K B N R""".trimIndent()
+    R N B Q K B N R
+    
+    """.trimIndent()
 
     // When
     val boardStringAfterMove = game.board.boardToAscii()
@@ -115,7 +119,9 @@ class GameTest : AnnotationSpec() {
     - - - - - - - -
     - - - - P - - -
     P P P P - P P P
-    R N B Q K B N R""".trimIndent()
+    R N B Q K B N R
+    
+    """.trimIndent()
 
     // When
     game.movePiece(moveDesiredWhite, promoteTo = null)

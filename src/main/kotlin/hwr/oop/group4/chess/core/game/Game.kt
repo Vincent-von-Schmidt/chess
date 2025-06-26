@@ -39,7 +39,7 @@ class Game(
   private var saveEntries: MutableList<SaveEntry> = if (gameSave.isNotEmpty()) {
     gameSave.toMutableList()
   } else {
-    mutableListOf(SaveEntry(fen, 0, 0, null))
+    mutableListOf(SaveEntry(fen, 0, 0, GameState.NORMAL))
   }
 
   private var recentFENs: MutableList<FEN> = saveEntries.map { it.getFen() }.toMutableList()
@@ -54,11 +54,10 @@ class Game(
     updateFullMoves()
     updatePlayers(moveResult.move.pieceCaptured)
     this.fen = updateFen()
-    updateSaveEntries()
-    val state = updateGameState(moveResult).first
-    val drawReason = updateGameState(moveResult).second
-    saveGame(this, false, state)
-    updateGameEnd(state, drawReason)
+    val state = updateGameState(moveResult)
+    updateSaveEntries(state.first)
+    saveGame(this, false)
+    updateGameEnd(state.first, state.second)
     return true
   }
 
@@ -106,14 +105,14 @@ class Game(
     )
   }
 
-  private fun updateSaveEntries() {
+  private fun updateSaveEntries(state: GameState) {
     if (saveEntries.lastOrNull()?.getFen() != fen) {
       saveEntries.add(
         SaveEntry(
           fen,
           getPlayerScore(Color.WHITE),
           getPlayerScore(Color.BLACK),
-          null
+          state
         )
       )
     }

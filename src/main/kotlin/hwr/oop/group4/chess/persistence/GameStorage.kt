@@ -1,12 +1,11 @@
 package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.game.Game
-import hwr.oop.group4.chess.core.game.GameState
 import java.io.File
 
 object GameStorage : GamePersistencePort {
 
-  override fun saveGame(game: Game, newGame: Boolean, gameState: GameState?): Game {
+  override fun saveGame(game: Game, newGame: Boolean): Game {
     val id = game.id
     val saveEntries = game.getSaveEntries()
 
@@ -34,8 +33,8 @@ object GameStorage : GamePersistencePort {
     val needsNewline = file.length() > 0 && !file.readText().endsWith("\n")
     if (needsNewline) file.appendText("\n")
 
-    val saveEntryAsString = saveEntries.toString()
-    file.appendText("$saveEntryAsString\n")
+    val saveEntryAsString = saveEntries.joinToString("\n") { it.toString() }
+    file.appendText(saveEntryAsString + "\n")
   }
 
   private fun loadGameFromFile(id: Int): List<SaveEntry> {
