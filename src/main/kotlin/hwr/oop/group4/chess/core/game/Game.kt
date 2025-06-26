@@ -112,8 +112,8 @@ class Game(
 
   private fun updateSaveEntries() {
     if (saveEntries.lastOrNull()?.getFen() != fen) {
-      println( getPlayerScore(Color.WHITE))
-      println( getPlayerScore(Color.BLACK))
+      // println( getPlayerScore(Color.WHITE))
+      // println( getPlayerScore(Color.BLACK))
       saveEntries.add(
         SaveEntry(
           fen,
