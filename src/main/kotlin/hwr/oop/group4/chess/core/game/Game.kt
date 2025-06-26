@@ -31,27 +31,31 @@ class Game(
   private var enPassant = fen.enPassant
   private var halfMoves = fen.halfMoves
   private var fullMoves = fen.fullMoves
-  private var state: GameState = gameSave.lastOrNull()?.getGameState() ?: GameState.NORMAL
+  private var state: GameState =
+    gameSave.lastOrNull()?.getGameState() ?: GameState.NORMAL
   private var saveEntries: MutableList<SaveEntry> = if (gameSave.isNotEmpty()) {
     gameSave.toMutableList()
   } else {
     mutableListOf(SaveEntry(fen, 0, 0, GameState.NORMAL))
   }
-  private var recentFENs: MutableList<FEN> = saveEntries.map { it.getFen() }.toMutableList()
+  private var recentFENs: MutableList<FEN> =
+    saveEntries.map { it.getFen() }.toMutableList()
 
-  fun getFen(): FEN{
+  fun getFen(): FEN {
     updateFen()
     return fen
   }
 
-  fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean { // TODO looks crowded
-    val moveResult = board.movePiece(moveDesired, currentPlayer.getColor(), promoteTo)
+  fun movePiece(moveDesired: MoveDesired, promoteTo: Piece? = null): Boolean {
+    val moveResult =
+      board.movePiece(moveDesired, currentPlayer.getColor(), promoteTo)
     updateHalfMoves(moveResult.move.pieceCaptured, moveResult.move.toPlacePiece)
     updateFullMoves()
     updatePlayers(moveResult.move.pieceCaptured)
     updateFen()
-    updateSaveEntries(state)
+    updateRecentFENs()
     val drawReason = updateGameState(moveResult).second
+    updateSaveEntries()
     saveGame(this, false)
     updateGameEnd(state, drawReason)
     return true
@@ -102,8 +106,14 @@ class Game(
     return fen
   }
 
-  private fun updateSaveEntries(state: GameState) {
+  private fun updateRecentFENs() {
+    recentFENs.add(fen)
+  }
+
+  private fun updateSaveEntries() {
     if (saveEntries.lastOrNull()?.getFen() != fen) {
+      println( getPlayerScore(Color.WHITE))
+      println( getPlayerScore(Color.BLACK))
       saveEntries.add(
         SaveEntry(
           fen,
@@ -113,7 +123,6 @@ class Game(
         )
       )
     }
-    recentFENs = saveEntries.map { it.getFen() }.toMutableList()
   }
 
   fun getSaveEntries(): List<SaveEntry> = saveEntries
@@ -150,10 +159,12 @@ class Game(
         val winnerColor = lastPlayer.getColor()
         throw CheckMateException(state, winnerColor)
       }
+
       GameState.DRAW -> {
         throw DrawException(state, reason)
       }
-      else -> {  // Do nothing for NORMAL or CHECK
+
+      else -> {  // Do nothing for NORMAL and CHECK
       }
     }
   }

@@ -60,7 +60,7 @@ class GameStorageTest : AnnotationSpec() {
       MoveDesired(Location(File.C , Rank.SIX), Location(File.D , Rank.FOUR)),
       MoveDesired(Location(File.E , Rank.FIVE), Location(File.E , Rank.SIX)),
       MoveDesired(Location(File.D , Rank.FOUR), Location(File.C , Rank.TWO)), // HERE SHOULD BE CHECK
-      MoveDesired(Location(File.F , Rank.TWO), Location(File.F , Rank.THREE)),
+      MoveDesired(Location(File.D , Rank.ONE), Location(File.C , Rank.TWO)), // HERE SHOULD BE NORMAL UND WHITE HAS POINTS
     )
 
     // When
