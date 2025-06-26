@@ -124,8 +124,8 @@ class GameTest : AnnotationSpec() {
     """.trimIndent()
 
     // When
-    game.movePiece(moveDesiredWhite, promoteTo = null)
-    game.movePiece(moveDesiredBlack, promoteTo = null)
+    game.movePiece(moveDesiredWhite, null)
+    game.movePiece(moveDesiredBlack, null)
     val boardStringAfterMove = game.board.boardToAscii()
 
     // Then
@@ -209,5 +209,18 @@ class GameTest : AnnotationSpec() {
 
     assertThat(blackPlayerScore).isEqualTo(15)
     assertThat(whitePlayerScore).isEqualTo(8)
+  }
+
+  @Test
+  fun `get blank gameSave Entries after creating a game from fen`() {
+    // Given
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
+
+    // When
+    val gameSaves = game.getSaveEntries()
+
+    // Then
+    assertThat(gameSaves.last().getFen()).isEqualTo(STARTING_POSITION)
+    assertThat(gameSaves.last().getGameState()).isEqualTo(GameState.NORMAL)
   }
 }

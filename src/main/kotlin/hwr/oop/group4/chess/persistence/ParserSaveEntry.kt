@@ -11,25 +11,16 @@ object ParserSaveEntry {
     val fenPart = parts[0].trim()
     val fen = ParserFEN.parseStringToFen(fenPart)
 
-    val whitePoints: Int?
-    val blackPoints: Int?
-    val gameState: GameState?
+    require(parts.size == 2) { "Invalid SaveEntry format: $line" }
 
-    if (parts.size > 1) {
-      val extraParts = parts[1].trim().split(",")
-      val whiteRaw = if (extraParts.size > 0) extraParts[0] else null
-      val blackRaw = if (extraParts.size > 1) extraParts[1] else null
-      val stateRaw = if (extraParts.size > 2) extraParts[2] else null
+    val extraParts = parts[1].trim().split(",")
+    val whiteRaw = extraParts.getOrNull(0)
+    val blackRaw = extraParts.getOrNull(1)
+    val stateRaw = extraParts.getOrNull(2)
 
-      whitePoints = if (whiteRaw == null || whiteRaw == "0") null else whiteRaw.toIntOrNull()
-      blackPoints = if (blackRaw == null || blackRaw == "-") null else blackRaw.toIntOrNull()
-      gameState = if (stateRaw == null || stateRaw == "-") null else GameState.valueOf(stateRaw)
-    } else {
-      whitePoints = null
-      blackPoints = null
-      gameState = null
-    }
-
+    val whitePoints = whiteRaw?.toIntOrNull() ?: 0
+    val blackPoints = blackRaw?.toIntOrNull() ?: 0
+    val gameState = GameState.entries.find { it.name == stateRaw } ?: GameState.NORMAL
     return SaveEntry(fen, whitePoints, blackPoints, gameState)
   }
 }
