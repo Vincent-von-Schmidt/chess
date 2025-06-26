@@ -147,7 +147,7 @@ class Game(
     return newState to drawReason
   }
 
-  private fun updateGameEnd(state: GameState, reason: DrawReason? = null) {
+  private fun updateGameEnd(state: GameState, reason: DrawReason?) {
     when (state) {
       GameState.CHECKMATE -> {
         val winnerColor = lastPlayer.getColor()

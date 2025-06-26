@@ -8,25 +8,23 @@ import java.awt.Point
 
 class SaveEntry(
   private val fen : FEN,
-  private val whitePoints: Int?,
-  private val blackPoints: Int?,
-  private val gameState : GameState?
+  private val whitePoints: Int,
+  private val blackPoints: Int,
+  private val gameState : GameState
 ) {
 
   override fun toString(): String {
     return buildString {
       append(fen.toString())
-      if (whitePoints != null || blackPoints != null || gameState != null) {
-        append(" | ")
-        append(whitePoints ?: 0)
-        append(" ")
-        append(blackPoints ?: 0)
-        append(" ")
-        append(gameState ?: GameState.NORMAL)
-      }
+      append(" | ")
+      append(whitePoints)
+      append(" ")
+      append(blackPoints)
+      append(" ")
+      append(gameState)
     }
   }
 
   fun getFen() : FEN = fen
-  fun getGameState(): GameState? = gameState
+  fun getGameState(): GameState = gameState
 }
