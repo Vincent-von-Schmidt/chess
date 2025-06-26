@@ -68,14 +68,14 @@ object MoveDesiredValidator {
     }
     // king cant move towards kind too close
     if (movingPiece is King) {
+      val opponentKing = BoardStateEvaluator(board).findKing(
+        movingPiece.getColor().opposite()
+      )
       val tooCloseToOpponentKing = board.simulateMoveAndCheck(
         moveDesired.startLocation,
         moveDesired.endLocation,
         movingPiece
       ) {
-        val opponentKing = BoardStateEvaluator(board).findKing(
-          movingPiece.getColor().opposite()
-        )
         opponentKing != null && opponentKing in movingPiece.getPossibleLocationsToMove(
           moveDesired.endLocation,
           board,
@@ -84,7 +84,7 @@ object MoveDesiredValidator {
       }
 
       if (tooCloseToOpponentKing) {
-        throw KingTooCloseException(moveDesired.endLocation)
+        throw KingTooCloseException(board.getPiece(opponentKing!!)!!.getColor() ,moveDesired.endLocation)
       }
     }
   }

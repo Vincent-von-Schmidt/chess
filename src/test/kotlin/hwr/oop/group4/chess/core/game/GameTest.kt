@@ -16,7 +16,7 @@ class GameTest : AnnotationSpec() {
 
   @BeforeEach
   fun setup() {
-    GameStorage.deleteGame(Game(TEST_NUMBER))
+    GameStorage.deleteGame(TEST_NUMBER)
   }
 
   @Test
@@ -25,17 +25,17 @@ class GameTest : AnnotationSpec() {
     val id = TEST_NUMBER
 
     // When
-    val game = Game(id)
+    val game = GameFactory.generateGameFromFen(id, STARTING_POSITION)
 
     // Then
     assertThat(game.id).isEqualTo(id)
-    assertThat(game.fen).isEqualTo(STARTING_POSITION)
+    assertThat(game.getFen()).isEqualTo(STARTING_POSITION)
   }
 
   @Test
   fun `game board to string asciiArt`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     val outputAsciiExpected = """
     r n b q k b n r
     p p p p p p p p
@@ -44,10 +44,12 @@ class GameTest : AnnotationSpec() {
     - - - - - - - -
     - - - - - - - -
     P P P P P P P P
-    R N B Q K B N R""".trimIndent()
+    R N B Q K B N R
+    
+    """.trimIndent()
 
     // When
-    val boardString = game.boardToAscii().trim()
+    val boardString = game.board.boardToAscii()
 
     // Then
     assertThat(boardString).isEqualTo(outputAsciiExpected)
@@ -56,7 +58,7 @@ class GameTest : AnnotationSpec() {
   @Test
   fun `board to string after move asciiArt`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     val moveDesired =
       MoveDesired(Location(File.E, Rank.TWO), Location(File.E, Rank.THREE))
     game.movePiece(moveDesired, promoteTo = null)
@@ -68,10 +70,12 @@ class GameTest : AnnotationSpec() {
     - - - - - - - -
     - - - - P - - -
     P P P P - P P P
-    R N B Q K B N R""".trimIndent()
+    R N B Q K B N R
+    
+    """.trimIndent()
 
     // When
-    val boardStringAfterMove = game.boardToAscii().trim()
+    val boardStringAfterMove = game.board.boardToAscii()
 
     // Then
     assertThat(boardStringAfterMove).isEqualTo(outputAsciiExpected)
@@ -81,7 +85,7 @@ class GameTest : AnnotationSpec() {
   fun `game move piece`() {
 
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     val board = game.board
     val startLocation = Location(File.E, Rank.TWO)
     val endLocation = Location(File.E, Rank.THREE)
@@ -94,7 +98,7 @@ class GameTest : AnnotationSpec() {
     val pieceOnEndLocation = board.getPiece(endLocation)
 
     // Then
-    assertThat(game.fen).isNotEqualTo(STARTING_POSITION)
+    assertThat(game.getFen()).isNotEqualTo(STARTING_POSITION)
     assertThat(pieceOnStartLocation).isNull()
     assertThat(pieceOnEndLocation).isEqualTo(Pawn(Color.WHITE))
   }
@@ -102,7 +106,7 @@ class GameTest : AnnotationSpec() {
   @Test
   fun `both players make turns asciiArt`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     val moveDesiredWhite =
       MoveDesired(Location(File.E, Rank.TWO), Location(File.E, Rank.THREE))
     val moveDesiredBlack =
@@ -115,12 +119,14 @@ class GameTest : AnnotationSpec() {
     - - - - - - - -
     - - - - P - - -
     P P P P - P P P
-    R N B Q K B N R""".trimIndent()
+    R N B Q K B N R
+    
+    """.trimIndent()
 
     // When
     game.movePiece(moveDesiredWhite, promoteTo = null)
     game.movePiece(moveDesiredBlack, promoteTo = null)
-    val boardStringAfterMove = game.boardToAscii().trim()
+    val boardStringAfterMove = game.board.boardToAscii()
 
     // Then
     assertThat(boardStringAfterMove).isEqualTo(outputAsciiExpected)
@@ -129,7 +135,7 @@ class GameTest : AnnotationSpec() {
   @Test
   fun `player get score on capture`() {
     // Given
-    val game = Game(TEST_NUMBER)
+    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
 
     // Moves to free up diagonals and lines for captures
     val moves = listOf(
@@ -193,7 +199,7 @@ class GameTest : AnnotationSpec() {
 
     // When
     for (move in moves) {
-      game.boardToAscii()
+      game.board.boardToAscii()
       game.movePiece(move)
     }
 

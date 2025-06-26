@@ -2,6 +2,7 @@ package hwr.oop.group4.chess.core.move
 
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.game.Game
+import hwr.oop.group4.chess.core.game.GameFactory
 import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
@@ -18,7 +19,7 @@ class MoveTurnTest : AnnotationSpec() {
   fun `white player cant move black pawn`() {
     // Given
     val fen = FEN("8/8/8/8/8/8/p7/8", Color.WHITE, "-", "-", 0, 0)
-    game = Game(TEST_NUMBER, fen)
+    game = GameFactory.generateGameFromFen(TEST_NUMBER, fen)
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.ONE)
 
@@ -35,7 +36,7 @@ class MoveTurnTest : AnnotationSpec() {
   fun `black player cant move white queen`() {
     // Given
     val fen = FEN("8/8/8/8/8/8/Q7/8", Color.BLACK, "-", "-", 0, 0)
-    game = Game(TEST_NUMBER, fen)
+    game = GameFactory.generateGameFromFen(TEST_NUMBER, fen)
     val startLocation = Location(File.A, Rank.TWO)
     val endLocation = Location(File.A, Rank.ONE)
 
