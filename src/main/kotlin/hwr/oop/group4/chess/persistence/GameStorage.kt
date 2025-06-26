@@ -33,8 +33,12 @@ object GameStorage : GamePersistencePort {
     val needsNewline = file.length() > 0 && !file.readText().endsWith("\n")
     if (needsNewline) file.appendText("\n")
 
-    val saveEntryAsString = saveEntries.joinToString("\n") { it.toString() }
-    file.appendText(saveEntryAsString + "\n")
+    if (!file.exists()) {
+        file.writeText(saveEntries.joinToString("\n") { it.toString() } + "\n")
+    } else {
+        val saveEntryAsString = saveEntries.last().toString()
+        file.appendText(saveEntryAsString + "\n")
+    }
   }
 
   private fun loadGameFromFile(id: Int): List<SaveEntry> {

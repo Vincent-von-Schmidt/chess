@@ -106,8 +106,11 @@ class GameEndDrawTest : AnnotationSpec() {
       MoveDesired(a1, b1),
       MoveDesired(a2, b2),
       MoveDesired(b1, a1)
+
     )
-    moves.forEach { game.movePiece(it) }
+    moves.forEach {
+      game.movePiece(it)
+    }
 
     val arguments = arrayOf("on", TEST_NUMBER_STRING, "move", "b2", "to", "a2")
 

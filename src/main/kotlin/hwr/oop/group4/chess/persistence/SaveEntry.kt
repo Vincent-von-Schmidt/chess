@@ -19,15 +19,14 @@ class SaveEntry(
       if (whitePoints != null || blackPoints != null || gameState != null) {
         append(" | ")
         append(whitePoints ?: "-")
-        append(",")
+        append(" ")
         append(blackPoints ?: "-")
-        append(",")
+        append(" ")
         append(gameState ?: "-")
       }
     }
   }
 
-  fun getFen() : FEN {
-    return fen
-  }
+  fun getFen() : FEN = fen
+  fun getGameState(): GameState? = gameState
 }

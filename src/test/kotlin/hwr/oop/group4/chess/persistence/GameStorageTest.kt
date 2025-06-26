@@ -37,8 +37,8 @@ class GameStorageTest : AnnotationSpec() {
     val game2 = GameFactory.generateGameFromFen(TEST_NUMBER + 1, STARTING_POSITION)
 
     // When
-    storage.saveGame(game1, newGame = true)
-    storage.saveGame(game2, newGame = true)
+    storage.saveGame(game1, true)
+    storage.saveGame(game2, true)
     val file1 = JavaFile("games/${game1.id}.csv")
     val file2 = JavaFile("games/${game2.id}.csv")
 
@@ -50,36 +50,30 @@ class GameStorageTest : AnnotationSpec() {
   }
 
   @Test
-  fun `saving a game with only gameState`() { // TODO tests überhaupt correct?
+  fun `saving CHECK gameState`() {
     // Given
     val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
-    val gameState = GameState.CHECK
+    val moves = listOf(
+      MoveDesired(Location(File.E , Rank.TWO), Location(File.E , Rank.FOUR)),
+      MoveDesired(Location(File.B , Rank.EIGHT), Location(File.C , Rank.SIX)),
+      MoveDesired(Location(File.E , Rank.FOUR), Location(File.E , Rank.FIVE)),
+      MoveDesired(Location(File.C , Rank.SIX), Location(File.D , Rank.FOUR)),
+      MoveDesired(Location(File.E , Rank.FIVE), Location(File.E , Rank.SIX)),
+      MoveDesired(Location(File.D , Rank.FOUR), Location(File.C , Rank.TWO)), // HERE SHOULD BE CHECK
+      MoveDesired(Location(File.F , Rank.TWO), Location(File.F , Rank.THREE)),
+    )
 
     // When
-    storage.saveGame(game, true)
+    for (move in moves) {
+      game.movePiece(move)
+    }
     val file = JavaFile("games/${game.id}.csv")
-    println(file.readText())
-    println(game.getSaveEntries().last())
-    // Then
-    assertThat(file.exists()).isTrue
-    assertThat(file.readText()).isEqualTo("${game.getSaveEntries().last()}\n")
-  }
-
-  @Test
-  fun `saving a game with player data and gameState after move`() {
-    // Given
-    val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
-    val startLocation = Location(File.E , Rank.TWO)
-    val endLocation = Location(File.E , Rank.FOUR)
-    val desiredMove = MoveDesired(startLocation, endLocation)
-    // When
-
-    game.movePiece(desiredMove)
-    val file = JavaFile("games/${game.id}.csv")
+    val fileGameSaveEntryLast = file.useLines { it.lastOrNull() }
+    val gameSaveEntry = game.getSaveEntries().last()
 
     // Then
     assertThat(file.exists()).isTrue
-    assertThat(file.readText()).isEqualTo("${game.getSaveEntries().last()}\n")
+    assertThat(fileGameSaveEntryLast).isEqualTo("$gameSaveEntry")
   }
 
   @Test
@@ -88,7 +82,7 @@ class GameStorageTest : AnnotationSpec() {
     val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
 
     // When
-    storage.saveGame(game, newGame = true)
+    storage.saveGame(game, true)
 
     // Then
     assertThatThrownBy { storage.saveGame(game) }
@@ -109,7 +103,7 @@ class GameStorageTest : AnnotationSpec() {
   fun `loading game that exists`() {
     // Given
     val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
-    storage.saveGame(game, newGame = true)
+    storage.saveGame(game, true)
     val expectedAsciiArt = """
     r n b q k b n r
     p p p p p p p p

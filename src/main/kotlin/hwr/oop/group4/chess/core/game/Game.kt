@@ -20,7 +20,6 @@ class Game(
 ) {
   private var fen: FEN = gameSave.lastOrNull()?.getFen() ?: STARTING_POSITION
   val board: Board = BoardFactory.generateBoardFromFen(fen)
-
   private val players = mapOf(
     Color.WHITE to Player(1, Color.WHITE),
     Color.BLACK to Player(2, Color.BLACK)
@@ -28,23 +27,20 @@ class Game(
   private var currentPlayer = players[fen.activeColor]!!
   private var lastPlayer = currentPlayer
   private val playerScores = players.values.associateWith { 0 }.toMutableMap()
-
-  // TODO("update castle and enPassant after each move")
   private var castle = fen.castle
   private var enPassant = fen.enPassant
-
   private var halfMoves = fen.halfMoves
   private var fullMoves = fen.fullMoves
-
+  private var state: GameState = gameSave.lastOrNull()?.getGameState() ?: GameState.NORMAL
   private var saveEntries: MutableList<SaveEntry> = if (gameSave.isNotEmpty()) {
     gameSave.toMutableList()
   } else {
     mutableListOf(SaveEntry(fen, 0, 0, GameState.NORMAL))
   }
-
   private var recentFENs: MutableList<FEN> = saveEntries.map { it.getFen() }.toMutableList()
 
   fun getFen(): FEN{
+    updateFen()
     return fen
   }
 
@@ -53,11 +49,11 @@ class Game(
     updateHalfMoves(moveResult.move.pieceCaptured, moveResult.move.toPlacePiece)
     updateFullMoves()
     updatePlayers(moveResult.move.pieceCaptured)
-    this.fen = updateFen()
-    val state = updateGameState(moveResult)
-    updateSaveEntries(state.first)
+    updateFen()
+    updateSaveEntries(state)
+    val drawReason = updateGameState(moveResult).second
     saveGame(this, false)
-    updateGameEnd(state.first, state.second)
+    updateGameEnd(state, drawReason)
     return true
   }
 
@@ -95,7 +91,7 @@ class Game(
   }
 
   private fun updateFen(): FEN {
-    return generateFen(
+    this.fen = generateFen(
       this.board,
       castle,
       enPassant,
@@ -103,6 +99,7 @@ class Game(
       fullMoves,
       currentPlayer.getColor(),
     )
+    return fen
   }
 
   private fun updateSaveEntries(state: GameState) {
@@ -136,13 +133,15 @@ class Game(
   }
 
   private fun updateGameState(moveResult: MoveResult): Pair<GameState, DrawReason?> {
-    return when {
+    val (newState, drawReason) = when {
       moveResult.isCheckmate -> GameState.CHECKMATE to null
       moveResult.opponentInCheck -> GameState.CHECK to null
       isThreefoldRepetition() -> GameState.DRAW to DrawReason.THREEFOLD_REPETITION
       isFiftyMoveRule() -> GameState.DRAW to DrawReason.FIFTY_MOVE_RULE
       else -> GameState.NORMAL to null
     }
+    state = newState
+    return newState to drawReason
   }
 
   private fun updateGameEnd(state: GameState, reason: DrawReason? = null) {
