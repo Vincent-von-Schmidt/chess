@@ -7,8 +7,13 @@ import hwr.oop.group4.chess.persistence.SaveEntry
 object GameFactory {
   fun generateGameFromFen(id: Int, toLoadFen: FEN): Game {
     val gameSave = listOf(
-      SaveEntry(toLoadFen, null, null, null))
-    val game = Game(id, gameSave)
-    return game
+      SaveEntry(
+        toLoadFen,
+        0, // or compute score if needed
+        0,
+        GameState.NORMAL // or derive from FEN if necessary
+      )
+    )
+    return Game(id, gameSave)
   }
 }

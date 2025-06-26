@@ -45,8 +45,8 @@ class GameStorageTest : AnnotationSpec() {
     // Then
     assertThat(file1.exists()).isTrue
     assertThat(file2.exists()).isTrue
-    assertThat(file1.readText()).isEqualTo("${game1.getFen()}\n")
-    assertThat(file2.readText()).isEqualTo("${game2.getFen()}\n")
+    assertThat(file1.readText()).isEqualTo("${game1.getSaveEntries().last()}\n")
+    assertThat(file2.readText()).isEqualTo("${game2.getSaveEntries().last()}\n")
   }
 
   @Test

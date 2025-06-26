@@ -33,11 +33,7 @@ class Game(
   private var fullMoves = fen.fullMoves
   private var state: GameState =
     gameSave.lastOrNull()?.getGameState() ?: GameState.NORMAL
-  private var saveEntries: MutableList<SaveEntry> = if (gameSave.isNotEmpty()) {
-    gameSave.toMutableList()
-  } else {
-    mutableListOf(SaveEntry(fen, 0, 0, GameState.NORMAL))
-  }
+  private var saveEntries = gameSave.toMutableList()
   private var recentFENs: MutableList<FEN> =
     saveEntries.map { it.getFen() }.toMutableList()
 
@@ -112,8 +108,6 @@ class Game(
 
   private fun updateSaveEntries() {
     if (saveEntries.lastOrNull()?.getFen() != fen) {
-      // println( getPlayerScore(Color.WHITE))
-      // println( getPlayerScore(Color.BLACK))
       saveEntries.add(
         SaveEntry(
           fen,

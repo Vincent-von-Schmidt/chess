@@ -18,11 +18,11 @@ class SaveEntry(
       append(fen.toString())
       if (whitePoints != null || blackPoints != null || gameState != null) {
         append(" | ")
-        append(whitePoints ?: "-")
+        append(whitePoints ?: 0)
         append(" ")
-        append(blackPoints ?: "-")
+        append(blackPoints ?: 0)
         append(" ")
-        append(gameState ?: "-")
+        append(gameState ?: GameState.NORMAL)
       }
     }
   }
