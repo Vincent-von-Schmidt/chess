@@ -213,7 +213,7 @@ class CliMoveTest : AnnotationSpec() {
 
     // When
     val outputMove =
-      captureStandardOut { main(arguments) }.trim() // TODO can we replace CaptureStandartOut?
+      captureStandardOut { main(arguments) }.trim()
 
     // Then
     assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")
