@@ -1,7 +1,6 @@
 package hwr.oop.group4.chess.core.game
 
 import hwr.oop.group4.chess.core.fen.FEN
-import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.persistence.SaveEntry
 
 object GameFactory {

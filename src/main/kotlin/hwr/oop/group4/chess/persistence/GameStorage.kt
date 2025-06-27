@@ -27,17 +27,17 @@ object GameStorage : GamePersistencePort {
     if (file.exists()) file.delete()
   }
 
-  private fun saveGameToFile(id: Int, saveEntries: List<SaveEntry>){
+  private fun saveGameToFile(id: Int, saveEntries: List<SaveEntry>) {
     File("games").mkdir()
     val file = File("games/$id.csv")
     val needsNewline = file.length() > 0 && !file.readText().endsWith("\n")
     if (needsNewline) file.appendText("\n")
 
     if (!file.exists()) {
-        file.writeText(saveEntries.joinToString("\n") { it.toString() } + "\n")
+      file.writeText(saveEntries.joinToString("\n") { it.toString() } + "\n")
     } else {
-        val saveEntryAsString = saveEntries.last().toString()
-        file.appendText(saveEntryAsString + "\n")
+      val saveEntryAsString = saveEntries.last().toString()
+      file.appendText(saveEntryAsString + "\n")
     }
   }
 

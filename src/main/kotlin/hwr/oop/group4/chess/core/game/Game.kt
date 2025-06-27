@@ -16,7 +16,7 @@ import hwr.oop.group4.chess.persistence.SaveEntry
 
 class Game(
   val id: Int,
-  gameSave : List<SaveEntry>,
+  gameSave: List<SaveEntry>,
 ) {
   private var fen: FEN = gameSave.lastOrNull()?.getFen() ?: STARTING_POSITION
   val board: Board = BoardFactory.generateBoardFromFen(fen)

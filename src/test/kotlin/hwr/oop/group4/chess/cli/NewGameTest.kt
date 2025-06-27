@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.game.GameFactory
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
@@ -12,7 +11,8 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class NewGameTest : AnnotationSpec() {
 
-  private val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
+  private val game =
+    GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
 
   @BeforeEach
   fun setup() {

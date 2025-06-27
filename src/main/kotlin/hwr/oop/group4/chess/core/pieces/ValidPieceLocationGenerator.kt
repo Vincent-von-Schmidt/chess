@@ -4,7 +4,6 @@ import hwr.oop.group4.chess.core.board.BoardView
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.move.Direction
 import hwr.oop.group4.chess.core.move.KnightJump
-import hwr.oop.group4.chess.core.move.NoPieceException
 
 object ValidPieceLocationGenerator {
 
