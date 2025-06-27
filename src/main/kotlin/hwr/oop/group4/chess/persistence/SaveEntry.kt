@@ -27,4 +27,6 @@ class SaveEntry(
 
   fun getFen() : FEN = fen
   fun getGameState(): GameState = gameState
+  fun getWhiteScore() : Int = whitePoints
+  fun getBlackScore() : Int = blackPoints
 }

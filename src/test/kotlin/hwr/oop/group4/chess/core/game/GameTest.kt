@@ -217,10 +217,16 @@ class GameTest : AnnotationSpec() {
     val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
 
     // When
-    val gameSaves = game.getSaveEntries()
+    val gameSaves = game.getSaveEntries().last()
+    val savedFen = gameSaves.getFen()
+    val savedWhiteScore = gameSaves.getWhiteScore()
+    val savedBlackScore = gameSaves.getBlackScore()
+    val savedGameState = gameSaves.getGameState()
 
     // Then
-    assertThat(gameSaves.last().getFen()).isEqualTo(STARTING_POSITION)
-    assertThat(gameSaves.last().getGameState()).isEqualTo(GameState.NORMAL)
+    assertThat(savedFen).isEqualTo(STARTING_POSITION)
+    assertThat(savedWhiteScore).isEqualTo(0)
+    assertThat(savedBlackScore).isEqualTo(0)
+    assertThat(savedGameState).isEqualTo(GameState.NORMAL)
   }
 }

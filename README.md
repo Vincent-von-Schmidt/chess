@@ -46,19 +46,19 @@ games.
 Start a new game with:
 
 ```
-chess new_game <id>
+./chess new_game <id>
 ```
 
 Show the current state of a game:
 
 ```
-chess game show <id>
+./chess game show <id>
 ```
 
 Make a move in an existing game:
 
 ```
-chess on <id> move <from> to <to>
+./chess on <id> move <from> to <to>
 ```
 
 Most Interesting Problems:
@@ -72,19 +72,21 @@ Most Interesting Problems:
 
 ## Feature List
 
-| Number | Feature           | Tests |
-|--------|-------------------|-------|
-| 1      | Creating a game   | /     |
-| 2      | Printing a game   | /     |
-| 3      | Moving a piece    | /     |
-| 4      | Capturing a piece | /     |
-
-## Additional Dependencies
-
-| Number | Dependency Name | Dependency Description | Why is it necessary? |
-|--------|-----------------|------------------------|----------------------|
-| 1      | --              | --                     | --                   |
-
+| Nr. | Feature                       | Implementation               | Tests                                         |
+|-----|-------------------------------|------------------------------|-----------------------------------------------|
+| 1   | Creating a game               | `Game`, `GameFactory`        | `CliNewGameTest`                              |
+| 2   | Loading & Deleting a game     | `GameStorage`                | `GameStorageTest`                             |
+| 3   | FEN Parsing & Generation      | `ParserFEN`, `GeneratorFEN`  | `ParserFENTest`, `GeneratorFENTest`           |
+| 4   | Moving a piece                | `Board`, `MoveDesired`       | `CliMoveTest`,      `MoveTests`               |
+| 5   | Validating piece movement     | `MoveDesiredValidator`       | `MoveValidatorTest`, `MoveTests`              |
+| 6   | Capturing & scoring           | `Game`, `Board`              | `CliCaptureTest`,`MoveTests`                  |
+| 7   | Check / Checkmate detection   | `BoardStateCalculator`       | `CheckTest`, `GameEndCheckMateTest`           |
+| 8   | Draw detection (50-move etc.) | `BoardStateCalculator`       | `DrawTest`                                    |
+| 9   | Simulated move handling       | `Board.simulateMoveAndCheck` | `CheckTest`, `GameEndCheckMateTest`           |
+| 10  | GameState tracking            | `Game`                       | `GameEndDrawTest`    , `GameEndCheckMateTest` |
+| 11  | SaveEntry parsing             | `ParserSaveEntry`            | `GameStorageTest`                             |
+| 12  | Persistent game history       | `GameStorage`                | `GameStorageTest`                             |
+| 13  | ASCII board rendering         | `Board.toAscii()`            | `GameTest`                                    |
 ### Formatting
 
 The repository contains an IntelliJ IDEA formatter configuration file.

@@ -156,7 +156,7 @@ class GameStorageTest : AnnotationSpec() {
 
     // When
     storage.saveGame(game1, true)
-    storage.saveGame(game2, true) // TODO why newgame, when it can decide itself if the game exists already?
+    storage.saveGame(game2, true)
     val output = game1.board.boardToAscii()
 
     // Then
