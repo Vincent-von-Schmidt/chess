@@ -12,7 +12,7 @@ import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.StringParser.parsePieceCharFromPiece
 import hwr.oop.group4.chess.core.utils.opposite
 
-class Board(private val piecePlacementMap: Map<Location, Piece>) : BoardView {
+class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
   private val fields: Map<Location, Field> = generateBoard()
 
