@@ -2,10 +2,9 @@ package hwr.oop.group4.chess.persistence
 
 import hwr.oop.group4.chess.core.fen.FEN
 import hwr.oop.group4.chess.core.game.GameFactory
-import hwr.oop.group4.chess.core.game.GameState
+import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.location.Location
 import hwr.oop.group4.chess.core.location.Rank
-import hwr.oop.group4.chess.core.location.File
 import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.utils.Color
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
@@ -34,7 +33,8 @@ class GameStorageTest : AnnotationSpec() {
   fun `creating two games and files exist`() {
     // Given
     val game1 = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
-    val game2 = GameFactory.generateGameFromFen(TEST_NUMBER + 1, STARTING_POSITION)
+    val game2 =
+      GameFactory.generateGameFromFen(TEST_NUMBER + 1, STARTING_POSITION)
 
     // When
     storage.saveGame(game1, true)
@@ -54,13 +54,19 @@ class GameStorageTest : AnnotationSpec() {
     // Given
     val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
     val moves = listOf(
-      MoveDesired(Location(File.E , Rank.TWO), Location(File.E , Rank.FOUR)),
-      MoveDesired(Location(File.B , Rank.EIGHT), Location(File.C , Rank.SIX)),
-      MoveDesired(Location(File.E , Rank.FOUR), Location(File.E , Rank.FIVE)),
-      MoveDesired(Location(File.C , Rank.SIX), Location(File.D , Rank.FOUR)),
-      MoveDesired(Location(File.E , Rank.FIVE), Location(File.E , Rank.SIX)),
-      MoveDesired(Location(File.D , Rank.FOUR), Location(File.C , Rank.TWO)), // HERE SHOULD BE CHECK
-      MoveDesired(Location(File.D , Rank.ONE), Location(File.C , Rank.TWO)), // HERE SHOULD BE NORMAL UND WHITE HAS POINTS
+      MoveDesired(Location(File.E, Rank.TWO), Location(File.E, Rank.FOUR)),
+      MoveDesired(Location(File.B, Rank.EIGHT), Location(File.C, Rank.SIX)),
+      MoveDesired(Location(File.E, Rank.FOUR), Location(File.E, Rank.FIVE)),
+      MoveDesired(Location(File.C, Rank.SIX), Location(File.D, Rank.FOUR)),
+      MoveDesired(Location(File.E, Rank.FIVE), Location(File.E, Rank.SIX)),
+      MoveDesired(
+        Location(File.D, Rank.FOUR),
+        Location(File.C, Rank.TWO)
+      ), // HERE SHOULD BE CHECK
+      MoveDesired(
+        Location(File.D, Rank.ONE),
+        Location(File.C, Rank.TWO)
+      ), // HERE SHOULD BE NORMAL UND WHITE HAS POINTS
     )
 
     // When
@@ -141,7 +147,8 @@ class GameStorageTest : AnnotationSpec() {
   fun `create two games and load the first`() {
     // Given
     val game1 = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
-    val game2 = GameFactory.generateGameFromFen(TEST_NUMBER + 1, STARTING_POSITION)
+    val game2 =
+      GameFactory.generateGameFromFen(TEST_NUMBER + 1, STARTING_POSITION)
     val expectedAsciiArt = """
     r n b q k b n r
     p p p p p p p p
@@ -156,7 +163,7 @@ class GameStorageTest : AnnotationSpec() {
 
     // When
     storage.saveGame(game1, true)
-    storage.saveGame(game2, true) // TODO why newgame, when it can decide itself if the game exists already?
+    storage.saveGame(game2, true)
     val output = game1.board.boardToAscii()
 
     // Then

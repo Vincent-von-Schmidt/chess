@@ -4,9 +4,9 @@ enum class GameState {
   NORMAL, CHECK, CHECKMATE, DRAW;
 
   override fun toString(): String = when (this) {
-    NORMAL    -> "NORMAL"
-    CHECK     -> "CHECK"
+    NORMAL -> "NORMAL"
+    CHECK -> "CHECK"
     CHECKMATE -> "CHECKMATE"
-    DRAW      -> "DRAW"
+    DRAW -> "DRAW"
   }
 }

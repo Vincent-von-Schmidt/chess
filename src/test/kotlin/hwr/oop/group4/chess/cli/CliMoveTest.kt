@@ -1,6 +1,5 @@
 package hwr.oop.group4.chess.cli
 
-import hwr.oop.group4.chess.core.game.Game
 import hwr.oop.group4.chess.core.game.GameFactory
 import hwr.oop.group4.chess.core.utils.Constants.STARTING_POSITION
 import hwr.oop.group4.chess.core.utils.Constants.TEST_NUMBER
@@ -14,7 +13,8 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 
 class CliMoveTest : AnnotationSpec() {
 
-  private val game = GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
+  private val game =
+    GameFactory.generateGameFromFen(TEST_NUMBER, STARTING_POSITION)
 
   @BeforeEach
   fun setup() {
@@ -212,7 +212,8 @@ class CliMoveTest : AnnotationSpec() {
       arrayOf("on", TEST_NUMBER_STRING, "move", "a2", "to", "a4", "bishop")
 
     // When
-    val outputMove = captureStandardOut { main(arguments) }.trim() // TODO can we replace CaptureStandartOut?
+    val outputMove =
+      captureStandardOut { main(arguments) }.trim()
 
     // Then
     assertThat(outputMove).isEqualTo("Move from A2 to A4 executed.")

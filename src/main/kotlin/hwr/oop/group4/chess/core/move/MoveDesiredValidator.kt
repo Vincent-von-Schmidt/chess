@@ -84,7 +84,10 @@ object MoveDesiredValidator {
       }
 
       if (tooCloseToOpponentKing) {
-        throw KingTooCloseException(board.getPiece(opponentKing!!)!!.getColor() ,moveDesired.endLocation)
+        throw KingTooCloseException(
+          board.getPiece(opponentKing!!)!!.getColor(),
+          moveDesired.endLocation
+        )
       }
     }
   }

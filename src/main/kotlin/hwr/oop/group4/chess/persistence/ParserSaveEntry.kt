@@ -20,7 +20,8 @@ object ParserSaveEntry {
 
     val whitePoints = whiteRaw?.toIntOrNull() ?: 0
     val blackPoints = blackRaw?.toIntOrNull() ?: 0
-    val gameState = GameState.entries.find { it.name == stateRaw } ?: GameState.NORMAL
+    val gameState =
+      GameState.entries.find { it.name == stateRaw } ?: GameState.NORMAL
     return SaveEntry(fen, whitePoints, blackPoints, gameState)
   }
 }

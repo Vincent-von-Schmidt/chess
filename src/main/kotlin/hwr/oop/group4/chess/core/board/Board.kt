@@ -8,11 +8,11 @@ import hwr.oop.group4.chess.core.move.MoveDesired
 import hwr.oop.group4.chess.core.move.MoveDesiredValidator.validateMove
 import hwr.oop.group4.chess.core.move.MoveResult
 import hwr.oop.group4.chess.core.pieces.Piece
-import hwr.oop.group4.chess.core.utils.StringParser.parsePieceCharFromPiece
 import hwr.oop.group4.chess.core.utils.Color
+import hwr.oop.group4.chess.core.utils.StringParser.parsePieceCharFromPiece
 import hwr.oop.group4.chess.core.utils.opposite
 
-class Board(private val piecePlacementMap: Map<Location, Piece>) : BoardView {
+class Board(piecePlacementMap: Map<Location, Piece>) : BoardView {
 
   private val fields: Map<Location, Field> = generateBoard()
 
@@ -57,19 +57,19 @@ class Board(private val piecePlacementMap: Map<Location, Piece>) : BoardView {
     return getField(location).getPiece()
   }
 
-  fun boardToAscii(): String { // TODO iterator?
-      val boardLines = mutableListOf<String>()
-      for (rank in Rank.entries.reversed()) {
-          val line = buildString {
-              for (file in File.entries) {
-                  val location = Location(file, rank)
-                  val piece = getPiece(location)
-                  append((piece?.let { parsePieceCharFromPiece(it) } ?: '-') + " ")
-              }
-          }.trimEnd()
-          boardLines.add(line)
-      }
-      return boardLines.joinToString("\n") + "\n"
+  fun boardToAscii(): String {
+    val boardLines = mutableListOf<String>()
+    for (rank in Rank.entries.reversed()) {
+      val line = buildString {
+        for (file in File.entries) {
+          val location = Location(file, rank)
+          val piece = getPiece(location)
+          append((piece?.let { parsePieceCharFromPiece(it) } ?: '-') + " ")
+        }
+      }.trimEnd()
+      boardLines.add(line)
+    }
+    return boardLines.joinToString("\n") + "\n"
   }
 
   private fun removePieceFromField(location: Location) {

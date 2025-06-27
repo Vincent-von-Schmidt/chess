@@ -44,7 +44,14 @@ class GameEndCheckMateTest : AnnotationSpec() {
     // Given
     val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      toLoadFen = FEN("8/8/8/3PPPr1/3PK3/3PPP1P/8/8", Color.BLACK, "-", "-", 0, 0)
+      toLoadFen = FEN(
+        "8/8/8/3PPPr1/3PK3/3PPP1P/8/8",
+        Color.BLACK,
+        "-",
+        "-",
+        0,
+        0
+      )
     )
     val startLocation = Location(File.H, Rank.THREE)
     val endLocation = Location(File.G, Rank.FOUR)
@@ -70,7 +77,14 @@ class GameEndCheckMateTest : AnnotationSpec() {
     // Given
     val game = GameFactory.generateGameFromFen(
       TEST_NUMBER,
-      toLoadFen = FEN("8/8/8/3PPPr1/3PK3/3PPR2/8/8", Color.BLACK, "-", "-", 0, 0)
+      toLoadFen = FEN(
+        "8/8/8/3PPPr1/3PK3/3PPR2/8/8",
+        Color.BLACK,
+        "-",
+        "-",
+        0,
+        0
+      )
     )
     val startLocation = Location(File.F, Rank.THREE)
     val endLocation = Location(File.F, Rank.FOUR)
