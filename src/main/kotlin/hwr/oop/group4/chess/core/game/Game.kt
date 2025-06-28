@@ -90,7 +90,7 @@ class Game(
     }
   }
 
-  private fun updateFen(): FEN {
+  private fun updateFen() {
     this.fen = generateFen(
       this.board,
       castle,
@@ -99,7 +99,6 @@ class Game(
       fullMoves,
       currentPlayer.getColor(),
     )
-    return fen
   }
 
   private fun updateRecentFENs() {

@@ -229,4 +229,20 @@ class GameTest : AnnotationSpec() {
     assertThat(savedBlackScore).isEqualTo(0)
     assertThat(savedGameState).isEqualTo(GameState.NORMAL)
   }
+
+  @Test
+  fun `check if movePiece returns true`() {
+    // Given
+    val id = TEST_NUMBER
+    val game = GameFactory.generateGameFromFen(id, STARTING_POSITION)
+    val startLocation = Location(File.A, Rank.TWO)
+    val endLocation = Location(File.A, Rank.THREE)
+    val move = MoveDesired(startLocation, endLocation)
+
+    // When
+    val sol = game.movePiece(move)
+
+    // Then
+    assertThat(sol).isTrue()
+  }
 }
